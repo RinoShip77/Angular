@@ -1,0 +1,1 @@
+export const urlServer = 'http://localhost/Electrolib/public/index.php/'
