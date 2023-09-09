@@ -1,7 +1,8 @@
-<nav *ngIf="visible" class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <img src="https://cdn.icon-icons.com/icons2/2389/PNG/512/electron_logo_icon_145314.png" class="img-fluid" alt="Electrolib" width="40" height="32">
+      <img src="https://img.freepik.com/free-vector/abstract-company-logo_53876-120501.jpg" alt="Logo" width="50"
+        height="50" class="d-inline-block align-text-center rounded-5">
       Electrolib
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
@@ -30,9 +31,10 @@
           </ul>
         </li>
       </ul>
+      <button class="btn border-0" onclick="switchTheme()"><i class="far fa-moon" id="colorThemeIcn"></i></button>
       <form class="d-flex ms-2" role="search">
         <input class="form-control me-2" type="search" placeholder="Rechercher ..." aria-label="Search">
-        <button class="btn btn-outline-info" type="submit">Chercher</button>
+        <button class="btn btn-outline-light" type="submit">Chercher</button>
       </form>
     </div>
   </div>
