@@ -1,18 +1,73 @@
-<div *ngIf="visible">
-  <h1>Bonjour</h1>
+<!-- Profile page -->
 
-  <h4>Informations :</h4>
-  <div class="ms-4">
-    <p>{{user.idUser}}</p>
-    <p>{{user.email}}</p>
-    <p>{{user.firstName}}</p>
-    <p>{{user.lastName}}</p>
-    <p>{{user.address}}</p>
-    <p>{{user.phoneNumber}}</p>
-    <p>{{user.postalCode}}</p>
-    <p>{{user.roles}}</p>
-    <p>{{user.password}}</p>
+<section *ngIf="visible">
+  <div class="container-fluid bg-light rounded-5">
+    <div class="row">
+      <div class="col p-1 border-end border-3 border-secondary">
+        <div class="d-flex align-items-center">
+          <div class="display-2">
+            <i class="fa-solid fa-caret-left text-danger" style="margin-right: -17px"></i>
+          </div>
+          <button class="btn btn-danger rounded-3 mt-1 px-5 fs-4 text-uppercase fw-bold font" (click)="disconnect()">
+            Se déconnecter
+          </button>
+        </div>
+        <div class="ms-5">
+          <div class="my-3 w-75">
+            <div class="d-flex justify-content-center">
+              <img class="img-fluid img-thumbnail border-3 border-dark rounded-circle w-75"
+                src="assets\images\contact-book.png" alt="Olivier Bourgault" title="Olivier Bourgault">
+              <!-- TODO: Add the profile picture to the user class -->
+            </div>
+            <div>
+              <button class="btn btn-secondary border-2 border-dark rounded-circle text-dark fs-2 fw-light" style="margin-left: 220px;margin-top: -75px">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div>
+            <h1 class="font">Olivier Bourgault</h1>
+            <!-- TODO: Add a property in the user class that return the full name -->
+            <h6>Menbre depuis le JJ MMMM yyyy</h6> <!-- TODO: Add the registration date in the user class -->
+            <h6>Numéro du membre</h6> <!-- TODO: Add the membre/admin number in the user class -->
+          </div>
+          <div class="mt-2 p-3">
+            <hr>
+            <div class="ms-3">
+              <button class="btn btn-secondary btn-lg rounded-1 p-3 w-50 fs-6">
+                <i class="fa-solid fa-boxes-stacked me-2"></i>Inventaire
+              </button>
+              <br>
+              <button class="btn btn-info btn-lg rounded-1 my-3 p-3 w-50 fs-6">
+                <i class="fa-solid fa-hand-holding-dollar me-2"></i>Mes emprunts
+              </button>
+              <br>
+              <button class="btn btn-success btn-lg rounded-1 p-3 w-50 fs-6">
+                <i class="fa-solid fa-star me-2"></i>Mes favoris
+              </button>
+            </div>
+            <hr>
+            <button class="btn btn-warning rounded-1 mt-5 p-3 fs-4">Mettre à jour mon mot de passe</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-7">
+        <h1>Bonjour</h1>
+
+        <h4>Informations :</h4>
+        <div class="ms-4">
+          <p>{{user.idUser}}</p>
+          <p>{{user.email}}</p>
+          <p>{{user.firstName}}</p>
+          <p>{{user.lastName}}</p>
+          <p>{{user.firstName + ' ' + user.lastName}}</p>
+          <p>{{user.address}}</p>
+          <p>{{user.phoneNumber}}</p>
+          <p>{{user.postalCode}}</p>
+          <p>{{user.roles}}</p>
+          <p>{{user.password}}</p>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <button class="btn btn-danger" (click)="goBack()">Retour</button>
-</div>
+</section>

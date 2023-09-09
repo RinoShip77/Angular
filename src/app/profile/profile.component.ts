@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { User } from '../modele/User';
 
 @Component({
@@ -10,18 +10,29 @@ export class ProfileComponent {
   visible = false;
   user: User = new User();
 
+  @Output() disconnected = new EventEmitter<User>();
+
   //-------------------------------------------------------
   // Function to display every book in the database
   //-------------------------------------------------------
   onProfile(user: User) {
     this.visible = true;
+    
+    if(user.roles == '["ROLES_USER"]') {
+      user.roles = 'Membre';
+    } else {
+      user.roles = 'Administrateur';
+    }
+    
     this.user = user;
+    console.log(user);
   }
-
+  
   //-------------------------------------------------------
-  // Function to display every book in the database
+  // Function to disconnect a user
   //-------------------------------------------------------
-  goBack() {
-    console.log('back');
+  disconnect() {
+    this.visible = false;
+    this.disconnected.emit(this.user);
   }
 }
