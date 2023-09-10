@@ -7,7 +7,7 @@ import { User } from '../modele/User';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-  visible = false;
+  visible = true;
   user: User = new User();
 
   @Output() disconnected = new EventEmitter<User>();
@@ -34,5 +34,12 @@ export class ProfileComponent {
   disconnect() {
     this.visible = false;
     this.disconnected.emit(this.user);
+  }
+  
+  //-------------------------------------------------------
+  // Function to upload a new profile picture
+  //-------------------------------------------------------
+  uploadImage() {
+    console.log('new profile picture');
   }
 }
