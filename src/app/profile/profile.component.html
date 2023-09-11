@@ -1,16 +1,16 @@
 <!-- Profile page -->
 
 <section *ngIf="visible" class="font">
-  <div class="container-fluid bg-light rounded-5">
+  <div class="container-fluid bg-light rounded-5 p-4">
     <div class="row">
       <div class="w-auto p-1 border-end border-3 border-secondary">
         <div class="d-flex align-items-center">
           <div class="display-2">
             <i class="fa-solid fa-caret-left text-danger" style="margin-right: -17px"></i>
           </div>
-          <button class="btn btn-danger rounded-3 px-5 fs-4 text-uppercase fw-bold" (click)="disconnect()">
+          <span type="button" class="btn btn-danger rounded-3 px-5 fs-4 text-uppercase fw-bold" (click)="disconnect()">
             Se déconnecter
-          </button>
+          </span>
         </div>
         <div class="ms-5">
           <div class="my-3 w-75">
@@ -20,51 +20,185 @@
                 title="{{user.firstName + ' ' + user.lastName}}">
             </div>
             <div>
-              <button class="btn btn-secondary border-2 border-dark rounded-circle text-dark fs-2 file-upload"
-              style="margin-left: 220px; margin-top: -75px">
+              <label for="profilePicture"
+                class="btn btn-secondary border-2 border-dark rounded-circle text-dark fs-2 file-upload"
+                style="margin-left: 275px; margin-top: -75px">
                 <i class="fa-solid fa-plus"></i>
-              </button>
+              </label>
+              <input type="file" class=d-none id="profilePicture">
             </div>
           </div>
           <div>
-            <h1>Olivier Bourgault</h1> <!-- TODO: Add a property in the user class that return the full name -->
+            <h1>{{user.firstName + ' ' + user.lastName}}</h1> <!-- TODO: Add a property in the user class that return the full name -->
             <h6>{{user.roles}} depuis le {{user.registrationDate}}</h6>
             <h6>#{{user.idUser}}</h6>
           </div>
           <div class="mt-2 p-3">
             <hr>
             <div class="ms-3">
-              <button class="btn btn-secondary btn-lg rounded-1 p-3 w-50 fs-5">
+              <button class="btn btn-outline-secondary btn-lg rounded-1 px-3 w-50 fs-5">
                 <i class="fa-solid fa-boxes-stacked me-2"></i>Inventaire
               </button>
               <br>
-              <button class="btn btn-info btn-lg rounded-1 my-3 p-3 w-50 fs-5">
+              <button class="btn btn-outline-info btn-lg rounded-1 my-3 px-3 w-50 fs-5">
                 <i class="fa-solid fa-hand-holding-dollar me-2"></i>Mes emprunts
               </button>
               <br>
-              <button class="btn btn-success btn-lg rounded-1 p-3 w-50 fs-5">
+              <button class="btn btn-outline-success btn-lg rounded-1 px-3 w-50 fs-5">
                 <i class="fa-solid fa-star me-2"></i>Mes favoris
               </button>
             </div>
             <hr>
-            <button class="btn btn-warning rounded-1 mt-5 p-3 fs-3">Mettre à jour mon mot de passe</button>
+            <button class="btn btn-warning p-3 fs-4 fw-bold">Mettre à jour mon mot de passe</button>
           </div>
         </div>
       </div>
-      <div class="col">
-        <h1>Bonjour</h1>
-        <h4>Informations :</h4>
-        <div class="ms-4">
-          <p>{{user.idUser}}</p>
-          <p>{{user.email}}</p>
-          <p>{{user.firstName}}</p>
-          <p>{{user.lastName}}</p>
-          <p>{{user.firstName + ' ' + user.lastName}}</p>
-          <p>{{user.address}}</p>
-          <p>{{user.phoneNumber}}</p>
-          <p>{{user.postalCode}}</p>
-          <p>{{user.roles}}</p>
-          <p>{{user.password}}</p>
+      <div class="col p-1">
+        <div class="d-flex justify-content-end">
+          <i class="fa-solid fa-book-bookmark mt-1 fs-1"></i>
+          <h1>Electrolib</h1>
+        </div>
+        <h1 class="mt-5 text-center">Vos informations</h1>
+        <form (ngSubmit)="updateProfile()" class="m-5">
+          <div class="mb-3">
+            <label class="form-label">Adresse courriel</label>
+            <input name="email" [(ngModel)]="user.email" type="email" class="form-control" placeholder="user.email">
+          </div>
+          <div class="row">
+            <div class="col mb-3">
+              <label class="form-label">Prénom</label>
+              <input name="firstName" [(ngModel)]="user.firstName" type="text" class="form-control"
+                placeholder="user.firstName">
+            </div>
+            <div class="col mb-3">
+              <label class="form-label">Nom</label>
+              <input name="lastName" [(ngModel)]="user.lastName" type="text" class="form-control"
+                placeholder="user.lastName">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-3">
+              <label class="form-label">Adresse civique</label>
+              <input name="address" [(ngModel)]="user.address" type="text" class="form-control"
+                placeholder="user.address">
+            </div>
+            <div class="col mb-3">
+              <label class="form-label">Code postal</label>
+              <input name="postalCode" [(ngModel)]="user.postalCode" type="text" class="form-control"
+                placeholder="user.postalCode">
+            </div>
+            <div class="col mb-3">
+              <label class="form-label">Téléphone</label>
+              <input name="phoneNumber" [(ngModel)]="user.phoneNumber" type="text" class="form-control"
+                placeholder="user.phoneNumber">
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-warning mx-auto mt-5 fs-5 fw-bold">Mettre à jour mes
+              informations</button>
+          </div>
+        </form>
+        <hr>
+        <div class="w-75 mx-auto mt-5">
+          <h2 class="mb-3 text-center">{{user.firstName + ' ' + user.lastName}}</h2>
+          <div class="row row-cols-4 g-2">
+            <div class="col">
+              <div class="card mw-25 text-center">
+                <div class="card-img-top p-2">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                    class="img-fluid" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Titre du livre</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card mw-25 text-center">
+                <div class="card-img-top p-2">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                    class="img-fluid" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Titre du livre</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card mw-25 text-center">
+                <div class="card-img-top p-2">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                    class="img-fluid" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Titre du livre</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card mw-25 text-center">
+                <div class="card-img-top p-2">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                    class="img-fluid" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Titre du livre</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card mw-25 text-center">
+                <div class="card-img-top p-2">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                    class="img-fluid" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Titre du livre</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card mw-25 text-center">
+                <div class="card-img-top p-2">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                    class="img-fluid" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Titre du livre</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card mw-25 text-center">
+                <div class="card-img-top p-2">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                    class="img-fluid" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Titre du livre</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card mw-25 text-center">
+                <div class="card-img-top p-2">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                    class="img-fluid" alt="...">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Titre du livre</h5>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
