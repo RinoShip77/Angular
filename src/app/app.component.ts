@@ -14,6 +14,12 @@ export class AppComponent {
   //-------------------------------------------------------
   onConnect(user: User) {
     this.isConnected = true;
+
+    if (user.roles == '["ROLES_USER"]') {
+      user.roles = 'Membre';
+    } else {
+      user.roles = 'Administrateur';
+    }
   }
 
   //-------------------------------------------------------

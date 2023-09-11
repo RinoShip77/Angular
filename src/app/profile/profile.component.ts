@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { User } from '../modele/User';
 import { ElectrolibService } from '../electrolib.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -8,7 +9,7 @@ import { ElectrolibService } from '../electrolib.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-  visible = true;
+  visible = false;
   fileName = '';
   user: User = new User();
 
@@ -18,22 +19,17 @@ export class ProfileComponent {
   // Function to display every book in the database
   //-------------------------------------------------------
   constructor(private electrolib: ElectrolibService) { }
-  
+
   //-------------------------------------------------------
   // Function to display every book in the database
   //-------------------------------------------------------
   onProfile(user: User) {
     this.visible = true;
-    
-    if(user.roles == '["ROLES_USER"]') {
-      user.roles = 'Membre';
-    } else {
-      user.roles = 'Administrateur';
-    }
-    
     this.user = user;
+
+    console.log(user);
   }
-  
+
   //-------------------------------------------------------
   // Function to disconnect a user
   //-------------------------------------------------------
@@ -41,12 +37,33 @@ export class ProfileComponent {
     this.visible = false;
     this.disconnected.emit(this.user);
   }
-  
+
   //-------------------------------------------------------
   // Function to upload a new profile picture
   //-------------------------------------------------------
   uploadImage() {
     console.log('new profile picture');
+  }
+  
+  //-------------------------------------------------------
+  // Open the inventory of this user
+  //-------------------------------------------------------
+  openInventory() {
+    console.log('open inventory');
+  }
+  
+  //-------------------------------------------------------
+  // Open the borrow(s) mades by the user
+  //-------------------------------------------------------
+  openBorrows() {
+    console.log('open borrows');
+  }
+  
+  //-------------------------------------------------------
+  // Open the favorites of the user
+  //-------------------------------------------------------
+  openFavorites() {
+    console.log('open favorites');
   }
 
   //-------------------------------------------------------

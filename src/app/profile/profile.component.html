@@ -29,27 +29,29 @@
             </div>
           </div>
           <div>
-            <h1>{{user.firstName + ' ' + user.lastName}}</h1> <!-- TODO: Add a property in the user class that return the full name -->
-            <h6>{{user.roles}} depuis le {{user.registrationDate}}</h6>
+            <h1>{{user.firstName + ' ' + user.lastName}}</h1>
+            <!-- TODO: Add a property in the user class that return the full name -->
+            <h6>{{user.roles}} depuis le {{user.registrationDate | date:'d/M/yyyy'}}</h6>
             <h6>#{{user.idUser}}</h6>
           </div>
           <div class="mt-2 p-3">
             <hr>
             <div class="ms-3">
-              <button class="btn btn-outline-secondary btn-lg rounded-1 px-3 w-50 fs-5">
+              <button class="btn btn-outline-secondary btn-lg rounded-1 px-3 w-50 fs-5" (click)="openInventory()">
                 <i class="fa-solid fa-boxes-stacked me-2"></i>Inventaire
               </button>
               <br>
-              <button class="btn btn-outline-info btn-lg rounded-1 my-3 px-3 w-50 fs-5">
+              <button class="btn btn-outline-info btn-lg rounded-1 my-3 px-3 w-50 fs-5" (click)="openBorrows()">
                 <i class="fa-solid fa-hand-holding-dollar me-2"></i>Mes emprunts
               </button>
               <br>
-              <button class="btn btn-outline-success btn-lg rounded-1 px-3 w-50 fs-5">
+              <button class="btn btn-outline-success btn-lg rounded-1 px-3 w-50 fs-5" (click)="openFavorites()">
                 <i class="fa-solid fa-star me-2"></i>Mes favoris
               </button>
             </div>
             <hr>
-            <button class="btn btn-warning p-3 fs-4 fw-bold">Mettre à jour mon mot de passe</button>
+            <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" data-bs-toggle="modal" data-bs-target="updatePasswordModal">Mettre à jour mon mot de passe</button>
+          <!-- TODO: Add the modal for the password update -->
           </div>
         </div>
       </div>
@@ -85,12 +87,14 @@
             <div class="col mb-3">
               <label class="form-label">Code postal</label>
               <input name="postalCode" [(ngModel)]="user.postalCode" type="text" class="form-control"
-                placeholder="user.postalCode">
+                placeholder="user.postalCode" onchange="fomatPostalCode()">
+              <!-- TODO: Create a function to dynamicly format the value -->
             </div>
             <div class="col mb-3">
               <label class="form-label">Téléphone</label>
               <input name="phoneNumber" [(ngModel)]="user.phoneNumber" type="text" class="form-control"
-                placeholder="user.phoneNumber">
+                placeholder="user.phoneNumber" onchange="formatPhoneNumber()">
+              <!-- TODO: Create a function to dynamicly format the value -->
             </div>
           </div>
           <div class="d-flex justify-content-center">
@@ -100,32 +104,8 @@
         </form>
         <hr>
         <div class="w-75 mx-auto mt-5">
-          <h2 class="mb-3 text-center">{{user.firstName + ' ' + user.lastName}}</h2>
-          <div class="row row-cols-4 g-2">
-            <div class="col">
-              <div class="card mw-25 text-center">
-                <div class="card-img-top p-2">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                    class="img-fluid" alt="...">
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Titre du livre</h5>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card mw-25 text-center">
-                <div class="card-img-top p-2">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                    class="img-fluid" alt="...">
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">Titre du livre</h5>
-                </div>
-              </div>
-            </div>
+          <h2 class="mb-3 text-center">{{user.firstName + ' ' + user.lastName}} à récemment consulté ces titres</h2>
+          <div class="row row-cols-3 g-2">
             <div class="col">
               <div class="card mw-25 text-center">
                 <div class="card-img-top p-2">
