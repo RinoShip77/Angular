@@ -1,19 +1,25 @@
 <div *ngIf="visible" class="d-flex justify-content-center my-5">
   <div class="text-center" *ngIf="connectionVisible">
-      <h5>Connectez vous:</h5>
-      <form>
-        <div class="text-center">
-          <label>Nom:</label>
-          <input [(ngModel)]="temporaryUser.email" name="email" type="email" class="form-control"><br>
-          <label>Mot de passe:</label>
-          <input [(ngModel)]="temporaryUser.password" name="pwd" type="password" class="form-control"><br>
-        </div>
-          
-        <br>
-        <button class="btn btn-primary" (click)="connect()">Se connecter</button>
-        <br><br>
-        <button class="btn btn-warning" (click)="createAccount()">Se créer un compte</button>
-      </form>  
+    <h5>Connectez vous:</h5>
+    <form>
+      <div class="text-center">
+        <label>Nom:</label>
+        <input [(ngModel)]="temporaryUser.email" name="email" type="email" class="form-control"><br>
+        <label>Mot de passe:</label>
+        <input [(ngModel)]="temporaryUser.password" name="pwd" type="password" class="form-control"><br>
+      </div>
+
+      <br>
+      <button class="btn btn-primary" (click)="connect()">
+        <i class="fas fa-unlock-keyhole me-2"></i>
+        Se connecter
+      </button>
+      <br><br>
+      <button class="btn btn-warning" (click)="createAccount()">
+        <i class="fas fa-user-plus me-2"></i>
+        Se créer un compte
+      </button>
+    </form>
   </div>
 
   <div *ngIf="createAccountVisible">
