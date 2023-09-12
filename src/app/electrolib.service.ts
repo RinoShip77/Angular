@@ -8,16 +8,26 @@ import { User } from './modele/User';
   providedIn: 'root'
 })
 export class ElectrolibService {
+
   //--------------------------------
   // Initialize the component
   //--------------------------------
   constructor(private http:HttpClient) { }
 
   //--------------------------------
+  // Route to get all the books
+  //--------------------------------
+  getBooks()
+  {
+    let url = urlServer + 'books';
+    return this.http.get<Book[]>(url);
+  }
+
+  //--------------------------------
   //
   //--------------------------------
   connection(user: User) {
-    let url = urlServer + 'connection';
+    let url = urlServer + 'users/connection';
 
     const params = new HttpParams({
       fromObject: {
@@ -27,15 +37,5 @@ export class ElectrolibService {
     });
 
     return this.http.post<User>(url, params);
-  }
-
-  //--------------------------------
-  // Route to get all the books
-  //--------------------------------
-  getBooks()
-  {
-    let url = urlServer + 'getBooks';
-
-    return this.http.get<Book[]>(url);
   }
 }

@@ -9,9 +9,9 @@ import { User } from './modele/User';
 export class AppComponent {
   isConnected = false;
 
-  //-------------------------------------------------------
+  //---------------------------------
   // Function to connect a user
-  //-------------------------------------------------------
+  //---------------------------------
   onConnect(user: User) {
     this.isConnected = true;
 
@@ -22,9 +22,9 @@ export class AppComponent {
     }
   }
 
-  //-------------------------------------------------------
+  //---------------------------------
   // Function to disconnect the current user
-  //-------------------------------------------------------
+  //---------------------------------
   onDisconnect(user: User) {
     this.isConnected = false;
   }

@@ -9,9 +9,9 @@ import { User } from '../modele/User';
 export class FooterComponent {
   visible = false;
 
-  //-------------------------------------------------------
+  //---------------------------------
   // Function to display every book in the database
-  //-------------------------------------------------------
+  //---------------------------------
   onConnect(user: User) {
     this.visible = true;
   }

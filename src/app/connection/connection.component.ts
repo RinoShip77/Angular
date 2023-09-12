@@ -18,9 +18,9 @@ export class ConnectionComponent {
 
   constructor(private electrolibService: ElectrolibService) { }
 
-  //------------------------------------------------------
+  //--------------------------------
   // Function to connect a user
-  //------------------------------------------------------
+  //--------------------------------
   connect() {
     // this.user.email = 'user@electrolib.com';
     // this.user.password = '1234';
@@ -37,24 +37,24 @@ export class ConnectionComponent {
     }
   }
 
-  //------------------------------------------------------
+  //--------------------------------
   // Fonction to display the form to create an account
-  //------------------------------------------------------
+  //--------------------------------
   createAccount() {
     this.connectionVisible = false;
     this.createAccountVisible = true;
   }
 
-  //------------------------------------------------------
+  //--------------------------------
   // Function to validate an account
-  //------------------------------------------------------
+  //--------------------------------
   validateCreateAccount() {
     console.log('account ' + this.user.firstName + ' created');
   }
 
-  //------------------------------------------------------
+  //--------------------------------
   // Function to validate an account
-  //------------------------------------------------------
+  //--------------------------------
   cancelCreationAccount() {
     this.connectionVisible = true;
     this.createAccountVisible = false;

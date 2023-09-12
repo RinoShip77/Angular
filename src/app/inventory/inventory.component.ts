@@ -16,17 +16,17 @@ export class InventoryComponent {
 
   constructor(private electrolibSrv: ElectrolibService) { }
 
-  //-------------------------------------------------------
+  //---------------------------------
   // Function to display every book in the database
-  //-------------------------------------------------------
+  //---------------------------------
   onConnect(user: User) {
     this.visible = true;
     this.user = user;
   }
 
-  //-------------------------------------------------------
+  //---------------------------------
   // Function to display every book in the database
-  //-------------------------------------------------------
+  //---------------------------------
   displayAllBooks() {
     this.electrolibSrv.getBooks().subscribe(
       tabBooks => {
@@ -34,18 +34,18 @@ export class InventoryComponent {
       }
     );
   }
-  
-  //-------------------------------------------------------
+
+  //---------------------------------
   // Function to display every book in the database
-  //-------------------------------------------------------
+  //---------------------------------
   displayProfile() {
     this.visible = false;
     this.openProfile.emit(this.user);
   }
 
-  //-------------------------------------------------------
+  //---------------------------------
   // Function to disconnect a user
-  //-------------------------------------------------------
+  //---------------------------------
   disconnect() {
     this.visible = false;
     this.disconnected.emit(this.user);
