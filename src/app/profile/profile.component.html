@@ -11,17 +11,17 @@
                 src="{{user.profilePicture}}" alt="{{user.firstName + ' ' + user.lastName}}"
                 title="{{user.firstName + ' ' + user.lastName}}">
             </div>
-            <div>
+            <div class="d-flex justify-content-end" style="margin-right: 15%; margin-top: -50px">
               <label for="profilePicture"
-                class="btn btn-secondary border-2 border-dark rounded-circle text-dark fs-2 file-upload"
-                style="margin-left: 275px; margin-top: -75px">
-                <i class="fa-solid fa-plus"></i>
+                class="btn btn-secondary border-2 border-dark rounded-circle text-dark fs-2 file-upload">
+                <i class="fas fa-plus"></i>
               </label>
               <input type="file" class="d-none" id="profilePicture" [(ngModel)]="profilePicture">
             </div>
           </div>
           <div>
-            <h1>{{user.firstName + ' ' + user.lastName}}</h1> <!-- TODO: Add a property in the user class that return the full name -->
+            <h1>{{user.firstName + ' ' + user.lastName}}</h1>
+            <!-- TODO: Add a property in the user class that return the full name -->
             <h6>{{user.roles}} depuis le {{user.registrationDate | date:'d/M/yyyy'}}</h6>
             <h6>#{{user.idUser}}</h6>
           </div>
@@ -29,20 +29,22 @@
             <hr>
             <div class="ms-3">
               <button class="btn btn-outline-secondary btn-lg rounded-1 px-3 w-50 fs-5" (click)="displayInventory()">
-                <i class="fa-solid fa-boxes-stacked me-2"></i>Inventaire
+                <i class="fas fa-boxes-stacked me-2"></i>Inventaire
               </button>
               <br>
               <button class="btn btn-outline-primary btn-lg rounded-1 my-3 px-3 w-50 fs-5" (click)="displayBorrow()">
-                <i class="fa-solid fa-hand-holding-dollar me-2"></i>Mes emprunts
+                <i class="fas fa-hand-holding-dollar me-2"></i>Mes emprunts
               </button>
               <br>
               <button class="btn btn-outline-success btn-lg rounded-1 px-3 w-50 fs-5" (click)="displayFavorite()">
-                <i class="fa-solid fa-star me-2"></i>Mes favoris
+                <i class="fas fa-star me-2"></i>Mes favoris
               </button>
             </div>
             <hr>
-            <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" (click)="openModal(content)">Mettre à jour mon mot de
-              passe</button>
+            <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" (click)="openModal(content)">
+              <i class="fas fa-vault me-2"></i>
+              Mettre à jour mon mot de passe
+            </button>
             <ng-template #content let-modal>
               <div class="modal-body">
                 <h4 class="text-center">Mise à jour du mot de passe</h4>
@@ -64,7 +66,11 @@
                       class="form-control" placeholder="Veuillez de nouveau insérer votre nouveaumot de passe actuel">
                   </div>
                   <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-outline-warning mx-auto mt-2 fs-5 fw-bold" (click)="modal.dismiss()">Sauvegarder</button>
+                    <button type="submit" class="btn btn-outline-warning mx-auto mt-2 fs-5 fw-bold"
+                      (click)="modal.dismiss()">
+                      <i class="fas fa-floppy-disk me-2"></i>
+                      Sauvegarder
+                    </button>
                   </div>
                 </form>
               </div>
@@ -109,83 +115,85 @@
             </div>
           </div>
           <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning mx-auto mt-5 fs-5 fw-bold">Mettre à jour mes
-              informations</button>
+            <button type="submit" class="btn btn-warning mx-auto mt-5 fs-5 fw-bold">
+              <i class="fas fa-floppy-disk me-2"></i>
+              Mettre à jour mes informations
+            </button>
           </div>
         </form>
         <hr>
         <div class="w-75 mx-auto mt-5">
           <h2 class="mb-3 text-center">Mes plus récents emprunts</h2>
-          <div class="row row-cols-3 g-2">
-            <div class="col">
-              <div class="card mw-25 text-center">
+          <div class="row row-cols-3 g-3">
+            <div class="col-2">
+              <div class="card text-center">
                 <div class="card-img-top p-2">
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
                     class="img-fluid" alt="...">
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">Titre du livre</h5>
+                  <h6 class="card-title">Titre du livre</h6>
                 </div>
               </div>
             </div>
-            <div class="col">
-              <div class="card mw-25 text-center">
+            <div class="col-2">
+              <div class="card text-center">
                 <div class="card-img-top p-2">
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
                     class="img-fluid" alt="...">
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">Titre du livre</h5>
+                  <h6 class="card-title">Titre du livre</h6>
                 </div>
               </div>
             </div>
-            <div class="col">
-              <div class="card mw-25 text-center">
+            <div class="col-2">
+              <div class="card text-center">
                 <div class="card-img-top p-2">
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
                     class="img-fluid" alt="...">
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">Titre du livre</h5>
+                  <h6 class="card-title">Titre du livre</h6>
                 </div>
               </div>
             </div>
-            <div class="col">
-              <div class="card mw-25 text-center">
+            <div class="col-2">
+              <div class="card text-center">
                 <div class="card-img-top p-2">
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
                     class="img-fluid" alt="...">
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">Titre du livre</h5>
+                  <h6 class="card-title">Titre du livre</h6>
                 </div>
               </div>
             </div>
-            <div class="col">
-              <div class="card mw-25 text-center">
+            <div class="col-2">
+              <div class="card text-center">
                 <div class="card-img-top p-2">
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
                     class="img-fluid" alt="...">
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">Titre du livre</h5>
+                  <h6 class="card-title">Titre du livre</h6>
                 </div>
               </div>
             </div>
-            <div class="col">
-              <div class="card mw-25 text-center">
+            <div class="col-2">
+              <div class="card text-center">
                 <div class="card-img-top p-2">
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
                     class="img-fluid" alt="...">
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">Titre du livre</h5>
+                  <h6 class="card-title">Titre du livre</h6>
                 </div>
               </div>
             </div>

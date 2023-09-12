@@ -15,7 +15,7 @@
         <button class="btn btn-warning" (click)="createAccount()">Se créer un compte</button>
       </form>  
   </div>
-  
+
   <div *ngIf="createAccountVisible">
     <h5>Créer votre compte</h5>
     <form (ngSubmit)="validateCreateAccount()">
@@ -24,14 +24,14 @@
 
       <label>Prénom</label>
       <input name="nom" class="form-control" [(ngModel)]="temporaryUser.firstName"><br>
-      
+
       <label>Nom</label>
       <input name="courriel" class="form-control" [(ngModel)]="temporaryUser.lastName"><br>
-      
+
       <label>Mot de passe</label>
       <input type="password" class="form-control" name="mdp" [(ngModel)]="temporaryUser.password"><br>
-      
-      
+
+
       <br>
       <button type="submit" class="btn btn-success mt-2 mx-3">Valider</button>
       <button class="btn btn-danger mt-2 ms-3" (click)="cancelCreationAccount()">Annuler</button>
