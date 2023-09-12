@@ -25,12 +25,11 @@
                 style="margin-left: 275px; margin-top: -75px">
                 <i class="fa-solid fa-plus"></i>
               </label>
-              <input type="file" class=d-none id="profilePicture">
+              <input type="file" class="d-none" id="profilePicture" [(ngModel)]="profilePicture">
             </div>
           </div>
           <div>
-            <h1>{{user.firstName + ' ' + user.lastName}}</h1>
-            <!-- TODO: Add a property in the user class that return the full name -->
+            <h1>{{user.firstName + ' ' + user.lastName}}</h1> <!-- TODO: Add a property in the user class that return the full name -->
             <h6>{{user.roles}} depuis le {{user.registrationDate | date:'d/M/yyyy'}}</h6>
             <h6>#{{user.idUser}}</h6>
           </div>
@@ -50,8 +49,34 @@
               </button>
             </div>
             <hr>
-            <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" data-bs-toggle="modal" data-bs-target="updatePasswordModal">Mettre à jour mon mot de passe</button>
-          <!-- TODO: Add the modal for the password update -->
+            <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" (click)="open(content)">Mettre à jour mon mot de
+              passe</button>
+            <ng-template #content let-modal>
+              <div class="modal-body">
+                <h4 class="text-center">Mise à jour du mot de passe</h4>
+                <hr>
+                <form class="w-75 mx-auto" (ngSubmit)="updatePassword()">
+                  <div>
+                    <label class="form-label">Mot de passe</label>
+                    <input name="oldPassword" [(ngModel)]="password.oldPassword" type="password" class="form-control"
+                      placeholder="Veuillez insérer votre mot de passe actuel">
+                  </div>
+                  <div class="my-3">
+                    <label class="form-label">Nouveau mot de passe</label>
+                    <input name="newPassword" [(ngModel)]="password.newPassword" type="password" class="form-control"
+                      placeholder="Veuillez insérer votre nouveau mot de passe actuel">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Confirmation du nouveau mot de passe</label>
+                    <input name="confirmationNewPassword" [(ngModel)]="password.confirmationNewPassword" type="password"
+                      class="form-control" placeholder="Veuillez de nouveau insérer votre nouveaumot de passe actuel">
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-warning mx-auto mt-2 fs-5 fw-bold" (click)="modal.dismiss()">Sauvegarder</button>
+                  </div>
+                </form>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>
@@ -87,14 +112,12 @@
             <div class="col mb-3">
               <label class="form-label">Code postal</label>
               <input name="postalCode" [(ngModel)]="user.postalCode" type="text" class="form-control"
-                placeholder="user.postalCode" onchange="fomatPostalCode()">
-              <!-- TODO: Create a function to dynamicly format the value -->
+                placeholder="user.postalCode" (ngModelChange)="formatPostalCode()">
             </div>
             <div class="col mb-3">
               <label class="form-label">Téléphone</label>
               <input name="phoneNumber" [(ngModel)]="user.phoneNumber" type="text" class="form-control"
-                placeholder="user.phoneNumber" onchange="formatPhoneNumber()">
-              <!-- TODO: Create a function to dynamicly format the value -->
+                placeholder="user.phoneNumber" (ngModelChange)="formatPhoneNumber()">
             </div>
           </div>
           <div class="d-flex justify-content-center">
@@ -104,7 +127,7 @@
         </form>
         <hr>
         <div class="w-75 mx-auto mt-5">
-          <h2 class="mb-3 text-center">{{user.firstName + ' ' + user.lastName}} à récemment consulté ces titres</h2>
+          <h2 class="mb-3 text-center">Mes plus récents emprunts</h2>
           <div class="row row-cols-3 g-2">
             <div class="col">
               <div class="card mw-25 text-center">
