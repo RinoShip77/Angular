@@ -8,12 +8,14 @@ import { User } from './modele/User';
 })
 export class AppComponent {
   isConnected = false;
+  user: User = new User();
 
   //---------------------------------
   // Function to connect a user
   //---------------------------------
   onConnect(user: User) {
     this.isConnected = true;
+    this.user = user;
 
     if (user.roles == '["ROLES_USER"]') {
       user.roles = 'Membre';
@@ -27,5 +29,6 @@ export class AppComponent {
   //---------------------------------
   onDisconnect(user: User) {
     this.isConnected = false;
+    console.log('disconnect user: ' + user.email);
   }
 }

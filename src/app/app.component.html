@@ -1,14 +1,20 @@
 <div>
-  <app-connection *ngIf="!isConnected" (connected)="onConnect($event)" (connected)="inventory.onConnect($event)" (connected)="navbar.onConnect($event)" (connected)="footer.onConnect($event)"></app-connection>
+  <app-connection *ngIf="!isConnected" (connected)="onConnect($event)" (connected)="navbar.onNavbar($event)"
+    (connected)="footer.onFooter($event)"></app-connection>
 
   <div>
     <header>
-      <app-navbar #navbar></app-navbar>
+      <app-navbar #navbar (connected)="inventory.onInventory($event)" (openProfile)="profile.onProfile($event)"
+        (openProfile)="inventory.onDisconnect($event)" (disconnected)=" onDisconnect($event)"
+        (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"></app-navbar>
     </header>
 
     <main class="m-5">
-      <app-inventory #inventory (openProfile)="profile.onProfile($event)" (disconnected)="onDisconnect($event)"></app-inventory>
-      <app-profile #profile></app-profile>
+      <app-inventory #inventory (openProfile)="profile.onProfile($event)"></app-inventory>
+      <app-profile #profile (openInventory)="inventory.onInventory($event)" (openBorrow)="borrow.onBorrow($event)"
+        (openFavorite)="favorite.onFavorite($event)"></app-profile>
+      <app-borrow #borrow (openInventory)="inventory.onInventory($event)"></app-borrow>
+      <app-favorite #favorite (openInventory)="inventory.onInventory($event)"></app-favorite>
     </main>
 
     <footer>

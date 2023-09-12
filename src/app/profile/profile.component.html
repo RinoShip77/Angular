@@ -4,14 +4,6 @@
   <div class="container-fluid bg-light rounded-5 p-4">
     <div class="row">
       <div class="w-auto p-1 border-end border-3 border-secondary">
-        <div class="d-flex align-items-center">
-          <div class="display-2">
-            <i class="fa-solid fa-caret-left text-danger" style="margin-right: -17px"></i>
-          </div>
-          <span type="button" class="btn btn-danger rounded-3 px-5 fs-4 text-uppercase fw-bold" (click)="disconnect()">
-            Se déconnecter
-          </span>
-        </div>
         <div class="ms-5">
           <div class="my-3 w-75">
             <div class="d-flex justify-content-center">
@@ -36,20 +28,20 @@
           <div class="mt-2 p-3">
             <hr>
             <div class="ms-3">
-              <button class="btn btn-outline-secondary btn-lg rounded-1 px-3 w-50 fs-5" (click)="openInventory()">
+              <button class="btn btn-outline-secondary btn-lg rounded-1 px-3 w-50 fs-5" (click)="displayInventory()">
                 <i class="fa-solid fa-boxes-stacked me-2"></i>Inventaire
               </button>
               <br>
-              <button class="btn btn-outline-info btn-lg rounded-1 my-3 px-3 w-50 fs-5" (click)="openBorrows()">
+              <button class="btn btn-outline-primary btn-lg rounded-1 my-3 px-3 w-50 fs-5" (click)="displayBorrow()">
                 <i class="fa-solid fa-hand-holding-dollar me-2"></i>Mes emprunts
               </button>
               <br>
-              <button class="btn btn-outline-success btn-lg rounded-1 px-3 w-50 fs-5" (click)="openFavorites()">
+              <button class="btn btn-outline-success btn-lg rounded-1 px-3 w-50 fs-5" (click)="displayFavorite()">
                 <i class="fa-solid fa-star me-2"></i>Mes favoris
               </button>
             </div>
             <hr>
-            <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" (click)="open(content)">Mettre à jour mon mot de
+            <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" (click)="openModal(content)">Mettre à jour mon mot de
               passe</button>
             <ng-template #content let-modal>
               <div class="modal-body">
@@ -81,10 +73,6 @@
         </div>
       </div>
       <div class="col p-1">
-        <div class="d-flex justify-content-end">
-          <i class="fa-solid fa-book-bookmark mt-1 fs-1"></i>
-          <h1>Electrolib</h1>
-        </div>
         <h1 class="mt-5 text-center">Vos informations</h1>
         <form (ngSubmit)="updateProfile()" class="m-5">
           <div class="mb-3">

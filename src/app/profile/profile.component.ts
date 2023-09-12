@@ -18,6 +18,9 @@ export class ProfileComponent {
     confirmationNewPassword: ''
   }
 
+  @Output() openInventory = new EventEmitter<User>();
+  @Output() openBorrow = new EventEmitter<User>();
+  @Output() openFavorite = new EventEmitter<User>();
   @Output() disconnected = new EventEmitter<User>();
 
   //---------------------------------
@@ -31,8 +34,6 @@ export class ProfileComponent {
   onProfile(user: User) {
     this.visible = true;
     this.user = user;
-
-    console.log(user);
   }
 
   //---------------------------------
@@ -45,28 +46,31 @@ export class ProfileComponent {
   //---------------------------------
   // Open the inventory of this user
   //---------------------------------
-  openInventory() {
-    console.log('open inventory');
+  displayInventory() {
+    this.visible = false;
+    this.openInventory.emit(this.user);
   }
 
   //---------------------------------
   // Open the borrow(s) mades by the user
   //---------------------------------
-  openBorrows() {
-    console.log('open borrows');
+  displayBorrow() {
+    this.visible = false;
+    this.openBorrow.emit(this.user);
   }
 
   //---------------------------------
   // Open the favorites of the user
   //---------------------------------
-  openFavorites() {
-    console.log('open favorites');
+  displayFavorite() {
+    this.visible = false;
+    this.openFavorite.emit(this.user);
   }
 
   //---------------------------------
   // Open the modal to update the user password
   //---------------------------------
-  open(content: any) {
+  openModal(content: any) {
     this.modalService.open(content, {
       animation: true,
       centered: true,
@@ -116,13 +120,5 @@ export class ProfileComponent {
     console.log('update profile ...\n');
     console.log(this.user);
     console.log(this.profilePicture);
-  }
-
-  //---------------------------------
-  // Function to disconnect a user
-  //---------------------------------
-  disconnect() {
-    this.visible = false;
-    this.disconnected.emit(this.user);
   }
 }

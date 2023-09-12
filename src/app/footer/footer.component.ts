@@ -12,7 +12,14 @@ export class FooterComponent {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  onConnect(user: User) {
+  onFooter(user: User) {
     this.visible = true;
+  }
+
+  //---------------------------------
+  // Function to disconnect a user
+  //---------------------------------
+  onDisconnect(user: User) {
+    this.visible = false;
   }
 }

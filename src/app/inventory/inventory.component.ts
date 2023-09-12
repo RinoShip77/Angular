@@ -12,14 +12,13 @@ export class InventoryComponent {
   user: User = new User();
 
   @Output() openProfile = new EventEmitter<User>();
-  @Output() disconnected = new EventEmitter<User>();
 
   constructor(private electrolibSrv: ElectrolibService) { }
 
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  onConnect(user: User) {
+  onInventory(user: User) {
     this.visible = true;
     this.user = user;
   }
@@ -46,8 +45,7 @@ export class InventoryComponent {
   //---------------------------------
   // Function to disconnect a user
   //---------------------------------
-  disconnect() {
+  onDisconnect(user: User) {
     this.visible = false;
-    this.disconnected.emit(this.user);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { User } from '../modele/User';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-navbar',
@@ -8,11 +9,45 @@ import { User } from '../modele/User';
 })
 export class NavbarComponent {
   visible = false;
+  user: User = new User();
+
+  @Output() connected = new EventEmitter<User>();
+  @Output() openProfile = new EventEmitter<User>();
+  @Output() disconnected = new EventEmitter<User>();
 
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  onConnect(user: User) {
+  constructor(private offcanvasService: NgbOffcanvas) {}
+
+  //---------------------------------
+  // Function to display every book in the database
+  //---------------------------------
+  onNavbar(user: User) {
     this.visible = true;
+    this.connected.emit(user);
+    this.user = user;
   }
+
+  //---------------------------------
+  // Function to disconnect a user
+  //---------------------------------
+  displayProfile() {
+    this.openProfile.emit(this.user);
+  }
+  
+  //---------------------------------
+  // Function to disconnect a user
+  //---------------------------------
+  disconnect() {
+    this.visible = false;
+    this.disconnected.emit(this.user);
+  }
+  
+  //---------------------------------
+  // Function to expand the navbar
+  //---------------------------------
+  openOffcanvas(content: any) {
+		this.offcanvasService.open(content, { position: 'end' });
+	}
 }
