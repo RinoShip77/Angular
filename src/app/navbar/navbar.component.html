@@ -1,7 +1,7 @@
 <div *ngIf="visible">
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <div class="d-flex justify-content-end me-3">
+      <div class="d-flex justify-content-end me-3"> <!-- link the click to inventory -->
         <i class="fas fa-book-bookmark mt-1 fs-1"></i>
         <h1>Electrolib</h1>
       </div>
@@ -13,10 +13,10 @@
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
           <li class="nav-item">
-            <a class="nav-link active" href="#">Zones clients</a>
+            <a class="nav-link">Mon compte</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Zones du personnels</a>
+            <a class="nav-link" href="#">Gestion</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -32,15 +32,17 @@
             </ul>
           </li>
         </ul>
-        <button class="bg-danger rounded-3 me-3 px-5 fs-5 text-uppercase fw-bold" (click)="disconnect()">
-          Se déconnecter
-        </button>
-        <div type="button" (click)="displayProfile()">
-          <img src="https://ui-avatars.com/api/?name={{user.firstName}}+{{user.lastName}}&rounded=true">
-          <div style="margin-top: -15px; margin-left: 45px">
-            <span class="badge bg-success rounded-circle p-2">
-              <span class="visually-hidden">New!</span>
-            </span>
+        <div class="row me-1" *ngIf="user.email != ''">
+          <button class="col-9 bg-danger rounded-3 h-100 my-auto px-5 text-uppercase fw-bold" (click)="disconnect()">
+            Se déconnecter
+          </button>
+          <div class="col-3" type="button" (click)="displayProfile()">
+            <img src="https://ui-avatars.com/api/?name={{user.firstName}}+{{user.lastName}}&rounded=true">
+            <div style="margin-top: -15px; margin-left: 45px">
+              <span class="badge bg-success rounded-circle p-2">
+                <span class="visually-hidden">Connecté</span>
+              </span>
+            </div>
           </div>
         </div>
         <form class="d-flex ms-2" role="search">
@@ -67,7 +69,7 @@
           <button class="btn btn-outline-info" type="submit">Chercher</button>
         </form>
       </li>
-      <li class="mt-5">
+      <li class="mt-5" *ngIf="user.email != ''">
         <div class="bg-secondary-subtle rounded-pill p-2">
           <div class="row d-flex align-items-center">
             <div type="button" class="col-1" (click)="displayProfile()">
@@ -92,8 +94,6 @@
             </div>
           </div>
         </div>
-      </li>
-      <li>
       </li>
     </ul>
   </div>
