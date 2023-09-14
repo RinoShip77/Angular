@@ -1,46 +1,84 @@
-<div *ngIf="visible" class="d-flex justify-content-center my-5">
-  <div class="text-center" *ngIf="connectionVisible">
-    <h5>Connectez vous:</h5>
-    <form>
-      <div class="text-center">
-        <label>Nom:</label>
-        <input [(ngModel)]="temporaryUser.email" name="email" type="email" class="form-control"><br>
-        <label>Mot de passe:</label>
-        <input [(ngModel)]="temporaryUser.password" name="pwd" type="password" class="form-control"><br>
+<div *ngIf="visible" class="mx-auto text-center mt-2 font">
+  <div *ngIf="connectionVisible">
+    <h1 class="mt-4">Bienvenue sur Electrolib!</h1>
+    <span>Votre librairie virtuelle</span>
+    <h4 class="mt-5">Connectez vous:</h4>
+    <form (ngSubmit)="connect()">
+      <div class="w-25 mx-auto my-3">
+        <label class="form-label fw-bold">Nom:</label>
+        <input [(ngModel)]="temporaryUser.email" name="email" type="email" class="form-control mb-2">
+        <label class="form-label fw-bold">Mot de passe:</label>
+        <input [(ngModel)]="temporaryUser.password" name="pwd" type="password" class="form-control">
       </div>
-
-      <br>
-      <button class="btn btn-primary" (click)="connect()">
-        <i class="fas fa-unlock-keyhole me-2"></i>
-        Se connecter
-      </button>
-      <br><br>
-      <button class="btn btn-warning" (click)="createAccount()">
-        <i class="fas fa-user-plus me-2"></i>
-        Se créer un compte
-      </button>
+      <div class="mt-5">
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-unlock-keyhole me-2"></i>
+          Se connecter
+        </button>
+        <br>
+        <br>
+        <button class="btn btn-warning" (click)="createAccount()">
+          <i class="fas fa-user-plus me-2"></i>
+          Se créer un compte
+        </button>
+      </div>
     </form>
   </div>
 
   <div *ngIf="createAccountVisible">
-    <h5>Créer votre compte</h5>
-    <form (ngSubmit)="validateCreateAccount()">
-      <label>Courriel</label>
-      <input type="email" class="form-control" name="cfn" [(ngModel)]="temporaryUser.email"><br>
-
-      <label>Prénom</label>
-      <input name="nom" class="form-control" [(ngModel)]="temporaryUser.firstName"><br>
-
-      <label>Nom</label>
-      <input name="courriel" class="form-control" [(ngModel)]="temporaryUser.lastName"><br>
-
-      <label>Mot de passe</label>
-      <input type="password" class="form-control" name="mdp" [(ngModel)]="temporaryUser.password"><br>
-
-
-      <br>
-      <button type="submit" class="btn btn-success mt-2 mx-3">Valider</button>
-      <button class="btn btn-danger mt-2 ms-3" (click)="cancelCreationAccount()">Annuler</button>
+    <h4 class="my-5 fs-3 fw-bold">Créer votre compte</h4>
+    <form (ngSubmit)="validateCreateAccount()" class="w-75 mx-auto">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-floating mb-3">
+            <input name="email" type="email" class="form-control" id="emailInp" placeholder=""
+              [(ngModel)]="temporaryUser.email">
+            <label for="emailInp">Adresse courriel</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input name="password" type="password" class="form-control" id="passwordInp" placeholder=""
+              [(ngModel)]="temporaryUser.password">
+            <label for="passwordInp">Mot de passe</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input name="firstName" class="form-control" id="firstNameInp" placeholder=""
+              [(ngModel)]="temporaryUser.firstName">
+            <label for="firstNameInp">Prénom</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input name="lastName" class="form-control" id="lastNameInp" placeholder=""
+              [(ngModel)]="temporaryUser.lastName">
+            <label for="lastNameInp">Nom</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input name="address" class="form-control" id="addressInp" placeholder=""
+              [(ngModel)]="temporaryUser.address">
+            <label for="addressInp">Adresse civique</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input name="phoneNumber" class="form-control" id="phoneNumberInp" placeholder=""
+              [(ngModel)]="temporaryUser.phoneNumber">
+            <label for="phoneNumberInp">Numéro de téléphone</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input name="postalCode" class="form-control" id="postalCodeInp" placeholder=""
+              [(ngModel)]="temporaryUser.postalCode">
+            <label for="postalCodeInp">Code postal</label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="mb-3">
+            <label class="form-label" for="profilePictureInp">Photo de profil</label>
+            <input name="profilePicture" type="file" class="form-control w-50 mx-auto" id="profilePictoreInp" placeholder=""
+              [(ngModel)]="temporaryUser.profilePicture">
+          </div>
+          <img src="assets/images/Profil_Picture.jpg" alt="" class="img-fluid"> <!-- {{temporaryUser.profilePicture}} -->
+        </div>
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-success mt-2 mx-3">Valider</button>
+          <button class="btn btn-danger mt-2 ms-3" (click)="cancelCreationAccount()">Annuler</button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
