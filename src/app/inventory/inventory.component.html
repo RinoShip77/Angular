@@ -1,75 +1,18 @@
 <div *ngIf="visible">
-  <div class="text-center">
-    <button class="btn btn-secondary" (click)="displayAllBooks()">
-      <i class="fas fa-sitemap me-2"></i>
-      Afficher tous les livres (dans la console)
-    </button>
-  </div>
   <div class="row mb-3">
     <div class="col-3 mt-4">
       <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary rounded-end-5">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-          <svg class="bi pe-none me-2" width="40" height="32">
-            <use xlink:href="#bootstrap"></use>
-          </svg>
           <span class="fs-4">Affiner votre recherche</span>
         </a>
         <hr>
+        <button class="btn btn-outline-secondary mb-4" (click)="applyFilter()">Filtrer l'affichage</button>
         <ul class="list-unstyled">
-          <li class="my-2">
-            <div class="form-check">
-              <input class="form-check-input mx-3" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Science-fiction
-              </label>
-            </div>
-          </li>
-          <li class="my-2">
-            <div class="form-check">
-              <input class="form-check-input mx-3" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Fantastiques
-              </label>
-            </div>
-          </li>
-          <li class="my-2">
-            <div class="form-check">
-              <input class="form-check-input mx-3" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Québecois
-              </label>
-            </div>
-          </li>
-          <li class="my-2">
-            <div class="form-check">
-              <input class="form-check-input mx-3" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Policiers
-              </label>
-            </div>
-          </li>
-          <li class="my-2">
-            <div class="form-check">
-              <input class="form-check-input mx-3" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Jeunesses
-              </label>
-            </div>
-          </li>
-          <li class="my-2">
-            <div class="form-check">
-              <input class="form-check-input mx-3" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Bandes dessinées
-              </label>
-            </div>
-          </li>
-          <li class="my-2">
-            <div class="form-check">
-              <input class="form-check-input mx-3" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                Numériques
-              </label>
+          <li *ngFor="let genre of genres" class="my-2">
+            <div class="form-check fs-5">
+              <input class="form-check-input mx-3" type="checkbox" [(ngModel)]="genre.isFilter"
+                (click)="updateFilter(genre.idGenre)">
+              <label>{{genre.name}}</label>
             </div>
           </li>
         </ul>
@@ -77,72 +20,16 @@
       </div>
     </div>
     <div class="col-9 row row-cols-2 g-3">
-      <div class="col">
-        <div class="card mb-3" style="max-width: 540px;">
+      <div class="col" *ngFor="let book of books">
+        <div class="card mb-3" style="max-width: 540px" (click)="displayBook(book.idBook)">
           <div class="row g-0">
             <div class="col-md-4">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                class="img-fluid rounded-start" alt="...">
+              <img src="{{book.cover}}" class="img-fluid img-thumbnail m-1" alt="{{book.title}}" title="{{book.title}}">
             </div>
             <div class="col-md-8">
               <div class="card-body">
-                <h5 class="card-title">Titre du livre</h5>
-                <p class="card-text">C'est ici q'il y aura une courte description du livre.</p>
-                <button type="button" class="btn btn-outline-info active">Est présentement en location</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card mb-3" style="max-width: 540px;">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Titre du livre</h5>
-                <p class="card-text">C'est ici q'il y aura une courte description du livre.</p>
-                <button type="button" class="btn btn-outline-info">N'est pas en location</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card mb-3" style="max-width: 540px;">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Titre du livre</h5>
-                <p class="card-text">C'est ici q'il y aura une courte description du livre.</p>
-                <button type="button" class="btn btn-outline-info">N'est pas en location</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card mb-3" style="max-width: 540px;">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Titre du livre</h5>
-                <p class="card-text">C'est ici q'il y aura une courte description du livre.</p>
+                <h5 class="card-title">{{book.title}}</h5> <!-- TODO: Capitalize the first character -->
+                <p class="card-text">{{book.description}}</p>
                 <button type="button" class="btn btn-outline-info active">Est présentement en location</button>
               </div>
             </div>

@@ -3,6 +3,7 @@ import { urlServer } from './util';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Book } from './modele/Book';
 import { User } from './modele/User';
+import { Genre } from './modele/Genre';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,15 @@ export class ElectrolibService {
   // Initialize the component
   //--------------------------------
   constructor(private http:HttpClient) { }
+
+  //--------------------------------
+  // Route to get all the books
+  //--------------------------------
+  getGenres()
+  {
+    let url = urlServer + 'genres';
+    return this.http.get<Genre[]>(url);
+  }
 
   //--------------------------------
   // Route to get all the books
