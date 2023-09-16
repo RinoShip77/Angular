@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { urlServer } from './util';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Book } from './modele/Book';
-import { User } from './modele/User';
-import { Genre } from './modele/Genre';
+import { Book } from './model/Book';
+import { User } from './model/User';
+import { Genre } from './model/Genre';
 
 @Injectable({
   providedIn: 'root'
@@ -13,23 +13,32 @@ export class ElectrolibService {
   //--------------------------------
   // Initialize the component
   //--------------------------------
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   //--------------------------------
   // Route to get all the books
   //--------------------------------
-  getGenres()
-  {
+  getGenres() {
     let url = urlServer + 'genres';
+
     return this.http.get<Genre[]>(url);
   }
 
   //--------------------------------
   // Route to get all the books
   //--------------------------------
-  getBooks()
-  {
+  getBooks(filter?: number[]) {
     let url = urlServer + 'books';
+
+    if (filter) {
+      url += '?idGenre=';
+
+      for (let i = 0; i < filter.length; i++) {
+        url += + filter[i] + ',';
+      }
+      url = url.slice(0, -1);
+    }
+
     return this.http.get<Book[]>(url);
   }
 

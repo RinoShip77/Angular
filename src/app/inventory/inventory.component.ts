@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
-import { User } from '../modele/User';
-import { Genre } from '../modele/Genre';
-import { Book } from '../modele/Book';
+import { User } from '../model/User';
+import { Genre } from '../model/Genre';
+import { Book } from '../model/Book';
 
 @Component({
   selector: 'app-inventory',
@@ -26,29 +26,44 @@ export class InventoryComponent {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  onInventory(user: User) {
-    this.visible = true;
-    this.user = user;
-  }
-
-  //---------------------------------
-  // Function to display every book in the database
-  //---------------------------------
   ngOnInit() {
     // TODO: Capitalize the first character on the server side
     //Get all the genres from the database
+    this.retrieveGenres();
+
+
+    //Get all the books from the database
+    this.retrieveBooks();
+  }
+
+  //---------------------------------
+  // Function to select witch genre you want to see
+  //---------------------------------
+  retrieveGenres() {
     this.electrolibSrv.getGenres().subscribe(
       genres => {
         this.genres = genres;
       }
     );
+  }
 
-    //Get all the books from the database
+  //---------------------------------
+  // Function to get all the books from the database
+  //---------------------------------
+  retrieveBooks() {
     this.electrolibSrv.getBooks().subscribe(
       books => {
         this.books = books;
       }
     );
+  }
+
+  //---------------------------------
+  // Function to display every book in the database
+  //---------------------------------
+  onInventory(user: User) {
+    this.visible = true;
+    this.user = user;
   }
 
   //---------------------------------
@@ -65,27 +80,57 @@ export class InventoryComponent {
   //---------------------------------
   // Function to filter the library
   //---------------------------------
-  applyFilter() {
-    let filter: number[] = Array();
-    
-    for(let i=0; i<this.genres.length; i++)
-    {
-      if (this.genres[i].isFilter)
-      {
-        filter.push(this.genres[i].idGenre);
+  applyFilters() {
+    let filters: number[] = Array();
+
+    for (let i = 0; i < this.genres.length; i++) {
+      if (this.genres[i].isFilter) {
+        filters.push(this.genres[i].idGenre);
       }
     }
 
-    console.log(filter);
+    if (filters.length > 0) {
+      this.electrolibSrv.getBooks(filters).subscribe(
+        books => {
+          this.books = books;
+        }
+      );
+    }
+  }
+
+  //---------------------------------
+  // Function to remove all the filters from the view
+  //---------------------------------
+  removeFilters() {
+    let filter: number[] = Array();
+
+    for (let i = 0; i < this.genres.length; i++) {
+      if (this.genres[i].isFilter) {
+        filter.push(this.genres[i].idGenre);
+      }
+    }
   }
 
   //---------------------------------
   // Function to open the page for a specific book
   //---------------------------------
   displayBook(idBook: number) {
-    //TODO: Try to figure out why the idBook start at 13, AND not 1
-    this.openBook.emit(idBook - 12);
     this.visible = false;
+    this.openBook.emit(idBook);
+  }
+
+  //---------------------------------
+  // Function to open the page for a specific book
+  //---------------------------------
+  getCover(idBook: number) {
+    return 'assets/images/books/' + idBook + '.png';
+  }
+  
+  //---------------------------------
+  // Function to open the page for a specific book
+  //---------------------------------
+  handleMissingImage(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/images/books/default-book.png';
   }
 
   //---------------------------------

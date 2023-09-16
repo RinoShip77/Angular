@@ -6,7 +6,10 @@
           <span class="fs-4">Affiner votre recherche</span>
         </a>
         <hr>
-        <button class="btn btn-outline-secondary mb-4" (click)="applyFilter()">Filtrer l'affichage</button>
+        <button class="btn btn-outline-success mb-4" (click)="applyFilters()">
+          Filtrer l'affichage
+          <i class="fa-solid fa-filter ms-2"></i>
+        </button>
         <ul class="list-unstyled">
           <li *ngFor="let genre of genres" class="my-2">
             <div class="form-check fs-5">
@@ -16,6 +19,10 @@
             </div>
           </li>
         </ul>
+        <button class="btn btn-outline-danger mb-4" (click)="removeFilters()">
+          <i class="fa-solid fa-filter-circle-xmark me-2"></i>
+          Retirer les filtres
+        </button>
         <hr>
       </div>
     </div>
@@ -24,7 +31,8 @@
         <div class="card mb-3" style="max-width: 540px" (click)="displayBook(book.idBook)">
           <div class="row g-0">
             <div class="col-md-4">
-              <img src="{{book.cover}}" class="img-fluid img-thumbnail m-1" alt="{{book.title}}" title="{{book.title}}">
+              <img src="{{getCover(book.idBook)}}" class="img-fluid img-thumbnail m-1" alt="{{book.title}}" title="{{book.title}}"
+                (error)="handleMissingImage($event)"> <!-- TODO: Set the source as the cover ID '{{book.cover}}' -->
             </div>
             <div class="col-md-8">
               <div class="card-body">
