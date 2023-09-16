@@ -4,12 +4,12 @@
 
   <div>
     <header>
-      <app-navbar #navbar (connected)="inventory.onInventory($event)" (openProfile)="profile.onProfile($event)"
+      <app-navbar #navbar (connected)="inventory.onInventory($event)" (addSearchCriteria)="inventory.applyFilters($event)" (openProfile)="profile.onProfile($event)"
         (openProfile)="inventory.onDisconnect($event)" (disconnected)=" onDisconnect($event)"
         (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"></app-navbar>
     </header>
 
-    <main class="m-5">
+    <main class="m-2">
       <app-inventory #inventory (openProfile)="profile.onProfile($event)"></app-inventory>
       <app-profile #profile (openInventory)="inventory.onInventory($event)" (openBorrow)="borrow.onBorrow($event)"
         (openFavorite)="favorite.onFavorite($event)"></app-profile>

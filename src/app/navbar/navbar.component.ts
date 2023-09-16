@@ -8,10 +8,12 @@ import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  visible = true;
+  visible = false;
   user: User = new User();
+  searchField: string = '';
 
   @Output() connected = new EventEmitter<User>();
+  @Output() addSearchCriteria = new EventEmitter<string>();
   @Output() openProfile = new EventEmitter<User>();
   @Output() disconnected = new EventEmitter<User>();
 
@@ -27,6 +29,13 @@ export class NavbarComponent {
     this.visible = true;
     this.connected.emit(user);
     this.user = user;
+  }
+
+  //---------------------------------
+  // Function to disconnect a user
+  //---------------------------------
+  addSearch() {
+    this.addSearchCriteria.emit(this.searchField);
   }
 
   //---------------------------------

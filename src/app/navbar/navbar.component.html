@@ -45,8 +45,8 @@
             </div>
           </div>
         </div>
-        <form class="d-flex ms-2" role="search">
-          <input class="form-control me-2" type="search" placeholder="Rechercher ..." aria-label="Search">
+        <form class="d-flex ms-2" role="search" (ngSubmit)="addSearch()">
+          <input name="searchField" [(ngModel)]="searchField" class="form-control me-2" type="search" placeholder="Rechercher ..." aria-label="Search">
           <button class="btn btn-outline-info" type="submit">Chercher</button>
         </form>
       </div>
@@ -64,8 +64,8 @@
   <div class="offcanvas-body">
     <ul class="list-unstyled">
       <li>
-        <form class="d-flex ms-2" role="search">
-          <input class="form-control me-2" type="search" placeholder="Rechercher ..." aria-label="Search">
+        <form class="d-flex ms-2" role="search" (ngSubmit)="addSearch()">
+          <input name="searchField" [(ngModel)]="searchField" class="form-control me-2" type="search" placeholder="Rechercher ..." aria-label="Search">
           <button class="btn btn-outline-info" type="submit">Chercher</button>
         </form>
       </li>

@@ -10,7 +10,7 @@ import { Book } from '../model/Book';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  visible = true;
+  visible = false;
   user: User = new User();
   genres: Genre[] = new Array();
   books: Book[] = new Array();
@@ -27,11 +27,11 @@ export class InventoryComponent {
   // Function to display every book in the database
   //---------------------------------
   ngOnInit() {
-    // TODO: Capitalize the first character on the server side
+    // TODO: Capitalize the first character
     //Get all the genres from the database
     this.retrieveGenres();
 
-
+    // TODO: Capitalize the fist letter of the title
     //Get all the books from the database
     this.retrieveBooks();
   }
@@ -50,8 +50,8 @@ export class InventoryComponent {
   //---------------------------------
   // Function to get all the books from the database
   //---------------------------------
-  retrieveBooks() {
-    this.electrolibSrv.getBooks().subscribe(
+  retrieveBooks(filter?: number[]) {
+    this.electrolibSrv.getBooks(filter).subscribe(
       books => {
         this.books = books;
       }
@@ -80,7 +80,7 @@ export class InventoryComponent {
   //---------------------------------
   // Function to filter the library
   //---------------------------------
-  applyFilters() {
+  applyFilters(search?: string) {
     let filters: number[] = Array();
 
     for (let i = 0; i < this.genres.length; i++) {
@@ -89,24 +89,16 @@ export class InventoryComponent {
       }
     }
 
-    if (filters.length > 0) {
-      this.electrolibSrv.getBooks(filters).subscribe(
-        books => {
-          this.books = books;
-        }
-      );
-    }
+    this.retrieveBooks(filters);
   }
 
   //---------------------------------
   // Function to remove all the filters from the view
   //---------------------------------
   removeFilters() {
-    let filter: number[] = Array();
-
     for (let i = 0; i < this.genres.length; i++) {
       if (this.genres[i].isFilter) {
-        filter.push(this.genres[i].idGenre);
+        this.genres[i].isFilter = false;
       }
     }
   }

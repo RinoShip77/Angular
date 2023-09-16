@@ -27,7 +27,7 @@ export class ElectrolibService {
   //--------------------------------
   // Route to get all the books
   //--------------------------------
-  getBooks(filter?: number[]) {
+  getBooks(filter?: number[], search?: string) {
     let url = urlServer + 'books';
 
     if (filter) {
@@ -36,8 +36,14 @@ export class ElectrolibService {
       for (let i = 0; i < filter.length; i++) {
         url += + filter[i] + ',';
       }
+      
       url = url.slice(0, -1);
     }
+
+    if(filter && search) {
+      url += '&search=' + search;
+    }
+    console.log(url);
 
     return this.http.get<Book[]>(url);
   }
