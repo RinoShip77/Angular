@@ -10,4 +10,12 @@ export class User {
   postalCode: string = '';
   roles: string = '';
   password: string = '';
+
+  constructor() {
+    if (this.roles == '["ROLES_USER"]') {
+      this.roles = 'Membre';
+    } else {
+      this.roles = 'Administrateur';
+    }
+  }
 }

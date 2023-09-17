@@ -3,7 +3,8 @@ export class Book {
   title: string = '';
   description: string = '';
   isbn: string = '';
+  isBorrowed: boolean = false;
   cover: string = '';
-  publishDate: Date = new Date();
+  publishedDate: Date = new Date();
   originalLanguage: string = '';
 }

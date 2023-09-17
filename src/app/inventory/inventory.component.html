@@ -38,7 +38,12 @@
               <div class="card-body">
                 <h5 class="card-title">{{book.title}}</h5>
                 <p class="card-text">{{book.description}}</p>
-                <button type="button" class="btn btn-outline-info active">Est présentement en location</button>
+                <div *ngIf="book.isBorrowed">
+                  <div class="btn bg-info">Est présentement en location</div>
+                </div>
+                <div *ngIf="!book.isBorrowed">
+                  <div class="btn bg-light">Est disponible</div>
+                </div>
               </div>
             </div>
           </div>
