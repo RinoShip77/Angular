@@ -15,8 +15,43 @@ export class ElectrolibService {
   //--------------------------------
   constructor(private http: HttpClient) { }
 
+  
   //--------------------------------
   // Route to get all the books
+  //--------------------------------
+  getBooks(filter?: number[], search?: string) {
+    let url = urlServer + 'books';
+    
+    if (filter && search) {
+      url += '?idGenre=';
+      
+      for (let i = 0; i < filter.length; i++) {
+        url += + filter[i] + ',';
+      }
+      
+      url = url.slice(0, -1);
+      url += '&search=' + search;
+    }
+
+    if (filter && !search) {
+      url += '?idGenre=';
+      
+      for (let i = 0; i < filter.length; i++) {
+        url += + filter[i] + ',';
+      }
+      
+      url = url.slice(0, -1);
+    }
+
+    if (!filter && search) {
+      url += '?search=' + search;
+    }
+    
+    return this.http.get<Book[]>(url);
+  }
+  
+  //--------------------------------
+  // Route to get all the genre
   //--------------------------------
   getGenres() {
     let url = urlServer + 'genres';
@@ -25,35 +60,11 @@ export class ElectrolibService {
   }
 
   //--------------------------------
-  // Route to get all the books
-  //--------------------------------
-  getBooks(filter?: number[], search?: string) {
-    let url = urlServer + 'books';
-
-    if (filter) {
-      url += '?idGenre=';
-
-      for (let i = 0; i < filter.length; i++) {
-        url += + filter[i] + ',';
-      }
-      
-      url = url.slice(0, -1);
-    }
-
-    if(filter && search) {
-      url += '&search=' + search;
-    }
-    console.log(url);
-
-    return this.http.get<Book[]>(url);
-  }
-
-  //--------------------------------
-  //
+  // Route to connect a user
   //--------------------------------
   connection(user: User) {
     let url = urlServer + 'users/connection';
-
+    
     const params = new HttpParams({
       fromObject: {
         email: user.email,

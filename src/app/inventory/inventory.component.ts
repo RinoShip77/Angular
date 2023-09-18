@@ -50,8 +50,8 @@ export class InventoryComponent {
   //---------------------------------
   // Function to get all the books from the database
   //---------------------------------
-  retrieveBooks(filter?: number[]) {
-    this.electrolibSrv.getBooks(filter).subscribe(
+  retrieveBooks(filter?: number[], search?: string) {
+    this.electrolibSrv.getBooks(filter, search).subscribe(
       books => {
         this.books = books;
       }
@@ -89,7 +89,7 @@ export class InventoryComponent {
       }
     }
 
-    this.retrieveBooks(filters);
+    this.retrieveBooks(filters, search);
   }
 
   //---------------------------------
@@ -117,7 +117,7 @@ export class InventoryComponent {
   getCover(idBook: number) {
     return 'assets/images/books/' + idBook + '.png';
   }
-  
+
   //---------------------------------
   // Function to open the page for a specific book
   //---------------------------------
