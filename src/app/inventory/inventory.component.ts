@@ -27,11 +27,9 @@ export class InventoryComponent {
   // Function to display every book in the database
   //---------------------------------
   ngOnInit() {
-    // TODO: Capitalize the first character
     //Get all the genres from the database
     this.retrieveGenres();
 
-    // TODO: Capitalize the fist letter of the title
     //Get all the books from the database
     this.retrieveBooks();
   }
@@ -101,6 +99,8 @@ export class InventoryComponent {
         this.genres[i].isFilter = false;
       }
     }
+
+    this.retrieveBooks();
   }
 
   //---------------------------------
