@@ -37,6 +37,13 @@ export class ProfileComponent {
   }
 
   //---------------------------------
+  // Function to open the page for a specific book
+  //---------------------------------
+  handleMissingImage(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/images/users/default-user.png';
+  }
+
+  //---------------------------------
   // Function to upload a new profile picture
   //---------------------------------
   uploadImage() {

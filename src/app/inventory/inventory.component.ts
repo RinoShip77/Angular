@@ -114,13 +114,6 @@ export class InventoryComponent {
   //---------------------------------
   // Function to open the page for a specific book
   //---------------------------------
-  getCover(idBook: number) {
-    return 'assets/images/books/' + idBook + '.png';
-  }
-
-  //---------------------------------
-  // Function to open the page for a specific book
-  //---------------------------------
   handleMissingImage(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/images/books/default-book.png';
   }
