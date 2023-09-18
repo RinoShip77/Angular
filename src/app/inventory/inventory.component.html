@@ -26,9 +26,9 @@
         <hr>
       </div>
     </div>
-    <div class="col-9 row row-cols-3 g-3">
+    <div class="col-9 row row-cols-2 g-3">
       <div class="col" *ngFor="let book of books">
-        <div class="card mb-3" (click)="displayBook(book.idBook)">
+        <div class="card w-75 mb-3" (click)="displayBook(book.idBook)">
           <div class="row g-0">
             <div class="col-md-4">
               <img src="{{getCover(book.idBook)}}" class="img-thumbnail m-1" alt="{{book.title}}" title="{{book.title}}"
