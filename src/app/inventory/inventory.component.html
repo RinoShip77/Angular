@@ -12,9 +12,8 @@
         </button>
         <ul class="list-unstyled">
           <li *ngFor="let genre of genres" class="my-2">
-            <div class="form-check fs-5">
-              <input class="form-check-input mx-3" type="checkbox" [(ngModel)]="genre.isFilter"
-                (click)="updateFilter(genre.idGenre)">
+            <div class="form-check fs-5" (click)="updateFilter(genre.idGenre)">
+              <input class="form-check-input mx-3" type="checkbox" [(ngModel)]="genre.isFilter">
               <label>{{genre.name | titlecase}}</label>
             </div>
           </li>
@@ -26,12 +25,12 @@
         <hr>
       </div>
     </div>
-    <div class="col-9 row row-cols-2 g-3">
+    <div class="col-9 row row-cols-3 g-3">
       <div class="col" *ngFor="let book of books">
-        <div type="button" class="card mh-75 mb-3" (click)="displayBook(book.idBook)">
+        <div type="button" class="card mb-3" (click)="displayBook(book.idBook)">
           <div class="row g-0">
             <div class="col-md-4">
-              <img src="{{book.cover}}" class="img-thumbnail mw-75 m-1" alt="{{book.title}}" title="{{book.title}}"
+              <img src="{{book.cover}}" class="img-thumbnail m-1" alt="{{book.title}}" title="{{book.title}}"
                 (error)="handleMissingImage($event)">
             </div>
             <div class="col-md-8">
