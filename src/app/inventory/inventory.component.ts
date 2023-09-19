@@ -107,8 +107,7 @@ export class InventoryComponent {
   // Function to open the page for a specific book
   //---------------------------------
   displayBook(idBook: number) {
-    this.visible = false;
-    this.openBook.emit(idBook);
+    console.log(idBook)
   }
 
   //---------------------------------
