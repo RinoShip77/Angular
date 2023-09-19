@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { User } from './model/User';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChatComponent } from './chat/chat.component';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,10 @@ import { User } from './model/User';
 })
 export class AppComponent {
   isConnected = false;
+  isChatting = false;
   user: User = new User();
+
+  constructor(private modalService: NgbModal) {}
 
   //---------------------------------
   // Function to connect a user
@@ -16,6 +21,14 @@ export class AppComponent {
   onConnect(user: User) {
     this.isConnected = true;
     this.user = user;
+  }
+
+  openChat() {
+    this.modalService.open(ChatComponent, {
+      animation: true,
+      keyboard: true,
+      scrollable: true
+    });
   }
 
   //---------------------------------

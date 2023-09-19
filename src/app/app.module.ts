@@ -12,6 +12,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BorrowComponent } from './borrow/borrow.component';
 import { FavoriteComponent } from './favorite/favorite.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FavoriteComponent } from './favorite/favorite.component';
     InventoryComponent,
     ProfileComponent,
     BorrowComponent,
-    FavoriteComponent
+    FavoriteComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

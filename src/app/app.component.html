@@ -4,7 +4,8 @@
 
   <div>
     <header>
-      <app-navbar #navbar (connected)="inventory.onInventory($event)" (addSearchCriteria)="inventory.applyFilters($event)" (openProfile)="profile.onProfile($event)"
+      <app-navbar #navbar (connected)="inventory.onInventory($event)"
+        (addSearchCriteria)="inventory.applyFilters($event)" (openProfile)="profile.onProfile($event)"
         (openProfile)="inventory.onDisconnect($event)" (disconnected)=" onDisconnect($event)"
         (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"></app-navbar>
     </header>
@@ -15,6 +16,14 @@
         (openFavorite)="favorite.onFavorite($event)"></app-profile>
       <app-borrow #borrow (openInventory)="inventory.onInventory($event)"></app-borrow>
       <app-favorite #favorite (openInventory)="inventory.onInventory($event)"></app-favorite>
+
+      <div *ngIf="isConnected">
+        <div class="d-flex justify-content-end m-3" id="chat">
+          <button class="btn btn-primary rounded-5" (click)="openChat()">
+            <i class="far fa-comment-dots p-2 fs-1"></i>
+          </button>
+        </div>
+      </div>
     </main>
 
     <footer>
