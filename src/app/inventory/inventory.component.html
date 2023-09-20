@@ -1,5 +1,4 @@
-<div *ngIf="visible">
-  <div class="text-center">
+ <div class="text-center">
     <button class="btn btn-secondary" (click)="displayAllBooks()">Afficher tous les livres (dans la
       console)</button><br><br>
     <button class="btn btn-info" (click)="displayProfile()">Afficher le profil</button><br><br>
@@ -141,7 +140,7 @@
             </div>
             <div class="col-md-8">
               <div class="card-body">
-                <h5 class="card-title">Titre du livre</h5>
+                <h5 class="card-title"> <a [routerLink]="'/detailLivre'">Titre du livre</a> </h5>
                 <p class="card-text">C'est ici q'il y aura une courte description du livre.</p>
                 <button type="button" class="btn btn-outline-info active">Est présentement en location</button>
               </div>
@@ -151,4 +150,3 @@
       </div>
     </div>
   </div>
-</div>

@@ -13,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ProfileComponent } from './profile/profile.component';
+import { DetailLivreComponent } from './detail-livre/detail-livre.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ProfileComponent } from './profile/profile.component';
     NavbarComponent,
     FooterComponent,
     InventoryComponent,
-    ProfileComponent
+    ProfileComponent,
+    DetailLivreComponent
   ],
   imports: [
     

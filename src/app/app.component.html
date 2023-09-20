@@ -1,19 +1,16 @@
-<div>
-  <app-connection *ngIf="!isConnected" (connected)="onConnect($event)" (connected)="inventory.onConnect($event)" (connected)="navbar.onConnect($event)" (connected)="footer.onConnect($event)">
-  </app-connection>
 
-  <div>
+
     <header>
       <app-navbar #navbar></app-navbar>
     </header>
 
     <main>
-      <app-inventory #inventory (openProfile)="profile.onProfile($event)" (disconnected)="onDisconnect($event)"></app-inventory>
-      <app-profile #profile></app-profile>
+      <router-outlet></router-outlet>
     </main>
 
     <footer>
       <app-footer #footer></app-footer>
     </footer>
-  </div>
-</div>
+
+
+

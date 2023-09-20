@@ -8,7 +8,6 @@ import { User } from '../modele/User';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  visible = false;
   user: User = new User();
 
   @Output() openProfile = new EventEmitter<User>();
@@ -20,7 +19,6 @@ export class InventoryComponent {
   // Function to display every book in the database
   //-------------------------------------------------------
   onConnect(user: User) {
-    this.visible = true;
     this.user = user;
   }
 
@@ -39,7 +37,6 @@ export class InventoryComponent {
   // Function to display every book in the database
   //-------------------------------------------------------
   displayProfile() {
-    this.visible = false;
     this.openProfile.emit(this.user);
   }
 
@@ -47,7 +44,6 @@ export class InventoryComponent {
   // Function to disconnect a user
   //-------------------------------------------------------
   disconnect() {
-    this.visible = false;
     this.disconnected.emit(this.user);
   }
 }
