@@ -1,6 +1,6 @@
 <div *ngIf="visible">
-  <div class="row mb-3">
-    <div class="col-3 mt-4">
+  <div class="row mt-4 mb-3">
+    <div class="col-3">
       <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary rounded-end-5">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
           <span class="fs-4">Affiner votre recherche</span>
@@ -25,23 +25,91 @@
         <hr>
       </div>
     </div>
-    <div class="col-9 row row-cols-2 row-cols-xxl-3 g-3">
-      <div type="button" class="col" *ngFor="let book of books" (click)="displayBook(book.idBook)">
-        <div class="card h-100 mb-3">
-          <div class="row g-0">
-            <div class="col-4">
-              <img src="{{book.cover}}" class="img-fluid img-thumbnail m-1" alt="{{book.title}}" title="{{book.title}}"
-                (error)="handleMissingImage($event)">
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">{{book.title | titlecase}}</h5>
-                <span class="card-text"><small>{{book.description}}</small></span>
-                <div *ngIf="book.isBorrowed">
-                  <div class="border border-2 rounded-3 p-2 text-center">En location</div>
+    <div class="col-9">
+      <div class="d-flex justify-content-between mx-1 mb-4">
+        <div class="form-check form-switch">
+          <h4>Personnaliser l'affichage de l'inventaire :</h4>
+          <select class="form-select w-75" [(ngModel)]="inventoryDisplay">
+            <option selected value="table">Sous forme de tableau visuel</option>
+            <option value="list">Sous forme de simple liste</option>
+          </select>
+        </div>
+        <form class="d-flex h-25 ms-2 my-auto" role="search">
+          <input name="searchField" class="form-control me-2" type="search" placeholder="Rechercher ...">
+          <button class="btn btn-outline-info" type="submit">Chercher</button>
+        </form>
+      </div>
+      <div [ngSwitch]="inventoryDisplay">
+        <div *ngSwitchCase="'table'">
+          <div class="row row-cols-2 row-cols-xxl-3 g-3">
+            <div type="button" class="col" *ngFor="let book of books" (click)="displayBook(book.idBook)">
+              <div class="card h-100 mb-3">
+                <div class="row g-0">
+                  <div class="col-4">
+                    <img src="{{book.cover}}" class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
+                      title="{{book.title}}" (error)="handleMissingImage($event)">
+                  </div>
+                  <div class="col-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{book.title | titlecase}}</h5>
+                      <span class="card-text"><small>{{book.description}}</small></span>
+                      <div *ngIf="book.isBorrowed">
+                        <div class="border border-2 rounded-3 p-2 text-center">En location</div>
+                      </div>
+                      <div *ngIf="!book.isBorrowed">
+                        <div class="border border-2 bg-info rounded-3 p-2 text-center">Disponible</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div *ngIf="!book.isBorrowed">
-                  <div class="border border-2 bg-info rounded-3 p-2 text-center">Disponible</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'list'">
+          <table class="table table-hover table-borderless">
+            <thead>
+              <tr>
+                <th scope="col">Numéro</th>
+                <th scope="col">Titre</th>
+                <th scope="col">Année de parution</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.isBorrowed)">
+                <td>#{{book.isbn}}</td>
+                <td>{{book.title}}</td>
+                <td>{{book.publishedDate | date:'yyyy'}}</td>
+                <td *ngIf="book.isBorrowed">En location</td>
+                <td *ngIf="!book.isBorrowed">Disponible</td>
+                <td type="button" (click)="displayBook(book.idBook)">
+                  <i class="fas fa-circle-info fs-4 m-2"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngSwitchDefault>
+          <div class="row row-cols-2 row-cols-xxl-3 g-3">
+            <div type="button" class="col" *ngFor="let book of books" (click)="displayBook(book.idBook)">
+              <div class="card h-100 mb-3">
+                <div class="row g-0">
+                  <div class="col-4">
+                    <img src="{{book.cover}}" class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
+                      title="{{book.title}}" (error)="handleMissingImage($event)">
+                  </div>
+                  <div class="col-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{book.title | titlecase}}</h5>
+                      <span class="card-text"><small>{{book.description}}</small></span>
+                      <div *ngIf="book.isBorrowed" class="border border-2 opacity-50 rounded-3 p-2 text-center">En
+                        location</div>
+                      <div *ngIf="!book.isBorrowed" class="border border-2 bg-info rounded-3 p-2 text-center">Disponible
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

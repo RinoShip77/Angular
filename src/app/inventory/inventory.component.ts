@@ -14,6 +14,8 @@ export class InventoryComponent {
   user: User = new User();
   genres: Genre[] = new Array();
   books: Book[] = new Array();
+  inventoryDisplay: string = 'table';
+  listClass: string = '';
 
   @Output() openProfile = new EventEmitter<User>();
   @Output() openBook = new EventEmitter<Number>();
@@ -101,6 +103,17 @@ export class InventoryComponent {
     }
 
     this.retrieveBooks();
+  }
+
+  //---------------------------------
+  // Function to open the page for a specific book
+  //---------------------------------
+  updateDisplay(isBorrowed?: boolean): string {
+    if (!isBorrowed) {
+      return 'table-primary';
+    } else {
+      return 'opacity-25';
+    }
   }
 
   //---------------------------------
