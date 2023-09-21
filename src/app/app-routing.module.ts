@@ -6,7 +6,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 
 // Create a routes Array
 const routes: Routes = [
-  { path:  "detailLivre", component: DetailLivreComponent },
+  { path:  "detailLivre/:id", component: DetailLivreComponent },
   { path:  "inventaire", component: InventoryComponent },
   { path:  "", component:InventoryComponent}
 ];

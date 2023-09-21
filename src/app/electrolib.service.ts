@@ -38,4 +38,11 @@ export class ElectrolibService {
 
     return this.http.get<Book[]>(url);
   }
+  
+  //route qui va chercher un livre
+  getBook(id:number){
+    let url = urlServer + 'getBook/'+id;
+
+    return this.http.get<Book>(url);
+  }
 }
