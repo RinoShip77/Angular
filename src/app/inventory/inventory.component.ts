@@ -15,6 +15,7 @@ export class InventoryComponent {
   genres: Genre[] = new Array();
   books: Book[] = new Array();
   inventoryDisplay: string = 'table';
+  sortOrder: string = '';
   listClass: string = '';
 
   @Output() openProfile = new EventEmitter<User>();
@@ -69,12 +70,21 @@ export class InventoryComponent {
   //---------------------------------
   // Function to select witch genre you want to see
   //---------------------------------
+  sortInventory() {
+    console.log(this.sortOrder);
+  }
+
+  //---------------------------------
+  // Function to select witch genre you want to see
+  //---------------------------------
   updateFilter(idGenre: number) {
     for (let i = 0; i < this.genres.length; i++) {
       if (this.genres[i].idGenre == idGenre) {
         this.genres[i].isFilter = !this.genres[i].isFilter;
       }
     }
+
+    this.applyFilters();
   }
 
   //---------------------------------

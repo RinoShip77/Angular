@@ -2,27 +2,35 @@
   <div class="row mt-4 mb-3">
     <div class="col-3">
       <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary rounded-end-5">
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
           <span class="fs-4">Affiner votre recherche</span>
-        </a>
         <hr>
-        <button class="btn btn-outline-success mt-1 mb-4" (click)="applyFilters()">
-          Filtrer l'affichage
-          <i class="fa-solid fa-filter ms-2"></i>
-        </button>
+        <div class="d-flex justify-content-between">
+          <select class="form-select" [(ngModel)]="sortOrder">
+            <option value="dateDescending" selected>Trier du plus récent au plus ancien</option>
+            <option value="dateAscending">Trier du plus ancien au plus récent</option>
+            <option value="titleDescending">Trier par titre (A-Z)</option>
+            <option value="titleAscending">Trier par titre (Z-A)</option>
+            <option value="authorDescending">Trier par auteur (A-Z)</option>
+            <option value="authorAscending">Trier par auteur (Z-A)</option>
+          </select>
+          <button class="btn btn-success ms-5" (click)="sortInventory()">
+            <i class="fas fa-sort p-1 fs-3"></i>
+          </button>
+        </div>
+        <hr>
         <ul class="list-unstyled">
           <li *ngFor="let genre of genres" class="my-2">
-            <div class="form-check fs-5" (click)="updateFilter(genre.idGenre)">
-              <input class="form-check-input mx-3" type="checkbox" [(ngModel)]="genre.isFilter">
-              <label>{{genre.name | titlecase}}</label>
+            <div class="form-check form-switch fs-5" (click)="updateFilter(genre.idGenre)">
+              <input class="form-check-input mx-3" type="checkbox" role="switch" [(ngModel)]="genre.isFilter">
+              <label class="form-check-label">{{genre.name | titlecase}}</label>
             </div>
           </li>
         </ul>
+        <hr>
         <button class="btn btn-outline-danger mt-4 mb-1" (click)="removeFilters()">
           <i class="fa-solid fa-filter-circle-xmark me-2"></i>
           Retirer les filtres
         </button>
-        <hr>
       </div>
     </div>
     <div class="col-9">
