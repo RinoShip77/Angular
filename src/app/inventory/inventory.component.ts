@@ -11,12 +11,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  visible = true;
+  visible = false;
   user: User = new User();
   genres: Genre[] = new Array();
   books: Book[] = new Array();
   inventoryDisplay: string = 'table';
-  sortOrder: string = 'dateDescending';
+  sortOrder: string = 'date;DESC';
 
   @Output() openProfile = new EventEmitter<User>();
   @Output() openBook = new EventEmitter<Number>();
@@ -54,6 +54,7 @@ export class InventoryComponent {
   retrieveBooks(filter?: number[], search?: string) {
     this.electrolibSrv.getBooks(filter, search).subscribe(
       books => {
+        console.log(books);
         this.books = books;
       }
     );
@@ -83,10 +84,11 @@ export class InventoryComponent {
   // Function to select witch genre you want to see
   //---------------------------------
   sortInventory() {
-    console.log(this.sortOrder);
     let property = this.sortOrder.split(';')[0];
     let order = this.sortOrder.split(';')[1];
 
+    console.log(property);
+    console.log(order);
     switch (property) {
       case 'date':
         if(order === 'DESC') {
@@ -130,10 +132,10 @@ export class InventoryComponent {
   // Function to sort by date descending
   //---------------------------------
   compareDateAsc(book1: Book, book2: Book) {
-    if (book1.publishedDate > book2.publishedDate) {
+    if (book1.publishedDate < book2.publishedDate) {
       return -1;
     }
-    if (book1.publishedDate < book2.publishedDate) {
+    if (book1.publishedDate > book2.publishedDate) {
       return 1;
     }
 
@@ -144,10 +146,10 @@ export class InventoryComponent {
   // Function to sort by date descending
   //---------------------------------
   compareTitleDesc(book1: Book, book2: Book) {
-    if (book1.publishedDate > book2.publishedDate) {
+    if (book1.title > book2.title) {
       return -1;
     }
-    if (book1.publishedDate < book2.publishedDate) {
+    if (book1.title < book2.title) {
       return 1;
     }
 
@@ -158,10 +160,10 @@ export class InventoryComponent {
   // Function to sort by date descending
   //---------------------------------
   compareTitleAsc(book1: Book, book2: Book) {
-    if (book1.publishedDate > book2.publishedDate) {
+    if (book1.title < book2.title) {
       return -1;
     }
-    if (book1.publishedDate < book2.publishedDate) {
+    if (book1.title > book2.title) {
       return 1;
     }
 
@@ -172,10 +174,10 @@ export class InventoryComponent {
   // Function to sort by date descending
   //---------------------------------
   compareAuthorDesc(book1: Book, book2: Book) {
-    if (book1.publishedDate > book2.publishedDate) {
+    if (book1.idAuthor > book2.idAuthor) {
       return -1;
     }
-    if (book1.publishedDate < book2.publishedDate) {
+    if (book1.idAuthor < book2.idAuthor) {
       return 1;
     }
 
@@ -186,10 +188,10 @@ export class InventoryComponent {
   // Function to sort by date descending
   //---------------------------------
   compareAuthorAsc(book1: Book, book2: Book) {
-    if (book1.publishedDate > book2.publishedDate) {
+    if (book1.idAuthor < book2.idAuthor) {
       return -1;
     }
-    if (book1.publishedDate < book2.publishedDate) {
+    if (book1.idAuthor > book2.idAuthor) {
       return 1;
     }
 

@@ -2,7 +2,7 @@
   <div class="row mt-4 mb-3">
     <div class="col-3">
       <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary rounded-end-5">
-          <span class="fs-4">Affiner votre recherche</span>
+        <span class="fs-4">Affiner votre recherche</span>
         <hr>
         <button class="btn btn-outline-success p-1 fs-5 fw-bold" (click)="openModal(content)">
           Filtrer l'affichage
@@ -13,17 +13,36 @@
             <h4 class="text-center">Appliquer un filtre</h4>
             <hr>
             <form class="d-flex justify-content-between" (ngSubmit)="sortInventory()">
-                <select name="sortOrder" [(ngModel)]="sortOrder" class="form-select">
-                  <option value="date;Descending">Trier du plus récent au plus ancien</option>
-                  <option value="date;Ascending">Trier du plus ancien au plus récent</option>
-                  <option value="title;Descending">Trier par titre (A-Z)</option>
-                  <option value="title;Ascending">Trier par titre (Z-A)</option>
-                  <option value="author;Descending">Trier par auteur (A-Z)</option>
-                  <option value="author;Ascending">Trier par auteur (Z-A)</option>
-                </select>
-                <button type="submit" class="btn btn-success ms-5" (click)="modal.dismiss()">
-                  <i class="fas fa-sort p-1 fs-3"></i>
-                </button>
+              <select name="sortOrder" [(ngModel)]="sortOrder" class="form-select">
+                <option value="date;DESC">Trier du plus récent au plus ancien</option>
+                <option value="date;ASC">Trier du plus ancien au plus récent</option>
+                <option value="title;ASC">Trier par titre (A-Z)</option>
+                <option value="title;DESC">Trier par titre (Z-A)</option>
+                <option value="author;ASC">Trier par auteur (A-Z)</option>
+                <option value="author;DESC">Trier par auteur (Z-A)</option>
+              </select>
+              <button type="submit" class="btn btn-outline-info mx-3 fs-3" (click)="modal.dismiss()">
+                <div [ngSwitch]="sortOrder">
+                  <div *ngSwitchCase="'date;DESC'">
+                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+                  </div>
+                  <div *ngSwitchCase="'date;ASC'">
+                    <i class="fa-solid fa-arrow-down-short-wide"></i>
+                  </div>
+                  <div *ngSwitchCase="'title;ASC'">
+                    <i class="fa-solid fa-arrow-down-a-z"></i>
+                  </div>
+                  <div *ngSwitchCase="'title;DESC'">
+                    <i class="fa-solid fa-arrow-down-z-a"></i>
+                  </div>
+                  <div *ngSwitchCase="'author;ASC'">
+                    <i class="fa-solid fa-arrow-down-a-z"></i>
+                  </div>
+                  <div *ngSwitchCase="'author;DESC'">
+                    <i class="fa-solid fa-arrow-down-z-a"></i>
+                  </div>
+                </div>
+              </button>
             </form>
           </div>
         </ng-template>
@@ -90,6 +109,8 @@
               <tr>
                 <th scope="col">Numéro</th>
                 <th scope="col">Titre</th>
+                <th scope="col">Auteur</th>
+                <th scope="col">Langue d'origine</th>
                 <th scope="col">Année de parution</th>
                 <th scope="col">Statut</th>
                 <th scope="col">Action</th>
@@ -99,6 +120,8 @@
               <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.isBorrowed)">
                 <td>#{{book.isbn}}</td>
                 <td>{{book.title}}</td>
+                <td>{{(book.idAuthor.firstName | titlecase) + ' ' + (book.idAuthor.lastName | titlecase)}}</td>
+                <td>{{book.originalLanguage}}</td>
                 <td>{{book.publishedDate | date:'yyyy'}}</td>
                 <td *ngIf="book.isBorrowed">En location</td>
                 <td *ngIf="!book.isBorrowed">Disponible</td>
@@ -108,30 +131,6 @@
               </tr>
             </tbody>
           </table>
-        </div>
-        <div *ngSwitchDefault>
-          <div class="row row-cols-2 row-cols-xxl-3 g-3">
-            <div type="button" class="col" *ngFor="let book of books" (click)="displayBook(book.idBook)">
-              <div class="card h-100 mb-3">
-                <div class="row g-0">
-                  <div class="col-4">
-                    <img src="{{book.cover}}" class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
-                      title="{{book.title}}" (error)="handleMissingImage($event)">
-                  </div>
-                  <div class="col-8">
-                    <div class="card-body">
-                      <h5 class="card-title">{{book.title | titlecase}}</h5>
-                      <span class="card-text"><small>{{book.description}}</small></span>
-                      <div *ngIf="book.isBorrowed" class="border border-2 opacity-50 rounded-3 p-2 text-center">En
-                        location</div>
-                      <div *ngIf="!book.isBorrowed" class="border border-2 bg-info rounded-3 p-2 text-center">Disponible
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

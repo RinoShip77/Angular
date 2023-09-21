@@ -4,8 +4,7 @@
 
   <div>
     <header>
-      <app-navbar #navbar (connected)="inventory.onInventory($event)"
-        (addSearchCriteria)="inventory.applyFilters($event)" (openProfile)="profile.onProfile($event)"
+      <app-navbar #navbar (connected)="inventory.onInventory($event)" (openProfile)="profile.onProfile($event)"
         (openProfile)="inventory.onDisconnect($event)" (disconnected)=" onDisconnect($event)"
         (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"></app-navbar>
     </header>

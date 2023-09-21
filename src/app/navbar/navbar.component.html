@@ -45,10 +45,6 @@
             </div>
           </div>
         </div>
-        <form class="d-flex ms-2" role="search" (ngSubmit)="addSearch()">
-          <input name="searchField" [(ngModel)]="searchField" class="form-control me-2" type="search" placeholder="Rechercher ..." aria-label="Search">
-          <button class="btn btn-outline-info" type="submit">Chercher</button>
-        </form>
       </div>
     </div>
   </nav>
@@ -63,12 +59,6 @@
   </div>
   <div class="offcanvas-body">
     <ul class="list-unstyled">
-      <li>
-        <form class="d-flex ms-2" role="search" (ngSubmit)="addSearch()">
-          <input name="searchField" [(ngModel)]="searchField" class="form-control me-2" type="search" placeholder="Rechercher ..." aria-label="Search">
-          <button class="btn btn-outline-info" type="submit">Chercher</button>
-        </form>
-      </li>
       <li class="mt-5" *ngIf="user.email != ''">
         <div class="bg-secondary-subtle rounded-pill p-2">
           <div class="row d-flex align-items-center">
