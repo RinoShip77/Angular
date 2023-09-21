@@ -4,19 +4,29 @@
       <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary rounded-end-5">
           <span class="fs-4">Affiner votre recherche</span>
         <hr>
-        <div class="d-flex justify-content-between">
-          <select class="form-select" [(ngModel)]="sortOrder">
-            <option value="dateDescending" selected>Trier du plus récent au plus ancien</option>
-            <option value="dateAscending">Trier du plus ancien au plus récent</option>
-            <option value="titleDescending">Trier par titre (A-Z)</option>
-            <option value="titleAscending">Trier par titre (Z-A)</option>
-            <option value="authorDescending">Trier par auteur (A-Z)</option>
-            <option value="authorAscending">Trier par auteur (Z-A)</option>
-          </select>
-          <button class="btn btn-success ms-5" (click)="sortInventory()">
-            <i class="fas fa-sort p-1 fs-3"></i>
-          </button>
-        </div>
+        <button class="btn btn-outline-success p-1 fs-5 fw-bold" (click)="openModal(content)">
+          Filtrer l'affichage
+          <i class="fas fa-sort ms-2"></i>
+        </button>
+        <ng-template #content let-modal>
+          <div class="modal-body">
+            <h4 class="text-center">Appliquer un filtre</h4>
+            <hr>
+            <form class="d-flex justify-content-between" (ngSubmit)="sortInventory()">
+                <select name="sortOrder" [(ngModel)]="sortOrder" class="form-select">
+                  <option value="date;Descending">Trier du plus récent au plus ancien</option>
+                  <option value="date;Ascending">Trier du plus ancien au plus récent</option>
+                  <option value="title;Descending">Trier par titre (A-Z)</option>
+                  <option value="title;Ascending">Trier par titre (Z-A)</option>
+                  <option value="author;Descending">Trier par auteur (A-Z)</option>
+                  <option value="author;Ascending">Trier par auteur (Z-A)</option>
+                </select>
+                <button type="submit" class="btn btn-success ms-5" (click)="modal.dismiss()">
+                  <i class="fas fa-sort p-1 fs-3"></i>
+                </button>
+            </form>
+          </div>
+        </ng-template>
         <hr>
         <ul class="list-unstyled">
           <li *ngFor="let genre of genres" class="my-2">

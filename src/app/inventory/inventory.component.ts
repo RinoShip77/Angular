@@ -3,6 +3,7 @@ import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { Genre } from '../model/Genre';
 import { Book } from '../model/Book';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-inventory',
@@ -10,13 +11,12 @@ import { Book } from '../model/Book';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  visible = false;
+  visible = true;
   user: User = new User();
   genres: Genre[] = new Array();
   books: Book[] = new Array();
   inventoryDisplay: string = 'table';
-  sortOrder: string = '';
-  listClass: string = '';
+  sortOrder: string = 'dateDescending';
 
   @Output() openProfile = new EventEmitter<User>();
   @Output() openBook = new EventEmitter<Number>();
@@ -24,7 +24,7 @@ export class InventoryComponent {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private electrolibSrv: ElectrolibService) { }
+  constructor(private electrolibSrv: ElectrolibService, private modalService: NgbModal) { }
 
   //---------------------------------
   // Function to display every book in the database
@@ -68,10 +68,132 @@ export class InventoryComponent {
   }
 
   //---------------------------------
+  // Open the modal to update the user password
+  //---------------------------------
+  openModal(content: any) {
+    this.modalService.open(content, {
+      animation: true,
+      centered: true,
+      keyboard: true,
+      size: 'lg'
+    });
+  }
+
+  //---------------------------------
   // Function to select witch genre you want to see
   //---------------------------------
   sortInventory() {
     console.log(this.sortOrder);
+    let property = this.sortOrder.split(';')[0];
+    let order = this.sortOrder.split(';')[1];
+
+    switch (property) {
+      case 'date':
+        if(order === 'DESC') {
+          this.books.sort(this.compareDateDesc);
+        } else {
+          this.books.sort(this.compareDateAsc);
+        }
+        break;
+      case 'title':
+        if(order === 'DESC') {
+          this.books.sort(this.compareTitleDesc);
+        } else {
+          this.books.sort(this.compareTitleAsc);
+        }
+        break;
+      case 'author':
+        if(order === 'DESC') {
+          this.books.sort(this.compareAuthorDesc);
+        } else {
+          this.books.sort(this.compareAuthorAsc);
+        }
+        break;
+    }
+  }
+
+  //---------------------------------
+  // Function to sort by date descending
+  //---------------------------------
+  compareDateDesc(book1: Book, book2: Book) {
+    if (book1.publishedDate > book2.publishedDate) {
+      return -1;
+    }
+    if (book1.publishedDate < book2.publishedDate) {
+      return 1;
+    }
+
+    return 0;
+  }
+  
+  //---------------------------------
+  // Function to sort by date descending
+  //---------------------------------
+  compareDateAsc(book1: Book, book2: Book) {
+    if (book1.publishedDate > book2.publishedDate) {
+      return -1;
+    }
+    if (book1.publishedDate < book2.publishedDate) {
+      return 1;
+    }
+
+    return 0;
+  }
+  
+  //---------------------------------
+  // Function to sort by date descending
+  //---------------------------------
+  compareTitleDesc(book1: Book, book2: Book) {
+    if (book1.publishedDate > book2.publishedDate) {
+      return -1;
+    }
+    if (book1.publishedDate < book2.publishedDate) {
+      return 1;
+    }
+
+    return 0;
+  }
+  
+  //---------------------------------
+  // Function to sort by date descending
+  //---------------------------------
+  compareTitleAsc(book1: Book, book2: Book) {
+    if (book1.publishedDate > book2.publishedDate) {
+      return -1;
+    }
+    if (book1.publishedDate < book2.publishedDate) {
+      return 1;
+    }
+
+    return 0;
+  }
+
+  //---------------------------------
+  // Function to sort by date descending
+  //---------------------------------
+  compareAuthorDesc(book1: Book, book2: Book) {
+    if (book1.publishedDate > book2.publishedDate) {
+      return -1;
+    }
+    if (book1.publishedDate < book2.publishedDate) {
+      return 1;
+    }
+
+    return 0;
+  }
+
+  //---------------------------------
+  // Function to sort by date descending
+  //---------------------------------
+  compareAuthorAsc(book1: Book, book2: Book) {
+    if (book1.publishedDate > book2.publishedDate) {
+      return -1;
+    }
+    if (book1.publishedDate < book2.publishedDate) {
+      return 1;
+    }
+
+    return 0;
   }
 
   //---------------------------------
