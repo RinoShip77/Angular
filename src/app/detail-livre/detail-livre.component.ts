@@ -14,17 +14,10 @@ export class DetailLivreComponent {
 
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
   ngOnInit() {
-    this.route.paramMap.subscribe(params =>{
-      if(params.get('id')){
-        let id = params.get('id');
-        this.electrolibSrv.getBook(parseInt(id)).subscribe(
-          tabBook => {
-            console.log(tabBook);
-          });
-      }
-      
-    });
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if(id){
+      this.electrolibSrv.getBook(id);
     }
-
+  }
 
 }
