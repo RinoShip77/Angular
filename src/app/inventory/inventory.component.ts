@@ -15,6 +15,7 @@ export class InventoryComponent {
   visible = false;
   user: User = new User();
   genres: Genre[] = new Array();
+  authors: Author[] = new Array();
   books: Book[] = new Array();
   inventoryDisplay: string = 'table';
   sortOrder: string = 'date;DESC';
@@ -34,6 +35,9 @@ export class InventoryComponent {
     //Get all the genres from the database
     this.retrieveGenres();
 
+    //Get all the genres from the database
+    this.retrieveAuthors();
+
     //Get all the books from the database
     this.retrieveBooks();
   }
@@ -50,12 +54,28 @@ export class InventoryComponent {
   }
 
   //---------------------------------
+  // Function to select witch genre you want to see
+  //---------------------------------
+  retrieveAuthors() {
+    this.electrolibSrv.getAuthors().subscribe(
+      authors => {
+        this.authors = authors;
+      }
+    );
+  }
+
+  //---------------------------------
   // Function to get all the books from the database
   //---------------------------------
-  retrieveBooks(filter?: number[], search?: string) {
-    this.electrolibSrv.getBooks(filter, search).subscribe(
+  retrieveBooks(genresFilter?: number[], authorsFilter?: number[], search?: string) {
+    this.electrolibSrv.getBooks(genresFilter, authorsFilter, search).subscribe(
       books => {
         books.forEach(book => {
+          this.electrolibSrv.getGenre(book.idGenre).subscribe(
+            genre => {
+              book.genre = genre;
+            }
+          )
           this.electrolibSrv.getAuthor(book.idAuthor).subscribe(
             author => {
               book.author = author;
@@ -63,7 +83,6 @@ export class InventoryComponent {
           )
         });
         this.books = books;
-        console.log(books);
       }
     );
   }
@@ -99,21 +118,21 @@ export class InventoryComponent {
     console.log(order);
     switch (property) {
       case 'date':
-        if(order === 'DESC') {
+        if (order === 'DESC') {
           this.books.sort(this.compareDateDesc);
         } else {
           this.books.sort(this.compareDateAsc);
         }
         break;
       case 'title':
-        if(order === 'DESC') {
+        if (order === 'DESC') {
           this.books.sort(this.compareTitleDesc);
         } else {
           this.books.sort(this.compareTitleAsc);
         }
         break;
       case 'author':
-        if(order === 'DESC') {
+        if (order === 'DESC') {
           this.books.sort(this.compareAuthorDesc);
         } else {
           this.books.sort(this.compareAuthorAsc);
@@ -135,7 +154,7 @@ export class InventoryComponent {
 
     return 0;
   }
-  
+
   //---------------------------------
   // Function to sort by date descending
   //---------------------------------
@@ -149,7 +168,7 @@ export class InventoryComponent {
 
     return 0;
   }
-  
+
   //---------------------------------
   // Function to sort by date descending
   //---------------------------------
@@ -163,7 +182,7 @@ export class InventoryComponent {
 
     return 0;
   }
-  
+
   //---------------------------------
   // Function to sort by date descending
   //---------------------------------
@@ -209,7 +228,7 @@ export class InventoryComponent {
   //---------------------------------
   // Function to select witch genre you want to see
   //---------------------------------
-  updateFilter(idGenre: number) {
+  updateGenresFilter(idGenre: number) {
     for (let i = 0; i < this.genres.length; i++) {
       if (this.genres[i].idGenre == idGenre) {
         this.genres[i].isFilter = !this.genres[i].isFilter;
@@ -220,18 +239,38 @@ export class InventoryComponent {
   }
 
   //---------------------------------
-  // Function to filter the library
+  // Function to select witch genre you want to see
   //---------------------------------
-  applyFilters(search?: string) {
-    let filters: number[] = Array();
-
-    for (let i = 0; i < this.genres.length; i++) {
-      if (this.genres[i].isFilter) {
-        filters.push(this.genres[i].idGenre);
+  updateAuthorsFilter(idAuthor: number) {
+    for (let i = 0; i < this.authors.length; i++) {
+      if (this.authors[i].idAuthor == idAuthor) {
+        this.authors[i].isFilter = !this.authors[i].isFilter;
       }
     }
 
-    this.retrieveBooks(filters, search);
+    this.applyFilters();
+  }
+
+  //---------------------------------
+  // Function to filter the library
+  //---------------------------------
+  applyFilters(search?: string) {
+    let genresFilter: number[] = Array();
+    let authorsFilter: number[] = Array();
+
+    for (let i = 0; i < this.genres.length; i++) {
+      if (this.genres[i].isFilter) {
+        genresFilter.push(this.genres[i].idGenre);
+      }
+    }
+
+    for (let i = 0; i < this.genres.length; i++) {
+      if (this.genres[i].isFilter) {
+        authorsFilter.push(this.genres[i].idGenre);
+      }
+    }
+
+    this.retrieveBooks(genresFilter, authorsFilter, search);
   }
 
   //---------------------------------

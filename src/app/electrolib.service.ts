@@ -20,35 +20,53 @@ export class ElectrolibService {
   //--------------------------------
   // Route to get all the books
   //--------------------------------
-  getBooks(filter?: number[], search?: string) {
+  getBooks(genresFilter?: number[], authorsFilter?: number[], search?: string) {
     let url = urlServer + 'books';
     
-    if (filter && search) {
+    if (genresFilter && search) {
       url += '?idGenre=';
       
-      for (let i = 0; i < filter.length; i++) {
-        url += + filter[i] + ',';
+      for (let i = 0; i < genresFilter.length; i++) {
+        url += + genresFilter[i] + ',';
       }
       
       url = url.slice(0, -1);
       url += '&search=' + search;
     }
 
-    if (filter && !search) {
+    if (genresFilter && !search) {
       url += '?idGenre=';
       
-      for (let i = 0; i < filter.length; i++) {
-        url += + filter[i] + ',';
+      for (let i = 0; i < genresFilter.length; i++) {
+        url += + genresFilter[i] + ',';
       }
       
       url = url.slice(0, -1);
     }
 
-    if (!filter && search) {
+    if (!genresFilter && search) {
       url += '?search=' + search;
     }
     
     return this.http.get<Book[]>(url);
+  }
+  
+  //--------------------------------
+  // Route to get all the genre
+  //--------------------------------
+  getGenres() {
+    let url = urlServer + 'genres';
+
+    return this.http.get<Genre[]>(url);
+  }
+  
+  //--------------------------------
+  // Route to get all the genre
+  //--------------------------------
+  getGenre(idGenre: number) {
+    let url = urlServer + 'genre/' + idGenre;
+
+    return this.http.get<Genre>(url);
   }
   
   //--------------------------------
@@ -69,14 +87,6 @@ export class ElectrolibService {
     return this.http.get<Author>(url);
   }
 
-  //--------------------------------
-  // Route to get all the genre
-  //--------------------------------
-  getGenres() {
-    let url = urlServer + 'genres';
-
-    return this.http.get<Genre[]>(url);
-  }
 
   //--------------------------------
   // Route to connect a user

@@ -52,8 +52,8 @@
             <button ngbNavLink>Par genre</button>
             <ng-template ngbNavContent class="my-4">
               <div *ngFor="let genre of genres" class="mx-auto my-2">
-                <div class="form-check form-switch mx-auto" (click)="updateFilter(genre.idGenre)">
-                  <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="genre.isFilter">
+                <div class="form-check form-switch" (click)="updateGenresFilter(genre.idGenre)">
+                  <input class="form-check-input ms-5 me-2" type="checkbox" role="switch" [(ngModel)]="genre.isFilter">
                   <label class="form-check-label">{{genre.name | titlecase}}</label>
                 </div>
               </div>
@@ -61,7 +61,14 @@
           </li>
           <li ngbNavItem>
             <button ngbNavLink>Par auteur</button>
-            <ng-template ngbNavContent>Second content</ng-template>
+            <ng-template ngbNavContent>
+              <div *ngFor="let author of authors" class="mx-auto my-2">
+                <div class="form-check" (click)="updateAuthorsFilter(author.idAuthor)">
+                  <input class="form-check-input ms-5 me-2" type="checkbox" [(ngModel)]="author.isFilter">
+                  <label class="form-check-label">{{(author.firstName | titlecase) + ' ' + (author.lastName | titlecase)}}</label>
+                </div>
+              </div>
+            </ng-template>
           </li>
         </ul>
         <div [ngbNavOutlet]="nav"></div>
@@ -98,7 +105,8 @@
                   </div>
                   <div class="col-8">
                     <div class="card-body">
-                      <h2 class="card-title">{{book.title | titlecase}}</h2>
+                      <h1 class="card-title">{{book.title | titlecase}}</h1>
+                      <h3>{{book.genre.name}}</h3>
                       <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</p>
                       <span class="card-text"><small>{{book.description}}</small></span>
                       <div *ngIf="book.isBorrowed">
@@ -121,6 +129,7 @@
                 <th scope="col">Numéro</th>
                 <th scope="col">Titre</th>
                 <th scope="col">Auteur</th>
+                <th scope="col">Genre</th>
                 <th scope="col">Langue d'origine</th>
                 <th scope="col">Année de parution</th>
                 <th scope="col">Statut</th>
@@ -132,6 +141,7 @@
                 <td>#{{book.isbn}}</td>
                 <td>{{book.title}}</td>
                 <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
+                <td>{{book.genre.name}}</td>
                 <td>{{book.originalLanguage}}</td>
                 <td>{{book.publishedDate | date:'yyyy'}}</td>
                 <td *ngIf="book.isBorrowed">En location</td>
