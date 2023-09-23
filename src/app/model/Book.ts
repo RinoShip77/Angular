@@ -3,8 +3,10 @@ import { Genre } from "./Genre";
 
 export class Book {
   idBook: number = 0;
-  idGenre: Genre = new Genre();
-  idAuthor: Author = new Author();
+  idGenre: number = 0;
+  genre: Genre = new Genre();
+  idAuthor: number = 0;
+  author: Author = new Author();
   title: string = '';
   description: string = '';
   isbn: string = '';

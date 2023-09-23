@@ -47,14 +47,24 @@
           </div>
         </ng-template>
         <hr>
-        <ul class="list-unstyled">
-          <li *ngFor="let genre of genres" class="my-2">
-            <div class="form-check form-switch fs-5" (click)="updateFilter(genre.idGenre)">
-              <input class="form-check-input mx-3" type="checkbox" role="switch" [(ngModel)]="genre.isFilter">
-              <label class="form-check-label">{{genre.name | titlecase}}</label>
-            </div>
+        <ul ngbNav #nav="ngbNav" class="nav-tabs mx-auto">
+          <li ngbNavItem>
+            <button ngbNavLink>Par genre</button>
+            <ng-template ngbNavContent class="my-4">
+              <div *ngFor="let genre of genres" class="mx-auto my-2">
+                <div class="form-check form-switch mx-auto" (click)="updateFilter(genre.idGenre)">
+                  <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="genre.isFilter">
+                  <label class="form-check-label">{{genre.name | titlecase}}</label>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <button ngbNavLink>Par auteur</button>
+            <ng-template ngbNavContent>Second content</ng-template>
           </li>
         </ul>
+        <div [ngbNavOutlet]="nav"></div>
         <hr>
         <button class="btn btn-outline-danger mt-4 mb-1" (click)="removeFilters()">
           <i class="fa-solid fa-filter-circle-xmark me-2"></i>
@@ -88,7 +98,8 @@
                   </div>
                   <div class="col-8">
                     <div class="card-body">
-                      <h5 class="card-title">{{book.title | titlecase}}</h5>
+                      <h2 class="card-title">{{book.title | titlecase}}</h2>
+                      <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</p>
                       <span class="card-text"><small>{{book.description}}</small></span>
                       <div *ngIf="book.isBorrowed">
                         <div class="border border-2 rounded-3 p-2 text-center">En location</div>
@@ -120,7 +131,7 @@
               <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.isBorrowed)">
                 <td>#{{book.isbn}}</td>
                 <td>{{book.title}}</td>
-                <td>{{(book.idAuthor.firstName | titlecase) + ' ' + (book.idAuthor.lastName | titlecase)}}</td>
+                <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
                 <td>{{book.originalLanguage}}</td>
                 <td>{{book.publishedDate | date:'yyyy'}}</td>
                 <td *ngIf="book.isBorrowed">En location</td>

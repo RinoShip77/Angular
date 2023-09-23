@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Book } from './model/Book';
 import { User } from './model/User';
 import { Genre } from './model/Genre';
+import { Author } from './model/Author';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,24 @@ export class ElectrolibService {
     return this.http.get<Book[]>(url);
   }
   
+  //--------------------------------
+  // Route to get all the genre
+  //--------------------------------
+  getAuthors() {
+    let url = urlServer + 'authors';
+
+    return this.http.get<Author[]>(url);
+  }
+  
+  //--------------------------------
+  // Route to get all the genre
+  //--------------------------------
+  getAuthor(idAuthor: number) {
+    let url = urlServer + 'author/' + idAuthor;
+
+    return this.http.get<Author>(url);
+  }
+
   //--------------------------------
   // Route to get all the genre
   //--------------------------------

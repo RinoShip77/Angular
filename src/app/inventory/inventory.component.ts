@@ -4,6 +4,7 @@ import { User } from '../model/User';
 import { Genre } from '../model/Genre';
 import { Book } from '../model/Book';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Author } from '../model/Author';
 
 @Component({
   selector: 'app-inventory',
@@ -54,8 +55,15 @@ export class InventoryComponent {
   retrieveBooks(filter?: number[], search?: string) {
     this.electrolibSrv.getBooks(filter, search).subscribe(
       books => {
-        console.log(books);
+        books.forEach(book => {
+          this.electrolibSrv.getAuthor(book.idAuthor).subscribe(
+            author => {
+              book.author = author;
+            }
+          )
+        });
         this.books = books;
+        console.log(books);
       }
     );
   }
