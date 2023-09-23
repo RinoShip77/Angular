@@ -12,7 +12,7 @@ import { Author } from '../model/Author';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  visible = false;
+  visible = true;
   user: User = new User();
   genres: Genre[] = new Array();
   authors: Author[] = new Array();
@@ -264,9 +264,9 @@ export class InventoryComponent {
       }
     }
 
-    for (let i = 0; i < this.genres.length; i++) {
-      if (this.genres[i].isFilter) {
-        authorsFilter.push(this.genres[i].idGenre);
+    for (let i = 0; i < this.authors.length; i++) {
+      if (this.authors[i].isFilter) {
+        authorsFilter.push(this.authors[i].idAuthor);
       }
     }
 

@@ -54,7 +54,8 @@
               <div *ngFor="let genre of genres" class="mx-auto my-2">
                 <div class="form-check form-switch" (click)="updateGenresFilter(genre.idGenre)">
                   <input class="form-check-input ms-5 me-2" type="checkbox" role="switch" [(ngModel)]="genre.isFilter">
-                  <label class="form-check-label">{{genre.name | titlecase}}</label>
+                  <label class="form-check-label">{{genre.name | titlecase}} | <i
+                      class="fas {{genre.icon}} ms-2"></i></label>
                 </div>
               </div>
             </ng-template>
@@ -63,9 +64,10 @@
             <button ngbNavLink>Par auteur</button>
             <ng-template ngbNavContent>
               <div *ngFor="let author of authors" class="mx-auto my-2">
-                <div class="form-check" (click)="updateAuthorsFilter(author.idAuthor)">
+                <div class="form-check ms-5" (click)="updateAuthorsFilter(author.idAuthor)">
                   <input class="form-check-input ms-5 me-2" type="checkbox" [(ngModel)]="author.isFilter">
-                  <label class="form-check-label">{{(author.firstName | titlecase) + ' ' + (author.lastName | titlecase)}}</label>
+                  <label class="form-check-label">{{(author.firstName | titlecase) + ' ' + (author.lastName |
+                    titlecase)}}</label>
                 </div>
               </div>
             </ng-template>
@@ -95,7 +97,7 @@
       </div>
       <div [ngSwitch]="inventoryDisplay">
         <div *ngSwitchCase="'table'">
-          <div class="row row-cols-2 row-cols-xxl-3 g-3">
+          <div class="row row-cols-2 g-3">
             <div type="button" class="col" *ngFor="let book of books" (click)="displayBook(book.idBook)">
               <div class="card h-100 mb-3">
                 <div class="row g-0">
@@ -105,9 +107,12 @@
                   </div>
                   <div class="col-8">
                     <div class="card-body">
-                      <h1 class="card-title">{{book.title | titlecase}}</h1>
-                      <h3>{{book.genre.name}}</h3>
-                      <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</p>
+                      <div class="d-flex justify-content-between">
+                        <h2 class="card-title">{{book.title | titlecase}}</h2>
+                        <h2><i class="fas {{book.genre.icon}}"></i></h2>
+                      </div>
+                      <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}
+                      </p>
                       <span class="card-text"><small>{{book.description}}</small></span>
                       <div *ngIf="book.isBorrowed">
                         <div class="border border-2 rounded-3 p-2 text-center">En location</div>
@@ -141,7 +146,7 @@
                 <td>#{{book.isbn}}</td>
                 <td>{{book.title}}</td>
                 <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
-                <td>{{book.genre.name}}</td>
+                <td><i class="fas {{book.genre.icon}}"></i></td>
                 <td>{{book.originalLanguage}}</td>
                 <td>{{book.publishedDate | date:'yyyy'}}</td>
                 <td *ngIf="book.isBorrowed">En location</td>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { urlServer } from './util';
+import { formatFilterURL, urlServer } from './util';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Book } from './model/Book';
 import { User } from './model/User';
@@ -22,32 +22,41 @@ export class ElectrolibService {
   //--------------------------------
   getBooks(genresFilter?: number[], authorsFilter?: number[], search?: string) {
     let url = urlServer + 'books';
+
+    if(genresFilter && !authorsFilter && !search) {
+      url += formatFilterURL(url, '?idGenre', genresFilter);
+    }
     
-    if (genresFilter && search) {
-      url += '?idGenre=';
-      
-      for (let i = 0; i < genresFilter.length; i++) {
-        url += + genresFilter[i] + ',';
-      }
-      
-      url = url.slice(0, -1);
+    if(genresFilter && authorsFilter && !search) {
+      url += formatFilterURL(url, '?idGenre', genresFilter);
+      url += formatFilterURL(url, '&idAuthor', authorsFilter);
+    }
+    
+    if(genresFilter && authorsFilter && search) {
+      url += formatFilterURL(url, '?idGenre', genresFilter);
+      url += formatFilterURL(url, '&idAuthor', authorsFilter);
       url += '&search=' + search;
     }
-
-    if (genresFilter && !search) {
-      url += '?idGenre=';
-      
-      for (let i = 0; i < genresFilter.length; i++) {
-        url += + genresFilter[i] + ',';
-      }
-      
-      url = url.slice(0, -1);
+    
+    if(!genresFilter && authorsFilter && !search) {
+      url += formatFilterURL(url, '?idAuthor', authorsFilter);
     }
-
-    if (!genresFilter && search) {
+    
+    if(!genresFilter && authorsFilter && search) {
+      url += formatFilterURL(url, '?idAuthor', authorsFilter);
+      url += '&search=' + search;
+    }
+    
+    if(!genresFilter && !authorsFilter && search) {
       url += '?search=' + search;
     }
     
+    if(genresFilter && !authorsFilter && search) {
+      url += formatFilterURL(url, '?idGenre', genresFilter);
+      url += '&search=' + search;
+    }
+    
+    console.log(url);
     return this.http.get<Book[]>(url);
   }
   
