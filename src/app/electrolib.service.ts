@@ -67,7 +67,7 @@ export class ElectrolibService {
     
     const params = new HttpParams({
       fromObject: {
-        email: user.email,
+        memberNumber: user.memberNumber,
         password: user.password
       }
     });

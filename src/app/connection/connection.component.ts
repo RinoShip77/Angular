@@ -15,26 +15,50 @@ export class ConnectionComponent {
   user: User = new User();
 
   @Output() connected = new EventEmitter<User>();
+  @Output() adminConnected = new EventEmitter<User>();
 
   constructor(private electrolibService: ElectrolibService) { }
 
   //--------------------------------
   // Function to connect a user
   //--------------------------------
-  connect() {
-    // this.user.email = 'user@electrolib.com';
-    // this.user.password = '1234';
-    if (this.temporaryUser.email.length != 0 && this.temporaryUser.password.length != 0) {
-      this.electrolibService.connection(this.temporaryUser).subscribe(
-        connectedUser => {
-          this.visible = false;
-          this.user = connectedUser;
-          this.connected.emit(this.user);
-        }
-      )
+  connect(type: string) {
+    if (type == "credentials") {
+      if (this.temporaryUser.memberNumber.toString().length > 0 && this.temporaryUser.password.length > 0) {
+        
+        this.retrieveAccount();
+        
+      } else {
+        alert('Erreur: Veuillez fournir les informations nécessaires.');
+      }
     } else {
-      alert('Please fill both fields');
+      this.temporaryUser.memberNumber = "admin";
+      this.temporaryUser.password = "admin";
+      this.retrieveAccount();
     }
+  }
+
+  retrieveAccount() {
+    this.electrolibService.connection(this.temporaryUser).subscribe(
+      connectedUser => {
+        if (connectedUser.memberNumber === this.temporaryUser.memberNumber && 
+          connectedUser.password === this.temporaryUser.password) {
+          
+            if (connectedUser.roles === '["ROLE_ADMIN"]') {
+            this.visible = false;
+            this.user = connectedUser;
+            this.adminConnected.emit(this.user);
+            
+          } else {
+            this.visible = false;
+            this.user = connectedUser;
+            this.connected.emit(this.user);
+          } 
+        } else {
+          alert('Erreur: Informations de connexion incorrectes.');
+        }
+      }
+    )
   }
 
   //--------------------------------

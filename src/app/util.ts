@@ -1,1 +1,1 @@
-export const urlServer = 'http://localhost/Electrolib/public/index.php/'
+export const urlServer = 'https://localhost:8000/'

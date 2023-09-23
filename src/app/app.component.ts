@@ -23,6 +23,7 @@ export class AppComponent {
   //---------------------------------
   onDisconnect(user: User) {
     this.isConnected = false;
-    console.log('disconnect user: ' + user.email);
+    console.log('disconnect user: ' + user.memberNumber);
+    user = new User();
   }
 }

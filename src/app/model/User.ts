@@ -1,5 +1,7 @@
 export class User {
   idUser: number = 0;
+  memberNumber: string = '';
+  password: string = '';
   email: string = '';
   registrationDate:string = '';
   firstName: string = '';
@@ -9,13 +11,12 @@ export class User {
   phoneNumber: string = '';
   postalCode: string = '';
   roles: string = '';
-  password: string = '';
 
   constructor() {
     if (this.roles == '["ROLES_USER"]') {
-      this.roles = 'Membre';
+      this.roles = '["ROLES_USER"]';
     } else {
-      this.roles = 'Administrateur';
+      this.roles = '["ROLE_ADMIN"]';
     }
   }
 }

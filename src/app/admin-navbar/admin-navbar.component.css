@@ -1,0 +1,13 @@
+.btn-nav:hover {
+    background-color: lightgray;
+}
+
+.btn-nav {
+    border-radius: 10px;
+    margin: 0 5px 0 5px;
+}
+
+.btn-deconnect {
+    margin: 20px 0 20px 0;
+    font-size: 20px;
+}

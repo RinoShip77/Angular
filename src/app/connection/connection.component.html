@@ -3,27 +3,36 @@
     <h1 class="mt-4">Bienvenue sur Electrolib!</h1>
     <span>Votre librairie virtuelle</span>
     <h4 class="mt-5">Connectez vous:</h4>
-    <form (ngSubmit)="connect()">
-      <div class="w-25 mx-auto my-3">
-        <label class="form-label fw-bold">Nom:</label>
-        <input [(ngModel)]="temporaryUser.email" name="email" type="email" class="form-control mb-2">
+    <section>
+      <article class="w-25 mx-auto my-3">
+        <label class="form-label fw-bold">Numéro de membre:</label>
+        <input [(ngModel)]="temporaryUser.memberNumber" name="memberNumber" type="text" class="form-control mb-2">
         <label class="form-label fw-bold">Mot de passe:</label>
         <input [(ngModel)]="temporaryUser.password" name="pwd" type="password" class="form-control">
-      </div>
-      <div class="mt-5">
+      </article>
+      <form class="mt-5" (ngSubmit)="connect('credentials')">
         <button type="submit" class="btn btn-primary">
           <i class="fas fa-unlock-keyhole me-2"></i>
           Se connecter
         </button>
         <br>
         <br>
+      </form>
+      <form (ngSubmit)="connect('cheat')">
+        <button class="btn btn-warning" type="submit">
+          Tricher (connexion)
+        </button>
+      </form>
+        <!--
         <button class="btn btn-warning" (click)="createAccount()">
           <i class="fas fa-user-plus me-2"></i>
           Se créer un compte
         </button>
-      </div>
-    </form>
+        -->
+        
+    </section>
   </div>
+  <!--
   <div *ngIf="createAccountVisible">
     <h4 class="my-5 fs-3 fw-bold">Créer votre compte</h4>
     <form (ngSubmit)="validateCreateAccount()" class="w-75 mx-auto">
@@ -83,7 +92,7 @@
               placeholder="" [(ngModel)]="temporaryUser.profilePicture">
           </div>
           <img src="assets/images/contact-book.png" alt="" class="img-fluid img-thumbnail border-4">
-          <!-- {{temporaryUser.profilePicture}} -->
+          {{temporaryUser.profilePicture}}
         </div>
         <div class="text-center mt-4">
           <button type="submit" class="btn btn-success mt-2 mx-3">Valider</button>
@@ -92,4 +101,5 @@
       </div>
     </form>
   </div>
+  -->
 </div>

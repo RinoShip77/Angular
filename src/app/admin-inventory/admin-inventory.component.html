@@ -1,0 +1,26 @@
+<section *ngIf="visible">
+
+    <section class="container-fluid" id="corps">
+        <article>
+            <article style="text-align: center;">
+                <label class="etiquette">Livres</label>
+            </article>
+            <hr>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th><th>Titre</th><th>ISBN</th><th>Autheur</th><th>Statut</th><th>Détails</th><th>Modifier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let book of books">
+                        <td>{{book.idBook}}</td>
+                        <td>{{book.title}}</td>
+                        <td>{{book.isbn}}</td>
+                        <td>{{book.author.firstName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+    </section>
+</section>

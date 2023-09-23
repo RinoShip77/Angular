@@ -12,6 +12,8 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BorrowComponent } from './borrow/borrow.component';
 import { FavoriteComponent } from './favorite/favorite.component';
+import { AdminInventoryComponent } from './admin-inventory/admin-inventory.component';
+import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { FavoriteComponent } from './favorite/favorite.component';
     InventoryComponent,
     ProfileComponent,
     BorrowComponent,
-    FavoriteComponent
+    FavoriteComponent,
+    AdminInventoryComponent,
+    AdminNavbarComponent
   ],
   imports: [
     BrowserModule,
