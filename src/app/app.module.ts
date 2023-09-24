@@ -13,6 +13,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { BorrowComponent } from './borrow/borrow.component';
 import { FavoriteComponent } from './favorite/favorite.component';
 import { ChatComponent } from './chat/chat.component';
+import { DetailsBorrowComponent } from './details-borrow/details-borrow.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ChatComponent } from './chat/chat.component';
     ProfileComponent,
     BorrowComponent,
     FavoriteComponent,
-    ChatComponent
+    ChatComponent,
+    DetailsBorrowComponent
   ],
   imports: [
     BrowserModule,
