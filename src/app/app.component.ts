@@ -12,6 +12,7 @@ export class AppComponent {
   isConnected = false;
   isChatting = false;
   user: User = new User();
+  title: any;
 
   constructor(private modalService: NgbModal) {}
 

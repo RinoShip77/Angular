@@ -12,6 +12,10 @@ export class FavoriteComponent {
 
   @Output() openInventory = new EventEmitter<User>();
 
+  constructor(){
+    
+  }
+
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
