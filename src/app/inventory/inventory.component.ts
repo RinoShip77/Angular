@@ -12,7 +12,7 @@ import { Author } from '../model/Author';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  visible = true;
+  visible = false;
   user: User = new User();
   genres: Genre[] = new Array();
   authors: Author[] = new Array();
