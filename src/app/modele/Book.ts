@@ -4,6 +4,7 @@ export class Book {
   description: string = '';
   isbn: string = '';
   cover: string = '';
+  idGenre: number=0;
   publishDate: Date = new Date();
   originalLanguage: string = '';
 }

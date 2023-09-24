@@ -3,6 +3,7 @@ import { urlServer } from './utile';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Book } from './modele/Book';
 import { User } from './modele/User';
+import { Genre } from './modele/genre';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,11 @@ export class ElectrolibService {
     let url = urlServer + 'getBook/'+id;
 
     return this.http.get<Book>(url);
+  }
+
+  getGenre(id:number){
+    let url = urlServer + 'genre/'+id;
+    console.log(url);
+    return this.http.get<Genre>(url);
   }
 }

@@ -12,7 +12,7 @@
 
         <div class="row">
             <p class="col-6">Genre :</p>
-            <p class="col-6">pas encore implémenter</p>
+            <p class="col-6">{{genre.name}}</p>
         </div>
         <div class="row">
             <p class="col-6">Langue :</p>
@@ -20,7 +20,8 @@
         </div>
         <div class="row" >
             <p class="col-6">Date de publication :</p>
-            <p class="col-6">{{book.publishDate}}</p>
+            <p class=" col-6">{{book.publishDate | date : 'yyyy-MM-dd'}}</p>
+            
         </div>
         <div class="row">
             <p class="col-6">Isbn :</p>
