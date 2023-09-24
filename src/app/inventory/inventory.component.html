@@ -90,8 +90,9 @@
             <option value="list">Sous forme de simple liste</option>
           </select>
         </div>
-        <form class="d-flex h-25 ms-2 my-auto" role="search">
-          <input name="searchField" class="form-control me-2" type="search" placeholder="Rechercher ...">
+        <form #searchForm="ngForm" class="d-flex h-25 ms-2 my-auto" role="search"
+          (ngSubmit)="applyFilters(searchForm.value.searchInp)">
+          <input name="searchInp" ngModel class="form-control me-2" type="search" placeholder="Rechercher ...">
           <button class="btn btn-outline-info" type="submit">Chercher</button>
         </form>
       </div>
@@ -114,12 +115,17 @@
                       <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}
                       </p>
                       <span class="card-text"><small>{{book.description}}</small></span>
-                      <div *ngIf="book.isBorrowed">
-                        <div class="border border-2 rounded-3 p-2 text-center">En location</div>
-                      </div>
-                      <div *ngIf="!book.isBorrowed">
-                        <div class="border border-2 bg-info rounded-3 p-2 text-center">Disponible</div>
-                      </div>
+                      <div class="d-flex justify-content-between mt-3">
+                        <div (click)="addFavorite(book.idBook)">
+                          <i class="glyphicon" ng-class="(like.userVotes==1) ? 'glyphicon-heart' : 'glyphicon-heart-empty'"></i>
+                          <span ng-model="like.votes">{{book.favorites}}</span>
+                        </div>
+                        <div>
+                          <div *ngIf="book.isBorrowed" class="border border-2 rounded-3 p-2 text-center">En location</div>
+                          <div *ngIf="!book.isBorrowed" class="border border-2 bg-info rounded-3 p-2 text-center">
+                            Disponible</div>
+                          </div>
+                        </div>
                     </div>
                   </div>
                 </div>

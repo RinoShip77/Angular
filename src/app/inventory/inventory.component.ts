@@ -12,7 +12,7 @@ import { Author } from '../model/Author';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  visible = false;
+  visible = true;
   user: User = new User();
   genres: Genre[] = new Array();
   authors: Author[] = new Array();
@@ -33,10 +33,10 @@ export class InventoryComponent {
   //---------------------------------
   ngOnInit() {
     //Get all the genres from the database
-    this.retrieveGenres();
+    //this.retrieveGenres();
 
     //Get all the genres from the database
-    this.retrieveAuthors();
+    //this.retrieveAuthors();
 
     //Get all the books from the database
     this.retrieveBooks();
@@ -114,8 +114,6 @@ export class InventoryComponent {
     let property = this.sortOrder.split(';')[0];
     let order = this.sortOrder.split(';')[1];
 
-    console.log(property);
-    console.log(order);
     switch (property) {
       case 'date':
         if (order === 'DESC') {
@@ -301,6 +299,13 @@ export class InventoryComponent {
   // Function to open the page for a specific book
   //---------------------------------
   displayBook(idBook: number) {
+    console.log(idBook)
+  }
+  
+  //---------------------------------
+  // Function to open the page for a specific book
+  //---------------------------------
+  addFavorite(idBook: number) {
     console.log(idBook)
   }
 

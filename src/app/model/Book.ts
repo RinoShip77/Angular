@@ -1,5 +1,9 @@
-import { Author } from "./Author";
 import { Genre } from "./Genre";
+import { Author } from "./Author";
+import { Borrow } from "./Borrow";
+import { Evaluation } from "./Evaluation";
+import { Favorite } from "./Favorite";
+import { Reservation } from "./Reservation";
 
 export class Book {
   idBook: number = 0;
@@ -10,8 +14,13 @@ export class Book {
   title: string = '';
   description: string = '';
   isbn: string = '';
+  idBorrowed: number = 0;
+  borrow: Borrow = new Borrow();
   isBorrowed: boolean = false;
   cover: string = '';
   publishedDate: Date = new Date();
   originalLanguage: string = '';
+  evaluations: Evaluation[] = new Array();
+  favorites: Favorite[] = new Array();
+  reservations: Reservation[] = new Array();
 }

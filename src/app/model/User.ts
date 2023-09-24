@@ -1,7 +1,13 @@
+import { Borrow } from "./Borrow";
+import { Evaluation } from "./Evaluation";
+import { Favorite } from "./Favorite";
+import { Reservation } from "./Reservation";
+
 export class User {
   idUser: number = 0;
+  memberNumber: string = '';
   email: string = '';
-  registrationDate:string = '';
+  registrationDate: Date = new Date();
   firstName: string = '';
   lastName: string = '';
   profilePicture:string = '';
@@ -10,12 +16,8 @@ export class User {
   postalCode: string = '';
   roles: string = '';
   password: string = '';
-
-  constructor() {
-    if (this.roles == '["ROLES_USER"]') {
-      this.roles = 'Membre';
-    } else {
-      this.roles = 'Administrateur';
-    }
-  }
+  borrows: Borrow[] = new Array();
+  evaluations: Evaluation[] = new Array();
+  favorites: Favorite[] = new Array();
+  reservations: Reservation[] = new Array();
 }
