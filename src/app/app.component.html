@@ -1,3 +1,4 @@
+
 <div>
   <app-connection *ngIf="!isConnected" (connected)="onConnect($event)" (connected)="navbar.onNavbar($event)"
     (connected)="footer.onFooter($event)"></app-connection>
@@ -8,6 +9,9 @@
         (openProfile)="inventory.onDisconnect($event)" (disconnected)=" onDisconnect($event)"
         (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"></app-navbar>
     </header>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
 
     <main class="m-2">
       <app-inventory #inventory (openProfile)="profile.onProfile($event)"></app-inventory>
@@ -30,3 +34,7 @@
     </footer>
   </div>
 </div>
+    
+
+
+

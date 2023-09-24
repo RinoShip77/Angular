@@ -29,7 +29,7 @@ export class ConnectionComponent {
         connectedUser => {
           this.visible = false;
           this.user = connectedUser;
-          this.connected.emit(this.user);
+          //this.connected.emit(this.user);
         }
       )
     } else {
