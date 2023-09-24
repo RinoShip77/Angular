@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { ActivatedRoute } from '@angular/router';
-import { Book } from '../modele/Book';
-import { Genre } from '../modele/genre';
+import { Book } from '../model/Book';
+import { Genre } from '../model/Genre';
 
 @Component({
   selector: 'app-detail-livre',
@@ -25,10 +25,10 @@ export class DetailLivreComponent {
       console.log(this.book);
 
       //je mets le code pour aller chercher le genre ici, je pense que subsrcibe fait un bug sinon
-      this.electrolibSrv.getGenre(this.book.idGenre).subscribe(receivedGenre=>{
-        this.genre=receivedGenre;
-        console.log(this.genre);
-      });
+      //this.electrolibSrv.getGenre(this.book.idGenre).subscribe(receivedGenre=>{
+      //  this.genre=receivedGenre;
+     //   console.log(this.genre);
+    //  });
      });
     }
   }

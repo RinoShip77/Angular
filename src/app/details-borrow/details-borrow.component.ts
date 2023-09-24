@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { Book } from '../model/Book';
 import { Genre } from '../model/Genre';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-details-borrow',
@@ -9,7 +10,7 @@ import { Genre } from '../model/Genre';
   styleUrls: ['./details-borrow.component.css']
 })
 export class DetailsBorrowComponent {
-  constructor(private electrolibSrv: ElectrolibService,){ //private route: ActivatedRoute a jouter apres merge
+  constructor(private electrolibSrv: ElectrolibService,private route: ActivatedRoute){ //private route: ActivatedRoute a jouter apres merge
 
   }
   book: Book = new Book();

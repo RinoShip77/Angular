@@ -28,7 +28,7 @@ import { DetailLivreComponent } from './detail-livre/detail-livre.component';
     BorrowComponent,
     FavoriteComponent,
     ChatComponent,
-    DetailsBorrowComponent
+    DetailsBorrowComponent,
     DetailLivreComponent
   ],
   imports: [
