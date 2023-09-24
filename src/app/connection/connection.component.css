@@ -1,0 +1,56 @@
+main {
+    height: 96vh;
+    width: 100vw;
+    display: table;
+    
+    background: url(/assets/images/login-library.jpg) no-repeat;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: transparent;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.main-frame {
+    background-color: rgba(0, 0, 0, 0.7);
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: calc(50% - 18em);
+}
+
+.connection-frame {
+    max-width: 34em;
+    padding-top: 3em;
+    padding-bottom: 2em;
+    background-image: linear-gradient(to bottom right, #cfe5ff, #a3c5ee);
+}
+
+.title {
+    font-weight: bold;
+}
+
+.login-title {
+    margin-bottom: 1em;
+    font-weight: bold;
+}
+
+.login-frame {
+    background-image: linear-gradient(to bottom, #86afe2, #d3e2f3);
+    padding: 2em;
+    margin-left: 2em;
+    margin-right: 2em;
+    margin-top: 2em;
+    box-shadow: 5px 5px 10px dimgray;
+}
+
+.btn {
+    box-shadow: 5px 5px 10px dimgray;
+}
+
+input {
+    box-shadow: 5px 5px 10px dimgray;
+}

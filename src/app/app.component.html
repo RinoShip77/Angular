@@ -29,6 +29,8 @@
       <app-admin-navbar #adminNavBar
         (disconnected)="adminInventory.onDisconnect($event)"
         (disconnected)="onDisconnect($event)"
+
+        (openAdminInventory)="adminInventory.onAdminInventory($event)"
       ></app-admin-navbar>
     </header>
 

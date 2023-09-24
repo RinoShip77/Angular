@@ -1,26 +1,40 @@
-<section *ngIf="visible">
+<main *ngIf="visible">
 
-    <section class="container-fluid" id="corps">
+    <section class="container-fluid">
         <article>
-            <article style="text-align: center;">
-                <label class="etiquette">Livres</label>
+            <article style="text-align: center; margin-top: 2em;">
+                <h1 style="font-family:Arial, Helvetica, sans-serif">Inventaire des livres</h1>
             </article>
             <hr>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th><th>Titre</th><th>ISBN</th><th>Autheur</th><th>Statut</th><th>Détails</th><th>Modifier</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let book of books">
-                        <td>{{book.idBook}}</td>
-                        <td>{{book.title}}</td>
-                        <td>{{book.isbn}}</td>
-                        <td>{{book.author.firstName}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <section class="inventory-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th><th>Titre</th><th>ISBN</th><th>Auteur</th><th>Statut</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let book of books">
+                            <td>{{book.idBook}}</td>
+                            <td>{{book.title}}</td>
+                            <td>{{book.isbn}}</td>
+                            <td>{{book.author.firstName}} {{book.author.lastName}}</td>
+                            <td>#statut</td>
+                            <td>
+                                <button class="btn btn-success btn-action" aria-placeholder="asdasd">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <span class="info-tooltip">Détails</span>
+                                </button>
+                                <button class="btn btn-warning btn-action">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    <span class="info-tooltip">Modifier</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
         </article>
     </section>
-</section>
+</main>

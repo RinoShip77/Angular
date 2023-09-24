@@ -38,6 +38,9 @@ export class ConnectionComponent {
     }
   }
 
+  //-------------------------------------------------------
+  // Récupère un compte en base de données par les informations fournies
+  //-------------------------------------------------------
   retrieveAccount() {
     this.electrolibService.connection(this.temporaryUser).subscribe(
       connectedUser => {

@@ -14,30 +14,40 @@ export class AdminNavbarComponent {
 
   @Output() connected = new EventEmitter<User>();
   @Output() disconnected = new EventEmitter<User>();
+  @Output() openAdminInventory = new EventEmitter<User>();
 
   constructor(private offcanvasService: NgbOffcanvas) { }
 
-  //---------------------------------
-  // Function to display every book in the database
-  //---------------------------------
+  //-------------------------------------------------------
+  // Affiche la barre de navigation admin
+  //-------------------------------------------------------
   onAdminNavBar(user: User) {
     this.connected.emit(user);
     this.user = user;
     this.visible = true;
   }
 
-  //---------------------------------
-  // Function to expand the navbar
-  //---------------------------------
+  //-------------------------------------------------------
+  // Expansionne la barre de navigation admin
+  //-------------------------------------------------------
   openOffcanvas(content: any) {
     this.offcanvasService.open(content, { position: 'end' });
   }
 
-  //---------------------------------
-  // Function to disconnect a user
-  //---------------------------------
+  //-------------------------------------------------------
+  // Déconnecte l'admin
+  //-------------------------------------------------------
   disconnect() {
+    this.offcanvasService.dismiss();
     this.visible = false;
     this.disconnected.emit(this.user);
   }
+
+  //-------------------------------------------------------
+  // Affiche l'inventaire admin
+  //-------------------------------------------------------
+  displayAdminInventory() {
+    this.openAdminInventory.emit(this.user);
+  }
+  
 }

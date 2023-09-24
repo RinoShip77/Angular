@@ -19,11 +19,12 @@ export class AdminInventoryComponent {
   ngOnInit() {
 
     this.retrieveBooks();
+    console.log(this.books);
   }
 
-  //---------------------------------
-  // Function to get all the books from the database
-  //---------------------------------
+  //-------------------------------------------------------
+  // Récupère tous les livres présents en base de données
+  //-------------------------------------------------------
   retrieveBooks(filter?: number[], search?: string) {
     this.electrolibSrv.getBooks(filter, search).subscribe(
       books => {
@@ -32,22 +33,18 @@ export class AdminInventoryComponent {
     );
   }
 
-  //---------------------------------
-  // Function to display every book in the database
-  //---------------------------------
+  //-------------------------------------------------------
+  // Affiche l'inventaire admin
+  //-------------------------------------------------------
   onAdminInventory(user: User) {
     this.visible = true;
     this.user = user;
   }
 
-  //---------------------------------
-  // Function to disconnect a user
-  //---------------------------------
+  //-------------------------------------------------------
+  // Déconnecte l'admin
+  //-------------------------------------------------------
   onDisconnect(user: User) {
     this.visible = false;
-  }
-
-  getAuthor() {
-
   }
 }

@@ -1,10 +1,19 @@
 .btn-nav:hover {
     background-color: lightgray;
+    font-weight: bold;
+    color: black;
 }
 
 .btn-nav {
     border-radius: 10px;
     margin: 0 5px 0 5px;
+    min-width: 7em;
+    text-align: center;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .btn-deconnect {

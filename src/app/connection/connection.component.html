@@ -1,105 +1,114 @@
-<div *ngIf="visible" class="mx-auto text-center mt-2 font">
-  <div *ngIf="connectionVisible">
-    <h1 class="mt-4">Bienvenue sur Electrolib!</h1>
-    <span>Votre librairie virtuelle</span>
-    <h4 class="mt-5">Connectez vous:</h4>
-    <section>
-      <article class="w-25 mx-auto my-3">
-        <label class="form-label fw-bold">Numéro de membre:</label>
-        <input [(ngModel)]="temporaryUser.memberNumber" name="memberNumber" type="text" class="form-control mb-2">
-        <label class="form-label fw-bold">Mot de passe:</label>
-        <input [(ngModel)]="temporaryUser.password" name="pwd" type="password" class="form-control">
-      </article>
-      <form class="mt-5" (ngSubmit)="connect('credentials')">
-        <button type="submit" class="btn btn-primary">
-          <i class="fas fa-unlock-keyhole me-2"></i>
-          Se connecter
-        </button>
-        <br>
-        <br>
-      </form>
-      <form (ngSubmit)="connect('cheat')">
-        <button class="btn btn-warning" type="submit">
-          Tricher (connexion)
-        </button>
-      </form>
+<main *ngIf="visible" class="mx-auto text-center mt-2 font">
+  <section class="main-frame">
+    <div *ngIf="connectionVisible" class="connection-frame">
+
+      <h1 class="title">Bienvenue sur Electrolib</h1>
+      <span>Votre bibliothèque en ligne</span>
+
+      <section class="login-frame">
+        <h3 class="login-title">Connectez vous:</h3>
+
+        <article style="width: 80%; margin: auto;">
+          <label class="form-label fw-bold">Numéro de membre:</label>
+          <input [(ngModel)]="temporaryUser.memberNumber" name="memberNumber" type="text" class="form-control mb-2">
+          <label class="form-label fw-bold">Mot de passe:</label>
+          <input [(ngModel)]="temporaryUser.password" name="pwd" type="password" class="form-control">
+        </article>
+
+        <form class="mt-5" (ngSubmit)="connect('credentials')">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-unlock-keyhole me-2"></i>
+            Se connecter
+          </button>
+          <br>
+          <br>
+        </form>
+
+        <form (ngSubmit)="connect('cheat')">
+          <button class="btn btn-warning" type="submit">
+            Tricher (connexion)
+          </button>
+        </form>
+
         <!--
-        <button class="btn btn-warning" (click)="createAccount()">
-          <i class="fas fa-user-plus me-2"></i>
-          Se créer un compte
-        </button>
-        -->
-        
-    </section>
-  </div>
-  <!--
-  <div *ngIf="createAccountVisible">
-    <h4 class="my-5 fs-3 fw-bold">Créer votre compte</h4>
-    <form (ngSubmit)="validateCreateAccount()" class="w-75 mx-auto">
-      <div class="row">
-        <div class="col-6">
-          <div class="input-group mb-3">
-            <span class="input-group-text">
-              <i class="fas fa-circle-exclamation fs-4 text-danger" ngbTooltip="Ce champ est obligatoire"></i>
-            </span>
-            <div class="form-floating">
-              <input name="email" type="email" class="form-control" id="emailInp" placeholder=""
-                [(ngModel)]="temporaryUser.email">
-              <label for="emailInp">Adresse courriel</label>
+          <button class="btn btn-warning" (click)="createAccount()">
+            <i class="fas fa-user-plus me-2"></i>
+            Se créer un compte
+          </button>
+          -->
+
+      </section>
+    </div>
+    <!--
+    <div *ngIf="createAccountVisible">
+      <h4 class="my-5 fs-3 fw-bold">Créer votre compte</h4>
+      <form (ngSubmit)="validateCreateAccount()" class="w-75 mx-auto">
+        <div class="row">
+          <div class="col-6">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fas fa-circle-exclamation fs-4 text-danger" ngbTooltip="Ce champ est obligatoire"></i>
+              </span>
+              <div class="form-floating">
+                <input name="email" type="email" class="form-control" id="emailInp" placeholder=""
+                  [(ngModel)]="temporaryUser.email">
+                <label for="emailInp">Adresse courriel</label>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fas fa-circle-exclamation fs-4 text-danger" ngbTooltip="Ce champ est obligatoire"></i>
+              </span>
+              <div class="form-floating">
+                <input name="password" type="password" class="form-control" id="passwordInp" placeholder=""
+                  [(ngModel)]="temporaryUser.password">
+                <label for="passwordInp">Mot de passe</label>
+              </div>
+            </div>
+            <hr class="my-5">
+            <div class="form-floating mb-3">
+              <input name="firstName" class="form-control" id="firstNameInp" placeholder=""
+                [(ngModel)]="temporaryUser.firstName">
+              <label for="firstNameInp">Prénom</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input name="lastName" class="form-control" id="lastNameInp" placeholder=""
+                [(ngModel)]="temporaryUser.lastName">
+              <label for="lastNameInp">Nom</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input name="address" class="form-control" id="addressInp" placeholder=""
+                [(ngModel)]="temporaryUser.address">
+              <label for="addressInp">Adresse civique</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input name="phoneNumber" class="form-control" id="phoneNumberInp" placeholder=""
+                [(ngModel)]="temporaryUser.phoneNumber">
+              <label for="phoneNumberInp">Numéro de téléphone</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input name="postalCode" class="form-control" id="postalCodeInp" placeholder=""
+                [(ngModel)]="temporaryUser.postalCode">
+              <label for="postalCodeInp">Code postal</label>
             </div>
           </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text">
-              <i class="fas fa-circle-exclamation fs-4 text-danger" ngbTooltip="Ce champ est obligatoire"></i>
-            </span>
-            <div class="form-floating">
-              <input name="password" type="password" class="form-control" id="passwordInp" placeholder=""
-                [(ngModel)]="temporaryUser.password">
-              <label for="passwordInp">Mot de passe</label>
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="form-label" for="profilePictureInp">Photo de profil</label>
+              <input name="profilePicture" type="file" class="form-control w-50 mx-auto" id="profilePictoreInp"
+                placeholder="" [(ngModel)]="temporaryUser.profilePicture">
             </div>
+            <img src="assets/images/contact-book.png" alt="" class="img-fluid img-thumbnail border-4">
+            {{temporaryUser.profilePicture}}
           </div>
-          <hr class="my-5">
-          <div class="form-floating mb-3">
-            <input name="firstName" class="form-control" id="firstNameInp" placeholder=""
-              [(ngModel)]="temporaryUser.firstName">
-            <label for="firstNameInp">Prénom</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input name="lastName" class="form-control" id="lastNameInp" placeholder=""
-              [(ngModel)]="temporaryUser.lastName">
-            <label for="lastNameInp">Nom</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input name="address" class="form-control" id="addressInp" placeholder=""
-              [(ngModel)]="temporaryUser.address">
-            <label for="addressInp">Adresse civique</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input name="phoneNumber" class="form-control" id="phoneNumberInp" placeholder=""
-              [(ngModel)]="temporaryUser.phoneNumber">
-            <label for="phoneNumberInp">Numéro de téléphone</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input name="postalCode" class="form-control" id="postalCodeInp" placeholder=""
-              [(ngModel)]="temporaryUser.postalCode">
-            <label for="postalCodeInp">Code postal</label>
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success mt-2 mx-3">Valider</button>
+            <button class="btn btn-danger mt-2 ms-3" (click)="cancelCreationAccount()">Annuler</button>
           </div>
         </div>
-        <div class="col-6">
-          <div class="mb-3">
-            <label class="form-label" for="profilePictureInp">Photo de profil</label>
-            <input name="profilePicture" type="file" class="form-control w-50 mx-auto" id="profilePictoreInp"
-              placeholder="" [(ngModel)]="temporaryUser.profilePicture">
-          </div>
-          <img src="assets/images/contact-book.png" alt="" class="img-fluid img-thumbnail border-4">
-          {{temporaryUser.profilePicture}}
-        </div>
-        <div class="text-center mt-4">
-          <button type="submit" class="btn btn-success mt-2 mx-3">Valider</button>
-          <button class="btn btn-danger mt-2 ms-3" (click)="cancelCreationAccount()">Annuler</button>
-        </div>
-      </div>
-    </form>
-  </div>
-  -->
-</div>
+      </form>
+    </div>
+    -->
+  </section>
+
+</main>

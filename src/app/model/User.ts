@@ -14,7 +14,7 @@ export class User {
 
   constructor() {
     if (this.roles == '["ROLES_USER"]') {
-      this.roles = '["ROLES_USER"]';
+      this.roles = '[]';
     } else {
       this.roles = '["ROLE_ADMIN"]';
     }
