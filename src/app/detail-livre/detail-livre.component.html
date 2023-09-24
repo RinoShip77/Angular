@@ -5,28 +5,26 @@
         <img class="img-fluid" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU" alt="imageDuLivre">
     </section>
     <section class="infoLivre col-6 offset-1 ">
-        <h2>Titre du livre</h2>
+        <h2>{{book.title}}</h2>
         <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, sed atque sunt molestias voluptates ea, iste dignissimos sapiente veritatis aliquid deserunt aspernatur enim debitis sint culpa architecto dicta. Repudiandae, sapiente?
-        Eius laboriosam possimus quis maiores dolor! Sequi illum corporis ducimus, modi exercitationem eum illo unde expedita perferendis maxime quia! Beatae, quo! Hic minus saepe optio officia doloribus rem unde porro.
-        Veniam distinctio recusandae rem mollitia asperiores fuga, dicta aspernatur eligendi similique ipsa possimus hic cum tenetur deserunt non quae minima deleniti itaque vitae accusamus reiciendis eveniet, nesciunt corrupti placeat. Quod?
+            {{book.description}}
         </p>
 
         <div class="row">
             <p class="col-6">Genre :</p>
-            <p class="col-6">"le Genre"</p>
+            <p class="col-6">pas encore implémenter</p>
         </div>
         <div class="row">
             <p class="col-6">Langue :</p>
-            <p class="col-6">"la Langue"</p>
+            <p class="col-6">{{book.originalLanguage}}</p>
         </div>
         <div class="row" >
             <p class="col-6">Date de publication :</p>
-            <p class="col-6">"la date"</p>
+            <p class="col-6">{{book.publishDate}}</p>
         </div>
         <div class="row">
             <p class="col-6">Isbn :</p>
-            <p class="col-6">"le Isbn"</p>
+            <p class="col-6">{{book.isbn}}</p>
         </div>
 
         <div>
