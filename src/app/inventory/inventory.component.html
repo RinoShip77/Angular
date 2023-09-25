@@ -150,7 +150,7 @@
             <tbody>
               <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.isBorrowed)">
                 <td>#{{book.isbn}}</td>
-                <td>{{book.title}}</td>
+                <td> <a [routerLink]="['detailLivre','book.idBook']">{{book.title}}</a> </td>
                 <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
                 <td><i class="fas {{book.genre.icon}}"></i></td>
                 <td>{{book.originalLanguage}}</td>
@@ -166,5 +166,4 @@
         </div>
       </div>
     </div>
-    <a [routerLink]="['detailLivre','15']">tester detail livre</a>
   </div>

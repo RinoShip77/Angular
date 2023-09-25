@@ -9,7 +9,7 @@ import { DetailsBorrowComponent } from './details-borrow/details-borrow.componen
 const routes: Routes = [
   { path:  "detailLivre/:id", component: DetailLivreComponent },
   { path:  "inventaire", component: InventoryComponent },
-  { path:  "", component:InventoryComponent},
+  //{ path:  "", component:InventoryComponent},
   { path: "detailEmprunt/:id", component:DetailsBorrowComponent}
 ];
 

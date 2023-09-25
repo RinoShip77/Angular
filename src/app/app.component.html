@@ -9,11 +9,9 @@
         (openProfile)="inventory.onDisconnect($event)" (disconnected)=" onDisconnect($event)"
         (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"></app-navbar>
     </header>
-  <main>
-    <router-outlet></router-outlet>
-  </main>
 
     <main class="m-2">
+      <router-outlet></router-outlet>
       <app-inventory #inventory (openProfile)="profile.onProfile($event)"></app-inventory>
       <app-profile #profile (openInventory)="inventory.onInventory($event)" (openBorrow)="borrow.onBorrow($event)"
         (openFavorite)="favorite.onFavorite($event)"></app-profile>
@@ -28,6 +26,8 @@
         </div>
       </div>
     </main>
+
+   
 
     <footer>
       <app-footer #footer></app-footer>

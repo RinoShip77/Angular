@@ -14,7 +14,7 @@ export class DetailLivreComponent {
 
   }
   book: Book = new Book();
-  genre: Genre = new Genre();
+  //genre: Genre = new Genre();
 
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
   ngOnInit() {
@@ -22,7 +22,7 @@ export class DetailLivreComponent {
     if(id){
      this.electrolibSrv.getBook(id).subscribe(receivedBook =>{
       this.book=receivedBook;
-      console.log(this.book);
+      console.log(receivedBook);
 
       //je mets le code pour aller chercher le genre ici, je pense que subsrcibe fait un bug sinon
       //this.electrolibSrv.getGenre(this.book.idGenre).subscribe(receivedGenre=>{
