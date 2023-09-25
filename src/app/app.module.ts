@@ -38,7 +38,7 @@ import { BorrowDetailsComponent } from './borrow-details/borrow-details.componen
     DetailLivreComponent,
     RecommendedComponent,
     AdminInventoryComponent,
-    AdminNavbarComponent
+    AdminNavbarComponent,
     BorrowsComponent,
     BorrowDetailsComponent
   ],
