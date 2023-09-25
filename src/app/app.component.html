@@ -15,7 +15,11 @@
     <header>
       <app-navbar #navbar (connected)="inventory.onInventory($event)" (openProfile)="profile.onProfile($event)"
         (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"
-        (disconnected)="onDisconnect($event)"></app-navbar>
+        (disconnected)="onDisconnect($event)"
+        
+        (openBorrows)="borrows.onBorrows($event)"
+        (openBorrows)="borrowDetails.visible=false"
+        (openBorrows)="inventory.closeInventory()"></app-navbar>
 
         <!-- La barre de navigation des admins -->
       <app-admin-navbar #adminNavBar
@@ -23,7 +27,11 @@
       (disconnected)="onDisconnect($event)"
 
       (openAdminInventory)="adminInventory.onAdminInventory($event)"
-    ></app-admin-navbar>
+      
+      >
+     </app-admin-navbar>
+        
+
     </header>
 
     <main class="m-2">
@@ -46,6 +54,10 @@
       
       <!-- Les favoris des membres -->
       <app-favorite #favorite (openInventory)="inventory.onInventory($event)"></app-favorite>
+
+      <app-borrows #borrows (openBorrowDetails)="borrowDetails.onBorrowDetails($event)" (openInventory)="inventory.onInventory($event)"></app-borrows>
+      <app-borrow-details #borrowDetails (openBorrows)="borrows.onBorrows($event)"></app-borrow-details>
+
 
       <div *ngIf="isConnected">
         <div class="d-flex justify-content-end m-3" id="chat">

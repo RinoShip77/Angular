@@ -1,0 +1,122 @@
+.master-div
+{
+    margin: 0 auto;
+    margin-top: 60px;
+}
+
+.status-not-urgent > td
+{
+    background-color: rgba(115, 255, 120, 0.50);
+    border: 1px;
+    border-color: rgba(0, 102, 24, 0.5);
+    border-style: solid;
+}
+
+.status-semi-urgent > td
+{
+    background-color: rgba(219, 194, 0, 0.40);
+    border: 1px;
+    border-color: rgba(181, 160, 0, 0.73);
+    border-style: solid;
+}
+
+.status-urgent > td
+{
+    background-color: rgba(215, 132, 1, 0.50);
+    border: 1px;
+    border-color: rgb(215, 132, 1);
+    border-style: solid;
+}
+
+.status-late
+{
+    border:2px;
+    border-color: rgba(139, 0, 0, 0.73);
+    border-style: solid;
+}
+
+.status-late > td
+{
+    background-color: rgba(183, 0, 0, 0.39);
+    border:1px;
+    border-color: rgba(139, 0, 0, 0.73);
+    border-style: solid;
+}
+
+.td-thick
+{
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.icone
+{
+    font-size: 22px;
+}
+
+.icone-petite
+{
+    font-size: 20px;
+}
+
+a 
+{
+    cursor: pointer;
+}
+
+.table-emprunts
+{
+    margin-top: 50px;
+}
+
+.sous-titre
+{
+    font-weight: 500;
+    font-size: 18px;
+    color:rgb(87, 87, 87);
+    text-decoration: underline;
+    margin-bottom: 7px;
+}
+
+.divAbout
+{
+    max-width: 650px;
+    border: 2px;
+    border-style: solid;
+    border-color: rgba(100, 100, 100, 0.87);
+    background-color: rgba(69, 110, 177, 0.089);
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.desactivated
+{
+    opacity: 30%;
+    cursor: not-allowed;
+}
+
+select 
+{
+    height: 28px;
+    width: 170px;
+    margin-left: 10px;
+    border: 2px solid;
+    border-color: rgba(128, 128, 128, 0.87);
+    border-radius: 8px;
+    padding-left: 10px;
+    cursor: pointer;
+    background-color: #525e7e28;
+}
+
+select:hover
+{
+    transition: border-color 1s, background-color 1s;
+    background-color: rgba(14, 52, 83, 0.11);
+    border-color: rgba(39, 116, 179, 0.979)
+}
+
+.i-active:hover
+{
+    color: rgba(68, 145, 216, 0.884);
+    transition: color 0.5s, background-color 1s;
+}

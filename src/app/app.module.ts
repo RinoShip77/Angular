@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; 
 import { HttpClientModule } from '@angular/common/http';
 
+
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConnectionComponent } from './connection/connection.component';
@@ -19,6 +20,8 @@ import { DetailLivreComponent } from './detail-livre/detail-livre.component';
 import { RecommendedComponent } from './recommended/recommended.component';
 import { AdminInventoryComponent } from './admin-inventory/admin-inventory.component';
 import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
+import { BorrowsComponent } from './borrows/borrows.component';
+import { BorrowDetailsComponent } from './borrow-details/borrow-details.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,8 @@ import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
     RecommendedComponent,
     AdminInventoryComponent,
     AdminNavbarComponent
+    BorrowsComponent,
+    BorrowDetailsComponent
   ],
   imports: [
     

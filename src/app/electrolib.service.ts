@@ -5,6 +5,7 @@ import { Book } from './model/Book';
 import { User } from './model/User';
 import { Genre } from './model/Genre';
 import { Author } from './model/Author';
+import { Borrow } from './model/Borrow';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +89,16 @@ export class ElectrolibService {
     return this.http.get<Author>(url);
   }
 
+
+  //--------------------------------
+  // Route to get all the genre
+  //--------------------------------
+  getBorrows() {
+    let url = urlServer + 'borrows';
+    url = "http://127.0.0.1:8000/borrows";
+
+    return this.http.get<Borrow[]>(url);
+  }
 
   //--------------------------------
   // Route to connect a user
