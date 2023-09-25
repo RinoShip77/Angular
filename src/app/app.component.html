@@ -7,7 +7,11 @@
       <app-navbar #navbar (connected)="inventory.onInventory($event)"
         (addSearchCriteria)="inventory.applyFilters($event)" (openProfile)="profile.onProfile($event)"
         (openProfile)="inventory.onDisconnect($event)" (disconnected)=" onDisconnect($event)"
-        (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"></app-navbar>
+        (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"
+        
+        (openBorrows)="borrows.onBorrows($event)"
+        (openBorrows)="borrowDetails.visible=false"
+        (openBorrows)="inventory.closeInventory()"></app-navbar>
     </header>
 
     <main class="m-2">
@@ -16,6 +20,10 @@
         (openFavorite)="favorite.onFavorite($event)"></app-profile>
       <app-borrow #borrow (openInventory)="inventory.onInventory($event)"></app-borrow>
       <app-favorite #favorite (openInventory)="inventory.onInventory($event)"></app-favorite>
+
+      <app-borrows #borrows (openBorrowDetails)="borrowDetails.onBorrowDetails($event)" (openInventory)="inventory.onInventory($event)"></app-borrows>
+      <app-borrow-details #borrowDetails (openBorrows)="borrows.onBorrows($event)"></app-borrow-details>
+
 
       <div *ngIf="isConnected">
         <div class="d-flex justify-content-end m-3" id="chat">

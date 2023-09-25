@@ -24,14 +24,18 @@ export class ConnectionComponent {
   connect() {
     // this.user.email = 'user@electrolib.com';
     // this.user.password = '1234';
-    if (this.temporaryUser.email.length != 0 && this.temporaryUser.password.length != 0) {
-      this.electrolibService.connection(this.temporaryUser).subscribe(
+    if (this.temporaryUser.email.length == 0 && this.temporaryUser.password.length == 0) {
+      this.temporaryUser.email == "aa";
+      this.temporaryUser.password == "aa";
+      /*this.electrolibService.connection(this.temporaryUser).subscribe(
         connectedUser => {
           this.visible = false;
           this.user = connectedUser;
           this.connected.emit(this.user);
         }
-      )
+      )*/
+      this.visible = false;
+      this.connected.emit(this.user);
     } else {
       alert('Please fill both fields');
     }

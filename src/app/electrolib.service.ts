@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Book } from './model/Book';
 import { User } from './model/User';
 import { Genre } from './model/Genre';
+import { Borrow } from './model/Borrow';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,16 @@ export class ElectrolibService {
     let url = urlServer + 'genres';
 
     return this.http.get<Genre[]>(url);
+  }
+
+  //--------------------------------
+  // Route to get all the genre
+  //--------------------------------
+  getBorrows() {
+    let url = urlServer + 'borrows';
+    url = "http://127.0.0.1:8000/borrows";
+
+    return this.http.get<Borrow[]>(url);
   }
 
   //--------------------------------

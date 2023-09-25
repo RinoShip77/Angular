@@ -65,6 +65,13 @@ export class InventoryComponent {
   }
 
   //---------------------------------
+  // Function to close inventory when opening another section
+  //---------------------------------
+  closeInventory() {
+    this.visible = false;
+  }
+
+  //---------------------------------
   // Function to select witch genre you want to see
   //---------------------------------
   updateFilter(idGenre: number) {

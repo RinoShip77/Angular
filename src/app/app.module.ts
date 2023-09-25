@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; 
 import { HttpClientModule } from '@angular/common/http';
 
+
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConnectionComponent } from './connection/connection.component';
@@ -13,6 +14,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { BorrowComponent } from './borrow/borrow.component';
 import { FavoriteComponent } from './favorite/favorite.component';
 import { ChatComponent } from './chat/chat.component';
+import { BorrowsComponent } from './borrows/borrows.component';
+import { BorrowDetailsComponent } from './borrow-details/borrow-details.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { ChatComponent } from './chat/chat.component';
     ProfileComponent,
     BorrowComponent,
     FavoriteComponent,
-    ChatComponent
+    ChatComponent,
+    BorrowsComponent,
+    BorrowDetailsComponent
   ],
   imports: [
     BrowserModule,

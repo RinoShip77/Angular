@@ -1,0 +1,250 @@
+<!--
+<div *ngIf="visible" class="col-8">
+    <h4 style="margin-left: 20px;">Mes Emprunts</h4>
+    <hr>
+    
+    <table class="table table-bordered shadow-lg">
+        <thead class="table-secondary text-center">
+            <tr>
+                <th><i class="fa-regular fa-clock"></i></th>
+                <th>Id</th>
+                <th>Titre du livre</th>
+                <th>Date de l'emprunt</th>
+                <th>Date limite de retour</th>
+                <th>Frais de retard</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-light text-center">
+            <tr class="status-not-urgent">
+                <td>
+                    <div placement="top" ngbTooltip="profitez">
+                        <i class="fa-solid fa-thumbs-up icone" style="color: #01a214;"></i>
+                    </div>
+                </td>
+                <td scope="row" class="td-thick">123456</td>
+                <td>Harry potter au pays des 7 nains</td>
+                <td>27 novembre 2023</td>
+                <td>28 novembre 2023</td>
+                <td class="td-thick"></td>
+                <td>
+                    <a (click)="borrowDetails(borrow)"><i class="fa-regular fa-file-lines col-6 icone-petite" ngbTooltip="Plus de détails"></i></a>
+                    <a (click)="borrowRenew()"><i class="fa-solid fa-repeat col-6 icone-petite" ngbTooltip="Renouveler l'emprunt"></i></a>
+                </td>
+            </tr>
+            <tr class="status-semi-urgent">
+                <td placement="top">
+                    <div placement="top" ngbTooltip="Bientôt à remettre">
+                        <i class="fa-solid fa-exclamation icone" style="color: #b98904;"></i>
+                    </div>
+                </td>
+                <td scope="row" class="td-thick">98852</td>
+                <td>Harry potter au pays des 7 nains</td>
+                <td>27 novembre 2023</td>
+                <td>28 novembre 2023</td>
+                <td class="td-thick"></td>
+                <td>
+                    <a (click)="borrowDetails(borrow)"><i class="fa-regular fa-file-lines col-6 icone-petite" ngbTooltip="Plus de détails"></i></a>
+                    <a (click)="borrowRenew()"><i class="fa-solid fa-repeat col-6 icone-petite" style="opacity:30%;" ngbTooltip="Renouvelement indisponible"></i></a>
+                </td>
+            </tr>
+            <tr class="status-urgent">
+                <td>
+                    <div placement="top" ngbTooltip="Urgent (frais bientot applicable)">
+                        <i class="fa-solid fa-exclamation icone" style="color: #f14b04;"></i>
+                    </div>
+                </td>
+                <td scope="row" class="td-thick">98852</td>
+                <td>Harry potter au pays des 7 nains</td>
+                <td>27 novembre 2023</td>
+                <td>28 novembre 2023</td>
+                <td class="td-thick"></td>
+                <td>
+                    <a (click)="borrowDetails()"><i class="fa-regular fa-file-lines col-6 icone-petite" ngbTooltip="Plus de détails"></i></a>
+                    <a (click)="borrowRenew()"><i class="fa-solid fa-repeat col-6 icone-petite" ngbTooltip="Renouveler l'emprunt"></i></a>
+                </td>
+            </tr>
+            <tr class="status-late">
+                <td>
+                    <div placement="top" ngbTooltip="En retard (frais applicables)">
+                        <i class="fa-solid fa-triangle-exclamation icone" style="color: #bd0000;"></i>
+                        <br>
+                    </div>
+                </td>
+                <td scope="row" class="td-thick">98852</td>
+                <td>Harry potter au pays des 7 nains</td>
+                <td>27 novembre 2023</td>
+                <td>28 novembre 2023</td>
+                <td class="td-thick">5$</td>
+                <td>
+                    <a (click)="borrowDetails(borrow)"><i class="fa-regular fa-file-lines col-6 icone-petite" ngbTooltip="Plus de détails"></i></a>
+                    <a (click)="borrowRenew()"><i class="fa-solid fa-repeat col-6 icone-petite" ngbTooltip="Renouveler l'emprunt"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>-->
+
+<div *ngIf="visible" class="col-10 master-div">
+    <!-- Titre de la page -->
+    <h4 style="margin-left: 20px;">Mes Emprunts</h4>
+    <hr>
+
+    <!-- Div contenant le select pour trier la table -->
+    <div  style="float: right;">
+        <label>Trier par: </label>
+        <select class="select-style" (selectionChange)="onSortChange($event)">
+            <option selected>Id</option>
+            <option value="2">Date retour / Status</option>
+            <option value="3">Frais de retard</option>
+            <option value="1">Date emprunt</option>
+        </select>
+    </div>
+
+    <!-- Tableau contenant les emprunts -->
+    <table class="table table-bordered shadow-lg table-emprunts">
+
+        <!-- Titre des colonnes de la table -->
+        <thead class="table-secondary text-center">
+            <tr>
+                <th><i class="fa-regular fa-clock"></i></th>
+                <th>Id</th>
+                <th>Titre du livre</th>
+                <th>Date de l'emprunt</th>
+                <th>Date limite de retour</th>
+                <th>Status</th>
+                <th>Frais de retard</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <!-- Chaque rangée de la table correspond à 1 emprunt -->
+        <tbody class="table-light text-center">
+            <tr class="status-not-urgent" *ngFor="let borrow of borrows" 
+             [ngClass]="
+             {
+                'status-not-urgent' : borrow.determineStatus() == 'green',
+                'status-semi-urgent' : borrow.determineStatus() == 'yellow',
+                'status-urgent' : borrow.determineStatus() == 'orange',
+                'status-late' : borrow.determineStatus() == 'En retard'
+             }">
+
+                <!-- Icône du status au début de a rangée -->
+                <td>
+                    <div placement="top" ngbTooltip="profitez">
+                        <i class="fa-solid fa-thumbs-up icone" style="color: #01a214;" *ngIf="borrow.determineStatus() == 'green'"></i>
+                        <i class="fa-solid fa-exclamation icone" style="color: #b98904;" *ngIf="borrow.determineStatus() == 'yellow'"></i>
+                        <i class="fa-solid fa-exclamation icone" style="color: #f14b04;" *ngIf="borrow.determineStatus() == 'orange'"></i>
+                        <i class="fa-solid fa-triangle-exclamation icone" style="color: #bd0000;" *ngIf="borrow.determineStatus() == 'En retard'"></i>
+                    </div>
+                </td>
+
+                <!-- Reste des informations -->
+                <td scope="row" class="td-thick">{{borrow.idBorrow}}</td>
+                <td>{{borrow.idBook}}</td>
+                <td>{{borrow.borrowedDate}}</td>
+                <td>{{borrow.dueDate}}</td>
+                <td class="td-thick">{{borrow.determineStatus()}}</td>
+
+                <td *ngIf="borrow.calculateFee() == null" class="td-thick">{{borrow.calculateFee()}}</td>
+                <td *ngIf="borrow.calculateFee() != null" class="td-thick">{{borrow.calculateFee()}}$</td>
+
+                <!-- Boutons renouvellement et détails de l'emprunt-->
+                <td>
+                    <a (click)="borrowDetails(borrow)"><i class="fa-regular fa-file-lines col-6 icone-petite i-active" ngbTooltip="Plus de détails"></i></a>
+                    
+                    <a (click)="borrowRenew()" *ngIf="borrow.calculateFee() == null"><i class="fa-solid fa-repeat col-6 icone-petite i-active" ngbTooltip="Renouveler l'emprunt"></i></a>
+                    <a *ngIf="borrow.calculateFee() != null"><i class="fa-solid fa-repeat col-6 icone-petite desactivated" ngbTooltip="Renouvelement indisponible"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Boutons en bas de la page -->
+    <div>
+        <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary">À propos</button>
+        <button (click)="returnInventory()" type="button" class="btn btn-secondary" style="float: right;">Retourner à l'inventaire</button>
+    </div>
+</div>
+   
+<!-- Modal pour le À propos -->
+<ng-template #about let-modal >
+  <div class="modal-header modal-lg">
+    <h4 class="modal-title" id="modal-basic-title">À Propos</h4>
+  </div>
+
+  <!-- Info importantes sur le fonctionnement des emprunts etc. -->
+  <div class="modal-body">
+    <h5>Informations sur vos emprunts</h5>
+    <hr>
+    <!-- Div pour les modalités -->
+    <div class="divAbout" ngbAutoFocus>
+        <label class="sous-titre">Modalités:</label>
+        <br>
+        <label style="font-weight: 600;">Durée d'un emprunt:</label>
+        <span> 
+            La durée d'un emprunt est de <span style="text-decoration: underline;">1 mois</span>, la couleur affichée pour l'emprunt ainsi que le petit Icône au début de sa rangée,
+            indique le nombre de temps restant à l'emprunt
+        </span>
+        <br>
+        <label class="mt-2" style="font-weight: 600;">Renouvellement:</label>
+        <span> 
+            Vous avez droit à <span style="text-decoration: underline;">2 renouvellements</span> par emprunt. Vous pouvez seulement renouveler un emprunt, s'il n'y a <span style="text-decoration: underline;">aucune autre
+            réservation pour le livre emprunté</span>. Si un autre client réserve votre livre, le renouvelement sera indisponible. Le renouvelement
+            est aussi desactivé si vous devez payer des <span style="text-decoration: underline;">frais de retard</span>.
+        </span>
+        <hr>
+        <label class="mt-2" style="font-weight: 600;">Retard:</label>
+        <span> 
+            Lorsque l'un de vos emprunts est en retard, vous ne pouvez ni emprunter de livre ni renouveler de livre. Nous vous redonnerons accès à ces
+            droits lorsque vous aurez <span style="text-decoration: underline;">retourné le livre et payé les frais</span>. Avoir plusieurs emprunts en retard et non payés pourrait vous faire perdre votre
+            carte de membre.
+        </span>
+        <br>
+        <label class="mt-2" style="font-weight: 600;">Frais de retard:</label>
+        <span> 
+            Vous serez chargé <span style="text-decoration: underline; color:green;">2$</span> pour chaque semaine de retard sur la date limite de retour de votre emprunt. 2 semaines de retard équivaut donc
+            à <span style="text-decoration: underline; color:green;">4$</span> de frais et ainsi de suite. Ateindre le seuil de <span style="text-decoration: underline; color:green;">20$</span> de frais vous limitera sur vos emprunts à l'avenir
+        </span>
+        <br>
+    </div>
+    <br>
+
+    <!-- Informations pour le code couleur -->
+    <div class="divAbout" >
+        <label class="sous-titre">Code de couleur:</label>
+        <br>
+        <label class="mt-2" style="color: #01a214; font-weight: 600;" >Vert:</label>
+        <span> Lorsque votre emprunt est récent celui-ci apparait
+               <span style="color: #01a214;"> vert</span>. Celui-ci reste donc vert jusqu'à ce 
+               qu'il vous reste 1 semaine de temps avant de devoir remettre votre livre.
+        </span>
+        <br>
+        <label class="mt-2" style="color: #b98904; font-weight: 600;">Jaune:</label>
+        <span> 
+               Lorsqu'il reste 1 semaine de temps restant à l'emprunt, celui-ci apparait 
+               <span style="color: #b98904;">jaune</span>
+        </span>
+        <br>
+        <label class="mt-2" style="color: #f14b04; font-weight: 600;">Orange:</label>
+        <span> 
+               Lorsqu'il reste seulement 24 heures de temps restant à votre emprunt, celui ci apparait 
+               <span style="color: #f14b04;">orange</span>, il vous reste donc très peu de temps avant 
+               de recevoir des frais de retard
+        </span>
+        <br>
+        <label class="mt-2" style="color: #bd0000; font-weight: 600;">Rouge:</label>
+        <span> 
+               Lorsqu'il reste vous avez dépassé la date limite de retour, votre emprunt est échue et apprait
+               <span style="color: #bd0000;">rouge</span>. Des frais s'appliquent et s'accumulent à chaque semaine
+               de recevoir des frais de retard
+        </span>
+    </div>
+  </div>
+
+  <!-- Bouton pour fermer la modal -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+  </div>
+</ng-template>
+

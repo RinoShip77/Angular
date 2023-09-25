@@ -1,0 +1,76 @@
+<div *ngIf="visible" class="col-10 master-div">
+    <!-- Titre de la page -->
+    <h4>Détails de l'emprunt</h4>
+    <hr>
+
+    <div class="shadow-lg row border rounded-top div-details">
+
+        <!-- Informations concernant le livre -->
+        <div class="col-6 row div-livre">
+            <!-- Image du livre -->
+            <div class="col-4">
+                <img class="image-livre" src="../assets/images/books/1.png">
+            </div>
+            <!-- Infos du livre -->
+            <div class="col-6 div-info-emprunt" >
+                <label>Nom du livre:&nbsp;</label>
+                <span>test</span>
+                <br>
+                <label>Numéro d'exemplaire:&nbsp;</label>
+                <span>test</span>
+                <br>
+                <label>Auteur du livre:&nbsp;</label>
+                <span>test</span>
+                <br>
+                <label>Genre du Livre:&nbsp;</label>
+                <span>test</span>
+                <br>
+                <label>Maison d'édition:&nbsp;</label>
+                <span>test</span>
+                <br>
+                <label>Année de publication:&nbsp;</label>
+                <span>test</span>
+                <hr>
+            </div>
+        </div>
+
+        <!-- Information concernant l'emprunt -->
+        <div class="col-4 div-info-emprunt" style="margin-left: 20px;"> 
+            <label>Date de l'emprunt:&nbsp;</label>
+            <span>{{borrow.borrowedDate}}</span>
+            <br>
+            <label>Date limite de retour:&nbsp;</label>
+            <span>{{borrow.dueDate}}</span>
+            <br>
+            <label *ngIf="borrow.determineStatus() != 'En retard'">Nombre de jours restants:&nbsp;</label>
+            <label *ngIf="borrow.determineStatus() == 'En retard'">Nombre de jours de retard:&nbsp;</label>
+            <span *ngIf="borrow.transformTimeAndLate() > 1">{{borrow.transformTimeAndLate()}} jours</span>
+            <span *ngIf="borrow.transformTimeAndLate() <= 1">{{borrow.transformTimeAndLate()}} jour</span>
+            <br>
+            <label>Nombre de renouvellement fait:&nbsp;</label>
+            <span>test</span>
+            <br>
+            <label>Status:&nbsp;</label>
+            <span [ngClass]="
+            {
+               'status-not-urgent' : borrow.determineStatus() == 'green',
+               'status-semi-urgent' : borrow.determineStatus() == 'yellow',
+               'status-urgent' : borrow.determineStatus() == 'orange',
+               'status-late' : borrow.determineStatus() == 'En retard'
+            }">{{borrow.determineStatus()}}</span>
+            <br>
+            <label>Frais de retard:&nbsp;</label>
+            <span *ngIf="borrow.calculateFee() != null" style="color: green; font-weight: 600; text-decoration: underline">{{borrow.calculateFee()}}$</span>
+            <span *ngIf="borrow.calculateFee() == null">0</span>
+            <hr>
+        </div>
+
+        <!-- Boutons situés en bas de la page -->
+        <div class="div-btns">
+                <button class="btn-details btn btn-danger border" [disabled]="borrow.calculateFee() == null">Payer les frais</button>
+            <div style="float: right; width: auto;">
+                <button class="btn-details btn btn-warning border" [disabled]="borrow.calculateFee() != null">Remettre l'emprunt</button>
+                <button (click)="borrows()" class="btn-details btn btn-secondary border">Retourner aux emprunts</button></div>
+            </div>
+        </div>
+</div>
