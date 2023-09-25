@@ -8,18 +8,100 @@ import { Book } from '../model/Book';
   templateUrl: './admin-inventory.component.html',
   styleUrls: ['./admin-inventory.component.css']
 })
+
 export class AdminInventoryComponent {
 
   visible = false;
   user: User = new User();
   books: Book[] = new Array();
+  displayedBooks: Book[] = new Array();
+  searchField: string = "";
+  selectedSearchBy: String = "title";
+  selectedSortBy: String = "ascending";
+
+  @Output() addSearchCriteria = new EventEmitter<string>();
 
   constructor(private electrolibSrv: ElectrolibService) { }
 
   ngOnInit() {
-
     this.retrieveBooks();
-    console.log(this.books);
+  }
+
+  //-------------------------------------------------------
+  // Change le type de recherche
+  //-------------------------------------------------------
+  changeResearchBy(type: String) {
+    this.selectedSearchBy = type;
+  }
+
+  //-------------------------------------------------------
+  // Change l'ordre de tri
+  //-------------------------------------------------------
+  changeSortBy(type: String) {
+    this.selectedSortBy = type;
+  }
+
+  //-------------------------------------------------------
+  // Tri les livres
+  //-------------------------------------------------------
+  sortBooks() {
+    if (this.selectedSortBy == "ascending") {
+      switch (this.selectedSearchBy) {
+        case "title":
+          this.displayedBooks.sort((a, b) => (a.title > b.title ? 1 : -1));
+          break;
+        case "isbn":
+          this.displayedBooks.sort((a, b) => (a.isbn > b.isbn ? 1 : -1));
+          break;
+        case "author":
+          this.displayedBooks.sort((a, b) => (a.author > b.author ? 1 : -1));
+          break;
+      }
+    } 
+    else {
+      switch (this.selectedSearchBy) {
+        case "title":
+          this.displayedBooks.sort((a, b) => (a.title < b.title ? 1 : -1));
+          break;
+        case "isbn":
+          this.displayedBooks.sort((a, b) => (a.isbn < b.isbn ? 1 : -1));
+          break;
+        case "author":
+          this.displayedBooks.sort((a, b) => (a.author < b.author ? 1 : -1));
+          break;
+      }
+    }
+  }
+
+  //-------------------------------------------------------
+  // Recherche par nom de livre
+  //-------------------------------------------------------
+  search() {
+    if (this.searchField.trim().length > 0) {
+      this.displayedBooks = [];
+      this.books.forEach(book => {
+        switch (this.selectedSearchBy) {
+          case "title":
+            if (book.title.includes(this.searchField)) {
+              this.displayedBooks.push(book);
+            }
+            break;
+          case "isbn":
+            if (book.isbn.includes(this.searchField)) {
+              this.displayedBooks.push(book);
+            }
+            break;
+          case "author":
+            if (book.author.firstName.includes(this.searchField)) {
+              this.displayedBooks.push(book);
+            }
+            break;
+        }
+      });
+    } else {
+      this.displayedBooks = this.books;
+    }
+    this.sortBooks();
   }
 
   //-------------------------------------------------------
@@ -29,6 +111,7 @@ export class AdminInventoryComponent {
     this.electrolibSrv.getBooks(filter, search).subscribe(
       books => {
         this.books = books;
+        this.displayedBooks = books;
       }
     );
   }

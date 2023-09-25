@@ -6,7 +6,7 @@
 .inventory-table {
     background-image: linear-gradient(to bottom right, #efefef, #bcbcbc);
     padding: 2em;
-    max-height: 70vh;
+    height: 60vh;
     overflow-y: scroll;
 }
 
@@ -26,4 +26,19 @@
 
 .btn-action:hover .info-tooltip {
     opacity: 1;
+}
+
+.inventory-navbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fit-label {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: visible;
+}
+
+.combobox {
+    margin-right: 10px;
 }
