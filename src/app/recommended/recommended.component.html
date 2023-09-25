@@ -1,1 +1,18 @@
-<p>recommended works!</p>
+
+<!-- carousel -->
+<div class="carousel">
+    <ng-container *ngFor="let slide of slides; let i = index">
+      <img
+        [src]="slide.src"
+        class="slide"
+      />
+    </ng-container>
+  
+      <!-- controls -->
+  <button class="control prev" (click)="onPreviousClick()">
+    <span class="arrow left"></span>
+  </button>
+  <button class="control next" (click)="onNextClick()">
+    <span class="arrow right"></span>
+  </button>
+</div>
