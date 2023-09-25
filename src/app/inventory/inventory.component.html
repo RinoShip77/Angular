@@ -51,11 +51,12 @@
           <li ngbNavItem>
             <button ngbNavLink>Par genre</button>
             <ng-template ngbNavContent class="my-4">
-              <div *ngFor="let genre of genres" class="mx-auto my-2">
+              <div *ngFor="let genre of genres" class="ms-5 my-2">
                 <div class="form-check form-switch" (click)="updateGenresFilter(genre.idGenre)">
-                  <input class="form-check-input ms-5 me-2" type="checkbox" role="switch" [(ngModel)]="genre.isFilter">
-                  <label class="form-check-label">{{genre.name | titlecase}} | <i
-                      class="fas {{genre.icon}} ms-2"></i></label>
+                  <input class="form-check-input me-2" type="checkbox" role="switch" [(ngModel)]="genre.isFilter">
+                  <label class="form-check-label">
+                    {{genre.name | titlecase}} | <i class="fas {{genre.icon}} ms-2"></i>
+                  </label>
                 </div>
               </div>
             </ng-template>
@@ -63,9 +64,9 @@
           <li ngbNavItem>
             <button ngbNavLink>Par auteur</button>
             <ng-template ngbNavContent>
-              <div *ngFor="let author of authors" class="mx-auto my-2">
-                <div class="form-check ms-5" (click)="updateAuthorsFilter(author.idAuthor)">
-                  <input class="form-check-input ms-5 me-2" type="checkbox" [(ngModel)]="author.isFilter">
+              <div *ngFor="let author of authors" class="ms-5 my-2">
+                <div class="form-check" (click)="updateAuthorsFilter(author.idAuthor)">
+                  <input class="form-check-input me-2" type="checkbox" [(ngModel)]="author.isFilter">
                   <label class="form-check-label">{{(author.firstName | titlecase) + ' ' + (author.lastName |
                     titlecase)}}</label>
                 </div>
@@ -110,22 +111,28 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between">
                         <h2 class="card-title">{{book.title | titlecase}}</h2>
-                      <!-- <h2><i class="fas {{book.genre.icon}}"></i></h2>-->
+                        <h2><i class="fas {{book.genre.icon}}"></i></h2>
                       </div>
-                      <!-- <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}-->
-                     <!-- </p> -->
+                      <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}
+                      </p>
                       <span class="card-text"><small>{{book.description}}</small></span>
                       <div class="d-flex justify-content-between mt-3">
-                        <div (click)="addFavorite(book.idBook)">
-                          <i class="glyphicon" ng-class="(like.userVotes==1) ? 'glyphicon-heart' : 'glyphicon-heart-empty'"></i>
-                        <!--  <span ng-model="like.votes">{{book.favorites}}</span>-->
+                        <div class="d-flex align-items-center">
+                          <i class="text-danger fs-2"
+                            [ngClass]="(book.isFavorite) ? 'fas fa-heart' : 'far fa-heart'"></i>
+                          <!-- <span>
+                            <span class="fs-4">[</span>
+                            {{user.favorites.length}}
+                            <span class="fs-4">]</span>
+                          </span> -->
                         </div>
                         <div>
-                          <div *ngIf="book.isBorrowed" class="border border-2 rounded-3 p-2 text-center">En location</div>
+                          <div *ngIf="book.isBorrowed" class="border border-2 rounded-3 p-2 text-center">En location
+                          </div>
                           <div *ngIf="!book.isBorrowed" class="border border-2 bg-info rounded-3 p-2 text-center">
                             Disponible</div>
-                          </div>
                         </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -150,9 +157,9 @@
             <tbody>
               <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.isBorrowed)">
                 <td>#{{book.isbn}}</td>
-                <a [routerLink]="['detailLivre','1']"> <td> {{book.title}}</td></a>
-               <!-- <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>-->
-               <!-- <td><i class="fas {{book.genre.icon}}"></i></td>-->
+                <td>{{book.title}}</td>
+                <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
+                <td><i class="fas {{book.genre.icon}}"></i></td>
                 <td>{{book.originalLanguage}}</td>
                 <td>{{book.publishedDate | date:'yyyy'}}</td>
                 <td *ngIf="book.isBorrowed">En location</td>
@@ -167,5 +174,4 @@
       </div>
     </div>
   </div>
-
- 
+</div>
