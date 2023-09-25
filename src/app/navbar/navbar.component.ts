@@ -13,7 +13,6 @@ export class NavbarComponent {
   searchField: string = '';
 
   @Output() connected = new EventEmitter<User>();
-  @Output() addSearchCriteria = new EventEmitter<string>();
   @Output() openProfile = new EventEmitter<User>();
   @Output() disconnected = new EventEmitter<User>();
 
@@ -29,13 +28,6 @@ export class NavbarComponent {
     this.visible = true;
     this.connected.emit(user);
     this.user = user;
-  }
-
-  //---------------------------------
-  // Function to disconnect a user
-  //---------------------------------
-  addSearch() {
-    this.addSearchCriteria.emit(this.searchField);
   }
 
   //---------------------------------

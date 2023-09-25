@@ -6,14 +6,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConnectionComponent } from './connection/connection.component';
+import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BorrowComponent } from './borrow/borrow.component';
 import { FavoriteComponent } from './favorite/favorite.component';
-import { AdminInventoryComponent } from './admin-inventory/admin-inventory.component';
-import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
+import { ChatComponent } from './chat/chat.component';
+import { DetailsBorrowComponent } from './details-borrow/details-borrow.component';
+import { DetailLivreComponent } from './detail-livre/detail-livre.component';
+import { RecommendedComponent } from './recommended/recommended.component';
 
 @NgModule({
   declarations: [
@@ -25,14 +28,18 @@ import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
     ProfileComponent,
     BorrowComponent,
     FavoriteComponent,
-    AdminInventoryComponent,
-    AdminNavbarComponent
+    ChatComponent,
+    DetailsBorrowComponent,
+    DetailLivreComponent,
+    RecommendedComponent
   ],
   imports: [
+    
     BrowserModule,
     NgbModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

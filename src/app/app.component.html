@@ -1,3 +1,4 @@
+
 <div>
   <!-- La page de connexion -->
   <app-connection *ngIf="!isConnected"
@@ -12,30 +13,13 @@
 
   <div>
     <header>
-      <!-- La barre de navigation des membres -->
-      <app-navbar #navbar
-        (connected)="inventory.onInventory($event)"
-        
-        (addSearchCriteria)="inventory.applyFilters($event)"
-        
-        (openProfile)="profile.onProfile($event)"
-        (openProfile)="inventory.onDisconnect($event)"
-        
-        (disconnected)=" onDisconnect($event)"
-        (disconnected)="inventory.onDisconnect($event)"
-        (disconnected)="footer.onDisconnect($event)"></app-navbar>
-
-      <!-- La barre de navigation des admins -->
-      <app-admin-navbar #adminNavBar
-        (disconnected)="adminInventory.onDisconnect($event)"
-        (disconnected)="onDisconnect($event)"
-
-        (openAdminInventory)="adminInventory.onAdminInventory($event)"
-      ></app-admin-navbar>
+        (openProfile)="inventory.onDisconnect($event)" (disconnected)=" onDisconnect($event)"
+      <app-navbar #navbar (connected)="inventory.onInventory($event)" (openProfile)="profile.onProfile($event)"
+        (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"></app-navbar>
     </header>
 
     <main class="m-2">
-      <!-- L'inventaire des membres' -->
+      <router-outlet></router-outlet>
       <app-inventory #inventory (openProfile)="profile.onProfile($event)"></app-inventory>
 
       <!-- Le profil des membres -->
@@ -51,9 +35,16 @@
       <!-- Les favoris des membres -->
       <app-favorite #favorite (openInventory)="inventory.onInventory($event)"></app-favorite>
 
-      <!-- L'inventaire des admins -->
-      <app-admin-inventory #adminInventory></app-admin-inventory>
+      <div *ngIf="isConnected">
+        <div class="d-flex justify-content-end m-3" id="chat">
+          <button class="btn btn-primary rounded-5" (click)="openChat()">
+            <i class="far fa-comment-dots p-2 fs-1"></i>
+          </button>
+        </div>
+      </div>
     </main>
+
+   
 
     <footer>
       <!-- Le pied de page -->
@@ -61,3 +52,9 @@
     </footer>
   </div>
 </div>
+
+<a [routerLink]="['detailLivre','1']">test detail-livre</a>
+    
+
+
+

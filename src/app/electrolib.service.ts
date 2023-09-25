@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Book } from './model/Book';
 import { User } from './model/User';
 import { Genre } from './model/Genre';
+import { Author } from './model/Author';
 
 @Injectable({
   providedIn: 'root'
@@ -19,34 +20,35 @@ export class ElectrolibService {
   //--------------------------------
   // Route to get all the books
   //--------------------------------
-  getBooks(filter?: number[], search?: string) {
+  getBooks(genresFilter?: number[], authorsFilter?: number[], search?: string) {
     let url = urlServer + 'books';
-    
-    if (filter && search) {
+
+    if (genresFilter && search) {
       url += '?idGenre=';
       
-      for (let i = 0; i < filter.length; i++) {
-        url += + filter[i] + ',';
+      for (let i = 0; i < genresFilter.length; i++) {
+        url += + genresFilter[i] + ',';
       }
       
       url = url.slice(0, -1);
       url += '&search=' + search;
     }
 
-    if (filter && !search) {
+    if (genresFilter && !search) {
       url += '?idGenre=';
       
-      for (let i = 0; i < filter.length; i++) {
-        url += + filter[i] + ',';
+      for (let i = 0; i < genresFilter.length; i++) {
+        url += + genresFilter[i] + ',';
       }
       
       url = url.slice(0, -1);
     }
 
-    if (!filter && search) {
+    if (!genresFilter && search) {
       url += '?search=' + search;
     }
     
+    console.log(url);
     return this.http.get<Book[]>(url);
   }
   
@@ -58,6 +60,34 @@ export class ElectrolibService {
 
     return this.http.get<Genre[]>(url);
   }
+  
+  //--------------------------------
+  // Route to get all the genre
+  //--------------------------------
+  getGenre(idGenre: number) {
+    let url = urlServer + 'genre/' + idGenre;
+
+    return this.http.get<Genre>(url);
+  }
+  
+  //--------------------------------
+  // Route to get all the genre
+  //--------------------------------
+  getAuthors() {
+    let url = urlServer + 'authors';
+
+    return this.http.get<Author[]>(url);
+  }
+  
+  //--------------------------------
+  // Route to get all the genre
+  //--------------------------------
+  getAuthor(idAuthor: number) {
+    let url = urlServer + 'author/' + idAuthor;
+
+    return this.http.get<Author>(url);
+  }
+
 
   //--------------------------------
   // Route to connect a user
@@ -73,5 +103,16 @@ export class ElectrolibService {
     });
 
     return this.http.post<User>(url, params);
+  }
+
+  //--------------------------------
+  // Route to get all the books
+  //--------------------------------
+  
+  //route qui va chercher un livre
+  getBook(id:number){
+    let url = urlServer + 'getBook/'+id;
+
+    return this.http.get<Book>(url);
   }
 }
