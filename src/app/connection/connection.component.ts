@@ -32,8 +32,8 @@ export class ConnectionComponent {
         alert('Erreur: Veuillez fournir les informations nécessaires.');
       }
     } else {
-      this.temporaryUser.memberNumber = "admin";
-      this.temporaryUser.password = "admin";
+      this.temporaryUser.memberNumber = "123";
+      this.temporaryUser.password = "11";
       this.retrieveAccount();
     }
   }

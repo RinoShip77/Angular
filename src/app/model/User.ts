@@ -6,6 +6,7 @@ import { Reservation } from "./Reservation";
 export class User {
   idUser: number = 0;
   memberNumber: string = '';
+  password: string = '';
   email: string = '';
   registrationDate: Date = new Date();
   firstName: string = '';

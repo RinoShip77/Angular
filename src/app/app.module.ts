@@ -17,6 +17,8 @@ import { ChatComponent } from './chat/chat.component';
 import { DetailsBorrowComponent } from './details-borrow/details-borrow.component';
 import { DetailLivreComponent } from './detail-livre/detail-livre.component';
 import { RecommendedComponent } from './recommended/recommended.component';
+import { AdminInventoryComponent } from './admin-inventory/admin-inventory.component';
+import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { RecommendedComponent } from './recommended/recommended.component';
     ChatComponent,
     DetailsBorrowComponent,
     DetailLivreComponent,
-    RecommendedComponent
+    RecommendedComponent,
+    AdminInventoryComponent,
+    AdminNavbarComponent
   ],
   imports: [
     

@@ -12,7 +12,7 @@ import { Author } from '../model/Author';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  visible = true;
+  visible = false;
   user: User = new User();
   genres: Genre[] = new Array();
   authors: Author[] = new Array();
@@ -33,10 +33,10 @@ export class InventoryComponent {
   //---------------------------------
   ngOnInit() {
     //Get all the genres from the database
-    //this.retrieveGenres();
+    this.retrieveGenres();
 
     //Get all the genres from the database
-    //this.retrieveAuthors();
+    this.retrieveAuthors();
 
     //Get all the books from the database
     this.retrieveBooks();

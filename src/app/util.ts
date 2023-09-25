@@ -1,1 +1,1 @@
-export const urlServer = 'http://localhost:8000/';
+export const urlServer = 'https://localhost:8000/';

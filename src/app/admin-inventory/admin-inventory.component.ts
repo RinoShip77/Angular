@@ -53,9 +53,9 @@ export class AdminInventoryComponent {
         case "isbn":
           this.displayedBooks.sort((a, b) => (a.isbn > b.isbn ? 1 : -1));
           break;
-        case "author":
+        /*case "author":
           this.displayedBooks.sort((a, b) => (a.author > b.author ? 1 : -1));
-          break;
+          break;*/
       }
     } 
     else {
@@ -66,9 +66,9 @@ export class AdminInventoryComponent {
         case "isbn":
           this.displayedBooks.sort((a, b) => (a.isbn < b.isbn ? 1 : -1));
           break;
-        case "author":
+        /*case "author":
           this.displayedBooks.sort((a, b) => (a.author < b.author ? 1 : -1));
-          break;
+          break;*/
       }
     }
   }
@@ -91,11 +91,11 @@ export class AdminInventoryComponent {
               this.displayedBooks.push(book);
             }
             break;
-          case "author":
+          /*case "author":
             if (book.author.firstName.includes(this.searchField)) {
               this.displayedBooks.push(book);
             }
-            break;
+            break;*/
         }
       });
     } else {
@@ -108,7 +108,7 @@ export class AdminInventoryComponent {
   // Récupère tous les livres présents en base de données
   //-------------------------------------------------------
   retrieveBooks(filter?: number[], search?: string) {
-    this.electrolibSrv.getBooks(filter, search).subscribe(
+    this.electrolibSrv.getBooks(filter).subscribe(
       books => {
         this.books = books;
         this.displayedBooks = books;
