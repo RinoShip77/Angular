@@ -73,12 +73,12 @@ export class InventoryComponent {
         books.forEach(book => {
           this.electrolibSrv.getGenre(book.idGenre).subscribe(
             genre => {
-              book.genre = genre;
+             // book.genre = genre;
             }
           )
           this.electrolibSrv.getAuthor(book.idAuthor).subscribe(
             author => {
-              book.author = author;
+             // book.author = author;
             }
           )
         });

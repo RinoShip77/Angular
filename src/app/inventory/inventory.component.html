@@ -110,15 +110,15 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between">
                         <h2 class="card-title">{{book.title | titlecase}}</h2>
-                        <h2><i class="fas {{book.genre.icon}}"></i></h2>
+                      <!-- <h2><i class="fas {{book.genre.icon}}"></i></h2>-->
                       </div>
-                      <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}
-                      </p>
+                      <!-- <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}-->
+                     <!-- </p> -->
                       <span class="card-text"><small>{{book.description}}</small></span>
                       <div class="d-flex justify-content-between mt-3">
                         <div (click)="addFavorite(book.idBook)">
                           <i class="glyphicon" ng-class="(like.userVotes==1) ? 'glyphicon-heart' : 'glyphicon-heart-empty'"></i>
-                          <span ng-model="like.votes">{{book.favorites}}</span>
+                        <!--  <span ng-model="like.votes">{{book.favorites}}</span>-->
                         </div>
                         <div>
                           <div *ngIf="book.isBorrowed" class="border border-2 rounded-3 p-2 text-center">En location</div>
@@ -150,9 +150,9 @@
             <tbody>
               <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.isBorrowed)">
                 <td>#{{book.isbn}}</td>
-                <td> <a [routerLink]="['detailLivre','book.idBook']">{{book.title}}</a> </td>
-                <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
-                <td><i class="fas {{book.genre.icon}}"></i></td>
+                <a [routerLink]="['detailLivre','1']"> <td> {{book.title}}</td></a>
+               <!-- <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>-->
+               <!-- <td><i class="fas {{book.genre.icon}}"></i></td>-->
                 <td>{{book.originalLanguage}}</td>
                 <td>{{book.publishedDate | date:'yyyy'}}</td>
                 <td *ngIf="book.isBorrowed">En location</td>
@@ -167,3 +167,5 @@
       </div>
     </div>
   </div>
+
+ 

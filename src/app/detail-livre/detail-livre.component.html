@@ -12,7 +12,7 @@
 
         <div class="row">
             <p class="col-6">Genre :</p>
-            <p class="col-6">{{book.genre}}</p>
+           <!-- <p class="col-6">{{book.genre}}</p>-->
         </div>
         <div class="row">
             <p class="col-6">Langue :</p>
@@ -33,7 +33,7 @@
                 réserver
             </button>
             <button class="btn btn-outline-info m-1">
-                Emprunter
+                <a [routerLink]="['/detailEmprunt','1']">Emprunter</a>
             </button>
             <button class="btn btn-outline-info m-1">
                 Ajouter au favoris
