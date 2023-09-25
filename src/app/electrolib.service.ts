@@ -100,6 +100,16 @@ export class ElectrolibService {
     return this.http.get<Borrow[]>(url);
   }
 
+  getBorrowsFromUser(user: User)
+  {
+    let idUser = user.idUser;
+    let url = urlServer + 'borrows';
+    console.log(idUser);
+    url = "http://127.0.0.1:8000/borrows/" + idUser;
+
+    return this.http.get<Borrow[]>(url);
+  }
+
   //--------------------------------
   // Route to connect a user
   //--------------------------------

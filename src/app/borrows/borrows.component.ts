@@ -17,7 +17,7 @@ export class BorrowsComponent implements OnInit {
 
   ngOnInit(): void 
   {
-    this.retrieveBorrows();
+    
   }
 
   @Output() openBorrowDetails = new EventEmitter<Borrow>();
@@ -43,6 +43,7 @@ export class BorrowsComponent implements OnInit {
 
     this.visible = true;
     this.user = user;
+    this.retrieveBorrows();
 
     //TODO
     //Si le user a des frais, il ne peut plus emprunter jusqu'à ce qu'il paie
@@ -60,7 +61,7 @@ export class BorrowsComponent implements OnInit {
   //Cherche tous les emprunts en bd
   retrieveBorrows()
   {
-    this.electrolibService.getBorrows().subscribe(
+    this.electrolibService.getBorrowsFromUser(this.user).subscribe(
       borrows => {
         this.borrows = borrows.map(x => Object.assign(new Borrow(), x));
       }
