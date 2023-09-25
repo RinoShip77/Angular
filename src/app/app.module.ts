@@ -16,6 +16,7 @@ import { FavoriteComponent } from './favorite/favorite.component';
 import { ChatComponent } from './chat/chat.component';
 import { DetailsBorrowComponent } from './details-borrow/details-borrow.component';
 import { DetailLivreComponent } from './detail-livre/detail-livre.component';
+import { RecommendedComponent } from './recommended/recommended.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DetailLivreComponent } from './detail-livre/detail-livre.component';
     FavoriteComponent,
     ChatComponent,
     DetailsBorrowComponent,
-    DetailLivreComponent
+    DetailLivreComponent,
+    RecommendedComponent
   ],
   imports: [
     
