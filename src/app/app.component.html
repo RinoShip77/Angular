@@ -53,6 +53,7 @@
       
       <!-- Les favoris des membres -->
       <app-favorite #favorite (openInventory)="inventory.onInventory($event)"></app-favorite>
+      
 
       <app-borrows #borrows (openBorrowDetails)="borrowDetails.onBorrowDetails($event)" (openInventory)="inventory.onInventory($event)"></app-borrows>
       <app-borrow-details #borrowDetails (openBorrows)="borrows.onBorrows($event)"></app-borrow-details>

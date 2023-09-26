@@ -43,7 +43,7 @@ import { BorrowDetailsComponent } from './borrow-details/borrow-details.componen
     BorrowDetailsComponent
   ],
   imports: [
-    
+    AppRoutingModule,
     BrowserModule,
     NgbModule,
     FormsModule,
