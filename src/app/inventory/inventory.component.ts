@@ -70,18 +70,6 @@ export class InventoryComponent {
   retrieveBooks(genresFilter?: number[], authorsFilter?: number[], search?: string) {
     this.electrolibSrv.getBooks(genresFilter, authorsFilter, search).subscribe(
       books => {
-        books.forEach(book => {
-          this.electrolibSrv.getGenre(book.idGenre).subscribe(
-            genre => {
-              book.genre = genre;
-            }
-          )
-          this.electrolibSrv.getAuthor(book.idAuthor).subscribe(
-            author => {
-              book.author = author;
-            }
-          )
-        });
         this.books = books;
       }
     );
@@ -199,10 +187,10 @@ export class InventoryComponent {
   // Function to sort by date descending
   //---------------------------------
   compareAuthorDesc(book1: Book, book2: Book) {
-    if (book1.idAuthor > book2.idAuthor) {
+    if (book1.author.firstName > book2.author.firstName) {
       return -1;
     }
-    if (book1.idAuthor < book2.idAuthor) {
+    if (book1.author.firstName < book2.author.firstName) {
       return 1;
     }
 
@@ -213,10 +201,10 @@ export class InventoryComponent {
   // Function to sort by date descending
   //---------------------------------
   compareAuthorAsc(book1: Book, book2: Book) {
-    if (book1.idAuthor < book2.idAuthor) {
+    if (book1.author.firstName < book2.author.firstName) {
       return -1;
     }
-    if (book1.idAuthor > book2.idAuthor) {
+    if (book1.author.firstName > book2.author.firstName) {
       return 1;
     }
 
