@@ -1,34 +1,47 @@
-<main *ngIf="visible" class="mx-auto text-center mt-2 font">
+<main *ngIf="visible" class="mx-auto text-center font">
   <section class="main-frame">
     <div *ngIf="connectionVisible" class="connection-frame">
 
-      <h1 class="title">Bienvenue sur Electrolib</h1>
-      <span>Votre bibliothèque en ligne</span>
+      <h1 class="title"><i class="fas fa-book-bookmark mt-1 fs-1" style="margin-right: 4px;"></i>Electrolib</h1>
+
+      <div class="subtitle">
+        <div class="title-line element"></div>
+        <label class="element" style="width: 13em;">Votre bibliothèque en ligne</label>
+        <div class="title-line element"></div>
+      </div>
 
       <section class="login-frame">
-        <h3 class="login-title">Connectez vous:</h3>
 
-        <article style="width: 80%; margin: auto;">
-          <label class="form-label fw-bold">Numéro de membre:</label>
-          <input [(ngModel)]="temporaryUser.memberNumber" name="memberNumber" type="text" class="form-control mb-2">
-          <label class="form-label fw-bold">Mot de passe:</label>
-          <input [(ngModel)]="temporaryUser.password" name="pwd" type="password" class="form-control">
+        <label class="login-title">Connexion</label>
+
+        <article style="width: 80%; margin: auto; margin-bottom: 30px;">
+          <label class="form-label fw-bold">Numéro de membre</label>
+          <input [(ngModel)]="temporaryUser.memberNumber" name="memberNumber" placeholder="Votre numéro de membre" type="text" class="form-control">
+
+          <label class="form-label fw-bold">Mot de passe</label>
+          <input [(ngModel)]="temporaryUser.password" name="pwd" placeholder="Votre mot de passe" type="password" class="form-control">
+
         </article>
 
-        <form class="mt-5" (ngSubmit)="connect('credentials')">
-          <button type="submit" class="btn btn-primary">
-            <i class="fas fa-unlock-keyhole me-2"></i>
-            Se connecter
-          </button>
-          <br>
-          <br>
-        </form>
+        <a href="#">Mot de passe oublié</a>
 
-        <form (ngSubmit)="connect('cheat')">
-          <button class="btn btn-warning" type="submit">
-            Tricher (connexion)
-          </button>
-        </form>
+        <div style="display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;">
+          <form (ngSubmit)="connect('credentials')" style="margin-top: 10px;">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-unlock-keyhole me-2"></i>
+              Se connecter
+            </button>
+          </form>
+  
+          <form (ngSubmit)="connect('cheat')" style="margin-top: 10px;">
+            <button class="btn btn-warning" type="submit">
+              Tricher
+            </button>
+          </form>
+        </div>
 
         <!--
           <button class="btn btn-warning" (click)="createAccount()">
@@ -36,6 +49,24 @@
             Se créer un compte
           </button>
           -->
+
+        <div class="subtitle" style="margin-top: 2em;">
+          <div class="logo-title-line element"></div>
+          <label class="element" style="width: 8em;">Suivez-nous sur</label>
+          <div class="logo-title-line element"></div>
+        </div>
+
+        <div style="margin-top: 1em;" class="social-logos">
+          <a href="https://www.facebook.com" target="_blank" class="social-logo">
+            <img src="/assets/images/logos/facebook-logo.png" class="logo" alt="">
+          </a>
+          <a href="https://www.twitter.com" target="_blank" class="social-logo">
+            <img src="/assets/images/logos/twitter-logo.png" class="logo" alt="">
+          </a>
+          <a href="https://www.instagram.com" target="_blank" class="social-logo">
+            <img src="/assets/images/logos/instagram-logo.png" class="logo" alt="">
+          </a>
+        </div>
 
       </section>
     </div>

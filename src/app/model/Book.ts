@@ -1,5 +1,6 @@
 import { Genre } from "./Genre";
 import { Author } from "./Author";
+
 export class Book {
   idBook: number = 0;
   idGenre: number = 0;
