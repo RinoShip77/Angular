@@ -18,20 +18,10 @@ export class AdminInventoryComponent {
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
 
-  @Output() addSearchCriteria = new EventEmitter<string>();
-  @Output() openAdminBook = new EventEmitter<string>();
-
   constructor(private electrolibSrv: ElectrolibService) { }
 
   ngOnInit() {
     this.retrieveBooks();
-  }
-
-  //-------------------------------------------------------
-  // Gérer un livre admin
-  //-------------------------------------------------------
-  openBookInterface(action: string) {
-    this.openAdminBook.emit(action);
   }
 
   //-------------------------------------------------------
@@ -121,20 +111,5 @@ export class AdminInventoryComponent {
         this.displayedBooks =  books;
       }
     );
-  }
-
-  //-------------------------------------------------------
-  // Affiche l'inventaire admin
-  //-------------------------------------------------------
-  onAdminInventory(user: User) {
-    //this.visible = true;
-    this.user = user;
-  }
-
-  //-------------------------------------------------------
-  // Déconnecte l'admin
-  //-------------------------------------------------------
-  onDisconnect(user: User) {
-    //fesait visible, on garde la fcnt au cas ou
   }
 }
