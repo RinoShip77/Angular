@@ -6,7 +6,6 @@
     (connected)="footer.onFooter($event)"
     
     (adminConnected)="onConnect($event)"
-    (adminConnected)="adminInventory.onAdminInventory($event)"
     (adminConnected)="adminNavBar.onAdminNavBar($event)"
   ></app-connection>
 
@@ -22,23 +21,16 @@
 
         <!-- La barre de navigation des admins -->
       <app-admin-navbar #adminNavBar
-      (disconnected)="adminInventory.onDisconnect($event)"
       (disconnected)="onDisconnect($event)"
-
-      (openAdminInventory)="adminInventory.onAdminInventory($event)"
-      
       >
      </app-admin-navbar>
         
 
     </header>
 
-    <main class="m-2">
+    <main>
       <router-outlet></router-outlet>
       <app-inventory #inventory (openProfile)="profile.onProfile($event)"></app-inventory>
-
-      <!-- L'inventaire des admins -->
-      <app-admin-inventory #adminInventory></app-admin-inventory>
 
 
       <!-- Le profil des membres -->

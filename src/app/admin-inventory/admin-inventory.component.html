@@ -1,4 +1,3 @@
-<main *ngIf="visible">
 
     <section class="container-fluid">
         <article>
@@ -8,7 +7,7 @@
             <hr>
 
             <article class="inventory-navbar">
-                <button class="btn btn-dark">
+                <button class="btn btn-dark" (click)="openBookInterface('modify')">
                     <i class="fa-solid fa-book" style="margin-right: 4px;"></i>
                     Ajouter un livre
                 </button>
@@ -81,4 +80,3 @@
 
         </article>
     </section>
-</main>

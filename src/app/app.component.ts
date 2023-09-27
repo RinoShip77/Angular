@@ -36,8 +36,7 @@ export class AppComponent {
   // Function to disconnect the current user
   //---------------------------------
   onDisconnect(user: User) {
-    this.isConnected = false;
-    console.log('disconnect user: ' + user.memberNumber);
     user = new User();
+    
   }
 }

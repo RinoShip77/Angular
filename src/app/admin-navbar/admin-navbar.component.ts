@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { User } from '../model/User';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -16,7 +17,7 @@ export class AdminNavbarComponent {
   @Output() disconnected = new EventEmitter<User>();
   @Output() openAdminInventory = new EventEmitter<User>();
 
-  constructor(private offcanvasService: NgbOffcanvas) { }
+  constructor(private offcanvasService: NgbOffcanvas, private router: Router) { }
 
   //-------------------------------------------------------
   // Affiche la barre de navigation admin
@@ -39,8 +40,9 @@ export class AdminNavbarComponent {
   //-------------------------------------------------------
   disconnect() {
     this.offcanvasService.dismiss();
-    this.visible = false;
     this.disconnected.emit(this.user);
+    this.router.navigate([""]);
+    this.visible = false;
   }
 
   //-------------------------------------------------------

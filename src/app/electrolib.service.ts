@@ -125,15 +125,36 @@ export class ElectrolibService {
 
     return this.http.post<User>(url, params);
   }
-
-  //--------------------------------
-  // Route to get all the books
-  //--------------------------------
   
   //route qui va chercher un livre
   getBook(id:number){
     let url = urlServer + 'getBook/'+id;
 
     return this.http.get<Book>(url);
+  }
+
+  //--------------------------------
+  // Créer un livre
+  //--------------------------------
+  createBook(book: Book) {
+    let url = urlServer + "createBook";
+
+    const params = new HttpParams({
+      fromObject: {
+        title: book.title,
+        description: book.description,
+        isbn: book.isbn,
+        publishedDate: book.publishedDate,
+        originalLanguage: book.originalLanguage,
+        isBorrowed: book.isBorrowed,
+        cover: book.cover,
+        idAuthor: book.idAuthor,
+        idGenre: book.idGenre
+      }
+    });
+
+    console.log(book);
+
+    return this.http.post<Book[]>(url, params);
   }
 }
