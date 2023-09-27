@@ -25,7 +25,7 @@
                         <span class="nav-link btn-nav" type="button">Membres</span>
                     </li>
                 </ul>
-                <div class="row me-1" *ngIf="user.memberNumber != ''">
+                <div class="row me-1">
                     <button class="btn btn-danger" style="font-size: 20px;" (click)="disconnect()">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         Se déconnecter
@@ -35,6 +35,7 @@
         </div>
     </nav>
 </section>
+
 <ng-template #content let-offcanvas>
     <div class="offcanvas-header">
         <div class="d-flex justify-content-end me-3">

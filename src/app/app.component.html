@@ -1,29 +1,19 @@
 <div style="height: 100%;">
-  <!-- La page de connexion -->
-  <app-connection *ngIf="!isConnected" (connected)="onConnect($event)" (connected)="navbar.onNavbar($event)"
-    (connected)="footer.onFooter($event)" (adminConnected)="onConnect($event)"
-  ></app-connection>
-
-  <div>
     <header>
-      <app-navbar #navbar 
-        (disconnected)="footer.onDisconnect($event)"></app-navbar>
+      <app-navbar #navBar (disconnected)="onDisconnect($event)" (connected)="onConnect($event)"></app-navbar>
 
       <!-- La barre de navigation des admins -->
       <app-admin-navbar #adminNavBar
-        (disconnected)="onDisconnect($event)">
+      (connected)="adminNavBar.onConnect($event)" (disconnected)="onDisconnect($event)">
       </app-admin-navbar>
     </header>
 
-    <main>
+    <main style="height: 100%;">
       <router-outlet></router-outlet>
     </main>
 
     <footer>
       <!-- Le pied de page -->
-      <app-footer #footer></app-footer>
+      <app-footer></app-footer>
     </footer>
-  </div>
 </div>
-
-<!-- <a [routerLink]="['detailLivre','1']">test detail-livre</a> -->

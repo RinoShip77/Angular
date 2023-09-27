@@ -12,7 +12,6 @@ export class AppComponent {
   isConnected = false;
   isChatting = false;
   user: User = new User();
-  title: any;
 
   constructor(private modalService: NgbModal) {}
 
@@ -36,6 +35,7 @@ export class AppComponent {
   // Function to disconnect the current user
   //---------------------------------
   onDisconnect(user: User) {
+    this.isConnected = false;
     user = new User();
     
   }

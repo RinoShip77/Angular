@@ -18,11 +18,11 @@ export class User {
   roles: string = '';
 
   constructor() {
-    if (this.roles == '["ROLES_USER"]') {
-      this.roles = '[]';
+    /*if (this.roles == '["ROLES_USER"]') {
+      this.roles = '["ROLES_USER"]';
     } else {
       this.roles = '["ROLE_ADMIN"]';
-    }
+    }*/
   }
   borrows: Borrow[] = new Array();
   evaluations: Evaluation[] = new Array();

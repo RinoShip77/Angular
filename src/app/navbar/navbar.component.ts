@@ -1,14 +1,16 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '../model/User';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { RouteChangeService } from '../route-change.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
-  visible = false;
+export class NavbarComponent implements OnInit {
+  visible: boolean;
   user: User = new User();
   searchField: string = '';
 
@@ -21,14 +23,26 @@ export class NavbarComponent {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private offcanvasService: NgbOffcanvas) { }
+  constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService) {
+    this.visible = this.router.url !== "/";
+  }
+
+  ngOnInit() {
+    this.routeChangeService.routeChange$.subscribe(() => {
+      this.updateVisibility();
+    });
+
+    this.updateVisibility();
+  }
+
+  private updateVisibility() {
+    this.visible = this.router.url !== "/";
+  }
 
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  onNavbar(user: User) {
-    this.visible = true;
-    this.connected.emit(user);
+  onConnect(user: User) {
     this.user = user;
   }
 

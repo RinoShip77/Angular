@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-connection',
@@ -16,7 +17,6 @@ export class ConnectionComponent {
   user: User = new User();
 
   @Output() connected = new EventEmitter<User>();
-  @Output() adminConnected = new EventEmitter<User>();
 
   constructor(private electrolibService: ElectrolibService, private router: Router) { }
 
@@ -51,13 +51,13 @@ export class ConnectionComponent {
             if (connectedUser.roles === '["ROLE_ADMIN"]') {
             this.user = connectedUser;
 
-            this.adminConnected.emit(this.user);
+            this.connected.emit(this.user);
             this.router.navigate(["adminInventory"]);
             
           } else {
             this.user = connectedUser;
             this.router.navigate(["/inventory"]);
-            //this.connected.emit(this.user);
+            this.connected.emit(this.user);
             this.visible=false;
           } 
         } else {

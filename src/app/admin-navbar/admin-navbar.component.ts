@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { User } from '../model/User';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { RouteChangeService } from '../route-change.service';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -17,15 +18,27 @@ export class AdminNavbarComponent {
   @Output() disconnected = new EventEmitter<User>();
   @Output() openAdminInventory = new EventEmitter<User>();
 
-  constructor(private offcanvasService: NgbOffcanvas, private router: Router) { }
+  constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService) { 
+    this.visible = this.router.url !== "/";
+}
+
+ngOnInit() {
+  this.routeChangeService.routeChange$.subscribe(() => {
+    this.updateVisibility();
+  });
+
+  this.updateVisibility();
+}
+
+private updateVisibility() {
+  this.visible = this.router.url !== "/";
+}
 
   //-------------------------------------------------------
   // Affiche la barre de navigation admin
   //-------------------------------------------------------
-  onAdminNavBar(user: User) {
-    this.connected.emit(user);
+  onConnect(user: User) {
     this.user = user;
-    this.visible = true;
   }
 
   //-------------------------------------------------------
