@@ -16,6 +16,8 @@ export class User {
   phoneNumber: string = '';
   postalCode: string = '';
   roles: string = '';
+  asObservable: any;
+  next: any;
 
   constructor() {
     /*if (this.roles == '["ROLES_USER"]') {

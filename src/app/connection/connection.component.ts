@@ -3,6 +3,7 @@ import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from '../app.component';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-connection',
@@ -17,7 +18,7 @@ export class ConnectionComponent {
 
   @Output() connected = new EventEmitter<User>();
 
-  constructor(private electrolibService: ElectrolibService, private router: Router) { }
+  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService) { }
 
   //--------------------------------
   // Function to connect a user
@@ -50,11 +51,16 @@ export class ConnectionComponent {
             if (connectedUser.roles === '["ROLE_ADMIN"]') {
             this.user = connectedUser;
 
+            this.dataService.updateUser(this.user);
+
             this.connected.emit(this.user);
             this.router.navigate(["adminInventory"]);
             
           } else {
             this.user = connectedUser;
+
+            this.dataService.updateUser(this.user);
+            
             this.router.navigate(["/inventory"]);
             //this.connected.emit(this.user);
        

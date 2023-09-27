@@ -18,11 +18,11 @@ export class AppComponent {
   //---------------------------------
   // Function to connect a user
   //---------------------------------
-  onConnect(user: User) {
+  /*onConnect(user: User) {
     this.isConnected = true;
     this.user = user;
   }
-
+*/
   openChat() {
     this.modalService.open(ChatComponent, {
       animation: true,

@@ -3,6 +3,7 @@ import { User } from '../model/User';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { RouteChangeService } from '../route-change.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-navbar',
@@ -23,7 +24,7 @@ export class NavbarComponent implements OnInit {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService) {
+  constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService, private dataService: DataService) {
     this.visible = this.router.url !== "/";
   }
 
@@ -36,7 +37,7 @@ export class NavbarComponent implements OnInit {
   }
 
   private updateVisibility() {
-    this.visible = this.router.url !== "/";
+    this.visible = (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_USER"]');
   }
 
   //---------------------------------

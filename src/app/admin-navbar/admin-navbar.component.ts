@@ -3,6 +3,7 @@ import { User } from '../model/User';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { RouteChangeService } from '../route-change.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -18,7 +19,7 @@ export class AdminNavbarComponent {
   @Output() disconnected = new EventEmitter<User>();
   @Output() openAdminInventory = new EventEmitter<User>();
 
-  constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService) { 
+  constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService, private dataService: DataService) { 
     this.visible = this.router.url !== "/";
 }
 
@@ -31,7 +32,7 @@ ngOnInit() {
 }
 
 private updateVisibility() {
-  this.visible = this.router.url !== "/";
+  this.visible = (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_ADMIN"]');
 }
 
   //-------------------------------------------------------
@@ -39,6 +40,7 @@ private updateVisibility() {
   //-------------------------------------------------------
   onConnect(user: User) {
     this.user = user;
+    console.log(user);
   }
 
   //-------------------------------------------------------
