@@ -60,6 +60,8 @@ export class NavbarComponent implements OnInit {
   //---------------------------------
   disconnect() {
     this.offcanvasService.dismiss();
+    this.dataService.disconnectUser();
+    this.visible = false;
     this.router.navigate([""]);
   }
 

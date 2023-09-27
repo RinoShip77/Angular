@@ -51,6 +51,8 @@ private updateVisibility() {
   //-------------------------------------------------------
   disconnect() {
     this.offcanvasService.dismiss();
+    this.dataService.disconnectUser();
+    this.visible = false;
     this.router.navigate([""]);
   }
 

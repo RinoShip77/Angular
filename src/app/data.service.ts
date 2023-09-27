@@ -17,4 +17,8 @@ export class DataService {
   getUser() {
     return this.user;
   }
+
+  disconnectUser() {
+    this.user = undefined;
+  }
 }
