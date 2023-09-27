@@ -11,7 +11,6 @@ import { Book } from '../model/Book';
 
 export class AdminInventoryComponent {
 
-  visible = false;
   user: User = new User();
   books: Book[] = new Array();
   displayedBooks: Book[] = new Array();
@@ -120,7 +119,7 @@ export class AdminInventoryComponent {
   // Affiche l'inventaire admin
   //-------------------------------------------------------
   onAdminInventory(user: User) {
-    this.visible = true;
+    //this.visible = true;
     this.user = user;
   }
 
@@ -128,6 +127,6 @@ export class AdminInventoryComponent {
   // Déconnecte l'admin
   //-------------------------------------------------------
   onDisconnect(user: User) {
-    this.visible = false;
+    //fesait visible, on garde la fcnt au cas ou
   }
 }

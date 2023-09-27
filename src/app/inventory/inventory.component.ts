@@ -12,7 +12,6 @@ import { Author } from '../model/Author';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  visible = false;
   user: User = new User();
   genres: Genre[] = new Array();
   authors: Author[] = new Array();
@@ -91,7 +90,7 @@ export class InventoryComponent {
   // Function to display every book in the database
   //---------------------------------
   onInventory(user: User) {
-    this.visible = true;
+    //this.visible = true;
     this.user = user;
   }
 
@@ -320,6 +319,6 @@ export class InventoryComponent {
   // Function to disconnect a user
   //---------------------------------
   onDisconnect(user: User) {
-    this.visible = false;
+    //cette fnct fesait visible.false, on grade la fcnt au cas ou
   }
 }
