@@ -67,8 +67,8 @@ export class InventoryComponent {
   //---------------------------------
   // Function to get all the books from the database
   //---------------------------------
-  retrieveBooks(genresFilter?: number[], authorsFilter?: number[], search?: string) {
-    this.electrolibSrv.getBooks(genresFilter, authorsFilter, search).subscribe(
+  retrieveBooks() {
+    this.electrolibSrv.getBooks().subscribe(
       books => {
         this.books = books;
       }
@@ -255,8 +255,31 @@ export class InventoryComponent {
         authorsFilter.push(this.authors[i].idAuthor);
       }
     }
+  }
 
-    this.retrieveBooks(genresFilter, authorsFilter, search);
+  //---------------------------------
+  // Function to remove all the filters from the view
+  //---------------------------------
+  filterBooksByGenres(genre: number) {
+    if (this.books.length > 0) {
+      this.books = this.books.filter((book) => book.idGenre === genre);
+    }
+  }
+
+  //---------------------------------
+  // Function to remove all the filters from the view
+  //---------------------------------
+  filterBooksByAuthors(author: number) {
+    if (this.books.length > 0) {
+      this.books = this.books.filter((book) => book.idAuthor === author);
+    }
+  }
+
+  //---------------------------------
+  // Function to remove all the filters from the view
+  //---------------------------------
+  applySearch(search: string) {
+    this.books = this.books.filter((book) => book.title.includes(search));
   }
 
   //---------------------------------
@@ -266,6 +289,12 @@ export class InventoryComponent {
     for (let i = 0; i < this.genres.length; i++) {
       if (this.genres[i].isFilter) {
         this.genres[i].isFilter = false;
+      }
+    }
+
+    for (let i = 0; i < this.authors.length; i++) {
+      if (this.authors[i].isFilter) {
+        this.authors[i].isFilter = false;
       }
     }
 
@@ -289,7 +318,7 @@ export class InventoryComponent {
   displayBook(idBook: number) {
     console.log(idBook)
   }
-  
+
   //---------------------------------
   // Function to open the page for a specific book
   //---------------------------------

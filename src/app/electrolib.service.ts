@@ -21,35 +21,9 @@ export class ElectrolibService {
   //--------------------------------
   // Route to get all the books
   //--------------------------------
-  getBooks(genresFilter?: number[], authorsFilter?: number[], search?: string) {
+  getBooks() {
     let url = urlServer + 'books';
 
-    if (genresFilter && search) {
-      url += '?idGenre=';
-      
-      for (let i = 0; i < genresFilter.length; i++) {
-        url += + genresFilter[i] + ',';
-      }
-      
-      url = url.slice(0, -1);
-      url += '&search=' + search;
-    }
-
-    if (genresFilter && !search) {
-      url += '?idGenre=';
-      
-      for (let i = 0; i < genresFilter.length; i++) {
-        url += + genresFilter[i] + ',';
-      }
-      
-      url = url.slice(0, -1);
-    }
-
-    if (!genresFilter && search) {
-      url += '?search=' + search;
-    }
-    
-    console.log(url);
     return this.http.get<Book[]>(url);
   }
   

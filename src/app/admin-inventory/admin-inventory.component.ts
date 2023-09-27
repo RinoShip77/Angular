@@ -108,12 +108,12 @@ export class AdminInventoryComponent {
   // Récupère tous les livres présents en base de données
   //-------------------------------------------------------
   retrieveBooks(filter?: number[]) {
-    this.electrolibSrv.getBooks(filter).subscribe(
-      books => {
-        this.books = books;
-        this.displayedBooks =  books;
-      }
-    );
+    // this.electrolibSrv.getBooks(filter).subscribe(
+    //   books => {
+    //     this.books = books;
+    //     this.displayedBooks =  books;
+    //   }
+    // );
   }
 
   //-------------------------------------------------------

@@ -52,7 +52,7 @@
             <button ngbNavLink>Par genre</button>
             <ng-template ngbNavContent class="my-4">
               <div *ngFor="let genre of genres" class="ms-5 my-2">
-                <div class="form-check form-switch" (click)="updateGenresFilter(genre.idGenre)">
+                <div class="form-check form-switch" (click)="filterBooksByGenres(genre.idGenre)">
                   <input class="form-check-input me-2" type="checkbox" role="switch" [(ngModel)]="genre.isFilter">
                   <label class="form-check-label">
                     {{genre.name | titlecase}} | <i class="fas {{genre.icon}} ms-2"></i>
@@ -65,7 +65,7 @@
             <button ngbNavLink>Par auteur</button>
             <ng-template ngbNavContent>
               <div *ngFor="let author of authors" class="ms-5 my-2">
-                <div class="form-check" (click)="updateAuthorsFilter(author.idAuthor)">
+                <div class="form-check" (click)="filterBooksByAuthors(author.idAuthor)">
                   <input class="form-check-input me-2" type="checkbox" [(ngModel)]="author.isFilter">
                   <label class="form-check-label">{{(author.firstName | titlecase) + ' ' + (author.lastName |
                     titlecase)}}</label>
@@ -92,7 +92,7 @@
           </select>
         </div>
         <form #searchForm="ngForm" class="d-flex h-25 ms-2 my-auto" role="search"
-          (ngSubmit)="applyFilters(searchForm.value.searchInp)">
+          (ngSubmit)="applySearch(searchForm.value.searchInp)">
           <input name="searchInp" ngModel class="form-control me-2" type="search" placeholder="Rechercher ...">
           <button class="btn btn-outline-info" type="submit">Chercher</button>
         </form>
@@ -111,7 +111,7 @@
                     <div class="card-body">
                       <div class="d-flex justify-content-between">
                         <h2 class="card-title">{{book.title | titlecase}}</h2>
-                        <h2><i class="fas {{book.genre.icon}}"></i></h2>
+                        <i class="fas {{book.genre.icon}} fs-3"></i>
                       </div>
                       <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}
                       </p>
