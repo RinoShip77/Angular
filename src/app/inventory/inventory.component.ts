@@ -32,13 +32,13 @@ export class InventoryComponent {
   //---------------------------------
   ngOnInit() {
     //Get all the genres from the database
-    this.retrieveGenres();
+    //this.retrieveGenres();
 
     //Get all the genres from the database
-    this.retrieveAuthors();
+    //this.retrieveAuthors();
 
     //Get all the books from the database
-    this.retrieveBooks();
+    //this.retrieveBooks();
   }
 
   //---------------------------------

@@ -19,11 +19,19 @@ export class AdminInventoryComponent {
   selectedSortBy: String = "ascending";
 
   @Output() addSearchCriteria = new EventEmitter<string>();
+  @Output() openAdminBook = new EventEmitter<string>();
 
   constructor(private electrolibSrv: ElectrolibService) { }
 
   ngOnInit() {
     this.retrieveBooks();
+  }
+
+  //-------------------------------------------------------
+  // Gérer un livre admin
+  //-------------------------------------------------------
+  openBookInterface(action: string) {
+    this.openAdminBook.emit(action);
   }
 
   //-------------------------------------------------------

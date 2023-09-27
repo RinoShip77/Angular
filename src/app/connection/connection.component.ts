@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-connection',
@@ -19,7 +18,7 @@ export class ConnectionComponent {
   @Output() connected = new EventEmitter<User>();
   @Output() adminConnected = new EventEmitter<User>();
 
-  constructor(private electrolibService: ElectrolibService,private route: ActivatedRoute,private router: Router) { }
+  constructor(private electrolibService: ElectrolibService, private router: Router) { }
 
   //--------------------------------
   // Function to connect a user
@@ -34,8 +33,8 @@ export class ConnectionComponent {
         alert('Erreur: Veuillez fournir les informations nécessaires.');
       }
     } else {
-      this.temporaryUser.memberNumber = "123";
-      this.temporaryUser.password = "11";
+      this.temporaryUser.memberNumber = "admin";
+      this.temporaryUser.password = "admin";
       this.retrieveAccount();
     }
   }
@@ -50,14 +49,12 @@ export class ConnectionComponent {
           connectedUser.password === this.temporaryUser.password) {
           
             if (connectedUser.roles === '["ROLE_ADMIN"]') {
-            this.visible = false;
             this.user = connectedUser;
-            this.router.navigate(["/adminInventory"]);
-            //this.adminConnected.emit(this.user);
-            this.visible=false;
+
+            this.adminConnected.emit(this.user);
+            this.router.navigate(["adminInventory"]);
             
           } else {
-            this.visible = false;
             this.user = connectedUser;
             this.router.navigate(["/inventory"]);
             //this.connected.emit(this.user);
