@@ -53,14 +53,14 @@ export class ConnectionComponent {
             this.visible = false;
             this.user = connectedUser;
             this.router.navigate(["/adminInventory"]);
-            this.adminConnected.emit(this.user);
+            //this.adminConnected.emit(this.user);
             this.visible=false;
             
           } else {
             this.visible = false;
             this.user = connectedUser;
             this.router.navigate(["/inventory"]);
-            this.connected.emit(this.user);
+            //this.connected.emit(this.user);
             this.visible=false;
           } 
         } else {
