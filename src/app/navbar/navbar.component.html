@@ -1,10 +1,12 @@
 <div *ngIf="visible">
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <div class="d-flex justify-content-end me-3"> <!-- link the click to inventory -->
-        <i class="fas fa-book-bookmark mt-1 fs-1"></i>
-        <h1>Electrolib</h1>
-      </div>
+      <a [routerLink]="'inventory'">
+        <div class="d-flex justify-content-end me-3"> <!-- link the click to inventory -->
+          <i class="fas fa-book-bookmark mt-1 fs-1"></i>
+          <h1>Electrolib</h1>
+        </div>
+       </a> 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
         aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation"
         (click)="openOffcanvas(content)">
@@ -13,13 +15,13 @@
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
           <li class="nav-item">
-            <a class="nav-link">Mon compte</a>
+            <a class="nav-link" [routerLink]="['profile']">Mon compte</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Gestion</a>
           </li>
           <li class="nav-item">
-            <button class="nav-link" (click)="borrows()">Mes Emprunts</button>
+            <button class="nav-link" (click)="borrows()"> <a [routerLink]="['borrows']">Mes Emprunts</a></button>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

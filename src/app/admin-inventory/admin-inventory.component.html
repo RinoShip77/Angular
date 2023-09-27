@@ -7,11 +7,12 @@
             <hr>
 
             <article class="inventory-navbar">
-                <button class="btn btn-dark" (click)="openBookInterface('modify')">
-                    <i class="fa-solid fa-book" style="margin-right: 4px;"></i>
-                    Ajouter un livre
-                </button>
-
+                <a [routerLink]="['/adminBook']">
+                    <button class="btn btn-dark" (click)="openBookInterface('modify')">
+                        <i class="fa-solid fa-book" style="margin-right: 4px;"></i>
+                        Ajouter un livre
+                    </button>
+                </a>  
                 <div style="display: flex;">
 
                     <div style="display: flex; align-items: center;">

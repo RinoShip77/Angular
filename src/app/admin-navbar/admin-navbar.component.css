@@ -20,3 +20,8 @@
     margin: 20px 0 20px 0;
     font-size: 20px;
 }
+
+a {
+    text-decoration: none;
+    color: initial;
+}
