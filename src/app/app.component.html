@@ -17,7 +17,7 @@
         (openFavorite)="favorite.onFavorite($event)"></app-profile>
       <app-borrow #borrow (openInventory)="inventory.onInventory($event)"></app-borrow>
       <app-favorite #favorite (openInventory)="inventory.onInventory($event)"></app-favorite>
-
+      <app-recommended></app-recommended>
       <div *ngIf="isConnected">
         <div class="d-flex justify-content-end m-3" id="chat">
           <button class="btn btn-primary rounded-5" (click)="openChat()">
