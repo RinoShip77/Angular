@@ -37,7 +37,12 @@ export class NavbarComponent implements OnInit {
   }
 
   private updateVisibility() {
-    this.visible = (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_USER"]');
+    if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_USER"]') {
+      this,this.visible = true;
+    } else {
+      this,this.visible = false;
+      this.router.navigate([""]);
+    }
   }
 
   //---------------------------------

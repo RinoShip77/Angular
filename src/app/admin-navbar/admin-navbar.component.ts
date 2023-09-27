@@ -28,16 +28,13 @@ ngOnInit() {
 }
 
 private updateVisibility() {
-  this.visible = (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_ADMIN"]');
-}
-
-  //-------------------------------------------------------
-  // Affiche la barre de navigation admin
-  //-------------------------------------------------------
-  onConnect(user: User) {
-    this.user = user;
-    console.log(user);
+  if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_ADMIN"]') {
+    this,this.visible = true;
+  } else {
+    this,this.visible = false;
+    this.router.navigate([""]);
   }
+}
 
   //-------------------------------------------------------
   // Expansionne la barre de navigation admin
