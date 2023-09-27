@@ -41,7 +41,6 @@ export class NavbarComponent implements OnInit {
       this,this.visible = true;
     } else {
       this,this.visible = false;
-      this.router.navigate([""]);
     }
   }
 

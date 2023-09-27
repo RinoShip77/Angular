@@ -32,7 +32,6 @@ private updateVisibility() {
     this,this.visible = true;
   } else {
     this,this.visible = false;
-    this.router.navigate([""]);
   }
 }
 
