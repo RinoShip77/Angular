@@ -54,12 +54,14 @@ export class ConnectionComponent {
             this.user = connectedUser;
             this.router.navigate(["/adminInventory"]);
             this.adminConnected.emit(this.user);
+            this.visible=false;
             
           } else {
             this.visible = false;
             this.user = connectedUser;
             this.router.navigate(["/inventory"]);
             this.connected.emit(this.user);
+            this.visible=false;
           } 
         } else {
           alert('Erreur: Informations de connexion incorrectes.');
