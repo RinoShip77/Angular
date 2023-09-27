@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnInit, Output  } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { Borrow } from '../model/Borrow';
-
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -20,8 +19,7 @@ export class BorrowsComponent implements OnInit {
     
   }
 
-  @Output() openBorrowDetails = new EventEmitter<Borrow>();
-  //@Output() openBorrowDetails = new EventEmitter<{selectedBorrow:Borrow, user:User}>();
+  @Output() openBorrowDetails = new EventEmitter<{selectedBorrow:Borrow, user:User}>();
   @Output() openInventory = new EventEmitter<User>();
 
   aboutModal:any;
@@ -32,9 +30,7 @@ export class BorrowsComponent implements OnInit {
   onBorrows(user: User) 
   {
     //TODO
-    //Emit avec 2 arguments
     //2 Faire le tri,
-    //3 faire pour un vrai user (les emprunts du user, les frais, les retard etc)
     //4 Aller chercher info livre de l'emprunt
     //5 Renouvellement
 
@@ -63,9 +59,13 @@ export class BorrowsComponent implements OnInit {
   {
     this.electrolibService.getBorrowsFromUser(this.user).subscribe(
       borrows => {
+        
         this.borrows = borrows.map(x => Object.assign(new Borrow(), x));
+        console.log(this.borrows);
       }
     );
+
+    console.log(this.borrows)
   }
 
   //Affiche les détails de l'emprunt choisi
@@ -74,7 +74,8 @@ export class BorrowsComponent implements OnInit {
     console.log("détails de l'emprunt")
 
     let user = this.user;
-    this.openBorrowDetails.emit(selectedBorrow);
+    //this.openBorrowDetails.emit(selectedBorrow);
+    this.openBorrowDetails.emit({selectedBorrow:selectedBorrow, user:user});
     //this.openBorrowDetails.emit({selectedBorrow, user});
     this.visible = false;
   }
@@ -115,5 +116,16 @@ export class BorrowsComponent implements OnInit {
   onSortChange(event:any)
   {
     console.log(event);
+  }
+
+  sortBy($event:any)
+  {
+    this.electrolibService.getBorrowsOrderedBy(this.user, $event).subscribe(
+      borrows => {
+        
+        this.borrows = borrows.map(x => Object.assign(new Borrow(), x));
+        console.log(this.borrows);
+      }
+    );
   }
 }

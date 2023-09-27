@@ -104,8 +104,16 @@ export class ElectrolibService {
   {
     let idUser = user.idUser;
     let url = urlServer + 'borrows';
-    console.log(idUser);
     url = "http://127.0.0.1:8000/borrows/" + idUser;
+
+    return this.http.get<Borrow[]>(url);
+  }
+
+  getBorrowsOrderedBy(user: User, order:any)
+  {
+    let idUser = user.idUser;
+    let url = urlServer + 'borrows';
+    url = "http://127.0.0.1:8000/borrows/" + idUser + "/" + order;
 
     return this.http.get<Borrow[]>(url);
   }

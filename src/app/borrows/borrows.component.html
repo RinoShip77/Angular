@@ -108,13 +108,13 @@
         <thead class="table-secondary text-center">
             <tr>
                 <th><i class="fa-regular fa-clock"></i></th>
-                <th>Id</th>
-                <th>Titre du livre</th>
-                <th>Date de l'emprunt</th>
-                <th>Date limite de retour</th>
-                <th>Status</th>
-                <th>Frais de retard</th>
-                <th>Actions</th>
+                <th (click)="sortBy('idBorrow')">Id</th>
+                <th (click)="sortBy('idBorrow')">Titre du livre</th>
+                <th (click)="sortBy('borrowedDate')">Date de l'emprunt</th>
+                <th (click)="sortBy('dueDate')">Date limite de retour</th>
+                <th (click)="sortBy('idBorrow')">Status</th>
+                <th (click)="sortBy('idBorrow')">Frais de retard</th>
+                <th (click)="sortBy('idBorrow')">Actions</th>
             </tr>
         </thead>
 
@@ -141,7 +141,7 @@
 
                 <!-- Reste des informations -->
                 <td scope="row" class="td-thick">{{borrow.idBorrow}}</td>
-                <td>{{borrow.idBook}}</td>
+                <td>{{borrow.book.title}}</td>
                 <td>{{borrow.borrowedDate}}</td>
                 <td>{{borrow.dueDate}}</td>
                 <td class="td-thick">{{borrow.determineStatus()}}</td>
