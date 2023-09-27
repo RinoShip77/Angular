@@ -15,10 +15,6 @@ export class AdminNavbarComponent {
   visible = false;
   user: User = new User();
 
-  @Output() connected = new EventEmitter<User>();
-  @Output() disconnected = new EventEmitter<User>();
-  @Output() openAdminInventory = new EventEmitter<User>();
-
   constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService, private dataService: DataService) { 
     this.visible = this.router.url !== "/";
 }
@@ -55,16 +51,14 @@ private updateVisibility() {
   //-------------------------------------------------------
   disconnect() {
     this.offcanvasService.dismiss();
-    this.disconnected.emit(this.user);
     this.router.navigate([""]);
-    this.visible = false;
   }
 
   //-------------------------------------------------------
   // Affiche l'inventaire admin
   //-------------------------------------------------------
   displayAdminInventory() {
-    this.openAdminInventory.emit(this.user);
+    this.router.navigate(["adminInventory"]);
   }
   
 }

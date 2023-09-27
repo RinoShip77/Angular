@@ -1,12 +1,10 @@
 <div style="height: 100%;">
   <!-- La page de connexion -->
     <header>
-      <app-navbar #navBar (disconnected)="onDisconnect($event)" (connected)="navBar.onConnect($event)"></app-navbar>
+      <app-navbar></app-navbar>
 
       <!-- La barre de navigation des admins -->
-      <app-admin-navbar #adminNavBar
-       (disconnected)="onDisconnect($event)">
-      </app-admin-navbar>
+      <app-admin-navbar></app-admin-navbar>
     </header>
 
     <main style="height: 100%;">

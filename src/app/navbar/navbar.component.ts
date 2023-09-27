@@ -41,13 +41,6 @@ export class NavbarComponent implements OnInit {
   }
 
   //---------------------------------
-  // Function to display every book in the database
-  //---------------------------------
-  onConnect(user: User) {
-    this.user = user;
-  }
-
-  //---------------------------------
   // Function to disconnect a user
   //---------------------------------
   displayProfile() {
@@ -58,8 +51,8 @@ export class NavbarComponent implements OnInit {
   // Function to disconnect a user
   //---------------------------------
   disconnect() {
-    this.visible = false;
-    this.disconnected.emit(this.user);
+    this.offcanvasService.dismiss();
+    this.router.navigate([""]);
   }
 
   //---------------------------------
