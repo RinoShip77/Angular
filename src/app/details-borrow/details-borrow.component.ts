@@ -15,9 +15,14 @@ export class DetailsBorrowComponent {
   }
   book: Book = new Book();
   //genre: Genre = new Genre();
+  currentDate:Date=new Date();
+  returnDate:Date=new Date();
 
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
   ngOnInit() {
+    this.returnDate.setDate(this.currentDate.getDate()+7*2);
+
+
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if(id){
      this.electrolibSrv.getBook(id).subscribe(receivedBook =>{

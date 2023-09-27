@@ -1,75 +1,19 @@
 <div style="height: 100%;">
   <!-- La page de connexion -->
-  <app-connection *ngIf="!isConnected"
-    (connected)="onConnect($event)"
-    (connected)="navbar.onNavbar($event)"
-    (connected)="footer.onFooter($event)"
-    
-    (adminConnected)="onConnect($event)"
-    (adminConnected)="adminNavBar.onAdminNavBar($event)"
-  ></app-connection>
-
-  <div>
     <header>
-      <app-navbar #navbar (connected)="inventory.onInventory($event)" (openProfile)="profile.onProfile($event)"
-        (disconnected)="inventory.onDisconnect($event)" (disconnected)="footer.onDisconnect($event)"
-        (disconnected)="onDisconnect($event)"
-        
-        (openBorrows)="borrows.onBorrows($event)"
-        (openBorrows)="borrowDetails.visible=false"
-        (openBorrows)="inventory.visible=false"></app-navbar>
+      <app-navbar></app-navbar>
 
-        <!-- La barre de navigation des admins -->
-      <app-admin-navbar #adminNavBar
-      (disconnected)="onDisconnect($event)"
-      >
-     </app-admin-navbar>
-        
-
+      <!-- La barre de navigation des admins -->
+      <app-admin-navbar></app-admin-navbar>
     </header>
 
-    <main>
+    <main style="height: 100%;">
       <router-outlet></router-outlet>
-      <app-inventory #inventory (openProfile)="profile.onProfile($event)"></app-inventory>
-
-
-      <!-- Le profil des membres -->
-      <app-profile #profile
-        (openInventory)="inventory.onInventory($event)"
-        (openBorrow)="borrow.onBorrow($event)"
-        (openFavorite)="favorite.onFavorite($event)"
-      ></app-profile>
-      
-      <!-- Les emprunts des membres -->
-      <app-borrow #borrow (openInventory)="inventory.onInventory($event)"></app-borrow>
-      
-      <!-- Les favoris des membres -->
-      <app-favorite #favorite (openInventory)="inventory.onInventory($event)"></app-favorite>
-
-      <app-borrows #borrows (openBorrowDetails)="borrowDetails.onBorrowDetails($event)" (openInventory)="inventory.onInventory($event)"></app-borrows>
-      <app-borrow-details #borrowDetails (openBorrows)="borrows.onBorrows($event)"></app-borrow-details>
-
-
-      <div *ngIf="isConnected">
-        <div class="d-flex justify-content-end m-3" id="chat">
-          <button class="btn btn-primary rounded-5" (click)="openChat()">
-            <i class="far fa-comment-dots p-2 fs-1"></i>
-          </button>
-        </div>
-      </div>
     </main>
-
-   
 
     <footer>
       <!-- Le pied de page -->
-      <app-footer #footer></app-footer>
+      <app-footer></app-footer>
     </footer>
-  </div>
+
 </div>
-
-<!-- <a [routerLink]="['detailLivre','1']">test detail-livre</a> -->
-    
-
-
-

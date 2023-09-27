@@ -127,6 +127,14 @@ export class AdminInventoryComponent {
   // Affiche l'inventaire admin
   //-------------------------------------------------------
   onAdminInventory(user: User) {
+    //this.visible = true;
     this.user = user;
+  }
+
+  //-------------------------------------------------------
+  // Déconnecte l'admin
+  //-------------------------------------------------------
+  onDisconnect(user: User) {
+    //fesait visible, on garde la fcnt au cas ou
   }
 }

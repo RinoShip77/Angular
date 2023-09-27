@@ -47,7 +47,7 @@ import { CreateBookComponent } from './create-book/create-book.component';
     CreateBookComponent
   ],
   imports: [
-    
+    AppRoutingModule,
     BrowserModule,
     NgbModule,
     FormsModule,

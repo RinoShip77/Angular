@@ -5,6 +5,7 @@ import { Genre } from '../model/Genre';
 import { Book } from '../model/Book';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Author } from '../model/Author';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inventory',
@@ -12,7 +13,6 @@ import { Author } from '../model/Author';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
-  visible = false;
   user: User = new User();
   genres: Genre[] = new Array();
   authors: Author[] = new Array();
@@ -26,20 +26,20 @@ export class InventoryComponent {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private electrolibSrv: ElectrolibService, private modalService: NgbModal) { }
+  constructor(private electrolibSrv: ElectrolibService, private modalService: NgbModal, private router:Router) { }
 
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
   ngOnInit() {
     //Get all the genres from the database
-    //this.retrieveGenres();
+    this.retrieveGenres();
 
     //Get all the genres from the database
-    //this.retrieveAuthors();
+    this.retrieveAuthors();
 
     //Get all the books from the database
-    //this.retrieveBooks();
+    this.retrieveBooks();
   }
 
   //---------------------------------
@@ -91,7 +91,7 @@ export class InventoryComponent {
   // Function to display every book in the database
   //---------------------------------
   onInventory(user: User) {
-    this.visible = true;
+    //this.visible = true;
     this.user = user;
   }
 
@@ -300,7 +300,9 @@ export class InventoryComponent {
   //---------------------------------
   displayBook(idBook: number) {
     console.log(idBook)
+    this.router.navigate(['detailLivre',idBook]);
   }
+  
   
   //---------------------------------
   // Function to open the page for a specific book
@@ -320,6 +322,6 @@ export class InventoryComponent {
   // Function to disconnect a user
   //---------------------------------
   onDisconnect(user: User) {
-    this.visible = false;
+    //cette fnct fesait visible.false, on grade la fcnt au cas ou
   }
 }
