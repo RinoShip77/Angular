@@ -9,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./connection.component.css']
 })
 export class ConnectionComponent {
-  visible = true;
   connectionVisible = true;
   createAccountVisible = false;
   temporaryUser: User = new User();
@@ -58,7 +57,7 @@ export class ConnectionComponent {
             this.user = connectedUser;
             this.router.navigate(["/inventory"]);
             //this.connected.emit(this.user);
-            this.visible=false;
+       
           } 
         } else {
           alert('Erreur: Informations de connexion incorrectes.');

@@ -5,6 +5,7 @@ import { Genre } from '../model/Genre';
 import { Book } from '../model/Book';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Author } from '../model/Author';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inventory',
@@ -25,20 +26,20 @@ export class InventoryComponent {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private electrolibSrv: ElectrolibService, private modalService: NgbModal) { }
+  constructor(private electrolibSrv: ElectrolibService, private modalService: NgbModal, private router:Router) { }
 
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
   ngOnInit() {
     //Get all the genres from the database
-    //this.retrieveGenres();
+    this.retrieveGenres();
 
     //Get all the genres from the database
-    //this.retrieveAuthors();
+    this.retrieveAuthors();
 
     //Get all the books from the database
-    //this.retrieveBooks();
+    this.retrieveBooks();
   }
 
   //---------------------------------
@@ -299,7 +300,9 @@ export class InventoryComponent {
   //---------------------------------
   displayBook(idBook: number) {
     console.log(idBook)
+    this.router.navigate(['detailLivre',idBook]);
   }
+  
   
   //---------------------------------
   // Function to open the page for a specific book

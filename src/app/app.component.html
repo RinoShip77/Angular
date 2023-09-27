@@ -1,10 +1,5 @@
 <div style="height: 100%;">
   <!-- La page de connexion -->
-  <app-connection *ngIf="!isConnected" (connected)="onConnect($event)" (connected)="navbar.onNavbar($event)"
-    (connected)="footer.onFooter($event)" (adminConnected)="onConnect($event)"
-  ></app-connection>
-
-  <div>
     <header>
       <app-navbar #navbar 
         (disconnected)="footer.onDisconnect($event)"></app-navbar>
@@ -15,15 +10,15 @@
       </app-admin-navbar>
     </header>
 
-    <main>
-      <router-outlet></router-outlet>
+    <main style="height: 100%;">
+      <router-outlet ></router-outlet>
     </main>
 
     <footer>
       <!-- Le pied de page -->
       <app-footer #footer></app-footer>
     </footer>
-  </div>
+
 </div>
 
 <!-- <a [routerLink]="['detailLivre','1']">test detail-livre</a> -->

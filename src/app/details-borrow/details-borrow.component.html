@@ -1,14 +1,17 @@
-<main class="EncadrerLivre">
+<main style="width: 100%; ;" class="EncadrerLivre">
     <div class="container row mx-auto p-5">
         <section class="imageLivre col-5">
             <img class="img-fluid"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                src={{book.cover}}
                 alt="imageDuLivre">
         </section>
         <section class="infoLivre col-6 offset-1 ">
-            <!-- <h2>{{book.title}}</h2>
-            <p>{{book.description}}</p> -->
-            <p>date demprunt : YYYY-MM-DD</p>
+            <h1>Votre emprunt</h1>
+            <h2>{{book.title}}</h2>
+            <p>{{book.description}}</p> 
+            <p>date d'emprunt : {{currentDate}}</p>
+            <p>date de retour : {{returnDate}}</p>
+            <p>frais de retards : 1$ par jour</p>
             <div>
                 <button class="btn btn-outline-info m-1">Emprunter</button>
             </div>
