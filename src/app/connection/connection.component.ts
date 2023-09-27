@@ -10,7 +10,6 @@ import { AppComponent } from '../app.component';
   styleUrls: ['./connection.component.css']
 })
 export class ConnectionComponent {
-  visible = true;
   connectionVisible = true;
   createAccountVisible = false;
   temporaryUser: User = new User();
@@ -57,8 +56,8 @@ export class ConnectionComponent {
           } else {
             this.user = connectedUser;
             this.router.navigate(["/inventory"]);
-            this.connected.emit(this.user);
-            this.visible=false;
+            //this.connected.emit(this.user);
+       
           } 
         } else {
           alert('Erreur: Informations de connexion incorrectes.');

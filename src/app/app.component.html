@@ -1,4 +1,5 @@
 <div style="height: 100%;">
+  <!-- La page de connexion -->
     <header>
       <app-navbar #navBar (disconnected)="onDisconnect($event)" (connected)="onConnect($event)"></app-navbar>
 
@@ -9,11 +10,12 @@
     </header>
 
     <main style="height: 100%;">
-      <router-outlet></router-outlet>
+      <router-outlet ></router-outlet>
     </main>
 
     <footer>
       <!-- Le pied de page -->
       <app-footer></app-footer>
     </footer>
+
 </div>
