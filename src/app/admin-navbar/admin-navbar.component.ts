@@ -28,10 +28,13 @@ ngOnInit() {
 }
 
 private updateVisibility() {
-  if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_ADMIN"]') {
-    this,this.visible = true;
+  if (this.dataService.getUser() != undefined) {
+    if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_ADMIN"]') {
+      this,this.visible = true;
+    } else {
+      this,this.visible = false;
+    }
   } else {
-    this,this.visible = false;
     this.router.navigate([""]);
   }
 }
