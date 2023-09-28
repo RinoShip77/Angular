@@ -1,10 +1,12 @@
 <section *ngIf="visible">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <div class="d-flex justify-content-end me-3"> <!-- link the click to inventory -->
-                <i class="fas fa-book-bookmark mt-1 fs-1"></i>
-                <h1>Electrolib</h1>
-            </div>
+            <a [routerLink]="'adminInventory'">
+                <div class="d-flex justify-content-end me-3"> <!-- link the click to inventory -->
+                    <i class="fas fa-book-bookmark mt-1 fs-1"></i>
+                    <h1>Electrolib</h1>
+                </div>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
                 aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation"
                 (click)="openOffcanvas(content)">
@@ -13,7 +15,7 @@
             <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <li class="nav-item">
-                        <span class="nav-link btn-nav" type="button" (click)="displayAdminInventory()">Inventaire</span>
+                       <a [routerLink]="['adminInventory']"> <span class="nav-link btn-nav" type="button" (click)="displayAdminInventory()">Inventaire</span></a>
                     </li>
                     <li class="nav-item">
                         <span class="nav-link btn-nav" type="button">Emprunts</span>
@@ -25,7 +27,7 @@
                         <span class="nav-link btn-nav" type="button">Membres</span>
                     </li>
                 </ul>
-                <div class="row me-1" *ngIf="user.memberNumber != ''">
+                <div class="row me-1">
                     <button class="btn btn-danger" style="font-size: 20px;" (click)="disconnect()">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         Se déconnecter
@@ -35,6 +37,7 @@
         </div>
     </nav>
 </section>
+
 <ng-template #content let-offcanvas>
     <div class="offcanvas-header">
         <div class="d-flex justify-content-end me-3">

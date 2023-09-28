@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppComponent } from '../app.component';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-connection',
@@ -8,16 +11,14 @@ import { User } from '../model/User';
   styleUrls: ['./connection.component.css']
 })
 export class ConnectionComponent {
-  visible = true;
   connectionVisible = true;
   createAccountVisible = false;
   temporaryUser: User = new User();
   user: User = new User();
 
   @Output() connected = new EventEmitter<User>();
-  @Output() adminConnected = new EventEmitter<User>();
 
-  constructor(private electrolibService: ElectrolibService) { }
+  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService) { }
 
   //--------------------------------
   // Function to connect a user
@@ -32,8 +33,8 @@ export class ConnectionComponent {
         alert('Erreur: Veuillez fournir les informations nécessaires.');
       }
     } else {
-      this.temporaryUser.memberNumber = "123";
-      this.temporaryUser.password = "11";
+      this.temporaryUser.memberNumber = "admin";
+      this.temporaryUser.password = "admin";
       this.retrieveAccount();
     }
   }
@@ -48,14 +49,21 @@ export class ConnectionComponent {
           connectedUser.password === this.temporaryUser.password) {
           
             if (connectedUser.roles === '["ROLE_ADMIN"]') {
-            this.visible = false;
             this.user = connectedUser;
-            this.adminConnected.emit(this.user);
+
+            this.dataService.updateUser(this.user);
+
+            this.connected.emit(this.user);
+            this.router.navigate(["adminInventory"]);
             
           } else {
-            this.visible = false;
             this.user = connectedUser;
-            this.connected.emit(this.user);
+
+            this.dataService.updateUser(this.user);
+            
+            this.router.navigate(["/inventory"]);
+            //this.connected.emit(this.user);
+       
           } 
         } else {
           alert('Erreur: Informations de connexion incorrectes.');

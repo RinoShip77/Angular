@@ -12,18 +12,17 @@ export class AppComponent {
   isConnected = false;
   isChatting = false;
   user: User = new User();
-  title: any;
 
   constructor(private modalService: NgbModal) {}
 
   //---------------------------------
   // Function to connect a user
   //---------------------------------
-  onConnect(user: User) {
+  /*onConnect(user: User) {
     this.isConnected = true;
     this.user = user;
   }
-
+*/
   openChat() {
     this.modalService.open(ChatComponent, {
       animation: true,
@@ -37,7 +36,7 @@ export class AppComponent {
   //---------------------------------
   onDisconnect(user: User) {
     this.isConnected = false;
-    console.log('disconnect user: ' + user.memberNumber);
     user = new User();
+    
   }
 }

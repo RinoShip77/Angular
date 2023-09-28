@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { User } from '../model/User';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { RouteChangeService } from '../route-change.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -12,20 +15,29 @@ export class AdminNavbarComponent {
   visible = false;
   user: User = new User();
 
-  @Output() connected = new EventEmitter<User>();
-  @Output() disconnected = new EventEmitter<User>();
-  @Output() openAdminInventory = new EventEmitter<User>();
+  constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService, private dataService: DataService) { 
+    this.visible = this.router.url !== "/";
+}
 
-  constructor(private offcanvasService: NgbOffcanvas) { }
+ngOnInit() {
+  this.routeChangeService.routeChange$.subscribe(() => {
+    this.updateVisibility();
+  });
 
-  //-------------------------------------------------------
-  // Affiche la barre de navigation admin
-  //-------------------------------------------------------
-  onAdminNavBar(user: User) {
-    this.connected.emit(user);
-    this.user = user;
-    this.visible = true;
+  this.updateVisibility();
+}
+
+private updateVisibility() {
+  if (this.dataService.getUser() != undefined) {
+    if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_ADMIN"]') {
+      this,this.visible = true;
+    } else {
+      this,this.visible = false;
+    }
+  } else {
+    this.router.navigate([""]);
   }
+}
 
   //-------------------------------------------------------
   // Expansionne la barre de navigation admin
@@ -39,15 +51,16 @@ export class AdminNavbarComponent {
   //-------------------------------------------------------
   disconnect() {
     this.offcanvasService.dismiss();
+    this.dataService.disconnectUser();
     this.visible = false;
-    this.disconnected.emit(this.user);
+    this.router.navigate([""]);
   }
 
   //-------------------------------------------------------
   // Affiche l'inventaire admin
   //-------------------------------------------------------
   displayAdminInventory() {
-    this.openAdminInventory.emit(this.user);
+    this.router.navigate(["adminInventory"]);
   }
   
 }

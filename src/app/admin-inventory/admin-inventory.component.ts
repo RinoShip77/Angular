@@ -11,15 +11,12 @@ import { Book } from '../model/Book';
 
 export class AdminInventoryComponent {
 
-  visible = false;
   user: User = new User();
   books: Book[] = new Array();
   displayedBooks: Book[] = new Array();
   searchField: string = "";
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
-
-  @Output() addSearchCriteria = new EventEmitter<string>();
 
   constructor(private electrolibSrv: ElectrolibService) { }
 
@@ -114,20 +111,5 @@ export class AdminInventoryComponent {
         this.displayedBooks =  books;
       }
     );
-  }
-
-  //-------------------------------------------------------
-  // Affiche l'inventaire admin
-  //-------------------------------------------------------
-  onAdminInventory(user: User) {
-    this.visible = true;
-    this.user = user;
-  }
-
-  //-------------------------------------------------------
-  // Déconnecte l'admin
-  //-------------------------------------------------------
-  onDisconnect(user: User) {
-    this.visible = false;
   }
 }

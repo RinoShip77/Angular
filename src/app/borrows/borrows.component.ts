@@ -4,6 +4,7 @@ import { User } from '../model/User';
 import { Borrow } from '../model/Borrow';
 
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-borrows',
@@ -12,13 +13,10 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class BorrowsComponent implements OnInit {
   visible = false;
-  user: User = new User();
+  user: User | undefined = new User();
   borrows: Borrow[] = new Array();
 
-  ngOnInit(): void 
-  {
-    
-  }
+ 
 
   @Output() openBorrowDetails = new EventEmitter<Borrow>();
   //@Output() openBorrowDetails = new EventEmitter<{selectedBorrow:Borrow, user:User}>();
@@ -26,7 +24,12 @@ export class BorrowsComponent implements OnInit {
 
   aboutModal:any;
 
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal,private datasrv: DataService) { }
+
+  ngOnInit(): void 
+  {
+    this.user = this.datasrv.getUser();
+  }
 
   //Lorsqu'on appele et ouvre le component
   onBorrows(user: User) 
@@ -61,11 +64,13 @@ export class BorrowsComponent implements OnInit {
   //Cherche tous les emprunts en bd
   retrieveBorrows()
   {
+  if(this.user){
     this.electrolibService.getBorrowsFromUser(this.user).subscribe(
       borrows => {
         this.borrows = borrows.map(x => Object.assign(new Borrow(), x));
       }
     );
+  }
   }
 
   //Affiche les détails de l'emprunt choisi

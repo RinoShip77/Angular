@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from '../model/Book';
-import { Genre } from '../model/Genre';
+//import { Genre } from '../model/Genre';
 
 @Component({
   selector: 'app-detail-livre',
@@ -18,6 +18,7 @@ export class DetailLivreComponent {
 
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
   ngOnInit() {
+    console.log("Onint detailsBook");
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if(id){
      this.electrolibSrv.getBook(id).subscribe(receivedBook =>{

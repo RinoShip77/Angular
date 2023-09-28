@@ -1,44 +1,45 @@
-
 <main class="EncadrerLivre">
     <div class="container row mx-auto p-5">
-    <section class="imageLivre col-5">
-        <img class="img-fluid" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU" alt="imageDuLivre">
-    </section>
-    <section class="infoLivre col-6 offset-1 ">
-        <h2>{{book.title}}</h2>
-        <p>
-          {{book.description}}
-        </p>
+        <section class="imageLivre col-5">
+            <img class="img-fluid"
+                src={{book.cover}}
+                alt="imageDuLivre">
+        </section>
+        <section class="infoLivre col-6 offset-1 ">
+            <h2>{{book.title}}</h2>
+            <p>
+                {{book.description}}
+            </p>
 
-        <div class="row">
-            <p class="col-6">Genre :</p>
-           <!-- <p class="col-6">{{book.genre}}</p>-->
-        </div>
-        <div class="row">
-            <p class="col-6">Langue :</p>
-            <p class="col-6">{{book.originalLanguage}}</p>
-        </div>
-        <div class="row" >
-            <p class="col-6">Date de publication :</p>
-            <p class=" col-6">{{book.publishedDate | date : 'yyyy-MM-dd'}}</p>
-            
-        </div>
-        <div class="row">
-            <p class="col-6">Isbn :</p>
-            <p class="col-6">{{book.isbn}}</p>
-        </div>
+            <div class="row">
+                <p class="col-6">Genre :</p>
+                <!-- <p class="col-6">{{book.genre}}</p>-->
+            </div>
+            <div class="row">
+                <p class="col-6">Langue :</p>
+                <p class="col-6">{{book.originalLanguage}}</p>
+            </div>
+            <div class="row">
+                <p class="col-6">Date de publication :</p>
+                <p class=" col-6">{{book.publishedDate | date : 'yyyy-MM-dd'}}</p>
 
-        <div>
-            <button class="btn btn-outline-info m-1">
-                réserver
-            </button>
-            <button class="btn btn-outline-info m-1">
-                <a [routerLink]="['/detailEmprunt','1']">Emprunter</a>
-            </button>
-            <button class="btn btn-outline-info m-1">
-                Ajouter au favoris
-            </button>
-        </div>
-    </section>
-</div>
+            </div>
+            <div class="row">
+                <p class="col-6">Isbn :</p>
+                <p class="col-6">{{book.isbn}}</p>
+            </div>
+
+            <div>
+                <button class="btn btn-outline-info m-1">
+                    réserver
+                </button>
+                <button class="btn btn-outline-info m-1">
+                    <a [routerLink]="['/detailEmprunt','1']">Emprunter</a>
+                </button>
+                <button class="btn btn-outline-info m-1">
+                    Ajouter au favoris
+                </button>
+            </div>
+        </section>
+    </div>
 </main>

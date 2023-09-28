@@ -22,6 +22,7 @@ import { AdminInventoryComponent } from './admin-inventory/admin-inventory.compo
 import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 import { BorrowsComponent } from './borrows/borrows.component';
 import { BorrowDetailsComponent } from './borrow-details/borrow-details.component';
+import { CreateBookComponent } from './create-book/create-book.component';
 
 @NgModule({
   declarations: [
@@ -40,10 +41,11 @@ import { BorrowDetailsComponent } from './borrow-details/borrow-details.componen
     AdminInventoryComponent,
     AdminNavbarComponent,
     BorrowsComponent,
-    BorrowDetailsComponent
+    BorrowDetailsComponent,
+    CreateBookComponent
   ],
   imports: [
-    
+    AppRoutingModule,
     BrowserModule,
     NgbModule,
     FormsModule,
