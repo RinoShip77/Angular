@@ -6,6 +6,7 @@ import { Book } from '../model/Book';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Author } from '../model/Author';
 import { Router } from '@angular/router';
+import { getURLBookCover } from '../util';
 
 @Component({
   selector: 'app-inventory',
@@ -323,5 +324,10 @@ export class InventoryComponent {
   //---------------------------------
   onDisconnect(user: User) {
     //cette fnct fesait visible.false, on grade la fcnt au cas ou
+  }
+
+  getBookCover(idBook: number)
+  {
+    return getURLBookCover(idBook);
   }
 }

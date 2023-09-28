@@ -136,7 +136,7 @@ export class ElectrolibService {
   //--------------------------------
   // Créer un livre
   //--------------------------------
-  createBook(book: Book) {
+  /*createBook(book: Book) {
     let url = urlServer + "createBook";
 
     const params = new HttpParams({
@@ -153,8 +153,33 @@ export class ElectrolibService {
       }
     });
 
-    console.log(book);
+    return this.http.post<Book>(url, params);
+  }*/
 
-    return this.http.post<Book[]>(url, params);
+  uploadImage(imageData: string) {
+    const formData = new FormData();
+    formData.append('image', imageData);
+
+    let url = urlServer + "createBook";
+
+    return this.http.post(url, formData);
+  }
+
+  createBookWithImage(book: Book, imageData: Blob) {
+    let url = urlServer + "createBook";
+
+    // Create FormData to send both the book object and the image
+    const formData = new FormData();
+    formData.append('title', book.title);
+    formData.append('description', book.description);
+    formData.append('isbn', book.isbn);
+    formData.append('publishedDate', book.publishedDate);
+    formData.append('originalLanguage', book.originalLanguage);
+    formData.append('isBorrowed', book.isBorrowed.toString());
+    formData.append('cover', imageData); // Add the image data here
+    formData.append('idAuthor', book.idAuthor.toString());
+    formData.append('idGenre', book.idGenre.toString());
+
+    return this.http.post<Book>(url, formData);
   }
 }
