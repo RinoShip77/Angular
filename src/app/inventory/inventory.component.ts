@@ -212,67 +212,17 @@ export class InventoryComponent {
   }
 
   //---------------------------------
-  // Function to select witch genre you want to see
-  //---------------------------------
-  updateGenresFilter(idGenre: number) {
-    for (let i = 0; i < this.genres.length; i++) {
-      if (this.genres[i].idGenre == idGenre) {
-        this.genres[i].isFilter = !this.genres[i].isFilter;
-      }
-    }
-
-    this.applyFilters();
-  }
-
-  //---------------------------------
-  // Function to select witch genre you want to see
-  //---------------------------------
-  updateAuthorsFilter(idAuthor: number) {
-    for (let i = 0; i < this.authors.length; i++) {
-      if (this.authors[i].idAuthor == idAuthor) {
-        this.authors[i].isFilter = !this.authors[i].isFilter;
-      }
-    }
-
-    this.applyFilters();
-  }
-
-  //---------------------------------
-  // Function to filter the library
-  //---------------------------------
-  applyFilters(search?: string) {
-    let genresFilter: number[] = Array();
-    let authorsFilter: number[] = Array();
-
-    for (let i = 0; i < this.genres.length; i++) {
-      if (this.genres[i].isFilter) {
-        genresFilter.push(this.genres[i].idGenre);
-      }
-    }
-
-    for (let i = 0; i < this.authors.length; i++) {
-      if (this.authors[i].isFilter) {
-        authorsFilter.push(this.authors[i].idAuthor);
-      }
-    }
-  }
-
-  //---------------------------------
   // Function to remove all the filters from the view
   //---------------------------------
   filterBooksByGenres(genre: number) {
-    if (this.books.length > 0) {
       this.books = this.books.filter((book) => book.idGenre === genre);
-    }
   }
 
   //---------------------------------
   // Function to remove all the filters from the view
   //---------------------------------
   filterBooksByAuthors(author: number) {
-    if (this.books.length > 0) {
       this.books = this.books.filter((book) => book.idAuthor === author);
-    }
   }
 
   //---------------------------------

@@ -97,7 +97,8 @@
           <button class="btn btn-outline-info" type="submit">Chercher</button>
         </form>
       </div>
-      <div [ngSwitch]="inventoryDisplay">
+
+      <div *ngIf="books.length > 0; else elseBlock" [ngSwitch]="inventoryDisplay">
         <div *ngSwitchCase="'table'">
           <div class="row row-cols-2 g-3">
             <div type="button" class="col" *ngFor="let book of books" (click)="displayBook(book.idBook)">
@@ -172,6 +173,9 @@
           </table>
         </div>
       </div>
+      <ng-template #elseBlock>
+        <h1 class="mt-5 text-center fst-italic fw-bolder">Aucun résultat.</h1>
+      </ng-template>
     </div>
   </div>
 </div>
