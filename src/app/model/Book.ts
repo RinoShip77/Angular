@@ -1,6 +1,5 @@
 import { Genre } from "./Genre";
 import { Author } from "./Author";
-import { bookCoverPath } from "../util";
 import { Borrow } from "./Borrow";
 import { Evaluation } from "./Evaluation";
 import { Favorite } from "./Favorite";
@@ -17,7 +16,7 @@ export class Book {
   isbn: string = '';
  borrow: Borrow = new Borrow();
   isBorrowed: boolean = false;
-  cover: string = bookCoverPath;
+  cover: string = "/";
   publishedDate: string = '';
   originalLanguage: string = '';
  evaluations: Evaluation[] = new Array();
