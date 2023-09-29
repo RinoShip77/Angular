@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { Book } from '../model/Book';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-inventory',
@@ -18,10 +19,18 @@ export class AdminInventoryComponent {
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
 
-  constructor(private electrolibSrv: ElectrolibService) { }
+  constructor(private electrolibSrv: ElectrolibService, private router: Router) { }
 
   ngOnInit() {
     this.retrieveBooks();
+  }
+
+  createBook() {
+    this.router.navigate(["/createBook"]);
+  }
+
+  editBook(idBook: number) {
+    this.router.navigate(['/editBook', idBook]);
   }
 
   //-------------------------------------------------------
