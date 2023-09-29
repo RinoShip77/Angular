@@ -4,6 +4,7 @@ import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { RouteChangeService } from '../route-change.service';
 import { DataService } from '../data.service';
+import { NgbTooltipModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-navbar',

@@ -68,21 +68,9 @@ export class InventoryComponent {
   //---------------------------------
   // Function to get all the books from the database
   //---------------------------------
-  retrieveBooks(genresFilter?: number[], authorsFilter?: number[], search?: string) {
-    this.electrolibSrv.getBooks(genresFilter, authorsFilter, search).subscribe(
+  retrieveBooks() {
+    this.electrolibSrv.getBooks().subscribe(
       books => {
-        books.forEach(book => {
-          this.electrolibSrv.getGenre(book.idGenre).subscribe(
-            genre => {
-              book.genre = genre;
-            }
-          )
-          this.electrolibSrv.getAuthor(book.idAuthor).subscribe(
-            author => {
-              book.author = author;
-            }
-          )
-        });
         this.books = books;
       }
     );
@@ -200,10 +188,10 @@ export class InventoryComponent {
   // Function to sort by date descending
   //---------------------------------
   compareAuthorDesc(book1: Book, book2: Book) {
-    if (book1.idAuthor > book2.idAuthor) {
+    if (book1.author.firstName > book2.author.firstName) {
       return -1;
     }
-    if (book1.idAuthor < book2.idAuthor) {
+    if (book1.author.firstName < book2.author.firstName) {
       return 1;
     }
 
@@ -214,10 +202,10 @@ export class InventoryComponent {
   // Function to sort by date descending
   //---------------------------------
   compareAuthorAsc(book1: Book, book2: Book) {
-    if (book1.idAuthor < book2.idAuthor) {
+    if (book1.author.firstName < book2.author.firstName) {
       return -1;
     }
-    if (book1.idAuthor > book2.idAuthor) {
+    if (book1.author.firstName > book2.author.firstName) {
       return 1;
     }
 
@@ -225,51 +213,24 @@ export class InventoryComponent {
   }
 
   //---------------------------------
-  // Function to select witch genre you want to see
+  // Function to remove all the filters from the view
   //---------------------------------
-  updateGenresFilter(idGenre: number) {
-    for (let i = 0; i < this.genres.length; i++) {
-      if (this.genres[i].idGenre == idGenre) {
-        this.genres[i].isFilter = !this.genres[i].isFilter;
-      }
-    }
-
-    this.applyFilters();
+  filterBooksByGenres(genre: number) {
+      this.books = this.books.filter((book) => book.idGenre === genre);
   }
 
   //---------------------------------
-  // Function to select witch genre you want to see
+  // Function to remove all the filters from the view
   //---------------------------------
-  updateAuthorsFilter(idAuthor: number) {
-    for (let i = 0; i < this.authors.length; i++) {
-      if (this.authors[i].idAuthor == idAuthor) {
-        this.authors[i].isFilter = !this.authors[i].isFilter;
-      }
-    }
-
-    this.applyFilters();
+  filterBooksByAuthors(author: number) {
+      this.books = this.books.filter((book) => book.idAuthor === author);
   }
 
   //---------------------------------
-  // Function to filter the library
+  // Function to remove all the filters from the view
   //---------------------------------
-  applyFilters(search?: string) {
-    let genresFilter: number[] = Array();
-    let authorsFilter: number[] = Array();
-
-    for (let i = 0; i < this.genres.length; i++) {
-      if (this.genres[i].isFilter) {
-        genresFilter.push(this.genres[i].idGenre);
-      }
-    }
-
-    for (let i = 0; i < this.authors.length; i++) {
-      if (this.authors[i].isFilter) {
-        authorsFilter.push(this.authors[i].idAuthor);
-      }
-    }
-
-    this.retrieveBooks(genresFilter, authorsFilter, search);
+  applySearch(search: string) {
+    this.books = this.books.filter((book) => book.title.includes(search));
   }
 
   //---------------------------------
@@ -279,6 +240,12 @@ export class InventoryComponent {
     for (let i = 0; i < this.genres.length; i++) {
       if (this.genres[i].isFilter) {
         this.genres[i].isFilter = false;
+      }
+    }
+
+    for (let i = 0; i < this.authors.length; i++) {
+      if (this.authors[i].isFilter) {
+        this.authors[i].isFilter = false;
       }
     }
 
@@ -303,8 +270,7 @@ export class InventoryComponent {
     console.log(idBook)
     this.router.navigate(['detailLivre',idBook]);
   }
-  
-  
+
   //---------------------------------
   // Function to open the page for a specific book
   //---------------------------------
