@@ -1,0 +1,43 @@
+.navbar-nav li a .shortmenu {
+  display: none
+}
+
+.navbar-nav.side-nav:hover {
+  left: 0;
+}
+
+.navbar-nav li a .shortmenu {
+  float: right;
+  display: block;
+  opacity: 1
+}
+
+.navbar-nav.side-nav:hover li a .shortmenu {
+  opacity: 0
+}
+
+.navbar-nav.side-nav {
+  box-shadow: 2px 1px 2px rgba(0, 0, 0, .1);
+  position: fixed;
+  top: 5.55em;
+  flex-direction: column !important;
+  left: -140px;
+  width: 215px;
+  overflow-y: auto;
+  bottom: 0;
+  overflow-x: hidden;
+  padding-bottom: 40px
+}
+
+.animate {
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out
+}
+
+.navbar-nav li a svg {
+  font-size: 2.5em;
+  float: left;
+}

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { User } from '../model/User';
-import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-navbar',
