@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '../model/User';
-import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { RouteChangeService } from '../route-change.service';
 import { DataService } from '../data.service';
