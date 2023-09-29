@@ -27,6 +27,7 @@ export class BorrowsComponent implements OnInit {
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
+    this.retrieveBorrows();
   }
 
   //Lorsqu'on appele et ouvre le component
@@ -81,7 +82,7 @@ export class BorrowsComponent implements OnInit {
 
     let user = this.user;
     //this.openBorrowDetails.emit(selectedBorrow);
-    this.openBorrowDetails.emit({selectedBorrow:selectedBorrow, user:user});
+    //this.openBorrowDetails.emit({selectedBorrow:selectedBorrow, user:user});
     //this.openBorrowDetails.emit({selectedBorrow, user});
     this.visible = false;
   }
@@ -169,29 +170,31 @@ export class BorrowsComponent implements OnInit {
   //Où dans la liste
   sortBy($event:any)
   {
-    this.electrolibService.getBorrowsOrderedBy(this.user, $event).subscribe(
-      borrows => {
-        if(this.sortBefore == $event)
-        {
-          this.desc = !this.desc;
+    if (this.user) {
+      this.electrolibService.getBorrowsOrderedBy(this.user, $event).subscribe(
+        borrows => {
+          if(this.sortBefore == $event)
+          {
+            this.desc = !this.desc;
+          }
+          else
+          {
+            this.desc = false;
+          }
+          this.sortBefore = $event;
+  
+          if(this.desc)
+          {
+            this.borrows = borrows.map(x => Object.assign(new Borrow(), x)).reverse();
+          }
+          else
+          {
+            this.borrows = borrows.map(x => Object.assign(new Borrow(), x));
+          }
+          
         }
-        else
-        {
-          this.desc = false;
-        }
-        this.sortBefore = $event;
-
-        if(this.desc)
-        {
-          this.borrows = borrows.map(x => Object.assign(new Borrow(), x)).reverse();
-        }
-        else
-        {
-          this.borrows = borrows.map(x => Object.assign(new Borrow(), x));
-        }
-        
-        
-      }
-    );
+      );
+    }
+    
   }
 }
