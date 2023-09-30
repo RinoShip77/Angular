@@ -25,30 +25,36 @@ export class AdminInventoryComponent {
     this.retrieveBooks();
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   createBook() {
     this.router.navigate(["/createBook"]);
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   editBook(idBook: number) {
     this.router.navigate(['/editBook', idBook]);
   }
 
   //-------------------------------------------------------
-  // Change le type de recherche
+  //
   //-------------------------------------------------------
   changeResearchBy(type: String) {
     this.selectedSearchBy = type;
   }
 
   //-------------------------------------------------------
-  // Change l'ordre de tri
+  //
   //-------------------------------------------------------
   changeSortBy(type: String) {
     this.selectedSortBy = type;
   }
 
   //-------------------------------------------------------
-  // Tri les livres
+  //
   //-------------------------------------------------------
   sortBooks() {
     if (this.selectedSortBy == "ascending") {
@@ -80,7 +86,7 @@ export class AdminInventoryComponent {
   }
 
   //-------------------------------------------------------
-  // Recherche par nom de livre
+  //
   //-------------------------------------------------------
   search() {
     if (this.searchField.trim().length > 0) {
@@ -111,7 +117,7 @@ export class AdminInventoryComponent {
   }
 
   //-------------------------------------------------------
-  // Récupère tous les livres présents en base de données
+  //
   //-------------------------------------------------------
   retrieveBooks(filter?: number[]) {
     this.electrolibSrv.getBooks(filter).subscribe(

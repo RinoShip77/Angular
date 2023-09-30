@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { urlServer } from './util';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Book } from './model/Book';
 import { User } from './model/User';
 import { Genre } from './model/Genre';
@@ -133,29 +133,9 @@ export class ElectrolibService {
     return this.http.get<Book>(url);
   }
 
-  //--------------------------------
-  // Créer un livre
-  //--------------------------------
-  /*createBook(book: Book) {
-    let url = urlServer + "createBook";
-
-    const params = new HttpParams({
-      fromObject: {
-        title: book.title,
-        description: book.description,
-        isbn: book.isbn,
-        publishedDate: book.publishedDate,
-        originalLanguage: book.originalLanguage,
-        isBorrowed: book.isBorrowed,
-        cover: book.cover,
-        idAuthor: book.idAuthor,
-        idGenre: book.idGenre
-      }
-    });
-
-    return this.http.post<Book>(url, params);
-  }*/
-
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   uploadImage(imageData: string) {
     const formData = new FormData();
     formData.append('image', imageData);
@@ -165,10 +145,13 @@ export class ElectrolibService {
     return this.http.post(url, formData);
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   createBookWithImage(book: Book, imageData: Blob) {
-    let url = urlServer + "createBook";
+    let url = `${urlServer}createBook`;
 
-    // Create FormData to send both the book object and the image
+    // Crée FormData pour envoyer à la fois l'objet livre et l'image
     const formData = new FormData();
     formData.append('title', book.title);
     formData.append('description', book.description);
@@ -176,10 +159,54 @@ export class ElectrolibService {
     formData.append('publishedDate', book.publishedDate);
     formData.append('originalLanguage', book.originalLanguage);
     formData.append('isBorrowed', book.isBorrowed.toString());
-    formData.append('cover', imageData); // Add the image data here
+    formData.append('cover', imageData); // Ajoute les données d'image ici
     formData.append('idAuthor', book.idAuthor.toString());
     formData.append('idGenre', book.idGenre.toString());
 
     return this.http.post<Book>(url, formData);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  updateBook(book: Book, imageData: Blob) {
+    let url = `${urlServer}updateBook/${book.idBook}`;
+
+    // Crée FormData pour envoyer à la fois l'objet livre et l'image
+    const formData = new FormData();
+    formData.append('title', book.title);
+    formData.append('description', book.description);
+    formData.append('isbn', book.isbn);
+    formData.append('publishedDate', book.publishedDate);
+    formData.append('originalLanguage', book.originalLanguage);
+    formData.append('isBorrowed', book.isBorrowed.toString());
+    formData.append('cover', imageData); // Ajoute les données d'image ici
+    formData.append('idAuthor', book.idAuthor.toString());
+    formData.append('idGenre', book.idGenre.toString());
+
+    return this.http.post<Book>(url, formData);
+
+    //NE PAS ENLEVER LE CODE EN COMMENTAIRE: JE VEUX ESSAYER DE FAIRE FONCTIONNER LE PUT PLUS TARD
+    /*const updatedBook = {
+      title: book.title,
+      description: book.description,
+      isbn: book.isbn,
+      publishedDate: book.publishedDate,
+      originalLanguage: book.originalLanguage,
+      isBorrowed: book.isBorrowed,
+      idAuthor: book.idAuthor,
+      idGenre: book.idGenre,
+    };
+  
+    const formData = new FormData();
+    formData.append('cover', imageData);
+  
+    const requestData = {
+      book: updatedBook,
+      image: formData,
+    };
+
+    //PEUT-ÊTRE UNE ERREUR AVEC LE FORM QUE J'ENVOIE (À VÉRIFIER)
+    return this.http.put<Book>(url, requestData);*/
   }
 }

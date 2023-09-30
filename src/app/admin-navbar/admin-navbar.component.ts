@@ -27,6 +27,9 @@ ngOnInit() {
   this.updateVisibility();
 }
 
+//-------------------------------------------------------
+  //
+  //-------------------------------------------------------
 private updateVisibility() {
   if (this.dataService.getUser() != undefined) {
     if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_ADMIN"]') {
@@ -47,7 +50,7 @@ private updateVisibility() {
   }
 
   //-------------------------------------------------------
-  // Déconnecte l'admin
+  //
   //-------------------------------------------------------
   disconnect() {
     this.offcanvasService.dismiss();
@@ -57,7 +60,7 @@ private updateVisibility() {
   }
 
   //-------------------------------------------------------
-  // Affiche l'inventaire admin
+  //
   //-------------------------------------------------------
   displayAdminInventory() {
     this.router.navigate(["adminInventory"]);
