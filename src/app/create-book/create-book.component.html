@@ -35,7 +35,7 @@
       <div class="form-group">
         <label for="cover">Couverture:</label>
         <input class="form-control" type="file" name="cover" (change)="onFileSelected($event)" accept="image/*" />
-        <p class="error" *ngIf="validations['cover'] == false">Seules les images au format PNG sont prises en charge.</p>
+        <p class="error" *ngIf="validations['cover'] == false">Seules les images au format PNG, JPG et JPEG sont prises en charge.</p>
         <p class="error" *ngIf="validations['cover'] === undefined">Vous devez fournir une image de couverture.</p>
       </div>
 

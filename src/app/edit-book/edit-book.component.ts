@@ -1,17 +1,19 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Book } from '../model/Book';
+import { Component } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
-import { MAX_FILE_SIZE } from '../util';
+import { ActivatedRoute } from '@angular/router';
+import { Book } from '../model/Book';
+import { Router } from '@angular/router';
 import { Author } from '../model/Author';
 import { Genre } from '../model/Genre';
-import { Router } from '@angular/router';
+import { MAX_FILE_SIZE } from '../util';
+import { format, parse } from 'date-fns';
 
 @Component({
-  selector: 'app-create-book',
-  templateUrl: './create-book.component.html',
-  styleUrls: ['./create-book.component.css']
+  selector: 'app-edit-book',
+  templateUrl: './edit-book.component.html',
+  styleUrls: ['./edit-book.component.css']
 })
-export class CreateBookComponent {
+export class EditBookComponent {
 
   book: Book = new Book();
   authors: Author[] = [];
@@ -22,20 +24,33 @@ export class CreateBookComponent {
   file: any;
   file_data: any = "";
 
-  validations: { [key: string]: boolean | null | undefined } = {
-    title: null,
-    description: null,
-    isbn: null,
-    publishedDate: null,
-    originalLanguage: null,
-    cover: null,
-    idAuthor: null,
-    idGenre: null
+  validations: { [key: string]: boolean } = {
+    title: true,
+    description: true,
+    isbn: true,
+    publishedDate: true,
+    originalLanguage: true,
+    cover: true,
+    idAuthor: true,
+    idGenre: true
   };
 
-  constructor(private electrolibService: ElectrolibService, private router: Router) { }
+  constructor(
+    private electrolibService: ElectrolibService, 
+    private route: ActivatedRoute, 
+    private router: Router) {}
 
   ngOnInit() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    if(id) {
+     this.electrolibService.getBook(id).subscribe(book =>{
+      this.book = book;
+      const parsedDate = parse(book.publishedDate, 'yyyy-MM-dd HH:mm:ss', new Date());
+      this.book.publishedDate = format(parsedDate, 'yyyy-MM-dd');
+     });
+    }
+    
     this.retrieveAuthors();
     this.retrieveGenres();
   }
@@ -66,14 +81,15 @@ export class CreateBookComponent {
   // Envoie les données du formulaire au serveur Symfony
   //-------------------------------------------------------
   onSubmit() {
+    //PEUT-ÊTRE UNE ERREUR AVEC LE FORM QUE J'ENVOIE (À VÉRIFIER)
     if (this.validateForm()) {
-      this.electrolibService.createBookWithImage(this.book, this.file_data).subscribe(
-        createdBook => {
-          console.log('Book and image created successfully!', createdBook);
+      this.electrolibService.updateBook(this.book, this.file_data).subscribe(
+        (response) => {
+          console.log('Book updated successfully!', response);
           this.router.navigate(["/adminInventory"]);
         },
         (error) => {
-          console.error('Creation failed:', error);
+          console.error('Update failed:', error);
         }
       );
     } else {
@@ -117,7 +133,7 @@ export class CreateBookComponent {
     let fileSupported = false;
     if (this.selectedImage.size <= MAX_FILE_SIZE) {
       let extension = this.extractExtension(this.selectedImage.name);
-      if (extension?.toLowerCase() == 'png' || extension?.toLowerCase() == 'jpg' || extension?.toLowerCase() == 'jpeg') {
+      if (extension?.toLowerCase() == 'png') {
         fileSupported = true;
       }
       if (!fileSupported)
@@ -165,7 +181,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide la date de publication du livre
+  //
   //-------------------------------------------------------
   validatePublishedDate() {
     if (this.book.publishedDate.length <= 0) {
@@ -183,18 +199,6 @@ export class CreateBookComponent {
       this.validations["originalLanguage"] = false;
     } else {
       this.validations["originalLanguage"] = true;
-    }
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  validateCover() {
-    if (this.validations["cover"] == null) {
-      this.validations["cover"] = undefined;
-    } 
-    else if (!this.validations["cover"] == null) {
-      this.validations["cover"] = false;
     }
   }
 
@@ -229,7 +233,6 @@ export class CreateBookComponent {
     this.validateISBN();
     this.validatePublishedDate();
     this.validateOriginalLanguage();
-    this.validateCover();
     this.validateIdAuthor();
     this.validateIdGenre();
   }
@@ -239,7 +242,7 @@ export class CreateBookComponent {
   //-------------------------------------------------------
   validateForm() {
     for (const key in this.validations) {
-      if (this.validations.hasOwnProperty(key) && (this.validations[key] === null || this.validations[key] === false)) {
+      if (this.validations.hasOwnProperty(key) && this.validations[key] === false) {
         return false;
       }
     }
