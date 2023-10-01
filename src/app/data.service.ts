@@ -21,4 +21,11 @@ export class DataService {
   disconnectUser() {
     this.user = undefined;
   }
+
+  isUserLoggedIn(){
+    if(this.user){
+        return true;
+    }
+    return false;
+  }
 }
