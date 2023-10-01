@@ -13,12 +13,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { BorrowsComponent } from './borrows/borrows.component';
 import { CreateBookComponent } from './create-book/create-book.component';
 import { EditBookComponent } from './edit-book/edit-book.component';
-import { authGuard } from './auth.guard';
+import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
 
 // Create a routes Array
 const routes: Routes = [
   { path: "detailLivre/:id", component: DetailLivreComponent },
-  { path: "inventory", component: InventoryComponent,canActivate: [authGuard] },
+  { path: "inventory", component: InventoryComponent },
   { path: "adminInventory", component: AdminInventoryComponent },
   //{ path:  "", component:InventoryComponent},
   { path: "detailEmprunt/:id", component: DetailsBorrowComponent },
@@ -29,7 +29,8 @@ const routes: Routes = [
   { path: "borrow", component: BorrowComponent },
   { path: "profile", component: ProfileComponent },
   { path: "createBook", component: CreateBookComponent },
-  { path: "editBook/:id", component: EditBookComponent }
+  { path: "editBook/:id", component: EditBookComponent },
+  { path: "adminBorrows", component: AdminBorrowsComponent }
 ];
 
 @NgModule({

@@ -16,12 +16,10 @@ export class BorrowDetailsComponent {
   @Output() openBorrows = new EventEmitter<User>();
 
   //Lorsqu'on appele et ouvre ce commentaire
-  onBorrowDetails(data:any)
+  onBorrowDetails(borrow: Borrow)
   {
-
-    console.log("détails de l'emprunt 2")
-    this.borrow = data.selectedBorrow;
-    this.user = data.user;
+    this.borrow = borrow;
+    //this.user = user;
     this.visible = true;
   }
 
@@ -31,5 +29,4 @@ export class BorrowDetailsComponent {
     this.openBorrows.emit(this.user);
     this.visible = false;
   }
-
 }
