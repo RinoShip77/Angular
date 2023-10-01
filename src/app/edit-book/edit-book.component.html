@@ -41,18 +41,23 @@
   
         <div class="form-group">
           <label for="idAuthor">Auteur:</label>
-          <select [(ngModel)]="book.idAuthor" name="idAuthor" (change)="validateIdAuthor()" required>
+          <select [(ngModel)]="book.idAuthor" name="idAuthor" required>
             <option *ngFor="let author of authors" [value]="author.idAuthor">{{ author.firstName }} {{ author.lastName }}</option>
           </select>
-          <p class="error" *ngIf="validations['idAuthor'] == false">Vous devez entrer un auteur.</p>
         </div>
   
         <div class="form-group">
           <label for="idGenre">Genre:</label>
-          <select [(ngModel)]="book.idGenre" name="idGenre" (change)="validateIdGenre()" required>
+          <select [(ngModel)]="book.idGenre" name="idGenre" required>
             <option *ngFor="let genre of genres" [value]="genre.idGenre">{{ genre.name }}</option>
           </select>
-          <p class="error" *ngIf="validations['idGenre'] == false">Vous devez entrer un genre.</p>
+        </div>
+
+        <div class="form-group">
+          <label for="idGenre">Statut:</label>
+          <select [(ngModel)]="book.idStatus" name="idStatus" required>
+            <option *ngFor="let sta of status" [value]="sta.idStatus">{{ sta.status }}</option>
+          </select>
         </div>
   
         <button type="submit">Enregistrer</button>
