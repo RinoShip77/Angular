@@ -1,17 +1,11 @@
 <section class="container-fluid main-frame">
     <article>
         <article style="text-align: center;">
-            <h2 style="font-family:Arial, Helvetica, sans-serif">Inventaire des livres</h2>
+            <h2 style="font-family:Arial, Helvetica, sans-serif">Inventaire des emprunts</h2>
         </article>
         <hr>
 
         <article class="inventory-navbar">
-            <a [routerLink]="['/createBook']">
-                <button class="btn btn-dark">
-                    <i class="fa-solid fa-book" style="margin-right: 4px;"></i>
-                    Ajouter un livre
-                </button>
-            </a>
             <div style="display: flex;">
 
                 <div style="display: flex; align-items: center;">
@@ -47,32 +41,32 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Id livre</th>
                         <th>Titre</th>
-                        <th>ISBN</th>
-                        <th>Auteur</th>
-                        <th>Statut</th>
+                        <th>N° membre emprunteur</th>
+                        <th>Date emprunt</th>
+                        <th>Date retour prévue</th>
+                        <th>Retard</th>
                         <th style="width: 10em;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let book of displayedBooks">
-                        <td>{{book.idBook}}</td>
-                        <td>{{book.title}}</td>
-                        <td>{{book.isbn}}</td>
-                        <td>{{book.author.firstName}} {{book.author.lastName}}</td>
-                        <td>{{book.cover}}</td>
+                    <tr *ngFor="let borrow of displayedBorrows">
+                        <td>{{borrow.book.idBook}}</td>
+                        <td>{{borrow.book.title}}</td>
+                        <td>{{borrow.user.memberNumber}}</td>
+                        <td>{{borrow.borrowedDate}}</td>
+                        <td>{{borrow.dueDate}}</td>
+                        <td></td>
                         <td>
                             <button class="btn btn-success btn-action" aria-placeholder="asdasd">
                                 <i class="fa-solid fa-book-open-reader"></i>
                                 <span class="info-tooltip">Détails</span>
                             </button>
-                            <a [routerLink]="['/editBook', book.idBook]">
-                                <button class="btn btn-warning btn-action">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                    <span class="info-tooltip">Éditer</span>
-                                </button>
-                            </a>
+                            <button class="btn btn-warning btn-action">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span class="info-tooltip">Éditer</span>
+                            </button>
                         </td>
                     </tr>
                 </tbody>

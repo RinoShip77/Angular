@@ -19,24 +19,10 @@ export class AdminInventoryComponent {
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
 
-  constructor(private electrolibSrv: ElectrolibService, private router: Router) { }
+  constructor(private electrolibService: ElectrolibService, private router: Router) { }
 
   ngOnInit() {
     this.retrieveBooks();
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  createBook() {
-    this.router.navigate(["/createBook"]);
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  editBook(idBook: number) {
-    this.router.navigate(['/editBook', idBook]);
   }
 
   //-------------------------------------------------------
@@ -120,7 +106,7 @@ export class AdminInventoryComponent {
   //
   //-------------------------------------------------------
   retrieveBooks(filter?: number[]) {
-    this.electrolibSrv.getBooks(filter).subscribe(
+    this.electrolibService.getBooks(filter).subscribe(
       books => {
         this.books = books;
         this.displayedBooks =  books;
