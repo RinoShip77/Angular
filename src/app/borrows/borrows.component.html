@@ -93,14 +93,11 @@
     <!-- Div contenant le select pour trier la table -->
     <div  style="float: right;">
         <label>Trier par: </label>
-        <select class="select-style" (selectionChange)="onSortChange($event)" (change)="orderBySelect($event)">
-            <option value="borrowedDate" selected>Id / Date d'emprunt</option>
-            <option value="1">Titre du livre</option>
-            <option value="dueDate" >Date retour / Status / Frais</option>
-        </select>
-        <select class="select-style" (selectionChange)="onSortChange($event)" (change)="orderWayBySelect($event)" style="width: 100px;">
-            <option value="ASC" selected>Croissant</option>
-            <option value="DESC">Décroissant</option>
+        <select class="select-style" (selectionChange)="onSortChange($event)">
+            <option selected>Id</option>
+            <option value="2">Date retour / Status</option>
+            <option value="3">Frais de retard</option>
+            <option value="1">Date emprunt</option>
         </select>
     </div>
 
@@ -111,30 +108,12 @@
         <thead class="table-secondary text-center">
             <tr>
                 <th><i class="fa-regular fa-clock"></i></th>
-                <th (click)="sortBy('idBorrow')">Id
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up tooltip-activate" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('idBorrow')">Titre du livre
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('borrowedDate')">Date de l'emprunt
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('dueDate')">Date limite de retour
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('dueDate')">Status
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('dueDate')">Frais de retard
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
+                <th>Id</th>
+                <th>Titre du livre</th>
+                <th>Date de l'emprunt</th>
+                <th>Date limite de retour</th>
+                <th>Status</th>
+                <th>Frais de retard</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -162,7 +141,7 @@
 
                 <!-- Reste des informations -->
                 <td scope="row" class="td-thick">{{borrow.idBorrow}}</td>
-                <td>{{borrow.book.title}}</td>
+                <td>{{borrow.idBook}}</td>
                 <td>{{borrow.borrowedDate}}</td>
                 <td>{{borrow.dueDate}}</td>
                 <td class="td-thick">{{borrow.determineStatus()}}</td>
@@ -174,8 +153,8 @@
                 <td>
                     <a (click)="borrowDetails(borrow)"><i class="fa-regular fa-file-lines col-6 icone-petite i-active" ngbTooltip="Plus de détails"></i></a>
                     
-                    <a *ngIf="borrow.verifyRenew()" (click)="borrowRenew(borrow)"><i class="fa-solid fa-repeat col-6 icone-petite i-active" ngbTooltip="Renouveler l'emprunt"></i></a>
-                    <a *ngIf="borrow.verifyRenew() == false"><i class="fa-solid fa-repeat col-6 icone-petite desactivated" ngbTooltip="Renouvelement indisponible"></i></a>
+                    <a (click)="borrowRenew()" *ngIf="borrow.calculateFee() == null"><i class="fa-solid fa-repeat col-6 icone-petite i-active" ngbTooltip="Renouveler l'emprunt"></i></a>
+                    <a *ngIf="borrow.calculateFee() != null"><i class="fa-solid fa-repeat col-6 icone-petite desactivated" ngbTooltip="Renouvelement indisponible"></i></a>
                 </td>
             </tr>
         </tbody>

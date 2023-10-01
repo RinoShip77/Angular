@@ -1,6 +1,6 @@
 <div class="row mt-4 mb-3">
   <div class="col-3">
-    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary rounded-5">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary rounded-end-5">
       <span class="fs-4">Affiner votre recherche</span>
       <hr>
       <button class="btn btn-outline-success p-1 fs-5 fw-bold" (click)="openModal(content)">
@@ -51,7 +51,7 @@
           <button ngbNavLink>Par genre</button>
           <ng-template ngbNavContent class="my-4">
             <div *ngFor="let genre of genres" class="ms-5 my-2">
-              <div class="form-check form-switch" (click)="filterBooksByGenres(genre.idGenre)">
+              <div class="form-check form-switch" (click)="updateGenresFilter(genre.idGenre)">
                 <input class="form-check-input me-2" type="checkbox" role="switch" [(ngModel)]="genre.isFilter">
                 <label class="form-check-label">
                   {{genre.name | titlecase}} | <i class="fas {{genre.icon}} ms-2"></i>
@@ -64,7 +64,7 @@
           <button ngbNavLink>Par auteur</button>
           <ng-template ngbNavContent>
             <div *ngFor="let author of authors" class="ms-5 my-2">
-              <div class="form-check" (click)="filterBooksByAuthors(author.idAuthor)">
+              <div class="form-check" (click)="updateAuthorsFilter(author.idAuthor)">
                 <input class="form-check-input me-2" type="checkbox" [(ngModel)]="author.isFilter">
                 <label class="form-check-label">{{(author.firstName | titlecase) + ' ' + (author.lastName |
                   titlecase)}}</label>
@@ -91,40 +91,38 @@
         </select>
       </div>
       <form #searchForm="ngForm" class="d-flex h-25 ms-2 my-auto" role="search"
-        (ngSubmit)="applySearch(searchForm.value.searchInp)">
+        (ngSubmit)="applyFilters(searchForm.value.searchInp)">
         <input name="searchInp" ngModel class="form-control me-2" type="search" placeholder="Rechercher ...">
         <button class="btn btn-outline-info" type="submit">Chercher</button>
       </form>
     </div>
-
-    <div *ngIf="books.length > 0; else elseBlock" [ngSwitch]="inventoryDisplay">
+    <div [ngSwitch]="inventoryDisplay">
       <div *ngSwitchCase="'table'">
         <div class="row row-cols-2 g-3">
           <div type="button" class="col" *ngFor="let book of books" (click)="displayBook(book.idBook)">
             <div class="card h-100 mb-3">
               <div class="row g-0">
                 <div class="col-4">
-                  <img src="{{book.cover}}" class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
+                  <img src="{{ getBookCover(book.idBook) }}" class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
                     title="{{book.title}}" (error)="handleMissingImage($event)">
                 </div>
                 <div class="col-8">
                   <div class="card-body">
                     <div class="d-flex justify-content-between">
                       <h2 class="card-title">{{book.title | titlecase}}</h2>
-                      <i class="fas {{book.genre.icon}} fs-3"></i>
+                      <h2><i class="fas {{book.genre.icon}}"></i></h2>
                     </div>
                     <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}
                     </p>
                     <span class="card-text"><small>{{book.description}}</small></span>
                     <div class="d-flex justify-content-between mt-3">
                       <div class="d-flex align-items-center">
-                        <i class="text-danger fs-2"
-                          [ngClass]="(book.isFavorite) ? 'fas fa-heart' : 'far fa-heart'"></i>
+                        <i class="text-danger fs-2" [ngClass]="(book.isFavorite) ? 'fas fa-heart' : 'far fa-heart'"></i>
                         <!-- <span>
-                          <span class="fs-4">[</span>
-                          {{user.favorites.length}}
-                          <span class="fs-4">]</span>
-                        </span> -->
+                            <span class="fs-4">[</span>
+                            {{user.favorites.length}}
+                            <span class="fs-4">]</span>
+                          </span> -->
                       </div>
                       <div>
                         <div *ngIf="book.isBorrowed" class="border border-2 rounded-3 p-2 text-center">En location
@@ -156,9 +154,9 @@
           </thead>
           <tbody>
             <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.isBorrowed)">
-              <a [routerLink]="['/detailLivre', book.idBook]">
+              <a [routerLink]="['/detailLivre',book.idBook]">
                 <td>#{{book.isbn}}</td>
-                <td>{{book.title}}</td>
+                <td> {{book.title}} </td>
                 <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
                 <td><i class="fas {{book.genre.icon}}"></i></td>
                 <td>{{book.originalLanguage}}</td>
@@ -174,8 +172,5 @@
         </table>
       </div>
     </div>
-    <ng-template #elseBlock>
-      <h1 class="mt-5 text-center fst-italic fw-bolder">Aucun résultat.</h1>
-    </ng-template>
   </div>
 </div>
