@@ -13,11 +13,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { BorrowsComponent } from './borrows/borrows.component';
 import { CreateBookComponent } from './create-book/create-book.component';
 import { EditBookComponent } from './edit-book/edit-book.component';
+import { authGuard } from './auth.guard';
 
 // Create a routes Array
 const routes: Routes = [
   { path: "detailLivre/:id", component: DetailLivreComponent },
-  { path: "inventory", component: InventoryComponent },
+  { path: "inventory", component: InventoryComponent,canActivate: [authGuard] },
   { path: "adminInventory", component: AdminInventoryComponent },
   //{ path:  "", component:InventoryComponent},
   { path: "detailEmprunt/:id", component: DetailsBorrowComponent },
