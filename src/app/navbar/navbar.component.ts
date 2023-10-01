@@ -12,8 +12,7 @@ import { NgbTooltipModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 })
 export class NavbarComponent implements OnInit {
   visible: boolean;
-  user: User = new User();
-  searchField: string = '';
+  user: User | undefined = new User();
 
   @Output() connected = new EventEmitter<User>();
   @Output() openProfile = new EventEmitter<User>();
@@ -32,12 +31,13 @@ export class NavbarComponent implements OnInit {
     this.routeChangeService.routeChange$.subscribe(() => {
       this.updateVisibility();
     });
-
+    
     this.updateVisibility();
   }
-
+  
   private updateVisibility() {
     if (this.dataService.getUser() != undefined) {
+      this.user = this.dataService.getUser();
       if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_USER"]') {
         this,this.visible = true;
       } else {
@@ -46,13 +46,6 @@ export class NavbarComponent implements OnInit {
     } else {
       this.router.navigate([""]);
     }
-  }
-
-  //---------------------------------
-  // Function to disconnect a user
-  //---------------------------------
-  displayProfile() {
-    this.openProfile.emit(this.user);
   }
 
   //---------------------------------
