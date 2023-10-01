@@ -2,7 +2,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { Book } from '../model/Book';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-inventory',
@@ -19,28 +18,28 @@ export class AdminInventoryComponent {
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
 
-  constructor(private electrolibService: ElectrolibService, private router: Router) { }
+  constructor(private electrolibSrv: ElectrolibService) { }
 
   ngOnInit() {
     this.retrieveBooks();
   }
 
   //-------------------------------------------------------
-  //
+  // Change le type de recherche
   //-------------------------------------------------------
   changeResearchBy(type: String) {
     this.selectedSearchBy = type;
   }
 
   //-------------------------------------------------------
-  //
+  // Change l'ordre de tri
   //-------------------------------------------------------
   changeSortBy(type: String) {
     this.selectedSortBy = type;
   }
 
   //-------------------------------------------------------
-  //
+  // Tri les livres
   //-------------------------------------------------------
   sortBooks() {
     if (this.selectedSortBy == "ascending") {
@@ -72,7 +71,7 @@ export class AdminInventoryComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Recherche par nom de livre
   //-------------------------------------------------------
   search() {
     if (this.searchField.trim().length > 0) {
@@ -103,14 +102,14 @@ export class AdminInventoryComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Récupère tous les livres présents en base de données
   //-------------------------------------------------------
   retrieveBooks(filter?: number[]) {
-    this.electrolibService.getBooks(filter).subscribe(
-      books => {
-        this.books = books;
-        this.displayedBooks =  books;
-      }
-    );
+    // this.electrolibSrv.getBooks(filter).subscribe(
+    //   books => {
+    //     this.books = books;
+    //     this.displayedBooks =  books;
+    //   }
+    // );
   }
 }

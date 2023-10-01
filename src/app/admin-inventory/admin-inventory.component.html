@@ -1,82 +1,83 @@
-<section class="container-fluid main-frame">
-    <article>
-        <article style="text-align: center;">
-            <h2 style="font-family:Arial, Helvetica, sans-serif">Inventaire des livres</h2>
-        </article>
-        <hr>
 
-        <article class="inventory-navbar">
-            <a [routerLink]="['/createBook']">
-                <button class="btn btn-dark">
-                    <i class="fa-solid fa-book" style="margin-right: 4px;"></i>
-                    Ajouter un livre
-                </button>
-            </a>
-            <div style="display: flex;">
+    <section class="container-fluid">
+        <article>
+            <article style="text-align: center; margin-top: 1em;">
+                <h2 style="font-family:Arial, Helvetica, sans-serif">Inventaire des livres</h2>
+            </article>
+            <hr>
 
-                <div style="display: flex; align-items: center;">
-                    <label for="sort-by" class="fit-label" style="margin-right: 10px;">Trier:</label>
-                    <select class="form-control combobox" #sortBy name="sort-by" (change)="changeSortBy(sortBy.value)">
-                        <option value="ascending">Croissant</option>
-                        <option value="descending">Décroissant</option>
-                    </select>
-                </div>
-
-                <div style="display: flex; align-items: center;">
-                    <label for="search-by" class="fit-label" style="margin-right: 10px;">Recherche par:</label>
-                    <select class="form-control combobox" #searchBy name="search-by"
-                        (change)="changeResearchBy(searchBy.value)">
-                        <option value="title">Titre</option>
-                        <option value="isbn">ISBN</option>
-                        <option value="author">Auteur</option>
-                    </select>
-                </div>
-
-                <form class="d-flex ms-2" role="search" (ngSubmit)="search()">
-                    <input name="searchField" [(ngModel)]="searchField" class="form-control me-2" type="search"
-                        placeholder="Rechercher..." aria-label="Search">
-                    <button class="btn btn-outline-primary" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+            <article class="inventory-navbar">
+                <a [routerLink]="['/createBook']">
+                    <button class="btn btn-dark">
+                        <i class="fa-solid fa-book" style="margin-right: 4px;"></i>
+                        Ajouter un livre
                     </button>
-                </form>
-            </div>
+                </a>  
+                <div style="display: flex;">
 
-        </article>
-        <hr>
-        <section class="inventory-table">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Titre</th>
-                        <th>ISBN</th>
-                        <th>Auteur</th>
-                        <th>Statut</th>
-                        <th style="width: 10em;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let book of displayedBooks">
-                        <td>{{book.idBook}}</td>
-                        <td>{{book.title}}</td>
-                        <td>{{book.isbn}}</td>
-                        <td>{{book.author.firstName}} {{book.author.lastName}}</td>
-                        <td>{{book.status.status}}</td>
-                        <td>
-                            <button class="btn btn-success btn-action" aria-placeholder="asdasd">
-                                <i class="fa-solid fa-book-open-reader"></i>
-                                <span class="info-tooltip">Détails</span>
-                            </button>
-                            <a [routerLink]="['/editBook', book.idBook]">
+                    <div style="display: flex; align-items: center;">
+                        <label for="sort-by" class="fit-label" style="margin-right: 10px;">Trier:</label>
+                        <select class="form-control combobox" #sortBy name="sort-by" (change)="changeSortBy(sortBy.value)">
+                            <option value="ascending">Croissant</option>
+                            <option value="descending">Décroissant</option>
+                        </select>
+                    </div>
+
+                    <div style="display: flex; align-items: center;">
+                        <label for="search-by" class="fit-label" style="margin-right: 10px;">Recherche par:</label>
+                        <select class="form-control combobox" #searchBy name="search-by" (change)="changeResearchBy(searchBy.value)">
+                            <option value="title">Titre</option>
+                            <option value="isbn">ISBN</option>
+                            <option value="author">Auteur</option>
+                        </select>
+                    </div>
+
+                    <form class="d-flex ms-2" role="search" (ngSubmit)="search()">
+                        <input name="searchField" [(ngModel)]="searchField" class="form-control me-2" type="search"
+                            placeholder="Rechercher..." aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+
+
+                </div>
+
+            </article>
+            <hr>
+            <section class="inventory-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Titre</th>
+                            <th>ISBN</th>
+                            <th>Auteur</th>
+                            <th>Statut</th>
+                            <th style="width: 10em;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let book of displayedBooks">
+                            <td>{{book.idBook}}</td>
+                            <td>{{book.title}}</td>
+                            <td>{{book.isbn}}</td>
+                            <td>{{book.author.firstName}} {{book.author.lastName}}</td>
+                            <td>#statut</td>
+                            <td>
+                                <button class="btn btn-success btn-action" aria-placeholder="asdasd">
+                                    <i class="fa-solid fa-book-open-reader"></i>
+                                    <span class="info-tooltip">Détails</span>
+                                </button>
                                 <button class="btn btn-warning btn-action">
                                     <i class="fa-solid fa-pen-to-square"></i>
-                                    <span class="info-tooltip">Éditer</span>
+                                    <span class="info-tooltip">Modifier</span>
                                 </button>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-    </article>
-</section>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </article>
+    </section>

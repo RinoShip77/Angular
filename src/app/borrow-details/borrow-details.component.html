@@ -1,10 +1,14 @@
 <div *ngIf="visible" class="col-10 master-div">
+    <div style="margin-bottom: 20px; margin-top: -40px;">
+        <a (click)="borrows()"><span>Mes Emprunts</span></a>&nbsp; <i class="fa-solid fa-angle-right fa-sm"></i> &nbsp;<a><span style="cursor: default;">Détails de l'emprunt</span></a>
+    </div>
     <!-- Titre de la page -->
     <h4>Détails de l'emprunt</h4>
     <hr>
 
     <div class="shadow-lg row border rounded-top div-details">
 
+        <h5 style="margin-left: 20px; margin-bottom: 20px;">Emprunt #{{borrow.idBorrow}}</h5>
         <!-- Informations concernant le livre -->
         <div class="col-6 row div-livre">
             <!-- Image du livre -->
@@ -35,7 +39,7 @@
         </div>
 
         <!-- Information concernant l'emprunt -->
-        <div class="col-4 div-info-emprunt" style="margin-left: 20px;"> 
+        <div class="col-4 div-info-commande" style="margin-left: 20px;"> 
             <label>Date de l'emprunt:&nbsp;</label>
             <span>{{borrow.borrowedDate}}</span>
             <br>

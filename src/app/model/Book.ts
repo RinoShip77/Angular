@@ -4,7 +4,6 @@ import { Borrow } from "./Borrow";
 import { Evaluation } from "./Evaluation";
 import { Favorite } from "./Favorite";
 import { Reservation } from "./Reservation";
-import { Status } from "./Status";
 
 export class Book {
   idBook: number = 0;
@@ -15,15 +14,13 @@ export class Book {
   title: string = '';
   description: string = '';
   isbn: string = '';
-  //borrow: Borrow = new Borrow();
+ borrow: Borrow = new Borrow();
   isBorrowed: boolean = false;
   cover: string = "/";
   publishedDate: string = '';
   originalLanguage: string = '';
-  //evaluations: Evaluation[] = new Array();
-  isFavorite: boolean = false;
-  //favorites: Favorite[] = new Array();
-  //reservations: Reservation[] = new Array();
-  idStatus: number = 1;
-  status: Status = new Status();
+ evaluations: Evaluation[] = new Array();
+ isFavorite: boolean = false;
+ favorites: Favorite[] = new Array();
+  reservations: Reservation[] = new Array();
 }

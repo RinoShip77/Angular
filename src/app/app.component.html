@@ -7,9 +7,17 @@
       <app-admin-navbar></app-admin-navbar>
     </header>
 
-    <main>
+    <main style="margin: 6%">
       <!-- Le router -->
       <router-outlet></router-outlet>
+
+      <div *ngIf="this.dataService.getUser() != undefined">
+        <div class="d-flex justify-content-end m-3" id="chat">
+          <button class="btn btn-primary rounded-5" (click)="openChat()">
+            <i class="far fa-comment-dots p-2 fs-1"></i>
+          </button>
+        </div>
+      </div>
     </main>
 
     <footer>

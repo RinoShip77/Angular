@@ -41,7 +41,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Récupère tous les auteurs
   //-------------------------------------------------------
   retrieveAuthors() {
     this.electrolibService.getAuthors().subscribe(
@@ -52,7 +52,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Récupère tous les genres
   //-------------------------------------------------------
   retrieveGenres() {
     this.electrolibService.getGenres().subscribe(
@@ -77,7 +77,7 @@ export class CreateBookComponent {
         }
       );
     } else {
-      this.validateAllFields();
+      this.validateAllFiends();
     }
   }
 
@@ -117,7 +117,7 @@ export class CreateBookComponent {
     let fileSupported = false;
     if (this.selectedImage.size <= MAX_FILE_SIZE) {
       let extension = this.extractExtension(this.selectedImage.name);
-      if (extension?.toLowerCase() == 'png' || extension?.toLowerCase() == 'jpg' || extension?.toLowerCase() == 'jpeg') {
+      if (extension?.toLowerCase() == 'png') {
         fileSupported = true;
       }
       if (!fileSupported)
@@ -132,7 +132,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Valide le titre du livre
   //-------------------------------------------------------
   validateTitle() {
     if (this.book.title.length <= 0 || this.book.title.length > 100) {
@@ -143,7 +143,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Valide la description du livre
   //-------------------------------------------------------
   validateDescription() {
     if (this.book.description.length <= 0 || this.book.description.length > 255) {
@@ -154,7 +154,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Valide l'ISBN du livre
   //-------------------------------------------------------
   validateISBN() {
     if (this.book.isbn.length <= 0 || this.book.isbn.length > 255) {
@@ -176,7 +176,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Valide la langue originale du livre
   //-------------------------------------------------------
   validateOriginalLanguage() {
     if (this.book.originalLanguage.length <= 0 || this.book.originalLanguage.length > 255) {
@@ -187,7 +187,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Valide l'image de couverture du livre
   //-------------------------------------------------------
   validateCover() {
     if (this.validations["cover"] == null) {
@@ -199,7 +199,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Valide l'auteur' du livre
   //-------------------------------------------------------
   validateIdAuthor() {
     if (!this.book.idAuthor) {
@@ -210,7 +210,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Valide le genre du livre
   //-------------------------------------------------------
   validateIdGenre() {
     if (!this.book.idGenre) {
@@ -221,9 +221,9 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Valide tous les champs du livre
   //-------------------------------------------------------
-  validateAllFields() {
+  validateAllFiends() {
     this.validateTitle();
     this.validateDescription();
     this.validateISBN();
@@ -235,7 +235,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  //
+  // Valide le formulaire du livre
   //-------------------------------------------------------
   validateForm() {
     for (const key in this.validations) {

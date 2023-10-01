@@ -1,12 +1,84 @@
 <div *ngIf="visible">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar fixed-top navbar-expand bg-secondary">
     <div class="container-fluid">
-      <a [routerLink]="'inventory'">
-        <div class="d-flex justify-content-end me-3"> <!-- link the click to inventory -->
+      <a class="navbar-brand" [routerLink]="'inventory'">
+        <div class="d-flex justify-content-end me-3">
           <i class="fas fa-book-bookmark mt-1 fs-1"></i>
           <h1>Electrolib</h1>
         </div>
-       </a> 
+      </a>
+      <div class="navbar-brand ms-3">
+      </div>
+      <div class="d-flex me-2">
+        <button class="btn btn-danger rounded-3 me-3 my-auto px-5 text-uppercase fw-bold" (click)="disconnect()">
+          Se déconnecter
+        </button>
+        <a class="nav-link" [routerLink]="['profile']">
+          <img src="https://ui-avatars.com/api/?name={{user?.firstName}}+{{user?.lastName}}&rounded=true">
+          <div style="margin-top: -15px; margin-left: 45px">
+            <span class="badge bg-success rounded-circle p-2">
+              <span class="visually-hidden">Connecté</span>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav animate side-nav bg-secondary-subtle">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['profile']">
+            Bonjour <span class=" fw-bold">{{user?.firstName}}</span>
+            <span type="button" class="link-secondary" (click)="disconnect()">Se déconnecter</span>
+            <span class="shortmenu animate">
+              <img src="https://ui-avatars.com/api/?name={{user?.firstName}}+{{user?.lastName}}&rounded=true">
+              <div style="margin-top: -15px; margin-left: 45px">
+                <span class="badge bg-success rounded-circle p-2">
+                  <span class="visually-hidden">Connecté</span>
+                </span>
+              </div>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item border-top border-dark" placement="bottom" ngbTooltip="Voir tout l'inventaire">
+          <a class="nav-link" [routerLink]="['inventory']">
+            <i class="fas fa-boxes-stacked me-2"></i>
+            Inventaire
+            <i class="fas fa-boxes-stacked m-3 text-secondary fs-3 shortmenu animate"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-dark" placement="bottom" ngbTooltip="Voir mon compte">
+          <a class="nav-link" [routerLink]="['profile', user]">
+            <i class="fas fa-circle-user me-2"></i>
+            Profil
+            <i class="fas fa-circle-user m-3 text-info fs-3 shortmenu animate"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-dark" placement="bottom" ngbTooltip="Voir mes locations">
+          <a class="nav-link" [routerLink]="['borrows']">
+            <i class="fas fa-hand-holding-dollar me-2"></i>
+            Emprunts
+            <i class="fas fa-hand-holding-dollar m-3 text-warning-emphasis fs-3 shortmenu animate"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-bottom border-dark" placement="bottom"
+          ngbTooltip="Voir mes coup de coeur">
+          <a class="nav-link" href="#">
+            <i class="fas fa-star me-2"></i>
+            Favoris
+            <i class="fas fa-star m-3 text-danger fs-3 shortmenu animate"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <div class="d-flex justify-content-end me-3">
+        <i class="fas fa-book-bookmark mt-1 fs-1"></i>
+        <h1>Electrolib</h1>
+      </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
         aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation"
         (click)="openOffcanvas(content)">
@@ -15,7 +87,7 @@
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['profile']">Mon compte</a>
+            <a class="nav-link" [routerLink]="['profile', user]">Mon compte</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Gestion</a>
@@ -38,11 +110,12 @@
           </li>
         </ul>
         <div class="row me-1">
-          <button class="col-9 btn btn-danger rounded-3 mh-100 my-auto px-5 text-uppercase fw-bold" (click)="disconnect()">
+          <button class="col-9 btn btn-danger rounded-3 mh-100 my-auto px-5 text-uppercase fw-bold"
+            (click)="disconnect()">
             Se déconnecter
           </button>
-          <div class="col-3" type="button" (click)="displayProfile()">
-            <img src="https://ui-avatars.com/api/?name={{user.firstName}}+{{user.lastName}}&rounded=true">
+          <div class="col-3" type="button">
+            <img src="https://ui-avatars.com/api/?name={{user?.firstName}}+{{user?.lastName}}&rounded=true">
             <div style="margin-top: -15px; margin-left: 45px">
               <span class="badge bg-success rounded-circle p-2">
                 <span class="visually-hidden">Connecté</span>
@@ -53,23 +126,22 @@
       </div>
     </div>
   </nav>
-</div>
-<ng-template #content let-offcanvas>
-  <div class="offcanvas-header">
-    <div class="d-flex justify-content-end me-3">
-      <i class="fas fa-book-bookmark mt-1 fs-1"></i>
-      <h1>Electrolib</h1>
+  <ng-template #content let-offcanvas>
+    <div class="offcanvas-header">
+      <div class="d-flex justify-content-end me-3">
+        <i class="fas fa-book-bookmark mt-1 fs-1"></i>
+        <h1>Electrolib</h1>
+      </div>
+      <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
     </div>
-    <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
-  </div>
-  <div class="offcanvas-body">
-    <ul class="list-unstyled">
-      <li class="mt-5" *ngIf="user.email != ''">
-        <div class="bg-secondary-subtle rounded-pill p-2">
+    <div class="offcanvas-body">
+      <ul class="list-unstyled">
+        <li class="mt-5" *ngIf="user?.email != ''">
+          <div class="bg-secondary-subtle rounded-pill p-2">
           <div class="row d-flex align-items-center">
-            <div type="button" class="col-1" (click)="displayProfile()">
+            <div type="button" class="col-1">
               <img
-                src="https://ui-avatars.com/api/?name={{user.firstName}}+{{user.lastName}}&size=96&font-size=0.55&rounded=true">
+              src="https://ui-avatars.com/api/?name={{user?.firstName}}+{{user?.lastName}}&size=96&font-size=0.55&rounded=true">
               <div style="margin-top: -20px; margin-left: 75px">
                 <span class="badge bg-success rounded-circle p-2">
                   <span class="visually-hidden">New!</span>
@@ -80,8 +152,7 @@
               <div class="fs-4 text-dark text-center">
                 <span>
                   Bonjour
-                  <span type="button" class="text-decoration-none text-secondary fw-bold"
-                    (click)="displayProfile()">{{user.firstName}}</span>
+                  <span type="button" class="text-decoration-none text-secondary fw-bold">{{user?.firstName}}</span>
                   <br>
                   <span type="button" class="link-secondary ms-2" (click)="disconnect()">Se déconnecter</span>
                 </span>
@@ -92,4 +163,4 @@
       </li>
     </ul>
   </div>
-</ng-template>
+</ng-template> -->

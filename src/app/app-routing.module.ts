@@ -12,8 +12,6 @@ import { BorrowComponent } from './borrow/borrow.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BorrowsComponent } from './borrows/borrows.component';
 import { CreateBookComponent } from './create-book/create-book.component';
-import { EditBookComponent } from './edit-book/edit-book.component';
-import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
 
 // Create a routes Array
 const routes: Routes = [
@@ -28,9 +26,8 @@ const routes: Routes = [
   { path: "borrowDetails", component: BorrowDetailsComponent },
   { path: "borrow", component: BorrowComponent },
   { path: "profile", component: ProfileComponent },
-  { path: "createBook", component: CreateBookComponent },
-  { path: "editBook/:id", component: EditBookComponent },
-  { path: "adminBorrows", component: AdminBorrowsComponent }
+  { path: "createBook", component: CreateBookComponent }
+
 ];
 
 @NgModule({

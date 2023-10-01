@@ -1,17 +1,18 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '../model/User';
 import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DataService } from '../data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
-  visible = false;
+export class ProfileComponent implements OnInit {
+  user: User | undefined = new User();
   profilePicture = '';
-  user: User = new User();
   password = {
     oldPassword: '',
     newPassword: '',
@@ -26,14 +27,16 @@ export class ProfileComponent {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private electrolib: ElectrolibService, private modalService: NgbModal) { }
+  constructor(private electrolib: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router) { }
 
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  onProfile(user: User) {
-    this.visible = true;
-    this.user = user;
+  ngOnInit() {
+    if (this.dataService.getUser() != undefined) {
+      this.user = this.dataService.getUser();
+    }
+    console.log(this.user);
   }
 
   //---------------------------------
@@ -48,30 +51,6 @@ export class ProfileComponent {
   //---------------------------------
   uploadImage() {
     console.log('new profile picture');
-  }
-
-  //---------------------------------
-  // Open the inventory of this user
-  //---------------------------------
-  displayInventory() {
-    this.visible = false;
-    this.openInventory.emit(this.user);
-  }
-
-  //---------------------------------
-  // Open the borrow(s) mades by the user
-  //---------------------------------
-  displayBorrow() {
-    this.visible = false;
-    this.openBorrow.emit(this.user);
-  }
-
-  //---------------------------------
-  // Open the favorites of the user
-  //---------------------------------
-  displayFavorite() {
-    this.visible = false;
-    this.openFavorite.emit(this.user);
   }
 
   //---------------------------------
@@ -98,11 +77,9 @@ export class ProfileComponent {
   // Function to upload a new profile picture
   //---------------------------------
   formatPostalCode() {
-    console.log('change postal code');
-
-    if (this.user.postalCode.length >= 3) {
-      this.user.postalCode = this.user.postalCode.slice(0, 3) + ' ' + this.user.postalCode.slice(3);
-    }
+    // if (this.user.postalCode.length >= 3) {
+    //   this.user.postalCode = this.user.postalCode.slice(0, 3) + ' ' + this.user.postalCode.slice(3);
+    // }
   }
 
   //---------------------------------
@@ -123,9 +100,8 @@ export class ProfileComponent {
   //---------------------------------
   // Function to upload a new profile picture
   //---------------------------------
-  updateProfile() {
-    console.log('update profile ...\n');
-    console.log(this.user);
+  updateProfile(user: User) {    
+    console.log(user);
     console.log(this.profilePicture);
   }
 }

@@ -23,8 +23,6 @@ import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 import { BorrowsComponent } from './borrows/borrows.component';
 import { BorrowDetailsComponent } from './borrow-details/borrow-details.component';
 import { CreateBookComponent } from './create-book/create-book.component';
-import { EditBookComponent } from './edit-book/edit-book.component';
-import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
 
 @NgModule({
   declarations: [
@@ -44,9 +42,7 @@ import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
     AdminNavbarComponent,
     BorrowsComponent,
     BorrowDetailsComponent,
-    CreateBookComponent,
-    EditBookComponent,
-    AdminBorrowsComponent
+    CreateBookComponent
   ],
   imports: [
     AppRoutingModule,
