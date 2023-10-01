@@ -6,6 +6,9 @@ import { User } from './model/User';
 import { Genre } from './model/Genre';
 import { Author } from './model/Author';
 import { Borrow } from './model/Borrow';
+import { Reservation } from './model/Reservation';
+import { Evaluation } from './model/Evaluation';
+import { Favorite } from './model/Favorite';
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +72,7 @@ export class ElectrolibService {
   //--------------------------------
   getBorrows() {
     let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/borrows";
+    //url = "http://127.0.0.1:8000/borrows";
 
     return this.http.get<Borrow[]>(url);
   }
@@ -110,7 +113,7 @@ export class ElectrolibService {
   
   //route qui va chercher un livre
   getBook(id:number){
-    let url = urlServer + 'getBook/'+id;
+    let url = urlServer + 'get-book/'+id;
 
     return this.http.get<Book>(url);
   }
@@ -122,7 +125,7 @@ export class ElectrolibService {
     const formData = new FormData();
     formData.append('image', imageData);
 
-    let url = urlServer + "createBook";
+    let url = urlServer + "create-book";
 
     return this.http.post(url, formData);
   }
@@ -131,7 +134,7 @@ export class ElectrolibService {
   //
   //-------------------------------------------------------
   createBookWithImage(book: Book, imageData: Blob) {
-    let url = `${urlServer}createBook`;
+    let url = `${urlServer}create-book`;
 
     // Crée FormData pour envoyer à la fois l'objet livre et l'image
     const formData = new FormData();
@@ -152,7 +155,7 @@ export class ElectrolibService {
   //
   //-------------------------------------------------------
   updateBook(book: Book, imageData: Blob) {
-    let url = `${urlServer}updateBook/${book.idBook}`;
+    let url = `${urlServer}update-book/${book.idBook}`;
 
     // Crée FormData pour envoyer à la fois l'objet livre et l'image
     const formData = new FormData();
@@ -190,5 +193,32 @@ export class ElectrolibService {
 
     //PEUT-ÊTRE UNE ERREUR AVEC LE FORM QUE J'ENVOIE (À VÉRIFIER)
     return this.http.put<Book>(url, requestData);*/
+  }
+  
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getReservations() {
+    let url = urlServer + 'reservations';
+
+    return this.http.get<Reservation[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getEvaluations() {
+    let url = urlServer + 'evaluations';
+
+    return this.http.get<Evaluation[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getFavorites() {
+    let url = urlServer + 'favorites';
+
+    return this.http.get<Favorite[]>(url);
   }
 }
