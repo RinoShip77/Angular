@@ -1,16 +1,16 @@
+import { Book } from "./Book";
+import { User } from "./User";
+
 export class Borrow 
 {
     idBorrow:number = 0;
-
     idUser:number = 0;
-
     idBook:number = 0;
-
     borrowedDate: Date = new Date();
-
     dueDate: Date = new Date();
-
     returnedDate: Date = new Date();
+    user: User = new User();
+    book: Book = new Book();
 
     //Calcul le temps restant à l'emprunt
     calculateTime()
