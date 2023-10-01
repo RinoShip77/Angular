@@ -77,7 +77,7 @@ export class CreateBookComponent {
         }
       );
     } else {
-      this.validateAllFiends();
+      this.validateAllFields();
     }
   }
 
@@ -223,7 +223,7 @@ export class CreateBookComponent {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
-  validateAllFiends() {
+  validateAllFields() {
     this.validateTitle();
     this.validateDescription();
     this.validateISBN();

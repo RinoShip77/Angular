@@ -9,6 +9,7 @@ import { Borrow } from './model/Borrow';
 import { Reservation } from './model/Reservation';
 import { Evaluation } from './model/Evaluation';
 import { Favorite } from './model/Favorite';
+import { Status } from './model/Status';
 
 @Injectable({
   providedIn: 'root'
@@ -165,6 +166,7 @@ export class ElectrolibService {
     formData.append('cover', imageData); // Ajoute les données d'image ici
     formData.append('idAuthor', book.idAuthor.toString());
     formData.append('idGenre', book.idGenre.toString());
+    formData.append('idStatus', book.idStatus.toString());
 
     return this.http.post<Book>(url, formData);
   }
@@ -182,10 +184,10 @@ export class ElectrolibService {
     formData.append('isbn', book.isbn);
     formData.append('publishedDate', book.publishedDate);
     formData.append('originalLanguage', book.originalLanguage);
-    formData.append('isBorrowed', book.isBorrowed.toString());
     formData.append('cover', imageData); // Ajoute les données d'image ici
     formData.append('idAuthor', book.idAuthor.toString());
     formData.append('idGenre', book.idGenre.toString());
+    formData.append('idStatus', book.idStatus.toString());
 
     return this.http.post<Book>(url, formData);
 
@@ -238,5 +240,14 @@ export class ElectrolibService {
     let url = urlServer + 'favorites';
 
     return this.http.get<Favorite[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getAllStatus() {
+    let url = urlServer + 'all-status';
+    
+    return this.http.get<Status[]>(url);
   }
 }

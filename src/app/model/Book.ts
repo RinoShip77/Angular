@@ -4,6 +4,7 @@ import { Borrow } from "./Borrow";
 import { Evaluation } from "./Evaluation";
 import { Favorite } from "./Favorite";
 import { Reservation } from "./Reservation";
+import { Status } from "./Status";
 
 export class Book {
   idBook: number = 0;
@@ -23,4 +24,6 @@ export class Book {
   isFavorite: boolean = false;
   //favorites: Favorite[] = new Array();
   //reservations: Reservation[] = new Array();
+  idStatus: number = 1;
+  status: Status = new Status();
 }
