@@ -24,35 +24,9 @@ export class ElectrolibService {
   //--------------------------------
   // Route to get all the books
   //--------------------------------
-  getBooks(genresFilter?: number[], authorsFilter?: number[], search?: string) {
+  getBooks() {
     let url = urlServer + 'books';
 
-    if (genresFilter && search) {
-      url += '?idGenre=';
-      
-      for (let i = 0; i < genresFilter.length; i++) {
-        url += + genresFilter[i] + ',';
-      }
-      
-      url = url.slice(0, -1);
-      url += '&search=' + search;
-    }
-
-    if (genresFilter && !search) {
-      url += '?idGenre=';
-      
-      for (let i = 0; i < genresFilter.length; i++) {
-        url += + genresFilter[i] + ',';
-      }
-      
-      url = url.slice(0, -1);
-    }
-
-    if (!genresFilter && search) {
-      url += '?search=' + search;
-    }
-    
-    console.log(url);
     return this.http.get<Book[]>(url);
   }
   
@@ -107,8 +81,16 @@ export class ElectrolibService {
   {
     let idUser = user.idUser;
     let url = urlServer + 'borrows';
-    console.log(idUser);
     url = "http://127.0.0.1:8000/borrows/" + idUser;
+
+    return this.http.get<Borrow[]>(url);
+  }
+
+  getBorrowsOrderedBy(user: User, order:any)
+  {
+    let idUser = user.idUser;
+    let url = urlServer + 'borrows';
+    url = "http://127.0.0.1:8000/borrows/" + idUser + "/" + order;
 
     return this.http.get<Borrow[]>(url);
   }

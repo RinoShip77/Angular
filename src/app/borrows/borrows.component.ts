@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnInit, Output  } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { Borrow } from '../model/Borrow';
-
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 
@@ -18,8 +17,7 @@ export class BorrowsComponent implements OnInit {
 
  
 
-  @Output() openBorrowDetails = new EventEmitter<Borrow>();
-  //@Output() openBorrowDetails = new EventEmitter<{selectedBorrow:Borrow, user:User}>();
+  @Output() openBorrowDetails = new EventEmitter<{selectedBorrow:Borrow, user:User}>();
   @Output() openInventory = new EventEmitter<User>();
 
   aboutModal:any;
@@ -29,17 +27,22 @@ export class BorrowsComponent implements OnInit {
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
+    this.retrieveBorrows();
   }
 
   //Lorsqu'on appele et ouvre le component
   onBorrows(user: User) 
   {
     //TODO
-    //Emit avec 2 arguments
-    //2 Faire le tri,
-    //3 faire pour un vrai user (les emprunts du user, les frais, les retard etc)
-    //4 Aller chercher info livre de l'emprunt
-    //5 Renouvellement
+    //1 bouton historique d'emprunts
+    //2 Affiche tous les emprunts ayant une date de remise
+    //3 Dans cette fenetre, vérifier si les emprunts ont une date de remise ou non
+    //4 Changer le calcul de retard, remplacer par la date.now
+
+    //TODO
+    //1 Aller chercher info livre de l'emprunt
+    //2 Formatter la date
+    //3 Renouvellement
 
     //Livre perdu???
     //Livre abimé???
@@ -53,12 +56,7 @@ export class BorrowsComponent implements OnInit {
     //Le user peut avoir un maximum de 5 emprunts
 
     //TODO
-    //Système de order
-    //Order par default en ordre de priorité (status)
-
-    //TODO
     //Check si membre pour bd et symfony
-    //Order par default en ordre de priorité (status)
   }
 
   //Cherche tous les emprunts en bd
@@ -67,9 +65,13 @@ export class BorrowsComponent implements OnInit {
   if(this.user){
     this.electrolibService.getBorrowsFromUser(this.user).subscribe(
       borrows => {
+        
         this.borrows = borrows.map(x => Object.assign(new Borrow(), x));
+        console.log(this.borrows);
       }
     );
+
+    console.log(this.borrows)
   }
   }
 
@@ -79,17 +81,23 @@ export class BorrowsComponent implements OnInit {
     console.log("détails de l'emprunt")
 
     let user = this.user;
-    this.openBorrowDetails.emit(selectedBorrow);
+    //this.openBorrowDetails.emit(selectedBorrow);
+    //this.openBorrowDetails.emit({selectedBorrow:selectedBorrow, user:user});
     //this.openBorrowDetails.emit({selectedBorrow, user});
     this.visible = false;
   }
 
   //Renouvellement d'un emprunt
-  borrowRenew()
+  borrowRenew(selectedBorrow: Borrow)
   {
     //TODO
     //DANS LE HTML
     //Le user peut renouveller jusqu'à 2e fois
+    selectedBorrow.renew();
+    console.log(selectedBorrow.renew());
+    
+    //Formatter la date
+    
     //Après la 2e fois OU si un autre user a réservé le livre: 
     //bloque et grise le bouton renouveller
     //Change le tooltip du bouton
@@ -120,5 +128,73 @@ export class BorrowsComponent implements OnInit {
   onSortChange(event:any)
   {
     console.log(event);
+  }
+
+  //Lorsque le user reclick sur le même tri, active desc
+  //Sinon, le remet à false
+  desc = false;
+  sortBefore = "";
+
+  //Tri par la valeur
+  //Si on clique sur le selectbox plutôt que la colonne
+  orderBySelect($event:any)
+  {
+    this.sortBy($event.target.value);
+  }
+
+  //Descendant ou Ascendant
+  //Si on clique sur le selectbox plutôt que la colonne
+  orderWayBySelect($event:any)
+  {
+    if($event.target.value == 'ASC')
+    {
+      if(this.desc == true)
+      {
+        this.desc = false;
+        this.borrows = this.borrows.map(x => Object.assign(new Borrow(), x)).reverse();
+      }
+    }
+    else
+    {
+      if(this.desc == false)
+      {
+        this.desc = true;
+        this.borrows = this.borrows.map(x => Object.assign(new Borrow(), x)).reverse();
+      }
+    }
+
+  }
+
+  //Tri le tableau par la colonne selectionnée
+  //Soit en cliquant sur la colonne
+  //Où dans la liste
+  sortBy($event:any)
+  {
+    if (this.user) {
+      this.electrolibService.getBorrowsOrderedBy(this.user, $event).subscribe(
+        borrows => {
+          if(this.sortBefore == $event)
+          {
+            this.desc = !this.desc;
+          }
+          else
+          {
+            this.desc = false;
+          }
+          this.sortBefore = $event;
+  
+          if(this.desc)
+          {
+            this.borrows = borrows.map(x => Object.assign(new Borrow(), x)).reverse();
+          }
+          else
+          {
+            this.borrows = borrows.map(x => Object.assign(new Borrow(), x));
+          }
+          
+        }
+      );
+    }
+    
   }
 }

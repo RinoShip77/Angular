@@ -120,3 +120,31 @@ select:hover
     color: rgba(68, 145, 216, 0.884);
     transition: color 0.5s, background-color 1s;
 }
+
+.fa-sort-up
+{
+    margin-left: 3px;
+    cursor: pointer;
+    color: rgba(57, 93, 134, 0.781);
+}
+
+.fa-sort-down
+{
+    margin-left: 3px;
+    cursor: pointer;
+    color: rgba(111, 122, 151, 0.781);
+}
+
+.info-tooltip {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+  }
