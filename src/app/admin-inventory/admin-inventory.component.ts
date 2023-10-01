@@ -119,12 +119,12 @@ export class AdminInventoryComponent {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
-  retrieveBooks(filter?: number[]) {
-    // this.electrolibSrv.getBooks(filter).subscribe(
-    //   books => {
-    //     this.books = books;
-    //     this.displayedBooks =  books;
-    //   }
-    // );
+  retrieveBooks() {
+     this.electrolibSrv.getBooks().subscribe(
+       books => {
+         this.books = books;
+         this.displayedBooks =  books;
+       }
+    );
   }
 }
