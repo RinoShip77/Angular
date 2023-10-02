@@ -120,7 +120,7 @@ export class ElectrolibService {
   //--------------------------------
   /*createBook(book: Book) {
     let url = urlServer + "createBook";
-
+    
     const params = new HttpParams({
       fromObject: {
         title: book.title,
@@ -134,22 +134,22 @@ export class ElectrolibService {
         idGenre: book.idGenre
       }
     });
-
+    
     return this.http.post<Book>(url, params);
   }*/
-
+  
   uploadImage(imageData: string) {
     const formData = new FormData();
     formData.append('image', imageData);
-
+    
     let url = urlServer + "createBook";
-
+    
     return this.http.post(url, formData);
   }
-
+  
   createBookWithImage(book: Book, imageData: Blob) {
     let url = urlServer + "createBook";
-
+    
     // Create FormData to send both the book object and the image
     const formData = new FormData();
     formData.append('title', book.title);
@@ -161,7 +161,29 @@ export class ElectrolibService {
     formData.append('cover', imageData); // Add the image data here
     formData.append('idAuthor', book.idAuthor.toString());
     formData.append('idGenre', book.idGenre.toString());
-
+    
     return this.http.post<Book>(url, formData);
+  }
+  
+  //--------------------------------
+  // Update the profile informations
+  //--------------------------------
+  updateProfile(action: string, idUser: number | undefined, object: any) {
+    let url = urlServer + 'user/' + idUser + '/modifier';
+    
+    const params = new HttpParams({
+      fromObject: {
+        action: action,
+        email: object.email,
+        firstName: object.firstName,
+        lastName: object.lastName,
+        address: object.address,
+        postalCode: object.postalCode,
+        phoneNumber: object.phoneNumber,
+        newPassword: object.newPassword
+      }
+    });
+
+    return this.http.post<User>(url, params);
   }
 }

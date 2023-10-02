@@ -12,22 +12,12 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
   user: User | undefined = new User();
-  profilePicture = '';
-  password = {
-    oldPassword: '',
-    newPassword: '',
-    confirmationNewPassword: ''
-  }
-
-  @Output() openInventory = new EventEmitter<User>();
-  @Output() openBorrow = new EventEmitter<User>();
-  @Output() openFavorite = new EventEmitter<User>();
-  @Output() disconnected = new EventEmitter<User>();
+  profilePicture: string = '';
 
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private electrolib: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router) { }
 
   //---------------------------------
   // Function to display every book in the database
@@ -36,7 +26,6 @@ export class ProfileComponent implements OnInit {
     if (this.dataService.getUser() != undefined) {
       this.user = this.dataService.getUser();
     }
-    console.log(this.user);
   }
 
   //---------------------------------
@@ -68,15 +57,36 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to upload a new profile picture
   //---------------------------------
-  updatePassword() {
-    console.log('update password ...\n');
-    console.log(this.password);
+  updatePassword(idUser: number | undefined, passwords: any) {
+    if (this.user?.password === passwords.activePassword) {
+      if (passwords.activePassword !== passwords.newPassword) {
+        if (passwords.newPassword === passwords.confirmationPassword) {
+          // passwords.newPassword.hash(); //TODO: Hash the password
+          this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
+            user => {
+              console.log('Votre mot de passe a été mis à jour'); //TODO: Inform the user via the UI (NOT the console)
+            },
+            (error) => {
+              console.error('La mise à jour a échoué :', error); //TODO: Inform the user via the UI (NOT the console)
+            }
+          );
+        } else {
+          console.error('Les nouveaux mot de passe ne correspondent pas'); //TODO: Inform the user via the UI (NOT the console)
+        }
+      } else {
+        console.error('Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement'); //TODO: Inform the user via the UI (NOT the console)
+      }
+    } else {
+      console.error('Le mot de passe saisi ne correspond pas à votre mot de passe actuelle'); //TODO: Inform the user via the UI (NOT the console)
+    }
   }
 
   //---------------------------------
   // Function to upload a new profile picture
   //---------------------------------
   formatPostalCode() {
+    console.log('format postal code');
+
     // if (this.user.postalCode.length >= 3) {
     //   this.user.postalCode = this.user.postalCode.slice(0, 3) + ' ' + this.user.postalCode.slice(3);
     // }
@@ -86,7 +96,7 @@ export class ProfileComponent implements OnInit {
   // Function to upload a new profile picture
   //---------------------------------
   formatPhoneNumber() {
-    console.log('change phone number');
+    console.log('format phone number');
 
     // if(this.user.phoneNumber.length == 3) {
     //   this.user.phoneNumber = this.user.phoneNumber.slice(0, 3) + '-' + this.user.phoneNumber.slice(3);
@@ -100,8 +110,18 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to upload a new profile picture
   //---------------------------------
-  updateProfile(user: User) {    
-    console.log(user);
-    console.log(this.profilePicture);
+  updateProfile(idUser: number | undefined, user: User) {
+    if ((user.email.length != 0) && (user.firstName.length != 0) && (user.lastName.length != 0) && (user.address.length != 0) && (user.postalCode.length != 0) && (user.phoneNumber.length != 0)) {
+      this.electrolibService.updateProfile('updateInformations', idUser, user).subscribe(
+        user => {
+          console.log('Votre profil a été mis à jour'); //TODO: Inform the user via the UI (NOT the console)
+        },
+        (error) => {
+          console.error('La mise à jour a échoué :', error); //TODO: Inform the user via the UI (NOT the console)
+        }
+      );
+
+      //console.log(this.profilePicture);
+    }
   }
 }
