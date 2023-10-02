@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { User } from './model/User';
+import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChatComponent } from './chat/chat.component';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -9,34 +9,19 @@ import { ChatComponent } from './chat/chat.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  isConnected = false;
-  isChatting = false;
-  user: User = new User();
-
-  constructor(private modalService: NgbModal) {}
+  //---------------------------------
+  // Function to disconnect the current user
+  //---------------------------------
+  constructor(private modalService: NgbModal, public dataService: DataService) { }
 
   //---------------------------------
-  // Function to connect a user
+  // Function to disconnect the current user
   //---------------------------------
-  /*onConnect(user: User) {
-    this.isConnected = true;
-    this.user = user;
-  }
-*/
   openChat() {
     this.modalService.open(ChatComponent, {
       animation: true,
       keyboard: true,
       scrollable: true
     });
-  }
-
-  //---------------------------------
-  // Function to disconnect the current user
-  //---------------------------------
-  onDisconnect(user: User) {
-    this.isConnected = false;
-    user = new User();
-    
   }
 }

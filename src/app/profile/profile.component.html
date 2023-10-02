@@ -8,8 +8,8 @@
           <div class="my-3 w-75">
             <div class="d-flex justify-content-center">
               <img class="img-fluid img-thumbnail border-3 border-dark rounded-circle w-75"
-                src="{{user.profilePicture}}" alt="{{user.firstName + ' ' + user.lastName}}"
-                title="{{user.firstName + ' ' + user.lastName}}" (error)="handleMissingImage($event)"> <!-- TODO: Set the source at {{user.profilePicture}} -->
+                src="{{user?.profilePicture}}" alt="{{user?.firstName + ' ' + user?.lastName}}"
+                title="{{user?.firstName + ' ' + user?.lastName}}" (error)="handleMissingImage($event)"> <!-- TODO: Set the source at {{user.profilePicture}} -->
             </div>
             <div class="d-flex justify-content-end" style="margin-right: 15%; margin-top: -50px">
               <label for="profilePicture"
@@ -20,26 +20,12 @@
             </div>
           </div>
           <div>
-            <h1>{{user.firstName + ' ' + user.lastName}}</h1>
+            <h1>{{user?.firstName + ' ' + user?.lastName}}</h1>
             <!-- TODO: Add a property in the user class that return the full name -->
-            <h6>{{user.roles}} depuis le {{user.registrationDate | date:'d/M/yyyy'}}</h6>
-            <h6>#{{user.idUser}}</h6> <!-- TODO: Set the content to {{user.memberNumber}} -->
+            <h6>{{user?.roles}} depuis le {{user?.registrationDate | date:'d/M/yyyy'}}</h6>
+            <h6>#{{user?.idUser}}</h6> <!-- TODO: Set the content to {{user.memberNumber}} -->
           </div>
           <div class="mt-2 p-3">
-            <hr>
-            <div class="ms-3">
-              <button class="btn btn-outline-secondary btn-lg rounded-1 px-3 w-50 fs-5" (click)="displayInventory()">
-                <i class="fas fa-boxes-stacked me-2"></i>Inventaire
-              </button>
-              <br>
-              <button class="btn btn-outline-primary btn-lg rounded-1 my-3 px-3 w-50 fs-5" (click)="displayBorrow()">
-                <i class="fas fa-hand-holding-dollar me-2"></i>Mes emprunts
-              </button>
-              <br>
-              <button class="btn btn-outline-success btn-lg rounded-1 px-3 w-50 fs-5" (click)="displayFavorite()">
-                <i class="fas fa-star me-2"></i>Mes favoris
-              </button>
-            </div>
             <hr>
             <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" (click)="openModal(content)">
               <i class="fas fa-vault me-2"></i>
@@ -80,37 +66,37 @@
       </div>
       <div class="col p-1">
         <h1 class="mt-5 text-center">Vos informations</h1>
-        <form (ngSubmit)="updateProfile()" class="m-5">
+        <form #profileForm="ngForm" (ngSubmit)="updateProfile(profileForm.value)" class="m-5">
           <div class="mb-3">
             <label class="form-label">Adresse courriel</label>
-            <input name="email" [(ngModel)]="user.email" type="email" class="form-control" placeholder="user.email">
+            <input name="email" [ngModel]="user?.email" type="email" class="form-control" placeholder="user.email">
           </div>
           <div class="row">
             <div class="col mb-3">
               <label class="form-label">Prénom</label>
-              <input name="firstName" [(ngModel)]="user.firstName" type="text" class="form-control"
+              <input name="firstName" [ngModel]="user?.firstName" type="text" class="form-control"
                 placeholder="user.firstName">
             </div>
             <div class="col mb-3">
               <label class="form-label">Nom</label>
-              <input name="lastName" [(ngModel)]="user.lastName" type="text" class="form-control"
+              <input name="lastName" [ngModel]="user?.lastName" type="text" class="form-control"
                 placeholder="user.lastName">
             </div>
           </div>
           <div class="row">
             <div class="col mb-3">
               <label class="form-label">Adresse civique</label>
-              <input name="address" [(ngModel)]="user.address" type="text" class="form-control"
+              <input name="address" [ngModel]="user?.address" type="text" class="form-control"
                 placeholder="user.address">
             </div>
             <div class="col mb-3">
               <label class="form-label">Code postal</label>
-              <input name="postalCode" [(ngModel)]="user.postalCode" type="text" class="form-control"
+              <input name="postalCode" [ngModel]="user?.postalCode" type="text" class="form-control"
                 placeholder="user.postalCode" (ngModelChange)="formatPostalCode()">
             </div>
             <div class="col mb-3">
               <label class="form-label">Téléphone</label>
-              <input name="phoneNumber" [(ngModel)]="user.phoneNumber" type="text" class="form-control"
+              <input name="phoneNumber" [ngModel]="user?.phoneNumber" type="text" class="form-control"
                 placeholder="user.phoneNumber" (ngModelChange)="formatPhoneNumber()">
             </div>
           </div>
