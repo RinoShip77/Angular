@@ -25,13 +25,14 @@ export class DetailsBorrowComponent {
   ngOnInit() {
     this.returnDate.setDate(this.currentDate.getDate()+7*1);
     this.user = this.dataSrv.getUser();
+    console.log("oninit validBorrow");
 
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if(id){
      this.electrolibSrv.getBook(id).subscribe(receivedBook =>{
       this.book=receivedBook;
-      console.log(this.book);
+      console.log(this.book+ "book");
 
       //je mets le code pour aller chercher le genre ici, je pense que subsrcibe fait un bug sinon
       //this.electrolibSrv.getGenre(this.book.idGenre).subscribe(receivedGenre=>{
