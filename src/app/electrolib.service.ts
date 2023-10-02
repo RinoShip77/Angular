@@ -181,6 +181,16 @@ export class ElectrolibService {
     return this.http.post<Book>(url, formData);
   }
 
+  createBorrow(book:Book,user:User){
+    const url = `${urlServer}create-Borrow`;
+    console.log(user.idUser);
+    const formData = new FormData();
+    formData.append('idBook',book.idBook.toString());
+    formData.append('idUser',user.idUser.toString());
+
+    return this.http.post<Borrow>(url,formData);
+  }
+
   //-------------------------------------------------------
   //
   //-------------------------------------------------------

@@ -1,4 +1,4 @@
-<main style="width: 100%; ;" class="EncadrerLivre">
+<section style="width: 100%; ;" class="EncadrerLivre">
     <div class="container row mx-auto p-5">
         <section class="imageLivre col-5">
             <img class="img-fluid"
@@ -13,8 +13,8 @@
             <p>date de retour : {{returnDate}}</p>
             <p>frais de retards : 1$ par jour</p>
             <div>
-                <button class="btn btn-outline-info m-1">Emprunter</button>
+                <button class="btn btn-outline-info m-1" (click)="createBorrow()">Emprunter</button>
             </div>
         </section>
     </div>
-</main>
+</section>
