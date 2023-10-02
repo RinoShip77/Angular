@@ -33,7 +33,7 @@ export class ConnectionComponent {
         alert('Erreur: Veuillez fournir les informations nécessaires.');
       }
     } else {
-      this.temporaryUser.memberNumber = "222222222";
+      this.temporaryUser.memberNumber = "11";
       this.temporaryUser.password = "11";
       this.retrieveAccount();
     }

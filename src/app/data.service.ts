@@ -13,6 +13,12 @@ export class DataService {
   updateUser(user: User) {
     this.user = user;
   }
+  
+  updatePassword(password: string) {
+    if(this.user) {
+      this.user.password = password;
+    }
+  }
 
   getUser() {
     return this.user;

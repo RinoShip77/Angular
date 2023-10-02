@@ -4,6 +4,7 @@ import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
+import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +14,10 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
   user: User | undefined = new User();
   profilePicture: string = '';
+  showSuccess: boolean = false;
+  successMessage: string = '';
+  showError: boolean = false;
+  errorMessage: string = '';
 
   //---------------------------------
   // Function to display every book in the database
@@ -64,21 +69,27 @@ export class ProfileComponent implements OnInit {
           // passwords.newPassword.hash(); //TODO: Hash the password
           this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
             user => {
-              console.log('Votre mot de passe a été mis à jour'); //TODO: Inform the user via the UI (NOT the console)
+              this.showSuccess = true;
+              this.successMessage = 'Votre mot de passe a été mis à jour';
+              this.dataService.updatePassword(passwords.newPassword);
             },
             (error) => {
-              console.error('La mise à jour a échoué :', error); //TODO: Inform the user via the UI (NOT the console)
+              this.showError = true;
+              this.errorMessage = 'La mise à jour a échoué';
             }
-          );
+            );
+          } else {
+            this.showError = true;
+            this.errorMessage = 'Les nouveaux mot de passe ne correspondent pas';
+          }
         } else {
-          console.error('Les nouveaux mot de passe ne correspondent pas'); //TODO: Inform the user via the UI (NOT the console)
+          this.showError = true;
+          this.errorMessage = 'Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement';
         }
       } else {
-        console.error('Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement'); //TODO: Inform the user via the UI (NOT the console)
+        this.showError = true;
+        this.errorMessage = 'Le mot de passe saisi ne correspond pas à votre mot de passe actuelle';
       }
-    } else {
-      console.error('Le mot de passe saisi ne correspond pas à votre mot de passe actuelle'); //TODO: Inform the user via the UI (NOT the console)
-    }
   }
 
   //---------------------------------
@@ -92,7 +103,7 @@ export class ProfileComponent implements OnInit {
       size: 'lg'
     });
   }
-
+  
   //---------------------------------
   // Function to delete thu user
   //---------------------------------
@@ -100,59 +111,65 @@ export class ProfileComponent implements OnInit {
     if (this.user?.password === password) {
       this.electrolibService.deleteProfile('deleteAcount', idUser).subscribe(
         user => {
-          console.log('Votre profil a été supprimé'); //TODO: Inform the user via the UI (NOT the console)
+          this.showSuccess = true;
+          this.successMessage = 'Votre profil a été supprimé';
           this.router.navigate([""]);
         },
         (error) => {
-          console.error('La suppression a échoué :', error); //TODO: Inform the user via the UI (NOT the console)
+          this.showError = true;
+          this.errorMessage = 'La suppression a échoué';
         }
-      );
-    } else{
-      console.error('Le mot de passe est incorrecte'); //TODO: Inform the user via the UI (NOT the console)
+        );
+      } else {
+        this.showError = true;
+        this.errorMessage = 'Le mot de passe est incorrecte';
+      }
     }
-  }
-
-  //---------------------------------
-  // Function to upload a new profile picture
-  //---------------------------------
-  formatPostalCode() {
-    console.log('format postal code');
-
+    
+    //---------------------------------
+    // Function to upload a new profile picture
+    //---------------------------------
+    formatPostalCode() {
+      console.log('format postal code');
+      
     // if (this.user.postalCode.length >= 3) {
-    //   this.user.postalCode = this.user.postalCode.slice(0, 3) + ' ' + this.user.postalCode.slice(3);
-    // }
-  }
+      //   this.user.postalCode = this.user.postalCode.slice(0, 3) + ' ' + this.user.postalCode.slice(3);
+      // }
+    }
 
-  //---------------------------------
-  // Function to upload a new profile picture
-  //---------------------------------
-  formatPhoneNumber() {
-    console.log('format phone number');
-
-    // if(this.user.phoneNumber.length == 3) {
-    //   this.user.phoneNumber = this.user.phoneNumber.slice(0, 3) + '-' + this.user.phoneNumber.slice(3);
-    // }
-
-    // if(this.user.phoneNumber.length == 7) {
-    //   this.user.phoneNumber = this.user.phoneNumber.slice(3, 7) + '-' + this.user.phoneNumber.slice(7);
-    // }
-  }
-
-  //---------------------------------
-  // Function to upload a new profile picture
-  //---------------------------------
-  updateProfile(idUser: number | undefined, user: User) {
+    //---------------------------------
+    // Function to upload a new profile picture
+    //---------------------------------
+    formatPhoneNumber() {
+      console.log('format phone number');
+      
+      // if(this.user.phoneNumber.length == 3) {
+        //   this.user.phoneNumber = this.user.phoneNumber.slice(0, 3) + '-' + this.user.phoneNumber.slice(3);
+        // }
+        
+        // if(this.user.phoneNumber.length == 7) {
+          //   this.user.phoneNumber = this.user.phoneNumber.slice(3, 7) + '-' + this.user.phoneNumber.slice(7);
+          // }
+        }
+        
+        //---------------------------------
+        // Function to upload a new profile picture
+        //---------------------------------
+        updateProfile(idUser: number | undefined, user: User) {
     if ((user.email.length != 0) && (user.firstName.length != 0) && (user.lastName.length != 0) && (user.address.length != 0) && (user.postalCode.length != 0) && (user.phoneNumber.length != 0)) {
       this.electrolibService.updateProfile('updateInformations', idUser, user).subscribe(
         user => {
-          console.log('Votre profil a été mis à jour'); //TODO: Inform the user via the UI (NOT the console)
+          this.showSuccess = true;
+          this.successMessage = 'Votre profil a été mis à jour';
+          this.dataService.updateUser(user);
         },
         (error) => {
-          console.error('La mise à jour a échoué :', error); //TODO: Inform the user via the UI (NOT the console)
+          this.showError = true;
+          this.errorMessage = 'La mise à jour a échoué';
         }
-      );
-
-      //console.log(this.profilePicture);
+        );
+        
+        //console.log(this.profilePicture);
+      }
     }
   }
-}
