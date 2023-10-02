@@ -45,8 +45,8 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Open the modal to update the user password
   //---------------------------------
-  openModal(content: any) {
-    this.modalService.open(content, {
+  openPasswordModal(passwordContent: any) {
+    this.modalService.open(passwordContent, {
       animation: true,
       centered: true,
       keyboard: true,
@@ -82,20 +82,34 @@ export class ProfileComponent implements OnInit {
   }
 
   //---------------------------------
+  // Open the modal to delete the user
+  //---------------------------------
+  openDeleteModal(deleteContent: any) {
+    this.modalService.open(deleteContent, {
+      animation: true,
+      centered: true,
+      keyboard: true,
+      size: 'lg'
+    });
+  }
+
+  //---------------------------------
   // Function to delete thu user
   //---------------------------------
-  deleteProfile(idUser: number | undefined) {
-    console.log(idUser);
-
-    this.electrolibService.deleteProfile('deleteAcount', idUser).subscribe(
-      user => {
-        console.log('Votre profil a été supprimé'); //TODO: Inform the user via the UI (NOT the console)
-        this.router.navigate([""]);
-      },
-      (error) => {
-        console.error('La suppression a échoué :', error); //TODO: Inform the user via the UI (NOT the console)
-      }
-    );
+  deleteProfile(idUser: number | undefined, password: string) {
+    if (this.user?.password === password) {
+      this.electrolibService.deleteProfile('deleteAcount', idUser).subscribe(
+        user => {
+          console.log('Votre profil a été supprimé'); //TODO: Inform the user via the UI (NOT the console)
+          this.router.navigate([""]);
+        },
+        (error) => {
+          console.error('La suppression a échoué :', error); //TODO: Inform the user via the UI (NOT the console)
+        }
+      );
+    } else{
+      console.error('Le mot de passe est incorrecte'); //TODO: Inform the user via the UI (NOT the console)
+    }
   }
 
   //---------------------------------

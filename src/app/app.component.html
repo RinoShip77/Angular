@@ -10,6 +10,7 @@
     <main style="margin: 6%">
       <!-- Le router -->
       <router-outlet></router-outlet>
+      <app-profile></app-profile>
 
       <div *ngIf="this.dataService.getUser() != undefined">
         <div class="d-flex justify-content-end m-3" id="chat">

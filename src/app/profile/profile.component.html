@@ -3,7 +3,7 @@
 <section class="font">
   <div class="container-fluid bg-light rounded-5 p-4">
     <div class="row">
-      <div class="w-auto p-1 border-end border-3 border-secondary">
+      <div class="me-5 w-auto p-1 border-end border-3 border-secondary">
         <div class="ms-5">
           <div class="my-3 w-75">
             <div class="d-flex justify-content-center">
@@ -26,14 +26,15 @@
             <h6>{{user?.roles}} depuis le {{user?.registrationDate | date:'d/M/yyyy'}}</h6>
             <h6>#{{user?.memberNumber}}</h6>
           </div>
-          <div class="mt-2 p-3">
-            <hr>
-            <button class="btn btn-warning my-3 p-3 fs-4 fw-bold" (click)="openModal(content)">
+          <hr>
+          <div class="mt-2 p-3 text-center">
+            <button class="btn btn-warning my-3 p-3 fs-4 fw-bold" (click)="openPasswordModal(passwordContent)">
               <i class="fas fa-vault me-2"></i>
               Mettre à jour mon mot de passe
             </button>
             <br>
-            <button class="btn btn-danger p-2 fs-3" (click)="deleteProfile(user?.idUser)">
+            <button class="btn btn-outline-danger mt-5 p-2" (click)="openDeleteModal(deleteContent)">
+              <i class="fas fa-user-slash"></i>
               Supprimer mon compte
             </button>
           </div>
@@ -165,7 +166,8 @@
   </div>
 </section>
 
-<ng-template #content let-modal>
+<!-- Update password modal -->
+<ng-template #passwordContent let-modal>
   <div class="modal-body">
     <h4 class="text-center">Mise à jour du mot de passe</h4>
     <hr>
@@ -191,6 +193,30 @@
           Sauvegarder
         </button>
       </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Delete account modal -->
+<ng-template #deleteContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title mx-auto">
+      Vous êtes sur le point de complètement effacer votre profil
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <form #deleteAccountForm="ngForm" class="w-75 mx-auto my-3 text-center" (ngSubmit)="deleteProfile(user?.idUser, deleteAccountForm.value.password)">
+        <label class="form-label">Pour continuer,<br><span class="text-danger fs-3 fw-bold">veuillez entrer votre mot de passe :</span></label>
+        <div class="input-group input-group-lg mx-auto mb-3">
+          <span class="input-group-text">
+            <i class="fa-solid fa-user-slash"></i>
+          </span>
+          <input name="password" ngModel type="password" class="form-control" placeholder="Mot de passe">
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="submit" class="btn btn-danger" (click)="modal.close()">Supprimer le compte</button>
+        </div>
     </form>
   </div>
 </ng-template>
