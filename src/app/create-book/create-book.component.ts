@@ -41,7 +41,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Récupère tous les auteurs
+  //
   //-------------------------------------------------------
   retrieveAuthors() {
     this.electrolibService.getAuthors().subscribe(
@@ -52,7 +52,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Récupère tous les genres
+  //
   //-------------------------------------------------------
   retrieveGenres() {
     this.electrolibService.getGenres().subscribe(
