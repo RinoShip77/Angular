@@ -7,7 +7,7 @@
       <app-admin-navbar></app-admin-navbar>
     </header>
 
-    <main [ngStyle]="{'padding': checkUser() == true? '6%' : ''}">
+    <main [ngStyle]="{'margin': checkUser() == true? '6%' : ''}">
       <!-- Le router -->
       <router-outlet></router-outlet>
 
@@ -20,9 +20,6 @@
       </div>
     </main>
 
-    <footer>
-      <!-- Le pied de page -->
-      <app-footer></app-footer>
-    </footer>
+    <footer></footer>
 
 </section>

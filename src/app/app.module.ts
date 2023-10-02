@@ -9,7 +9,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConnectionComponent } from './connection/connection.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BorrowComponent } from './borrow/borrow.component';
@@ -31,7 +30,6 @@ import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
     AppComponent,
     ConnectionComponent,
     NavbarComponent,
-    FooterComponent,
     InventoryComponent,
     ProfileComponent,
     BorrowComponent,
