@@ -110,7 +110,7 @@ export class ElectrolibService {
   
   //route qui va chercher un livre
   getBook(id:number){
-    let url = urlServer + 'getBook/'+id;
+    let url = urlServer + 'get-book/'+id;
 
     return this.http.get<Book>(url);
   }
@@ -146,6 +146,16 @@ export class ElectrolibService {
     formData.append('idGenre', book.idGenre.toString());
 
     return this.http.post<Book>(url, formData);
+  }
+
+  createBorrow(book:Book,user:User){
+    const url = `${urlServer}create-Borrow`;
+    console.log(user.idUser);
+    const formData = new FormData();
+    formData.append('idBook',book.idBook.toString());
+    formData.append('idUser',user.idUser.toString());
+
+    return this.http.post<Borrow>(url,formData);
   }
 
   //-------------------------------------------------------
