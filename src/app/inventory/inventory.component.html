@@ -127,9 +127,9 @@
                         </span> -->
                       </div>
                       <div>
-                        <div *ngIf="book.isBorrowed" class="border border-2 rounded-3 p-2 text-center">En location
+                        <div *ngIf="book.status.status == 'Emprunté'" class="border border-2 rounded-3 p-2 text-center">En location
                         </div>
-                        <div *ngIf="!book.isBorrowed" class="border border-2 bg-info rounded-3 p-2 text-center">
+                        <div *ngIf="book.status.status == 'Disponible'" class="border border-2 bg-info rounded-3 p-2 text-center">
                           Disponible</div>
                       </div>
                     </div>
@@ -155,7 +155,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.isBorrowed)">
+            <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.status)">
               <a [routerLink]="['/detailLivre', book.idBook]">
                 <td>#{{book.isbn}}</td>
                 <td>{{book.title}}</td>
@@ -163,8 +163,8 @@
                 <td><i class="fas {{book.genre.icon}}"></i></td>
                 <td>{{book.originalLanguage}}</td>
                 <td>{{book.publishedDate | date:'yyyy'}}</td>
-                <td *ngIf="book.isBorrowed">En location</td>
-                <td *ngIf="!book.isBorrowed">Disponible</td>
+                <td *ngIf="book.status.status == 'Emprunté'">En location</td>
+                <td *ngIf="book.status.status == 'Disponible'">Disponible</td>
                 <td type="button" (click)="displayBook(book.idBook)">
                   <i class="fas fa-circle-info fs-4 m-2"></i>
                 </td>
