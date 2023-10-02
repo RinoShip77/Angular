@@ -186,4 +186,19 @@ export class ElectrolibService {
 
     return this.http.post<User>(url, params);
   }
+  
+  //--------------------------------
+  // Delete the profile
+  //--------------------------------
+  deleteProfile(action: string, idUser: number | undefined) {
+    let url = urlServer + 'user/' + idUser + '/delete';
+    
+    const params = new HttpParams({
+      fromObject: {
+        action: action
+      }
+    });
+
+    return this.http.post<User>(url, params);
+  }
 }

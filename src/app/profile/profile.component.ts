@@ -82,6 +82,23 @@ export class ProfileComponent implements OnInit {
   }
 
   //---------------------------------
+  // Function to delete thu user
+  //---------------------------------
+  deleteProfile(idUser: number | undefined) {
+    console.log(idUser);
+
+    this.electrolibService.deleteProfile('deleteAcount', idUser).subscribe(
+      user => {
+        console.log('Votre profil a été supprimé'); //TODO: Inform the user via the UI (NOT the console)
+        this.router.navigate([""]);
+      },
+      (error) => {
+        console.error('La suppression a échoué :', error); //TODO: Inform the user via the UI (NOT the console)
+      }
+    );
+  }
+
+  //---------------------------------
   // Function to upload a new profile picture
   //---------------------------------
   formatPostalCode() {
