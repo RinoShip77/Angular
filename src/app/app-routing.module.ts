@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: "borrow", component: BorrowComponent },
   { path: "profile", component: ProfileComponent },
   { path: "createBook", component: CreateBookComponent },
-  { path: "editBook", component: EditBookComponent },
+  { path: "editBook/:id", component: EditBookComponent },
   { path: "adminBorrows", component: AdminBorrowsComponent }
 
 ];
