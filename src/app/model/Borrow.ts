@@ -1,4 +1,10 @@
 import { Book } from "./Book";
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
+import { addMonths, format, parse} from 'date-fns';
+import { addYears, formatWithOptions } from 'date-fns/fp'
+import { eo } from 'date-fns/locale'
+import {formatDate} from '@angular/common';
 
 export class Borrow 
 {
@@ -10,7 +16,7 @@ export class Borrow
 
     borrowedDate: Date = new Date();
 
-    dueDate: Date = new Date();
+    dueDate: Date =  new Date();
 
     returnedDate: Date = new Date();
     
@@ -18,10 +24,9 @@ export class Borrow
     //Calcul le temps restant à l'emprunt
     calculateTime()
     {
-      var borrowedDate = new Date(this.borrowedDate);
       var dueDate = new Date(this.dueDate);
     
-      var daysRemaining = Math.round(((dueDate.getTime() - borrowedDate.getTime()) / (1000 * 3600 * 24)) * 100) / 100;
+      var daysRemaining = Math.round(((dueDate.getTime() - Date.now()) / (1000 * 3600 * 24)) * 100) / 100;
       
       return daysRemaining;
     
@@ -88,7 +93,7 @@ export class Borrow
         if(this.calculateFee() == null)
         {
             //L'utilisateur a renouvelé 2 fois + son emprunt de base
-            if(renewsDone == 3)
+            if(renewsDone >= 3)
             {
                 return false;
             }
@@ -109,16 +114,13 @@ export class Borrow
         if(this.verifyRenew())
         {
             dueDate.setDate( dueDate.getDate() + 30 );
-
-            let year = dueDate.getFullYear();
-            let month = dueDate.getMonth();
-            let day = dueDate.getDay();
-
-            let hours = dueDate.getHours();
-            let minutes = dueDate.getMinutes();
-            let seconds = dueDate.getSeconds();
-
+            this.dueDate = dueDate;
         }
-        this.dueDate = dueDate;
+        return this.dueDate;   
+    }
+
+    formattedDueDate()
+    {
+        return (moment(this.dueDate)).format('yyyy-MM-DD HH:mm:ss')
     }
 }

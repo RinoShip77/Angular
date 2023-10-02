@@ -36,14 +36,10 @@ export class BorrowsComponent implements OnInit {
   onBorrows(user: User) 
   {
     //TODO
-    //1 bouton historique d'emprunts
-    //2 Affiche tous les emprunts ayant une date de remise
-    //3 Dans cette fenetre, vérifier si les emprunts ont une date de remise ou non
-    //4 Changer le calcul de retard, remplacer par la date.now
+    //1 Dans symfony, pour ici, un where returnedDate == null
+    //2 Dans symfony, pour l'historique, un where returnedDate != null
+    //3 Push la date, et la formatter dans le symfony
 
-    //TODO
-    //1 Formatter la date
-    //2 Renouvellement
 
     //Livre perdu???
     //Livre abimé???
@@ -52,7 +48,7 @@ export class BorrowsComponent implements OnInit {
     this.user = user;
     this.retrieveBorrows();
 
-    //TODO
+    //TODO COTÉ INVENTAIRE (PAS MOI)
     //Si le user a des frais, il ne peut plus emprunter jusqu'à ce qu'il paie
     //Le user peut avoir un maximum de 5 emprunts
 
@@ -66,7 +62,7 @@ export class BorrowsComponent implements OnInit {
     this.electrolibService.getBorrowsFromUser(this.user).subscribe(
       borrows => {
         
-        this.borrows = borrows.map(x => Object.assign(new Borrow(), x));
+        this.borrows = borrows.map(x => (Object.assign(new Borrow(), x)));
       }
     );
   }
@@ -88,37 +84,40 @@ export class BorrowsComponent implements OnInit {
     console.log("historique d'emprunts")
 
     this.openHistory.emit(this.user);
-    //this.openBorrowDetails.emit({selectedBorrow, user});
     this.visible = false;
   }
 
   //Renouvellement d'un emprunt
   borrowRenew(selectedBorrow: Borrow)
   {
-    //TODO
-    //DANS LE HTML
-    //Le user peut renouveller jusqu'à 2e fois
     selectedBorrow.renew();
-    console.log(selectedBorrow.renew());
     
-    //Formatter la date
-    
-    //Après la 2e fois OU si un autre user a réservé le livre: 
-    //bloque et grise le bouton renouveller
-    //Change le tooltip du bouton
     //Revérifier dans le symfonie pour empêcher le user de jouer avec le code source
 
     //ICI
-    //Appele le symfonie,
-    //Crée un nouvel emprunt OU update la date de retour
-
-    console.log("Renouvellement de l'emprunt")
+    //Appele le symfony,
+    //update la date de retour
   }
 
   //Ouvrir la modal [à propos], qui explique tout ce qu'il faut savoir sur le système d'emprunts
   openAbout(content:any) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+  }
+
+  selectedBorrowModal: Borrow = new Borrow;
+
+  //Ouvrir la modal [Confirmer le renouvelement], qui confirme si le user veut vraiment renouveler
+  openRenewModal(content:any, selectedBorrowModal:Borrow) 
+  {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', animation:true, });
+    this.selectedBorrowModal = selectedBorrowModal;
+  }
+
+  save()
+  {
+    this.borrowRenew(this.selectedBorrowModal);
+    this.modalService.dismissAll();
   }
 
   //Retourner à la page inventaire

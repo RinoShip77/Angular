@@ -29,8 +29,8 @@
                 <label>Genre du Livre:&nbsp;</label>
                 <span>{{book.genre.name}}</span>
                 <br>
-                <label>Maison d'édition:&nbsp;</label>
-                <span>(Pas encore implémenté)</span>
+                <label>Language:&nbsp;</label>
+                <span>{{book.originalLanguage}}</span>
                 <br>
                 <label>Année de publication:&nbsp;</label>
                 <span>{{borrow.book.publishedDate}}</span>
@@ -44,7 +44,7 @@
             <span>{{borrow.borrowedDate}}</span>
             <br>
             <label>Date limite de retour:&nbsp;</label>
-            <span>{{borrow.dueDate}}</span>
+            <span>{{borrow.formattedDueDate()}}</span>
             <br>
             <label *ngIf="borrow.determineStatus() != 'En retard'">Nombre de jours restants:&nbsp;</label>
             <label *ngIf="borrow.determineStatus() == 'En retard'">Nombre de jours de retard:&nbsp;</label>
@@ -72,8 +72,8 @@
         <!-- Boutons situés en bas de la page -->
         <div class="div-btns">
                 <button class="btn-details btn btn-danger border" [disabled]="borrow.calculateFee() == null">Payer les frais</button>
-            <div style="float: right; width: auto;">
                 <button class="btn-details btn btn-warning border" [disabled]="borrow.calculateFee() != null">Remettre l'emprunt</button>
+            <div style="float: right; width: auto;">
                 <button (click)="borrows()" class="btn-details btn btn-secondary border">Retourner aux emprunts</button></div>
             </div>
         </div>

@@ -1,4 +1,8 @@
 <div *ngIf="visible" class="col-10 master-div">
+    <div style="margin-bottom: 20px; margin-top: -40px;">
+        <a (click)="returnBorrows()"><span>Mes Emprunts</span></a>&nbsp; <i class="fa-solid fa-angle-right fa-sm"></i> &nbsp;<a><span style="cursor: default;">Historique de l'emprunt</span></a>
+    </div>
+
     <!-- Titre de la page -->
     <h4 style="margin-left: 20px;">
         <i class="fa-solid fa-clock-rotate-left"></i>
@@ -6,6 +10,7 @@
     </h4>
     <hr>
 
+    <div class="shadow-sm rounded border border-3" style="padding:30px; background-color: rgba(90, 90, 90, 0.062);">
     <!-- Div contenant le select pour trier la table -->
     <div  style="float: right;">
         <label>Trier par: </label>
@@ -21,7 +26,7 @@
     </div>
 
     <!-- Tableau contenant les emprunts -->
-    <table class="table table-bordered shadow-lg table-emprunts">
+    <table class="table table-bordered shadow-sm table-emprunts">
 
         <!-- Titre des colonnes de la table -->
         <thead class="table-secondary text-center">
@@ -69,7 +74,7 @@
 
                 <!-- Bouton Détails -->
                 <td>
-                    <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active" ngbTooltip="Plus de détails"></i></a>
+                    <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active " ngbTooltip="Plus de détails"></i></a>
                 </td>
             </tr>
         </tbody>
@@ -80,4 +85,5 @@
         <button (click)="returnBorrows()" type="button" class="btn btn-secondary" style="float:right;">Retourner aux emprunts</button>
         <br>
     </div>
+</div>
 </div>

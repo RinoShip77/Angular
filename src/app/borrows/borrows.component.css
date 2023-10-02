@@ -134,3 +134,11 @@ select:hover
     cursor: pointer;
     color: rgba(111, 122, 151, 0.781);
 }
+
+.image-livre
+{
+    height: 200px;
+    width: 200px;
+    border: 5px rgba(0, 0, 0, 0.452) ridge;
+    border-radius: 10px;
+}

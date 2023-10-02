@@ -3,8 +3,10 @@
     <h4 style="margin-left: 20px;">Mes Emprunts</h4>
     <hr>
 
+    <div class="shadow-sm rounded border border-3" style="padding:30px">
+        
     <!-- Div contenant le select pour trier la table -->
-    <div  style="float: right;">
+    <div style="float: right;">
         <label>Trier par: </label>
         <select class="select-style" (change)="orderBySelect($event)">
             <option value="borrowedDate" selected>Id / Date d'emprunt</option>
@@ -77,7 +79,7 @@
                 <td scope="row" class="td-thick">{{borrow.idBorrow}}</td>
                 <td>{{borrow.book.title}}</td>
                 <td>{{borrow.borrowedDate}}</td>
-                <td>{{borrow.dueDate}}</td>
+                <td>{{borrow.formattedDueDate()}}</td>
                 <td class="td-thick">{{borrow.determineStatus()}}</td>
 
                 <td *ngIf="borrow.calculateFee() == null" class="td-thick">{{borrow.calculateFee()}}</td>
@@ -87,7 +89,7 @@
                 <td>
                     <a (click)="borrowDetails(borrow)"><i class="fa-regular fa-file-lines col-6 icone-petite i-active" ngbTooltip="Plus de détails"></i></a>
                     
-                    <a *ngIf="borrow.verifyRenew()" (click)="borrowRenew(borrow)"><i class="fa-solid fa-repeat col-6 icone-petite i-active" ngbTooltip="Renouveler l'emprunt"></i></a>
+                    <a *ngIf="borrow.verifyRenew()" (click)="openRenewModal(renewModal, borrow)"><i class="fa-solid fa-repeat col-6 icone-petite i-active" ngbTooltip="Renouveler l'emprunt"></i></a>
                     <a *ngIf="borrow.verifyRenew() == false"><i class="fa-solid fa-repeat col-6 icone-petite desactivated" ngbTooltip="Renouvelement indisponible"></i></a>
                 </td>
             </tr>
@@ -101,8 +103,30 @@
         <button (click)="returnInventory()" type="button" class="btn btn-secondary">Retourner à l'inventaire</button>
     </div>
 </div>
-   
+</div>
+
 <!-- Modal pour le À propos -->
+<ng-template #renewModal let-modal>
+    <div class="modal-header modal-lg">
+      <h4 class="modal-title" id="modal-basic-title">Renouveler l'emprunt</h4>
+    </div>
+  
+    <!-- Info importantes sur le fonctionnement des emprunts etc. -->
+    <div class="modal-body" style="text-align: center;">
+      <label>Êtes vous sûr de vouloir renouveler :</label> 
+      <br>
+      <span class="td-thick">{{selectedBorrowModal.book.title}}</span>
+      <br>
+      <img class="image-livre" src="../assets/images/books/1.png">
+    </div>
+    <!-- Bouton pour fermer la modal -->
+    <div class="modal-footer">
+    <button class="btn btn-primary" type="submit" name="submit" value="Submit" (click)="save()">Confirmer</button>
+      <button type="button" class="btn btn-secondary" (click)="modal.close()">Annuler</button>
+    </div>
+  </ng-template>
+   
+<!-- Modal pour confirmer le renouvellement -->
 <ng-template #about let-modal >
   <div class="modal-header modal-lg">
     <h4 class="modal-title" id="modal-basic-title">À Propos</h4>

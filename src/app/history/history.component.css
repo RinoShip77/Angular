@@ -88,11 +88,6 @@ tr > td
     border: solid 1px rgba(153, 153, 153, 0.404);
 }
 
-tr:nth-child(even) > td 
-{
-    background-color: rgba(170, 170, 170, 0.493);
-}
-
 .fa-sort-up
 {
     margin-left: 3px;
@@ -107,11 +102,6 @@ tr:nth-child(even) > td
     color: rgba(154, 158, 170, 0.781);
 }
 
-.status-returned
-{
-
-}
-
 .status-lost, .status-lost > td
 {
     background-color: rgba(39, 49, 107, 0.137);
@@ -122,4 +112,11 @@ tr:nth-child(even) > td
 {
     font-weight: 700;
     text-decoration: underline;
+}
+
+a > span
+{
+    text-decoration: underline;
+    cursor: pointer;
+    color: rgba(57, 93, 134, 0.781);
 }
