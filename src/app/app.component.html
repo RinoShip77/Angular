@@ -18,6 +18,7 @@
         
         (openBorrows)="borrows.onBorrows($event)"
         (openBorrows)="borrowDetails.visible=false"
+        (openBorrows)="history.visible=false"
         (openBorrows)="inventory.visible=false"></app-navbar>
 
         <!-- La barre de navigation des admins -->
@@ -54,8 +55,13 @@
       <!-- Les favoris des membres -->
       <app-favorite #favorite (openInventory)="inventory.onInventory($event)"></app-favorite>
 
-      <app-borrows #borrows (openBorrowDetails)="borrowDetails.onBorrowDetails($event)" (openInventory)="inventory.onInventory($event)"></app-borrows>
+      <app-borrows #borrows 
+      (openBorrowDetails)="borrowDetails.onBorrowDetails($event)" 
+      (openInventory)="inventory.onInventory($event)"
+      (openHistory)="history.onHistory($event)"></app-borrows>
+      
       <app-borrow-details #borrowDetails (openBorrows)="borrows.onBorrows($event)"></app-borrow-details>
+      <app-history #history (openBorrows)="borrows.onBorrows($event)"></app-history>
 
 
       <div *ngIf="isConnected">

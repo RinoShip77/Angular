@@ -1,90 +1,3 @@
-<!--
-<div *ngIf="visible" class="col-8">
-    <h4 style="margin-left: 20px;">Mes Emprunts</h4>
-    <hr>
-    
-    <table class="table table-bordered shadow-lg">
-        <thead class="table-secondary text-center">
-            <tr>
-                <th><i class="fa-regular fa-clock"></i></th>
-                <th>Id</th>
-                <th>Titre du livre</th>
-                <th>Date de l'emprunt</th>
-                <th>Date limite de retour</th>
-                <th>Frais de retard</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody class="table-light text-center">
-            <tr class="status-not-urgent">
-                <td>
-                    <div placement="top" ngbTooltip="profitez">
-                        <i class="fa-solid fa-thumbs-up icone" style="color: #01a214;"></i>
-                    </div>
-                </td>
-                <td scope="row" class="td-thick">123456</td>
-                <td>Harry potter au pays des 7 nains</td>
-                <td>27 novembre 2023</td>
-                <td>28 novembre 2023</td>
-                <td class="td-thick"></td>
-                <td>
-                    <a (click)="borrowDetails(borrow)"><i class="fa-regular fa-file-lines col-6 icone-petite" ngbTooltip="Plus de détails"></i></a>
-                    <a (click)="borrowRenew()"><i class="fa-solid fa-repeat col-6 icone-petite" ngbTooltip="Renouveler l'emprunt"></i></a>
-                </td>
-            </tr>
-            <tr class="status-semi-urgent">
-                <td placement="top">
-                    <div placement="top" ngbTooltip="Bientôt à remettre">
-                        <i class="fa-solid fa-exclamation icone" style="color: #b98904;"></i>
-                    </div>
-                </td>
-                <td scope="row" class="td-thick">98852</td>
-                <td>Harry potter au pays des 7 nains</td>
-                <td>27 novembre 2023</td>
-                <td>28 novembre 2023</td>
-                <td class="td-thick"></td>
-                <td>
-                    <a (click)="borrowDetails(borrow)"><i class="fa-regular fa-file-lines col-6 icone-petite" ngbTooltip="Plus de détails"></i></a>
-                    <a (click)="borrowRenew()"><i class="fa-solid fa-repeat col-6 icone-petite" style="opacity:30%;" ngbTooltip="Renouvelement indisponible"></i></a>
-                </td>
-            </tr>
-            <tr class="status-urgent">
-                <td>
-                    <div placement="top" ngbTooltip="Urgent (frais bientot applicable)">
-                        <i class="fa-solid fa-exclamation icone" style="color: #f14b04;"></i>
-                    </div>
-                </td>
-                <td scope="row" class="td-thick">98852</td>
-                <td>Harry potter au pays des 7 nains</td>
-                <td>27 novembre 2023</td>
-                <td>28 novembre 2023</td>
-                <td class="td-thick"></td>
-                <td>
-                    <a (click)="borrowDetails()"><i class="fa-regular fa-file-lines col-6 icone-petite" ngbTooltip="Plus de détails"></i></a>
-                    <a (click)="borrowRenew()"><i class="fa-solid fa-repeat col-6 icone-petite" ngbTooltip="Renouveler l'emprunt"></i></a>
-                </td>
-            </tr>
-            <tr class="status-late">
-                <td>
-                    <div placement="top" ngbTooltip="En retard (frais applicables)">
-                        <i class="fa-solid fa-triangle-exclamation icone" style="color: #bd0000;"></i>
-                        <br>
-                    </div>
-                </td>
-                <td scope="row" class="td-thick">98852</td>
-                <td>Harry potter au pays des 7 nains</td>
-                <td>27 novembre 2023</td>
-                <td>28 novembre 2023</td>
-                <td class="td-thick">5$</td>
-                <td>
-                    <a (click)="borrowDetails(borrow)"><i class="fa-regular fa-file-lines col-6 icone-petite" ngbTooltip="Plus de détails"></i></a>
-                    <a (click)="borrowRenew()"><i class="fa-solid fa-repeat col-6 icone-petite" ngbTooltip="Renouveler l'emprunt"></i></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>-->
-
 <div *ngIf="visible" class="col-10 master-div">
     <!-- Titre de la page -->
     <h4 style="margin-left: 20px;">Mes Emprunts</h4>
@@ -93,12 +6,12 @@
     <!-- Div contenant le select pour trier la table -->
     <div  style="float: right;">
         <label>Trier par: </label>
-        <select class="select-style" (selectionChange)="onSortChange($event)" (change)="orderBySelect($event)">
+        <select class="select-style" (change)="orderBySelect($event)">
             <option value="borrowedDate" selected>Id / Date d'emprunt</option>
-            <option value="1">Titre du livre</option>
+            <option value="title">Titre du livre</option>
             <option value="dueDate" >Date retour / Status / Frais</option>
         </select>
-        <select class="select-style" (selectionChange)="onSortChange($event)" (change)="orderWayBySelect($event)" style="width: 100px;">
+        <select class="select-style" (change)="orderWayBySelect($event)" style="width: 100px;">
             <option value="ASC" selected>Croissant</option>
             <option value="DESC">Décroissant</option>
         </select>
@@ -112,10 +25,10 @@
             <tr>
                 <th><i class="fa-regular fa-clock"></i></th>
                 <th (click)="sortBy('idBorrow')">Id
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up tooltip-activate" ngbTooltip="Trié par ordre croissant"></i>
+                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                     <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                 </th>
-                <th (click)="sortBy('idBorrow')">Titre du livre
+                <th (click)="sortBy('title')">Titre du livre
                     <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                     <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                 </th>
@@ -141,7 +54,7 @@
 
         <!-- Chaque rangée de la table correspond à 1 emprunt -->
         <tbody class="table-light text-center">
-            <tr class="status-not-urgent" *ngFor="let borrow of borrows" 
+            <tr *ngFor="let borrow of borrows" 
              [ngClass]="
              {
                 'status-not-urgent' : borrow.determineStatus() == 'green',
@@ -182,9 +95,10 @@
     </table>
 
     <!-- Boutons en bas de la page -->
-    <div>
-        <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary">À propos</button>
-        <button (click)="returnInventory()" type="button" class="btn btn-secondary" style="float: right;">Retourner à l'inventaire</button>
+    <div style="justify-content: space-between; display: flex;">
+        <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary">À propos des emprunts</button>
+        <button (click)="history()" data-toggle="modal" type="button" class="btn btn-warning">Historique d'emprunts</button>
+        <button (click)="returnInventory()" type="button" class="btn btn-secondary">Retourner à l'inventaire</button>
     </div>
 </div>
    

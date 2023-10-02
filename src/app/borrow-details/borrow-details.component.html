@@ -18,22 +18,22 @@
             <!-- Infos du livre -->
             <div class="col-6 div-info-emprunt" >
                 <label>Nom du livre:&nbsp;</label>
-                <span>test</span>
+                <span>{{book.title}}</span>
                 <br>
                 <label>Numéro d'exemplaire:&nbsp;</label>
-                <span>test</span>
+                <span>(Pas encore imlémenté)</span>
                 <br>
                 <label>Auteur du livre:&nbsp;</label>
-                <span>test</span>
+                <span>{{book.author.firstName}} {{book.author.lastName}}</span>
                 <br>
                 <label>Genre du Livre:&nbsp;</label>
-                <span>test</span>
+                <span>{{book.genre.name}}</span>
                 <br>
                 <label>Maison d'édition:&nbsp;</label>
-                <span>test</span>
+                <span>(Pas encore implémenté)</span>
                 <br>
                 <label>Année de publication:&nbsp;</label>
-                <span>test</span>
+                <span>{{borrow.book.publishedDate}}</span>
                 <hr>
             </div>
         </div>
