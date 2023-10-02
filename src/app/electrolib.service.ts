@@ -7,6 +7,9 @@ import { Genre } from './model/Genre';
 import { Author } from './model/Author';
 import { Borrow } from './model/Borrow';
 import { Status } from './model/Status';
+import { Reservation } from './model/Reservation';
+import { Evaluation } from './model/Evaluation';
+import { Favorite } from './model/Favorite';
 
 @Injectable({
   providedIn: 'root'
@@ -157,21 +160,95 @@ export class ElectrolibService {
     return this.http.post(url, formData);
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   createBookWithImage(book: Book, imageData: Blob) {
-    let url = urlServer + "createBook";
+    let url = `${urlServer}create-book`;
 
-    // Create FormData to send both the book object and the image
+    // Crée FormData pour envoyer à la fois l'objet livre et l'image
     const formData = new FormData();
     formData.append('title', book.title);
     formData.append('description', book.description);
     formData.append('isbn', book.isbn);
     formData.append('publishedDate', book.publishedDate);
     formData.append('originalLanguage', book.originalLanguage);
-    formData.append('cover', imageData); // Add the image data here
+    formData.append('cover', imageData); // Ajoute les données d'image ici
     formData.append('idAuthor', book.idAuthor.toString());
     formData.append('idGenre', book.idGenre.toString());
     formData.append('idStatus', book.idStatus.toString());
 
     return this.http.post<Book>(url, formData);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  updateBook(book: Book, imageData: Blob) {
+    let url = `${urlServer}update-book/${book.idBook}`;
+
+    // Crée FormData pour envoyer à la fois l'objet livre et l'image
+    const formData = new FormData();
+    formData.append('title', book.title);
+    formData.append('description', book.description);
+    formData.append('isbn', book.isbn);
+    formData.append('publishedDate', book.publishedDate);
+    formData.append('originalLanguage', book.originalLanguage);
+    formData.append('cover', imageData); // Ajoute les données d'image ici
+    formData.append('idAuthor', book.idAuthor.toString());
+    formData.append('idGenre', book.idGenre.toString());
+    formData.append('idStatus', book.idStatus.toString());
+
+    return this.http.post<Book>(url, formData);
+
+    //NE PAS ENLEVER LE CODE EN COMMENTAIRE: JE VEUX ESSAYER DE FAIRE FONCTIONNER LE PUT PLUS TARD
+    /*const updatedBook = {
+      title: book.title,
+      description: book.description,
+      isbn: book.isbn,
+      publishedDate: book.publishedDate,
+      originalLanguage: book.originalLanguage,
+      isBorrowed: book.isBorrowed,
+      idAuthor: book.idAuthor,
+      idGenre: book.idGenre,
+    };
+  
+    const formData = new FormData();
+    formData.append('cover', imageData);
+  
+    const requestData = {
+      book: updatedBook,
+      image: formData,
+    };
+
+    //PEUT-ÊTRE UNE ERREUR AVEC LE FORM QUE J'ENVOIE (À VÉRIFIER)
+    return this.http.put<Book>(url, requestData);*/
+  }
+  
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getReservations() {
+    let url = urlServer + 'reservations';
+
+    return this.http.get<Reservation[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getEvaluations() {
+    let url = urlServer + 'evaluations';
+
+    return this.http.get<Evaluation[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getFavorites() {
+    let url = urlServer + 'favorites';
+
+    return this.http.get<Favorite[]>(url);
   }
 }
