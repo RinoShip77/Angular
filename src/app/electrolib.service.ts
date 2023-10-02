@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { urlServer } from './util';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Book } from './model/Book';
 import { User } from './model/User';
 import { Genre } from './model/Genre';
 import { Author } from './model/Author';
 import { Borrow } from './model/Borrow';
+import { Status } from './model/Status';
+import { Reservation } from './model/Reservation';
+import { Evaluation } from './model/Evaluation';
+import { Favorite } from './model/Favorite';
 
 @Injectable({
   providedIn: 'root'
@@ -28,12 +32,21 @@ export class ElectrolibService {
   }
   
   //--------------------------------
-  // Route to get all the genre
+  //
   //--------------------------------
   getGenres() {
     let url = urlServer + 'genres';
 
     return this.http.get<Genre[]>(url);
+  }
+
+  //--------------------------------
+  //
+  //--------------------------------
+  getAllStatus() {
+    let url = urlServer + 'all-status';
+
+    return this.http.get<Status[]>(url);
   }
   
   //--------------------------------
@@ -69,7 +82,7 @@ export class ElectrolibService {
   //--------------------------------
   getBorrows() {
     let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/borrows";
+    //url = "http://127.0.0.1:8000/borrows";
 
     return this.http.get<Borrow[]>(url);
   }
@@ -115,9 +128,29 @@ export class ElectrolibService {
     return this.http.get<Book>(url);
   }
 
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
+  //--------------------------------
+  // Créer un livre
+  //--------------------------------
+  /*createBook(book: Book) {
+    let url = urlServer + "createBook";
+
+    const params = new HttpParams({
+      fromObject: {
+        title: book.title,
+        description: book.description,
+        isbn: book.isbn,
+        publishedDate: book.publishedDate,
+        originalLanguage: book.originalLanguage,
+        isBorrowed: book.isBorrowed,
+        cover: book.cover,
+        idAuthor: book.idAuthor,
+        idGenre: book.idGenre
+      }
+    });
+
+    return this.http.post<Book>(url, params);
+  }*/
+
   uploadImage(imageData: string) {
     const formData = new FormData();
     formData.append('image', imageData);
@@ -131,7 +164,7 @@ export class ElectrolibService {
   //
   //-------------------------------------------------------
   createBookWithImage(book: Book, imageData: Blob) {
-    let url = `${urlServer}createBook`;
+    let url = `${urlServer}create-book`;
 
     // Crée FormData pour envoyer à la fois l'objet livre et l'image
     const formData = new FormData();
@@ -140,10 +173,10 @@ export class ElectrolibService {
     formData.append('isbn', book.isbn);
     formData.append('publishedDate', book.publishedDate);
     formData.append('originalLanguage', book.originalLanguage);
-    formData.append('isBorrowed', book.isBorrowed.toString());
     formData.append('cover', imageData); // Ajoute les données d'image ici
     formData.append('idAuthor', book.idAuthor.toString());
     formData.append('idGenre', book.idGenre.toString());
+    formData.append('idStatus', book.idStatus.toString());
 
     return this.http.post<Book>(url, formData);
   }
@@ -162,7 +195,7 @@ export class ElectrolibService {
   //
   //-------------------------------------------------------
   updateBook(book: Book, imageData: Blob) {
-    let url = `${urlServer}updateBook/${book.idBook}`;
+    let url = `${urlServer}update-book/${book.idBook}`;
 
     // Crée FormData pour envoyer à la fois l'objet livre et l'image
     const formData = new FormData();
@@ -171,10 +204,10 @@ export class ElectrolibService {
     formData.append('isbn', book.isbn);
     formData.append('publishedDate', book.publishedDate);
     formData.append('originalLanguage', book.originalLanguage);
-    formData.append('isBorrowed', book.isBorrowed.toString());
     formData.append('cover', imageData); // Ajoute les données d'image ici
     formData.append('idAuthor', book.idAuthor.toString());
     formData.append('idGenre', book.idGenre.toString());
+    formData.append('idStatus', book.idStatus.toString());
 
     return this.http.post<Book>(url, formData);
 
@@ -200,5 +233,32 @@ export class ElectrolibService {
 
     //PEUT-ÊTRE UNE ERREUR AVEC LE FORM QUE J'ENVOIE (À VÉRIFIER)
     return this.http.put<Book>(url, requestData);*/
+  }
+  
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getReservations() {
+    let url = urlServer + 'reservations';
+
+    return this.http.get<Reservation[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getEvaluations() {
+    let url = urlServer + 'evaluations';
+
+    return this.http.get<Evaluation[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getFavorites() {
+    let url = urlServer + 'favorites';
+
+    return this.http.get<Favorite[]>(url);
   }
 }

@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Author } from '../model/Author';
 import { Router } from '@angular/router';
 import { getURLBookCover } from '../util';
+import { Status } from '../model/Status';
 
 @Component({
   selector: 'app-inventory',
@@ -255,8 +256,8 @@ export class InventoryComponent {
   //---------------------------------
   // Function to open the page for a specific book
   //---------------------------------
-  updateDisplay(isBorrowed?: boolean): string {
-    if (!isBorrowed) {
+  updateDisplay(status: Status): string {
+    if (status.status == "Emprunté") {
       return 'table-primary';
     } else {
       return 'opacity-25';

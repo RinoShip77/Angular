@@ -7,6 +7,7 @@ import { Author } from '../model/Author';
 import { Genre } from '../model/Genre';
 import { MAX_FILE_SIZE } from '../util';
 import { format, parse } from 'date-fns';
+import { Status } from '../model/Status';
 
 @Component({
   selector: 'app-edit-book',
@@ -18,6 +19,7 @@ export class EditBookComponent {
   book: Book = new Book();
   authors: Author[] = [];
   genres: Genre[] = [];
+  status: Status[] = [];
 
   selectedImage: any;
   formData = new FormData();
@@ -30,9 +32,7 @@ export class EditBookComponent {
     isbn: true,
     publishedDate: true,
     originalLanguage: true,
-    cover: true,
-    idAuthor: true,
-    idGenre: true
+    cover: true
   };
 
   constructor(
@@ -53,6 +53,7 @@ export class EditBookComponent {
     
     this.retrieveAuthors();
     this.retrieveGenres();
+    this.retrieveAllStatus();
   }
 
   //-------------------------------------------------------
@@ -78,6 +79,17 @@ export class EditBookComponent {
   }
 
   //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  retrieveAllStatus() {
+    this.electrolibService.getAllStatus().subscribe(
+      status => {
+        this.status = status;
+      }
+    );
+  }
+
+  //-------------------------------------------------------
   // Envoie les données du formulaire au serveur Symfony
   //-------------------------------------------------------
   onSubmit() {
@@ -93,7 +105,7 @@ export class EditBookComponent {
         }
       );
     } else {
-      this.validateAllFiends();
+      this.validateAllFields();
     }
   }
 
@@ -205,36 +217,12 @@ export class EditBookComponent {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
-  validateIdAuthor() {
-    if (!this.book.idAuthor) {
-      this.validations["idAuthor"] = false;
-    } else {
-      this.validations["idAuthor"] = true;
-    }
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  validateIdGenre() {
-    if (!this.book.idGenre) {
-      this.validations["idGenre"] = false;
-    } else {
-      this.validations["idGenre"] = true;
-    }
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  validateAllFiends() {
+  validateAllFields() {
     this.validateTitle();
     this.validateDescription();
     this.validateISBN();
     this.validatePublishedDate();
     this.validateOriginalLanguage();
-    this.validateIdAuthor();
-    this.validateIdGenre();
   }
 
   //-------------------------------------------------------
