@@ -82,7 +82,7 @@ export class ElectrolibService {
   //--------------------------------
   getBorrows() {
     let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/borrows";
+    //url = "http://127.0.0.1:8000/borrows";
 
     return this.http.get<Borrow[]>(url);
   }
@@ -123,7 +123,7 @@ export class ElectrolibService {
   
   //route qui va chercher un livre
   getBook(id:number){
-    let url = urlServer + 'getBook/'+id;
+    let url = urlServer + 'get-book/'+id;
 
     return this.http.get<Book>(url);
   }
