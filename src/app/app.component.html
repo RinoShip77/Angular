@@ -11,9 +11,9 @@
       <!-- Le router -->
       <router-outlet></router-outlet>
 
-      <div *ngIf="this.dataService.getUser() != undefined">
-        <div class="d-flex justify-content-end m-3" id="chat">
-          <button class="btn btn-primary rounded-5" (click)="openChat()">
+      <div *ngIf="this.dataService.getUser() != undefined" class="chat-box">
+        <div class="d-flex justify-content-end" id="chat">
+          <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()">
             <i class="far fa-comment-dots p-2 fs-1"></i>
           </button>
         </div>
