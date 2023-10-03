@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   successMessage: string = '';
   showError: boolean = false;
   errorMessage: string = '';
+  switch: boolean = false;
 
   //---------------------------------
   // Function to display every book in the database
@@ -30,6 +31,18 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     if (this.dataService.getUser() != undefined) {
       this.user = this.dataService.getUser();
+    }
+  }
+
+  //---------------------------------
+  // Function to open the page for a specific book
+  //---------------------------------
+  switchTheme() {
+    console.log(this.switch)
+    if(this.switch) {
+      console.log('dark')
+    } else {
+      console.log('light')
     }
   }
 
@@ -50,8 +63,8 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Open the modal to update the user password
   //---------------------------------
-  openPasswordModal(passwordContent: any) {
-    this.modalService.open(passwordContent, {
+  openModal(content: any) {
+    this.modalService.open(content, {
       animation: true,
       centered: true,
       keyboard: true,
@@ -77,85 +90,73 @@ export class ProfileComponent implements OnInit {
               this.showError = true;
               this.errorMessage = 'La mise à jour a échoué';
             }
-            );
-          } else {
-            this.showError = true;
-            this.errorMessage = 'Les nouveaux mot de passe ne correspondent pas';
-          }
+          );
         } else {
           this.showError = true;
-          this.errorMessage = 'Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement';
+          this.errorMessage = 'Les nouveaux mot de passe ne correspondent pas';
         }
       } else {
         this.showError = true;
-        this.errorMessage = 'Le mot de passe saisi ne correspond pas à votre mot de passe actuelle';
+        this.errorMessage = 'Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement';
       }
+    } else {
+      this.showError = true;
+      this.errorMessage = 'Le mot de passe saisi ne correspond pas à votre mot de passe actuelle';
+    }
   }
 
   //---------------------------------
-  // Open the modal to delete the user
+  // Function to close the profile
   //---------------------------------
-  openDeleteModal(deleteContent: any) {
-    this.modalService.open(deleteContent, {
-      animation: true,
-      centered: true,
-      keyboard: true,
-      size: 'lg'
-    });
-  }
-  
-  //---------------------------------
-  // Function to delete thu user
-  //---------------------------------
-  deleteProfile(idUser: number | undefined, password: string) {
+  closeProfile(idUser: number | undefined, password: string) {
     if (this.user?.password === password) {
-      this.electrolibService.deleteProfile('deleteAcount', idUser).subscribe(
+      this.electrolibService.updateProfile('deactivateAccount', idUser).subscribe(
         user => {
           this.showSuccess = true;
-          this.successMessage = 'Votre profil a été supprimé';
-          this.router.navigate([""]);
+          this.successMessage = 'Votre profil a été fermé';
+          setTimeout(() => { this.router.navigate([""]); }, 2000);
         },
         (error) => {
           this.showError = true;
-          this.errorMessage = 'La suppression a échoué';
+          this.errorMessage = 'La fermeture du compte a échoué';
         }
-        );
-      } else {
-        this.showError = true;
-        this.errorMessage = 'Le mot de passe est incorrecte';
-      }
+      );
+    } else {
+      this.showError = true;
+      this.errorMessage = 'Le mot de passe est incorrecte';
     }
-    
-    //---------------------------------
-    // Function to upload a new profile picture
-    //---------------------------------
-    formatPostalCode() {
-      console.log('format postal code');
-      
-    // if (this.user.postalCode.length >= 3) {
-      //   this.user.postalCode = this.user.postalCode.slice(0, 3) + ' ' + this.user.postalCode.slice(3);
-      // }
-    }
+  }
 
-    //---------------------------------
-    // Function to upload a new profile picture
-    //---------------------------------
-    formatPhoneNumber() {
-      console.log('format phone number');
-      
-      // if(this.user.phoneNumber.length == 3) {
-        //   this.user.phoneNumber = this.user.phoneNumber.slice(0, 3) + '-' + this.user.phoneNumber.slice(3);
-        // }
-        
-        // if(this.user.phoneNumber.length == 7) {
-          //   this.user.phoneNumber = this.user.phoneNumber.slice(3, 7) + '-' + this.user.phoneNumber.slice(7);
-          // }
-        }
-        
-        //---------------------------------
-        // Function to upload a new profile picture
-        //---------------------------------
-        updateProfile(idUser: number | undefined, user: User) {
+  //---------------------------------
+  // Function to upload a new profile picture
+  //---------------------------------
+  formatPostalCode() {
+    console.log('format postal code');
+
+    // if (this.user.postalCode.length >= 3) {
+    //   this.user.postalCode = this.user.postalCode.slice(0, 3) + ' ' + this.user.postalCode.slice(3);
+    // }
+  }
+
+  //---------------------------------
+  // Function to upload a new profile picture
+  //---------------------------------
+  formatPhoneNumber() {
+    console.log('format phone number');
+
+    // if(this.user.phoneNumber.length == 3) {
+    //   this.user.phoneNumber = this.user.phoneNumber.slice(0, 3) + '-' + this.user.phoneNumber.slice(3);
+    // }
+
+    // if(this.user.phoneNumber.length == 7) {
+    //   this.user.phoneNumber = this.user.phoneNumber.slice(3, 7) + '-' + this.user.phoneNumber.slice(7);
+    // }
+  }
+
+  //---------------------------------
+  // Function to upload a new profile picture
+  //---------------------------------
+  updateProfile(idUser: number | undefined, user: User) {
     if ((user.email.length != 0) && (user.firstName.length != 0) && (user.lastName.length != 0) && (user.address.length != 0) && (user.postalCode.length != 0) && (user.phoneNumber.length != 0)) {
       this.electrolibService.updateProfile('updateInformations', idUser, user).subscribe(
         user => {
@@ -167,9 +168,9 @@ export class ProfileComponent implements OnInit {
           this.showError = true;
           this.errorMessage = 'La mise à jour a échoué';
         }
-        );
-        
-        //console.log(this.profilePicture);
-      }
+      );
+
+      //console.log(this.profilePicture);
     }
   }
+}

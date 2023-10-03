@@ -238,34 +238,19 @@ export class ElectrolibService {
   //--------------------------------
   // Update the profile informations
   //--------------------------------
-  updateProfile(action: string, idUser: number | undefined, object: any) {
+  updateProfile(action: string, idUser: number | undefined, object?: any) {
     let url = urlServer + 'user/' + idUser + '/modifier';
     
     const params = new HttpParams({
       fromObject: {
         action: action,
-        email: object.email,
-        firstName: object.firstName,
-        lastName: object.lastName,
-        address: object.address,
-        postalCode: object.postalCode,
-        phoneNumber: object.phoneNumber,
-        newPassword: object.newPassword
-      }
-    });
-
-    return this.http.post<User>(url, params);
-  }
-  
-  //--------------------------------
-  // Delete the profile
-  //--------------------------------
-  deleteProfile(action: string, idUser: number | undefined) {
-    let url = urlServer + 'user/' + idUser + '/delete';
-    
-    const params = new HttpParams({
-      fromObject: {
-        action: action
+        email: object?.email,
+        firstName: object?.firstName,
+        lastName: object?.lastName,
+        address: object?.address,
+        postalCode: object?.postalCode,
+        phoneNumber: object?.phoneNumber,
+        newPassword: object?.newPassword
       }
     });
 

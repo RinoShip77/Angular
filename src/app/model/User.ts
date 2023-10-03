@@ -30,4 +30,5 @@ export class User {
   evaluations: Evaluation[] = new Array();
   favorites: Favorite[] = new Array();
   reservations: Reservation[] = new Array();
+  userTheme: string | undefined;
 }
