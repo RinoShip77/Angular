@@ -14,10 +14,11 @@ import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 export class ProfileComponent implements OnInit {
   user: User | undefined = new User();
   profilePicture: string = '';
-  showSuccess: boolean = false;
-  successMessage: string = '';
-  showError: boolean = false;
-  errorMessage: string = '';
+  show: any = {
+    type: '',
+    showToast: false,
+    message: ''
+  };
   switch: boolean = false;
 
   //---------------------------------
@@ -38,8 +39,7 @@ export class ProfileComponent implements OnInit {
   // Function to open the page for a specific book
   //---------------------------------
   switchTheme() {
-    console.log(this.switch)
-    if(this.switch) {
+    if (this.switch) {
       console.log('dark')
     } else {
       console.log('light')
@@ -82,26 +82,31 @@ export class ProfileComponent implements OnInit {
           // passwords.newPassword.hash(); //TODO: Hash the password
           this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
             user => {
-              this.showSuccess = true;
-              this.successMessage = 'Votre mot de passe a été mis à jour';
+              this.show.type = 'Succès';
+              this.show.showToast = true;
+              this.show.message = 'Votre mot de passe a été mis à jour';
               this.dataService.updatePassword(passwords.newPassword);
             },
             (error) => {
-              this.showError = true;
-              this.errorMessage = 'La mise à jour a échoué';
+              this.show.type = 'Erreur';
+              this.show.showToast = true;
+              this.show.message = 'La mise à jour a échoué';
             }
           );
         } else {
-          this.showError = true;
-          this.errorMessage = 'Les nouveaux mot de passe ne correspondent pas';
+          this.show.type = 'Erreur';
+          this.show.showToast = true;
+          this.show.message = 'Les nouveaux mot de passe ne correspondent pas';
         }
       } else {
-        this.showError = true;
-        this.errorMessage = 'Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement';
+        this.show.type = 'Erreur';
+        this.show.showToast = true;
+        this.show.message = 'Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement';
       }
     } else {
-      this.showError = true;
-      this.errorMessage = 'Le mot de passe saisi ne correspond pas à votre mot de passe actuelle';
+      this.show.type = 'Erreur';
+      this.show.showToast = true;
+      this.show.message = 'Le mot de passe saisi ne correspond pas à votre mot de passe actuelle';
     }
   }
 
@@ -112,18 +117,21 @@ export class ProfileComponent implements OnInit {
     if (this.user?.password === password) {
       this.electrolibService.updateProfile('deactivateAccount', idUser).subscribe(
         user => {
-          this.showSuccess = true;
-          this.successMessage = 'Votre profil a été fermé';
+          this.show.type = 'Succès';
+          this.show.showToast = true;
+          this.show.message = 'Votre profil a été fermé';
           setTimeout(() => { this.router.navigate([""]); }, 2000);
         },
         (error) => {
-          this.showError = true;
-          this.errorMessage = 'La fermeture du compte a échoué';
+          this.show.type = 'Erreur';
+          this.show.showToast = true;
+          this.show.message = 'La fermeture du compte a échoué';
         }
       );
     } else {
-      this.showError = true;
-      this.errorMessage = 'Le mot de passe est incorrecte';
+      this.show.type = 'Erreur';
+      this.show.showToast = true;
+      this.show.message = 'Le mot de passe est incorrecte';
     }
   }
 
@@ -160,13 +168,15 @@ export class ProfileComponent implements OnInit {
     if ((user.email.length != 0) && (user.firstName.length != 0) && (user.lastName.length != 0) && (user.address.length != 0) && (user.postalCode.length != 0) && (user.phoneNumber.length != 0)) {
       this.electrolibService.updateProfile('updateInformations', idUser, user).subscribe(
         user => {
-          this.showSuccess = true;
-          this.successMessage = 'Votre profil a été mis à jour';
+          this.show.type = 'Succès';
+          this.show.showToast = true;
+          this.show.message = 'Votre profil a été mis à jour';
           this.dataService.updateUser(user);
         },
         (error) => {
-          this.showError = true;
-          this.errorMessage = 'La mise à jour a échoué';
+          this.show.type = 'Erreur';
+          this.show.showToast = true;
+          this.show.message = 'La mise à jour a échoué';
         }
       );
 
