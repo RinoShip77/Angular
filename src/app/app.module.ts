@@ -9,7 +9,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConnectionComponent } from './connection/connection.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BorrowComponent } from './borrow/borrow.component';
@@ -23,13 +22,14 @@ import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 import { BorrowsComponent } from './borrows/borrows.component';
 import { BorrowDetailsComponent } from './borrow-details/borrow-details.component';
 import { CreateBookComponent } from './create-book/create-book.component';
+import { EditBookComponent } from './edit-book/edit-book.component';
+import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ConnectionComponent,
     NavbarComponent,
-    FooterComponent,
     InventoryComponent,
     ProfileComponent,
     BorrowComponent,
@@ -42,7 +42,9 @@ import { CreateBookComponent } from './create-book/create-book.component';
     AdminNavbarComponent,
     BorrowsComponent,
     BorrowDetailsComponent,
-    CreateBookComponent
+    CreateBookComponent,
+    EditBookComponent,
+    AdminBorrowsComponent
   ],
   imports: [
     AppRoutingModule,

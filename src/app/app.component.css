@@ -7,3 +7,16 @@
 main {
     flex-grow: 1;
 }
+
+.chat-box {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.chat-button {
+    pointer-events: all;
+}

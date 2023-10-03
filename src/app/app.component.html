@@ -7,22 +7,19 @@
       <app-admin-navbar></app-admin-navbar>
     </header>
 
-    <main style="margin: 6%">
+    <main [ngStyle]="{'margin': checkUser() == true? '6%' : ''}">
       <!-- Le router -->
       <router-outlet></router-outlet>
 
-      <div *ngIf="this.dataService.getUser() != undefined">
-        <div class="d-flex justify-content-end m-3" id="chat">
-          <button class="btn btn-primary rounded-5" (click)="openChat()">
+      <div *ngIf="this.dataService.getUser() != undefined" class="chat-box">
+        <div class="d-flex justify-content-end" id="chat">
+          <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()">
             <i class="far fa-comment-dots p-2 fs-1"></i>
           </button>
         </div>
       </div>
     </main>
 
-    <footer>
-      <!-- Le pied de page -->
-      <app-footer></app-footer>
-    </footer>
+    <footer></footer>
 
 </section>

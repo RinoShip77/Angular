@@ -6,6 +6,10 @@ import { User } from './model/User';
 import { Genre } from './model/Genre';
 import { Author } from './model/Author';
 import { Borrow } from './model/Borrow';
+import { Status } from './model/Status';
+import { Reservation } from './model/Reservation';
+import { Evaluation } from './model/Evaluation';
+import { Favorite } from './model/Favorite';
 
 @Injectable({
   providedIn: 'root'
@@ -28,12 +32,21 @@ export class ElectrolibService {
   }
   
   //--------------------------------
-  // Route to get all the genre
+  //
   //--------------------------------
   getGenres() {
     let url = urlServer + 'genres';
 
     return this.http.get<Genre[]>(url);
+  }
+
+  //--------------------------------
+  //
+  //--------------------------------
+  getAllStatus() {
+    let url = urlServer + 'all-status';
+
+    return this.http.get<Status[]>(url);
   }
   
   //--------------------------------
@@ -69,7 +82,7 @@ export class ElectrolibService {
   //--------------------------------
   getBorrows() {
     let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/borrows";
+    //url = "http://127.0.0.1:8000/borrows";
 
     return this.http.get<Borrow[]>(url);
   }
@@ -110,7 +123,7 @@ export class ElectrolibService {
   
   //route qui va chercher un livre
   getBook(id:number){
-    let url = urlServer + 'getBook/'+id;
+    let url = urlServer + 'get-book/'+id;
 
     return this.http.get<Book>(url);
   }
@@ -120,7 +133,7 @@ export class ElectrolibService {
   //--------------------------------
   /*createBook(book: Book) {
     let url = urlServer + "createBook";
-    
+
     const params = new HttpParams({
       fromObject: {
         title: book.title,
@@ -134,37 +147,94 @@ export class ElectrolibService {
         idGenre: book.idGenre
       }
     });
-    
+
     return this.http.post<Book>(url, params);
   }*/
-  
+
   uploadImage(imageData: string) {
     const formData = new FormData();
     formData.append('image', imageData);
-    
+
     let url = urlServer + "createBook";
-    
+
     return this.http.post(url, formData);
   }
-  
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   createBookWithImage(book: Book, imageData: Blob) {
-    let url = urlServer + "createBook";
-    
-    // Create FormData to send both the book object and the image
+    let url = `${urlServer}create-book`;
+
+    // Crée FormData pour envoyer à la fois l'objet livre et l'image
     const formData = new FormData();
     formData.append('title', book.title);
     formData.append('description', book.description);
     formData.append('isbn', book.isbn);
     formData.append('publishedDate', book.publishedDate);
     formData.append('originalLanguage', book.originalLanguage);
-    formData.append('isBorrowed', book.isBorrowed.toString());
-    formData.append('cover', imageData); // Add the image data here
+    formData.append('cover', imageData); // Ajoute les données d'image ici
     formData.append('idAuthor', book.idAuthor.toString());
     formData.append('idGenre', book.idGenre.toString());
-    
+    formData.append('idStatus', book.idStatus.toString());
+
     return this.http.post<Book>(url, formData);
   }
+
+  createBorrow(book:Book,user:User){
+    const url = `${urlServer}create-Borrow`;
+    console.log(user.idUser);
+    const formData = new FormData();
+    formData.append('idBook',book.idBook.toString());
+    formData.append('idUser',user.idUser.toString());
+
+    return this.http.post<Borrow>(url,formData);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  updateBook(book: Book, imageData: Blob) {
+    let url = `${urlServer}update-book/${book.idBook}`;
+
+    // Crée FormData pour envoyer à la fois l'objet livre et l'image
+    const formData = new FormData();
+    formData.append('title', book.title);
+    formData.append('description', book.description);
+    formData.append('isbn', book.isbn);
+    formData.append('publishedDate', book.publishedDate);
+    formData.append('originalLanguage', book.originalLanguage);
+    formData.append('cover', imageData); // Ajoute les données d'image ici
+    formData.append('idAuthor', book.idAuthor.toString());
+    formData.append('idGenre', book.idGenre.toString());
+    formData.append('idStatus', book.idStatus.toString());
+
+    return this.http.post<Book>(url, formData);
+
+    //NE PAS ENLEVER LE CODE EN COMMENTAIRE: JE VEUX ESSAYER DE FAIRE FONCTIONNER LE PUT PLUS TARD
+    /*const updatedBook = {
+      title: book.title,
+      description: book.description,
+      isbn: book.isbn,
+      publishedDate: book.publishedDate,
+      originalLanguage: book.originalLanguage,
+      isBorrowed: book.isBorrowed,
+      idAuthor: book.idAuthor,
+      idGenre: book.idGenre,
+    };
   
+    const formData = new FormData();
+    formData.append('cover', imageData);
+  
+    const requestData = {
+      book: updatedBook,
+      image: formData,
+    };
+
+    //PEUT-ÊTRE UNE ERREUR AVEC LE FORM QUE J'ENVOIE (À VÉRIFIER)
+    return this.http.put<Book>(url, requestData);*/
+  }
+
   //--------------------------------
   // Update the profile informations
   //--------------------------------
@@ -200,5 +270,32 @@ export class ElectrolibService {
     });
 
     return this.http.post<User>(url, params);
+  }
+  
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getReservations() {
+    let url = urlServer + 'reservations';
+
+    return this.http.get<Reservation[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getEvaluations() {
+    let url = urlServer + 'evaluations';
+
+    return this.http.get<Evaluation[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getFavorites() {
+    let url = urlServer + 'favorites';
+
+    return this.http.get<Favorite[]>(url);
   }
 }

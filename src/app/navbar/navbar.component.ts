@@ -38,6 +38,7 @@ export class NavbarComponent implements OnInit {
   private updateVisibility() {
     if (this.dataService.getUser() != undefined) {
       this.user = this.dataService.getUser();
+      console.log(this.user)
       if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_USER"]') {
         this,this.visible = true;
       } else {

@@ -1,43 +1,59 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Book } from '../model/Book';
+import { Component } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
-import { MAX_FILE_SIZE } from '../util';
+import { ActivatedRoute } from '@angular/router';
+import { Book } from '../model/Book';
+import { Router } from '@angular/router';
 import { Author } from '../model/Author';
 import { Genre } from '../model/Genre';
-import { Router } from '@angular/router';
+import { MAX_FILE_SIZE } from '../util';
+import { format, parse } from 'date-fns';
+import { Status } from '../model/Status';
 
 @Component({
-  selector: 'app-create-book',
-  templateUrl: './create-book.component.html',
-  styleUrls: ['./create-book.component.css']
+  selector: 'app-edit-book',
+  templateUrl: './edit-book.component.html',
+  styleUrls: ['./edit-book.component.css']
 })
-export class CreateBookComponent {
+export class EditBookComponent {
 
   book: Book = new Book();
   authors: Author[] = [];
   genres: Genre[] = [];
+  status: Status[] = [];
 
   selectedImage: any;
   formData = new FormData();
   file: any;
   file_data: any = "";
 
-  validations: { [key: string]: boolean | null | undefined } = {
-    title: null,
-    description: null,
-    isbn: null,
-    publishedDate: null,
-    originalLanguage: null,
-    cover: null,
-    idAuthor: null,
-    idGenre: null
+  validations: { [key: string]: boolean } = {
+    title: true,
+    description: true,
+    isbn: true,
+    publishedDate: true,
+    originalLanguage: true,
+    cover: true
   };
 
-  constructor(private electrolibService: ElectrolibService, private router: Router) { }
+  constructor(
+    private electrolibService: ElectrolibService, 
+    private route: ActivatedRoute, 
+    private router: Router) {}
 
   ngOnInit() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    if(id) {
+     this.electrolibService.getBook(id).subscribe(book =>{
+      this.book = book;
+      const parsedDate = parse(book.publishedDate, 'yyyy-MM-dd HH:mm:ss', new Date());
+      this.book.publishedDate = format(parsedDate, 'yyyy-MM-dd');
+     });
+    }
+    
     this.retrieveAuthors();
     this.retrieveGenres();
+    this.retrieveAllStatus();
   }
 
   //-------------------------------------------------------
@@ -63,21 +79,33 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  retrieveAllStatus() {
+    this.electrolibService.getAllStatus().subscribe(
+      status => {
+        this.status = status;
+      }
+    );
+  }
+
+  //-------------------------------------------------------
   // Envoie les données du formulaire au serveur Symfony
   //-------------------------------------------------------
   onSubmit() {
+    //PEUT-ÊTRE UNE ERREUR AVEC LE FORM QUE J'ENVOIE (À VÉRIFIER)
     if (this.validateForm()) {
-      this.electrolibService.createBookWithImage(this.book, this.file_data).subscribe(
-        createdBook => {
-          console.log('Book and image created successfully!', createdBook);
+      this.electrolibService.updateBook(this.book, this.file_data).subscribe(
+        (response) => {
+          console.log('Book updated successfully!', response);
           this.router.navigate(["/adminInventory"]);
         },
         (error) => {
-          console.error('Creation failed:', error);
+          console.error('Update failed:', error);
         }
       );
     } else {
-      this.validateAllFiends();
+      this.validateAllFields();
     }
   }
 
@@ -132,7 +160,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide le titre du livre
+  //
   //-------------------------------------------------------
   validateTitle() {
     if (this.book.title.length <= 0 || this.book.title.length > 100) {
@@ -143,7 +171,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide la description du livre
+  //
   //-------------------------------------------------------
   validateDescription() {
     if (this.book.description.length <= 0 || this.book.description.length > 255) {
@@ -154,7 +182,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide l'ISBN du livre
+  //
   //-------------------------------------------------------
   validateISBN() {
     if (this.book.isbn.length <= 0 || this.book.isbn.length > 255) {
@@ -165,7 +193,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide la date de publication du livre
+  //
   //-------------------------------------------------------
   validatePublishedDate() {
     if (this.book.publishedDate.length <= 0) {
@@ -176,7 +204,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide la langue originale du livre
+  //
   //-------------------------------------------------------
   validateOriginalLanguage() {
     if (this.book.originalLanguage.length <= 0 || this.book.originalLanguage.length > 255) {
@@ -187,59 +215,22 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide l'image de couverture du livre
+  //
   //-------------------------------------------------------
-  validateCover() {
-    if (this.validations["cover"] == null) {
-      this.validations["cover"] = undefined;
-    } 
-    else if (!this.validations["cover"] == null) {
-      this.validations["cover"] = false;
-    }
-  }
-
-  //-------------------------------------------------------
-  // Valide l'auteur' du livre
-  //-------------------------------------------------------
-  validateIdAuthor() {
-    if (!this.book.idAuthor) {
-      this.validations["idAuthor"] = false;
-    } else {
-      this.validations["idAuthor"] = true;
-    }
-  }
-
-  //-------------------------------------------------------
-  // Valide le genre du livre
-  //-------------------------------------------------------
-  validateIdGenre() {
-    if (!this.book.idGenre) {
-      this.validations["idGenre"] = false;
-    } else {
-      this.validations["idGenre"] = true;
-    }
-  }
-
-  //-------------------------------------------------------
-  // Valide tous les champs du livre
-  //-------------------------------------------------------
-  validateAllFiends() {
+  validateAllFields() {
     this.validateTitle();
     this.validateDescription();
     this.validateISBN();
     this.validatePublishedDate();
     this.validateOriginalLanguage();
-    this.validateCover();
-    this.validateIdAuthor();
-    this.validateIdGenre();
   }
 
   //-------------------------------------------------------
-  // Valide le formulaire du livre
+  //
   //-------------------------------------------------------
   validateForm() {
     for (const key in this.validations) {
-      if (this.validations.hasOwnProperty(key) && (this.validations[key] === null || this.validations[key] === false)) {
+      if (this.validations.hasOwnProperty(key) && this.validations[key] === false) {
         return false;
       }
     }

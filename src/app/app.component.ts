@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChatComponent } from './chat/chat.component';
 import { DataService } from './data.service';
+import { User } from './model/User';
 
 @Component({
   selector: 'app-root',
@@ -23,5 +24,13 @@ export class AppComponent {
       keyboard: true,
       scrollable: true
     });
+  }
+
+  checkUser() {
+    let user = this.dataService.getUser();
+    if (user != undefined && user.roles == '["ROLE_USER"]') {
+      return true;
+    }
+    return false;
   }
 }

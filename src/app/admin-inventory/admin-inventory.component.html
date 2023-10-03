@@ -63,16 +63,18 @@
                             <td>{{book.title}}</td>
                             <td>{{book.isbn}}</td>
                             <td>{{book.author.firstName}} {{book.author.lastName}}</td>
-                            <td>#statut</td>
+                            <td>{{book.status.status}}</td>
                             <td>
                                 <button class="btn btn-success btn-action" aria-placeholder="asdasd">
                                     <i class="fa-solid fa-book-open-reader"></i>
                                     <span class="info-tooltip">Détails</span>
                                 </button>
-                                <button class="btn btn-warning btn-action">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                    <span class="info-tooltip">Modifier</span>
-                                </button>
+                                <a [routerLink]="['/editBook', book.idBook]">
+                                    <button class="btn btn-warning btn-action">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        <span class="info-tooltip">Modifier</span>
+                                    </button>
+                                </a>
                             </td>
                         </tr>
                     </tbody>
