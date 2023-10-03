@@ -257,19 +257,11 @@ export class InventoryComponent {
   // Function to open the page for a specific book
   //---------------------------------
   updateDisplay(status: Status): string {
-    if (status.status == "Emprunté") {
+    if (status.status == 'Disponible') {
       return 'table-primary';
     } else {
       return 'opacity-25';
     }
-  }
-
-  //---------------------------------
-  // Function to open the page for a specific book
-  //---------------------------------
-  displayBook(idBook: number) {
-    console.log(idBook)
-    this.router.navigate(['detailLivre',idBook]);
   }
 
   //---------------------------------

@@ -100,7 +100,7 @@
     <div *ngIf="books.length > 0; else elseBlock" [ngSwitch]="inventoryDisplay">
       <div *ngSwitchCase="'table'">
         <div class="row row-cols-2 g-3">
-          <div type="button" class="col" *ngFor="let book of books" (click)="displayBook(book.idBook)">
+          <a type="button" class="col" *ngFor="let book of books" [routerLink]="['/detailLivre', book.idBook]">
             <div class="card h-100 mb-3">
               <div class="row g-0">
                 <div class="col-4">
@@ -118,8 +118,7 @@
                     <span class="card-text"><small>{{book.description}}</small></span>
                     <div class="d-flex justify-content-between mt-3">
                       <div class="d-flex align-items-center">
-                        <i class="text-danger fs-2"
-                          [ngClass]="(book.isFavorite) ? 'fas fa-heart' : 'far fa-heart'"></i>
+                        <i class="text-danger fs-2" [ngClass]="(book.isFavorite) ? 'fas fa-heart' : 'far fa-heart'"></i>
                         <!-- <span>
                           <span class="fs-4">[</span>
                           {{user.favorites.length}}
@@ -127,17 +126,21 @@
                         </span> -->
                       </div>
                       <div>
-                        <div *ngIf="book.status.status == 'Emprunté'" class="border border-2 rounded-3 p-2 text-center">En location
+                        <div *ngIf="book.status.status == 'Emprunté'" class="border border-2 rounded-3 p-2 text-center">
+                          En location
                         </div>
-                        <div *ngIf="book.status.status == 'Disponible'" class="border border-2 bg-info rounded-3 p-2 text-center">
+                        <div *ngIf="book.status.status == 'Disponible'"
+                          class="border border-2 bg-info rounded-3 p-2 text-center">
                           Disponible</div>
+                        <div *ngIf="book.status.status != 'Emprunté' && book.status.status != 'Disponible'"
+                          class="border border-2 bg-info rounded-3 p-2 text-center">{{book.status.status}}</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
       <div *ngSwitchCase="'list'">
@@ -156,19 +159,19 @@
           </thead>
           <tbody>
             <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.status)">
-              <a [routerLink]="['/detailLivre', book.idBook]">
-                <td>#{{book.isbn}}</td>
-                <td>{{book.title}}</td>
-                <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
-                <td><i class="fas {{book.genre.icon}}"></i></td>
-                <td>{{book.originalLanguage}}</td>
-                <td>{{book.publishedDate | date:'yyyy'}}</td>
-                <td *ngIf="book.status.status == 'Emprunté'">En location</td>
-                <td *ngIf="book.status.status == 'Disponible'">Disponible</td>
-                <td type="button" (click)="displayBook(book.idBook)">
+              <td>#{{book.isbn}}</td>
+              <td>{{book.title}}</td>
+              <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
+              <td><i class="fas {{book.genre.icon}}"></i></td>
+              <td>{{book.originalLanguage}}</td>
+              <td>{{book.publishedDate | date:'yyyy'}}</td>
+              <td>{{book.status.status}}
+              </td>
+              <td type="button">
+                <a [routerLink]="['/detailLivre', book.idBook]">
                   <i class="fas fa-circle-info fs-4 m-2"></i>
-                </td>
-              </a>
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>
