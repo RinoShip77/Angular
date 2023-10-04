@@ -57,7 +57,7 @@
                         <td>{{borrow.user.memberNumber}}</td>
                         <td>{{borrow.borrowedDate}}</td>
                         <td>{{borrow.dueDate}}</td>
-                        <td></td>
+                        <td style="font-weight: bold; color: red;">{{checkIfLate(borrow)}}</td>
                         <td>
                             <button class="btn btn-success btn-action" aria-placeholder="asdasd">
                                 <i class="fa-solid fa-book-open-reader"></i>

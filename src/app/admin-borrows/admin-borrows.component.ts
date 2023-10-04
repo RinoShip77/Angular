@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Borrow } from '../model/Borrow';
 import { ElectrolibService } from '../electrolib.service';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-admin-borrows',
@@ -16,7 +17,7 @@ export class AdminBorrowsComponent {
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
 
-  constructor(private electrolibService: ElectrolibService) {}
+  constructor(private electrolibService: ElectrolibService) { }
 
   ngOnInit() {
 
@@ -30,7 +31,7 @@ export class AdminBorrowsComponent {
     this.electrolibService.getBorrows().subscribe(
       borrows => {
         this.borrows = borrows;
-        this.displayedBorrows =  borrows;
+        this.displayedBorrows = borrows;
       }
     );
   }
@@ -56,6 +57,20 @@ export class AdminBorrowsComponent {
     if (this.searchField.trim().length > 0) {
 
     }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  checkIfLate(borrow: Borrow) {
+    const nowDate: Date = new Date();
+    const dueDate: Date = new Date(borrow.dueDate);
+
+    if (nowDate >= dueDate) {
+      return "En retard";
+    }
+
+    return "";
   }
 
 }
