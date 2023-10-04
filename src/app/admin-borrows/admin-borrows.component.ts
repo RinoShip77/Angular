@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Borrow } from '../model/Borrow';
 import { ElectrolibService } from '../electrolib.service';
 import { format } from 'date-fns';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-borrows',
@@ -17,12 +18,55 @@ export class AdminBorrowsComponent {
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
 
+  isChecked: Boolean = true;
+
   constructor(private electrolibService: ElectrolibService) { }
 
   ngOnInit() {
 
     this.retrieveBorrows();
   }
+
+  changeCheckBoxState(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.isChecked = target.checked;
+
+    this.showBorrowsCriteria();
+  }
+
+  showBorrowsCriteria() {
+    let tempBorrows: Borrow[] = [];
+
+    if (this.isChecked) {
+
+      this.borrows.forEach(borrow => {
+        if (borrow.returnedDate === null ) {
+          tempBorrows.push(borrow);
+        }
+      });
+      this.displayedBorrows = tempBorrows;
+    } 
+
+    else {
+      this.displayedBorrows = this.borrows;
+    }
+  }
+
+  returnBorrow(borrow: Borrow) {
+      let returnedBorrow: Borrow = borrow;
+      returnedBorrow.returnedDate = new Date();
+
+      this.electrolibService.returnBorrow(returnedBorrow).subscribe(
+        (response) => {
+          console.log('Book returned successfully!', response);
+          this.showBorrowsCriteria();
+        },
+        (error) => {
+          console.error('Returned failed:', error);
+        }
+      );
+  }
+
 
   //-------------------------------------------------------
   //
@@ -31,7 +75,7 @@ export class AdminBorrowsComponent {
     this.electrolibService.getBorrows().subscribe(
       borrows => {
         this.borrows = borrows;
-        this.displayedBorrows = borrows;
+        this.showBorrowsCriteria();
       }
     );
   }

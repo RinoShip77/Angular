@@ -33,6 +33,11 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </form>
+
+                <div>
+                    <input type="checkbox" checked class="check-box" name="checkbox" (change)="changeCheckBoxState($event)">
+                    <label for="checkbox">Afficher uniquement les emprunts en cours</label>
+                </div>
             </div>
 
         </article>
@@ -63,9 +68,9 @@
                                 <i class="fa-solid fa-book-open-reader"></i>
                                 <span class="info-tooltip">Détails</span>
                             </button>
-                            <button class="btn btn-warning btn-action">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                <span class="info-tooltip">Éditer</span>
+                            <button *ngIf="borrow.returnedDate == null" (click)="returnBorrow(borrow)" class="btn btn-warning btn-action">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span class="info-tooltip">Rendre</span>
                             </button>
                         </td>
                     </tr>
