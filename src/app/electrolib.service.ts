@@ -238,6 +238,19 @@ export class ElectrolibService {
   //--------------------------------
   // Update the profile informations
   //--------------------------------
+  uploadProfilePicture(idUser: number | undefined, imageData: string) {
+    const formData = new FormData();
+    formData.append('profilePicture', imageData);
+    console.log(imageData)
+    
+    let url = urlServer + 'user/' + idUser + '/modifierImage';
+    
+    return this.http.post(url, formData);
+  }
+  
+  //--------------------------------
+  // Update the profile informations
+  //--------------------------------
   updateProfile(action: string, idUser: number | undefined, object?: any) {
     let url = urlServer + 'user/' + idUser + '/modifier';
     

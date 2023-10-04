@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { MAX_FILE_SIZE, getURLProfilePicture } from '../util';
 
 @Component({
   selector: 'app-profile',
@@ -13,13 +14,17 @@ import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ProfileComponent implements OnInit {
   user: User | undefined = new User();
-  profilePicture: string = '';
+  selectedImage: any;
+  formData = new FormData();
+  file: any;
+  file_data: any = "";
   show: any = {
     type: '',
     showToast: false,
     message: ''
   };
   switch: boolean = false;
+  url: string = 'assets/images/users/default-user.png';
 
   //---------------------------------
   // Function to display every book in the database
@@ -45,19 +50,69 @@ export class ProfileComponent implements OnInit {
       console.log('light')
     }
   }
-
+  
   //---------------------------------
-  // Function to open the page for a specific book
+  // Function to upload a new profile picture to the user
   //---------------------------------
-  handleMissingImage(event: Event) {
-    (event.target as HTMLImageElement).src = 'assets/images/users/default-user.png';
+  updateProfilePicture(idUser: number | undefined) {
+    this.electrolibService.uploadProfilePicture(idUser, this.file_data).subscribe(
+      user => {
+        console.log(user);
+        this.show.type = 'Succès';
+        this.show.showToast = true;
+        this.show.message = 'Votre profil a été mis à jour';
+        this.url = getURLProfilePicture(idUser);
+      },
+      (error) => {
+        this.show.type = 'Erreur';
+        this.show.showToast = true;
+        this.show.message = 'La mise à jour a échoué';
+      }
+    );
   }
 
-  //---------------------------------
-  // Function to upload a new profile picture
-  //---------------------------------
-  uploadImage() {
-    console.log('new profile picture');
+  //-------------------------------------------------------
+  // Upload an image
+  //-------------------------------------------------------
+  onFileSelected(event: any) {
+    const fileList: FileList = event.target.files;
+
+    if (fileList.length > 0) {
+      this.selectedImage = fileList[0];
+
+      if (this.validateFile()) {
+        this.file_data = new Blob([this.selectedImage], { type: this.selectedImage.type });;
+      }
+    }
+  }
+
+  //-------------------------------------------------------
+  // Retourne l'extension de l'image
+  //-------------------------------------------------------
+  extractExtension(nomFichier: string) {
+    let extension = nomFichier.split('.').pop();
+    return extension;
+  }
+
+  //-------------------------------------------------------
+  // Validate the image before sending it to the DB
+  //-------------------------------------------------------
+  validateFile() {
+    let fileSupported = false;
+    if (this.selectedImage.size <= MAX_FILE_SIZE) {
+      let extension = this.extractExtension(this.selectedImage.name);
+      if (extension?.toLowerCase() === 'png') {
+        fileSupported = true;
+      }
+      if (!fileSupported)
+        console.log("Erreur: extension de fichier non-supportée", true)
+    }
+    else {
+      fileSupported = false;
+      console.log("Erreur: Fichier trop volumineux. Maximum 500 kB et le fichier a " + (this.selectedImage.size / 1024).toFixed(0) + " kB", true, true)
+    }
+
+    return fileSupported;
   }
 
   //---------------------------------
@@ -179,8 +234,6 @@ export class ProfileComponent implements OnInit {
           this.show.message = 'La mise à jour a échoué';
         }
       );
-
-      //console.log(this.profilePicture);
     }
   }
 }

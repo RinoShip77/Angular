@@ -6,3 +6,9 @@ export function getURLBookCover(idBook: number)
   let urltmp = urlServer + '../images/books/' + idBook + ".png"; 
   return urltmp;
 }
+
+export function getURLProfilePicture(idUser: number | undefined)
+{
+  let urltmp = urlServer + '../images/users/' + idUser + ".png"; 
+  return urltmp;
+}
