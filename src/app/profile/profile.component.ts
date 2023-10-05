@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
     message: ''
   };
   switch: boolean = false;
-  url: string = 'assets/images/users/default-user.png';
+  url: string = '';
 
   //---------------------------------
   // Function to display every book in the database
@@ -37,6 +37,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     if (this.dataService.getUser() != undefined) {
       this.user = this.dataService.getUser();
+      this.url = getURLProfilePicture(this.user?.idUser);
     }
   }
 
@@ -49,8 +50,9 @@ export class ProfileComponent implements OnInit {
     } else {
       console.log('light')
     }
+    localStorage.setItem('theme', '' );
   }
-  
+
   //---------------------------------
   // Function to upload a new profile picture to the user
   //---------------------------------
@@ -61,7 +63,7 @@ export class ProfileComponent implements OnInit {
         this.show.showToast = true;
         this.show.message = 'Votre profil a été mis à jour';
         this.url = getURLProfilePicture(idUser);
-        console.log(this.url);
+        
       },
       (error) => {
         this.show.type = 'Erreur';

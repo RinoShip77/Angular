@@ -243,7 +243,7 @@ export class ElectrolibService {
     formData.append('action', 'updateProfilePicture');
     formData.append('profilePicture', imageData);
     
-    let url = urlServer + 'user/' + idUser + '/modifier';
+    let url = urlServer + 'user/' + idUser;
     
     return this.http.post(url, formData);
   }
@@ -252,7 +252,7 @@ export class ElectrolibService {
   // Update the profile informations
   //--------------------------------
   updateProfile(action: string, idUser: number | undefined, object?: any) {
-    let url = urlServer + 'user/' + idUser + '/modifier';
+    let url = urlServer + 'user/' + idUser;
     
     const params = new HttpParams({
       fromObject: {
