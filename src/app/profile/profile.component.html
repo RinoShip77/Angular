@@ -1,17 +1,18 @@
 <!-- Profile page -->
 <section class="container-fluid bg-light rounded-5 p-4">
   <div class="d-flex justify-content-center mt-2 mb-5">
-    <ngb-toast *ngIf="show.showToast" header="{{show.type}}" [delay]="10000" [ngClass]="show.type === 'Succès' ? 'bg-success' : 'bg-danger'" class="w-75">
+    <ngb-toast *ngIf="show.showToast" header="{{show.type}}" [delay]="10000"
+      [ngClass]="show.type === 'Succès' ? 'bg-success' : 'bg-danger'" class="w-75">
       <div class="fs-3 text-white text-center">
-          <i *ngIf="show.type === 'Succès'; else firstElseBlock" class="fa-solid fa-circle-check me-2"></i>
-          <ng-template #firstElseBlock>
-            <i class="fa-solid fa-triangle-exclamation me-2"></i>
-          </ng-template>
-          {{show.message}}
-          <i *ngIf="show.type === 'Succès'; else secondElseBlock" class="fa-solid fa-circle-check me-2"></i>
-          <ng-template #secondElseBlock>
-            <i class="fa-solid fa-triangle-exclamation ms-2"></i>
-          </ng-template>
+        <i *ngIf="show.type === 'Succès'; else firstElseBlock" class="fa-solid fa-circle-check me-2"></i>
+        <ng-template #firstElseBlock>
+          <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        </ng-template>
+        {{show.message}}
+        <i *ngIf="show.type === 'Succès'; else secondElseBlock" class="fa-solid fa-circle-check me-2"></i>
+        <ng-template #secondElseBlock>
+          <i class="fa-solid fa-triangle-exclamation ms-2"></i>
+        </ng-template>
       </div>
     </ngb-toast>
   </div>
@@ -23,15 +24,18 @@
         </a>
         <div class="my-3 w-75">
           <div class="d-flex justify-content-center">
-            <img src="{{url}}" class="img-fluid img-thumbnail border-3 border-dark rounded-circle w-75" alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}">
+            <img src="{{url}}" class="img-fluid img-thumbnail border-3 border-dark rounded-circle w-75"
+              alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}">
           </div>
-          <form (ngSubmit)="updateProfilePicture(user?.idUser)" class="d-flex justify-content-end" style="margin-right: 15%; margin-top: -50px">
-            <label for="profilePicture"
-              class="btn btn-secondary border-2 border-dark rounded-circle text-dark fs-2 file-upload">
+          <form (ngSubmit)="updateProfilePicture(user?.idUser)" class="d-flex justify-content-end"
+            style="margin-right: 15%; margin-top: -50px">
+            <label for="file-upload" class="btn btn-secondary rounded-circle text-dark fs-2">
               <i class="fas fa-plus"></i>
             </label>
-            <input name="profilePicture" type="file" accept="image/*" (change)="onFileSelected($event)">
-            <input type="submit">
+            <input name="profilePicture" class="d-none" id="file-upload" type="file" accept="image/*"
+            (change)="onFileSelected($event)">
+            <button type="submit" class="bg-transparent">
+            </button>
           </form>
         </div>
         <div>
