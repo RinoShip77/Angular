@@ -8,4 +8,5 @@ export class Reservation {
   idBook: number = 0;
   book: Book = new Book();
   reservationDate: Date = new Date();
+  isActive: Boolean = true;
 }

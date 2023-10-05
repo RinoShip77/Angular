@@ -26,4 +26,5 @@ export class Book {
   // reservations: Reservation[] = new Array();
   idStatus: number = 1;
   status: Status = new Status();
+  isRecommended: Boolean = false;
 }
