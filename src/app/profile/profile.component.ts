@@ -57,11 +57,11 @@ export class ProfileComponent implements OnInit {
   updateProfilePicture(idUser: number | undefined) {
     this.electrolibService.uploadProfilePicture(idUser, this.file_data).subscribe(
       user => {
-        console.log(user);
         this.show.type = 'Succès';
         this.show.showToast = true;
         this.show.message = 'Votre profil a été mis à jour';
         this.url = getURLProfilePicture(idUser);
+        console.log(this.url);
       },
       (error) => {
         this.show.type = 'Erreur';

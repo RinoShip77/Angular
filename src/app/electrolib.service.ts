@@ -240,10 +240,10 @@ export class ElectrolibService {
   //--------------------------------
   uploadProfilePicture(idUser: number | undefined, imageData: string) {
     const formData = new FormData();
+    formData.append('action', 'updateProfilePicture');
     formData.append('profilePicture', imageData);
-    console.log(imageData)
     
-    let url = urlServer + 'user/' + idUser + '/modifierImage';
+    let url = urlServer + 'user/' + idUser + '/modifier';
     
     return this.http.post(url, formData);
   }
