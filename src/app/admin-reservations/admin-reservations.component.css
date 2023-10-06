@@ -1,0 +1,92 @@
+.btn-action {
+    margin-right: 1em;
+    position: relative;
+}
+
+.btn-action:hover .info-tooltip {
+    opacity: 1;
+}
+
+.btn-search:hover {
+    background-color: #353CAB;
+}
+
+.btn-search {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: #3F48CC;
+    color: white;
+}
+
+.dropdown {
+    width: 8em;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.section-navbar {
+    background-color: #1C1C1C;
+    display: flex;
+    align-items: center;
+    padding: 1em;
+}
+
+.section-row {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    min-height: 5em;
+}
+
+.fit-label {
+    color: white;
+}
+
+/* ----------------------------------------------------------- */
+/* Section pour le style de la table de données */
+/* ----------------------------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th {
+    background-color: #3F48CC;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td, th {
+    padding: 10px;
+}
+
+.info-tooltip {
+    display: none;
+}
+
+.btn-action:hover .info-tooltip {
+    display: inline-block;
+    background-color: #333;
+    color: #fff;
+    position: absolute;
+    z-index: 1;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.fa {
+    font-size: 18px;
+}

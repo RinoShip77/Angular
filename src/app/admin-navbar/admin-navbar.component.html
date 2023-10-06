@@ -1,49 +1,49 @@
 <section *ngIf="visible">
 
-    <section style="height: 4em;">
+    <article style="width: 13em; float: left;"></article>
 
-    </section>
-
-    <section class="container-fluid">
-
-        <article style="display: flex;">
-            <a [routerLink]="'adminInventory'">
-                <div class="logo">
-                    <i class="fas fa-book-bookmark mt-1 fs-1"></i>
-                    <h1>Electrolib</h1>
-                </div>
-            </a>
-    
-            <article class="nav-container">
-                <div class="nav-item">
-                    <a [routerLink]="['adminInventory']">
-                        <button class="btn btn-nav" (click)="displayAdminInventory()">Inventaire</button>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a [routerLink]="['adminBorrows']">
-                        <button class="btn btn-nav">Emprunts</button>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a [routerLink]="['adminReservations']">
-                        <button class="btn btn-nav">Réservations</button>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a [routerLink]="['adminUsers']">
-                        <button class="btn btn-nav">Membres</button>
-                    </a>
-                </div>
-            </article>
+    <section class="main-section">
+        <article>
+            <div class="electrolib">
+                <i class="fas fa-book-bookmark"></i>
+                <span style="margin-left: 8px;">Electrolib</span>
+            </div>
         </article>
 
-        
 
-        <button class="btn btn-danger btn-disconnect" (click)="disconnect()">
+
+        <section>
+            <a [routerLink]="['adminInventory']">
+                <button class="btn-nav" (click)="changeTab('inventory')"
+                    [ngStyle]="(tab === 'inventory') ? getStyles() : {}">
+                    Inventaire
+                </button>
+            </a>
+            <a [routerLink]="['adminBorrows']">
+                <button class="btn-nav" (click)="changeTab('borrows')"
+                    [ngStyle]="(tab === 'borrows') ? getStyles() : {}">
+                    Emprunts
+                </button>
+            </a>
+            <a [routerLink]="['adminReservations']">
+                <button class="btn-nav" (click)="changeTab('reservations')"
+                    [ngStyle]="(tab === 'reservations') ? getStyles() : {}">
+                    Réservations
+                </button>
+            </a>
+            <a [routerLink]="['adminUsers']">
+                <button class="btn-nav" (click)="changeTab('members')"
+                    [ngStyle]="(tab === 'members') ? getStyles() : {}">
+                    Membres
+                </button>
+            </a>
+
+        </section>
+
+
+        <button class="btn btn-disconnect" (click)="disconnect()">
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            Se déconnecter
+            Déconnexion
         </button>
-
     </section>
 </section>
