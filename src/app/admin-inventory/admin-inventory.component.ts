@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { Book } from '../model/Book';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-admin-inventory',
@@ -18,7 +19,7 @@ export class AdminInventoryComponent {
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
 
-  constructor(private electrolibSrv: ElectrolibService) { }
+  constructor(private electrolibService: ElectrolibService, private dataService: DataService) { }
 
   ngOnInit() {
     this.retrieveBooks();
@@ -51,7 +52,7 @@ export class AdminInventoryComponent {
           this.displayedBooks.sort((a, b) => (a.isbn > b.isbn ? 1 : -1));
           break;
         case "author":
-          this.displayedBooks.sort((a, b) => (a.author > b.author ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.author.lastName > b.author.lastName ? 1 : -1));
           break;
       }
     } 
@@ -64,7 +65,7 @@ export class AdminInventoryComponent {
           this.displayedBooks.sort((a, b) => (a.isbn < b.isbn ? 1 : -1));
           break;
         case "author":
-          this.displayedBooks.sort((a, b) => (a.author < b.author ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.author.lastName < b.author.lastName ? 1 : -1));
           break;
       }
     }
@@ -79,17 +80,18 @@ export class AdminInventoryComponent {
       this.books.forEach(book => {
         switch (this.selectedSearchBy) {
           case "title":
-            if (book.title.includes(this.searchField)) {
+            if (book.title.toUpperCase().includes(this.searchField.toUpperCase())) {
               this.displayedBooks.push(book);
             }
             break;
           case "isbn":
-            if (book.isbn.includes(this.searchField)) {
+            if (book.isbn.toUpperCase().includes(this.searchField.toUpperCase())) {
               this.displayedBooks.push(book);
             }
             break;
           case "author":
-            if (book.author.firstName.includes(this.searchField)) {
+            if (book.author.firstName.toUpperCase().includes(this.searchField.toUpperCase()) || 
+                book.author.lastName.toUpperCase().includes(this.searchField.toUpperCase())) {
               this.displayedBooks.push(book);
             }
             break;
@@ -105,11 +107,15 @@ export class AdminInventoryComponent {
   // Récupère tous les livres présents en base de données
   //-------------------------------------------------------
   retrieveBooks(filter?: number[]) {
-     this.electrolibSrv.getBooks().subscribe(
+     this.electrolibService.getBooks().subscribe(
        books => {
          this.books = books;
          this.displayedBooks =  books;
        }
      );
+  }
+
+  changeTab(tab: string) {
+    this.dataService.changeTab(tab);
   }
 }

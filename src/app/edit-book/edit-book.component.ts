@@ -8,6 +8,7 @@ import { Genre } from '../model/Genre';
 import { MAX_FILE_SIZE } from '../util';
 import { format, parse } from 'date-fns';
 import { Status } from '../model/Status';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-edit-book',
@@ -38,7 +39,8 @@ export class EditBookComponent {
   constructor(
     private electrolibService: ElectrolibService, 
     private route: ActivatedRoute, 
-    private router: Router) {}
+    private router: Router,
+    private dataService: DataService) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -98,6 +100,7 @@ export class EditBookComponent {
       this.electrolibService.updateBook(this.book, this.file_data).subscribe(
         (response) => {
           console.log('Book updated successfully!', response);
+          this.changeTab('inventory');
           this.router.navigate(["/adminInventory"]);
         },
         (error) => {
@@ -235,5 +238,12 @@ export class EditBookComponent {
       }
     }
     return true;
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  changeTab(tab: string) {
+    this.dataService.changeTab(tab);
   }
 }

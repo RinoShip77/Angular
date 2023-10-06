@@ -90,6 +90,15 @@ export class ElectrolibService {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
+  getActiveBorrows() {
+    let url = urlServer + 'active-borrows';
+
+    return this.http.get<Borrow[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   returnBorrow(borrow: Borrow) {
     let url = `${urlServer}return-borrow/${borrow.idBorrow}`;
 
@@ -273,5 +282,14 @@ export class ElectrolibService {
     let url = urlServer + 'favorites';
 
     return this.http.get<Favorite[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getReservationsData() {
+    let url = urlServer + 'reservations-data';
+
+    return this.http.get(url);
   }
 }

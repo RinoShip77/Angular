@@ -5,6 +5,7 @@ import { MAX_FILE_SIZE } from '../util';
 import { Author } from '../model/Author';
 import { Genre } from '../model/Genre';
 import { Router } from '@angular/router';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-create-book',
@@ -33,7 +34,7 @@ export class CreateBookComponent {
     idGenre: null
   };
 
-  constructor(private electrolibService: ElectrolibService, private router: Router) { }
+  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService) { }
 
   ngOnInit() {
     this.retrieveAuthors();
@@ -70,6 +71,7 @@ export class CreateBookComponent {
       this.electrolibService.createBookWithImage(this.book, this.file_data).subscribe(
         createdBook => {
           console.log('Book and image created successfully!', createdBook);
+          this.changeTab('inventory');
           this.router.navigate(["/adminInventory"]);
         },
         (error) => {
@@ -244,5 +246,12 @@ export class CreateBookComponent {
       }
     }
     return true;
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  changeTab(tab: string) {
+    this.dataService.changeTab(tab);
   }
 }

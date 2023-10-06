@@ -1,81 +1,99 @@
-<section class="container-fluid main-frame">
-    <article>
-        <article style="text-align: center;">
-            <h2 style="font-family:Arial, Helvetica, sans-serif">Inventaire des emprunts</h2>
-        </article>
-        <hr>
+<section class="admin-container">
+    <section style="min-width: fit-content;">
 
-        <article class="inventory-navbar">
-            <div style="display: flex;">
+            <!-- Section de la barre de navigation de la page -->
+            <article class="section-navbar">
+                <article class="row section-row">
 
-                <div style="display: flex; align-items: center;">
-                    <label for="sort-by" class="fit-label" style="margin-right: 10px;">Trier:</label>
-                    <select class="form-control combobox" #sortBy name="sort-by" (change)="changeSortBy(sortBy.value)">
-                        <option value="ascending">Croissant</option>
-                        <option value="descending">Décroissant</option>
-                    </select>
-                </div>
-
-                <div style="display: flex; align-items: center;">
-                    <label for="search-by" class="fit-label" style="margin-right: 10px;">Recherche par:</label>
-                    <select class="form-control combobox" #searchBy name="search-by"
-                        (change)="changeResearchBy(searchBy.value)">
-                        <option value="title">Titre</option>
-                        <option value="isbn">ISBN</option>
-                        <option value="author">Auteur</option>
-                    </select>
-                </div>
-
-                <form class="d-flex ms-2" role="search" (ngSubmit)="search()">
-                    <input name="searchField" [(ngModel)]="searchField" class="form-control me-2" type="search"
-                        placeholder="Rechercher..." aria-label="Search">
-                    <button class="btn btn-outline-primary" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </form>
-
-                <div>
-                    <input type="checkbox" checked class="check-box" name="checkbox" (change)="changeCheckBoxState($event)">
-                    <label for="checkbox">Afficher uniquement les emprunts en cours</label>
-                </div>
-            </div>
-
-        </article>
-        <hr>
-        <section class="inventory-table">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id livre</th>
-                        <th>Titre</th>
-                        <th>N° membre emprunteur</th>
-                        <th>Date emprunt</th>
-                        <th>Date retour prévue</th>
-                        <th>Retard</th>
-                        <th style="width: 10em;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let borrow of displayedBorrows">
-                        <td>{{borrow.book.idBook}}</td>
-                        <td>{{borrow.book.title}}</td>
-                        <td>{{borrow.user.memberNumber}}</td>
-                        <td>{{borrow.borrowedDate}}</td>
-                        <td>{{borrow.dueDate}}</td>
-                        <td style="font-weight: bold; color: red;">{{checkIfLate(borrow)}}</td>
-                        <td>
-                            <button class="btn btn-success btn-action" aria-placeholder="asdasd">
-                                <i class="fa-solid fa-book-open-reader"></i>
-                                <span class="info-tooltip">Détails</span>
+                    <!-- La barre de recherche -->
+                    <div class="col-lg-5">
+                        <form class="search-form" style="display: flex;" role="search" (ngSubmit)="search()">
+                            <input name="searchField" [(ngModel)]="searchField" class="form-control" type="search"
+                                placeholder="Rechercher..." aria-label="Search" style="border-top-right-radius: 0;
+                            border-bottom-right-radius: 0;">
+                            <button class="btn btn-search" type="submit">
+                                <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
-                            <button *ngIf="borrow.returnedDate == null" (click)="returnBorrow(borrow)" class="btn btn-warning btn-action">
-                                <i class="fa-solid fa-paper-plane"></i>
-                                <span class="info-tooltip">Rendre</span>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </form>
+                    </div>
+
+                    <!-- Les listes déroulantes -->
+                    <div class="col-lg-4">
+                        <div style="display: flex;justify-content: space-evenly; ">
+                            <div class="dropdown">
+                                <label for="sort-by" class="fit-label">Ordre</label>
+                                <select class="form-control combobox" #sortBy name="sort-by"
+                                    (change)="changeSortBy(sortBy.value); sortBorrows()">
+                                    <option value="ascending">Croissant</option>
+                                    <option value="descending">Décroissant</option>
+                                </select>
+                            </div>
+                            <div class="dropdown">
+                                <label for="search-by" class="fit-label">Trier par</label>
+                                <select class="form-control combobox" #searchBy name="search-by"
+                                    (change)="changeResearchBy(searchBy.value); sortBorrows()">
+                                    <option value="title">Titre</option>
+                                    <option value="memberNumber">Numéro de membre</option>
+                                    <option value="borrowedDate">Date d'emprunt</option>
+                                    <option value="dueDate">Date de retour prévue</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Les contrôles de la page -->
+                    <div class="col-lg-3">
+                        <div style="display: flex; align-items: center;">
+                            <input type="checkbox" checked class="check-box" name="checkbox"
+                                (change)="changeCheckBoxState($event)" style="min-height: 26px; min-width: 26px;">
+                            <label for="checkbox" style="margin-left: 1em; color: white;">
+                                Afficher uniquement les emprunts en cours
+                            </label>
+                        </div>
+                    </div>
+
+                </article>
+            </article>
+
+            <!-- Section de la table des données -->
+            <section>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id livre</th>
+                            <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Titre</th>
+                            <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">N° membre</th>
+                            <th [ngStyle]="{'background-color': searchBy.value == 'borrowedDate' ? '#31359C' : ''}">Date emprunt</th>
+                            <th [ngStyle]="{'background-color': searchBy.value == 'dueDate' ? '#31359C' : ''}">Date retour prévue</th>
+                            <th>Retard</th>
+                            <th style="width: 10em;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let borrow of displayedBorrows">
+                            <td>{{borrow.book.idBook}}</td>
+                            <td>{{borrow.book.title}}</td>
+                            <td>{{borrow.user.memberNumber}}</td>
+                            <td>{{borrow.borrowedDate}}</td>
+                            <td>{{borrow.dueDate}}</td>
+                            <td style="font-weight: bold; color: red;">{{checkIfLate(borrow)}}</td>
+                            <td>
+                                <article style="display: flex;">
+                                    <button class="btn btn-outline-dark btn-action">
+                                        <i class="fa-solid fa-book-open-reader"></i>
+                                        <span class="info-tooltip">Détails</span>
+                                    </button>
+                                    <button *ngIf="borrow.returnedDate == null" (click)="returnBorrow(borrow)"
+                                        class="btn btn-warning btn-action">
+                                        <i class="fa-solid fa-paper-plane"></i>
+                                        <span class="info-tooltip">Rendre</span>
+                                    </button>
+                                </article>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
         </section>
-    </article>
-</section>
+    </section>
