@@ -33,4 +33,12 @@ export class AppComponent {
     }
     return false;
   }
+
+  checkAdmin() {
+    let user = this.dataService.getUser();
+    if (user != undefined && user.roles == '["ROLE_ADMIN"]') {
+      return true;
+    }
+    return false;
+  }
 }

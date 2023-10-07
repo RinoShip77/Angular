@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from './model/User';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,9 @@ import { User } from './model/User';
 export class DataService {
 
   private user: User | undefined;
+  private tabChangeSubject = new Subject<string>();
+
+  tabChange$ = this.tabChangeSubject.asObservable();
 
   constructor() { }
 
@@ -26,5 +30,10 @@ export class DataService {
 
   disconnectUser() {
     this.user = undefined;
+  }
+
+
+  changeTab(tab: string) {
+    this.tabChangeSubject.next(tab);
   }
 }

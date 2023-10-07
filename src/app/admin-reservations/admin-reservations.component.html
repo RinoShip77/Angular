@@ -4,7 +4,7 @@
         <!-- Section de la barre de navigation de la page -->
         <article class="section-navbar">
             <article class="row section-row">
-                
+
                 <!-- La barre de recherche -->
                 <div class="col-lg-5">
                     <form class="search-form" style="display: flex;" role="search" (ngSubmit)="search()">
@@ -23,7 +23,7 @@
                         <div class="dropdown">
                             <label for="sort-by" class="fit-label">Ordre</label>
                             <select class="form-control combobox" #sortBy name="sort-by"
-                                (change)="changeSortBy(sortBy.value); sortBooks()">
+                                (change)="changeSortBy(sortBy.value); sortReservations()">
                                 <option value="ascending">Croissant</option>
                                 <option value="descending">Décroissant</option>
                             </select>
@@ -31,10 +31,10 @@
                         <div class="dropdown">
                             <label for="search-by" class="fit-label">Trier par</label>
                             <select class="form-control combobox" #searchBy name="search-by"
-                                (change)="changeResearchBy(searchBy.value); sortBooks()">
+                                (change)="changeResearchBy(searchBy.value); sortReservations()">
                                 <option value="title">Titre</option>
-                                <option value="isbn">ISBN</option>
-                                <option value="author">Auteur</option>
+                                <option value="memberNumber">Numéro de membre</option>
+                                <option value="reservationDate">Date de réservation</option>
                             </select>
                         </div>
                     </div>
@@ -42,12 +42,13 @@
 
                 <!-- Les contrôles de la page -->
                 <div class="col-lg-3">
-                    <a [routerLink]="['/createBook']">
-                        <button class="btn btn-add-book" (click)="changeTab('null')">
-                            <i class="fa-solid fa-book" style="margin-right: 4px;"></i>
-                            <span>Ajouter un livre</span>
-                        </button>
-                    </a>
+                    <div style="display: flex; align-items: center;">
+                        <input type="checkbox" checked class="check-box" name="checkbox"
+                            (change)="changeCheckBoxState($event)" style="min-height: 26px; min-width: 26px;">
+                        <label for="checkbox" style="margin-left: 1em; color: white;">
+                            Afficher uniquement les réservations en cours
+                        </label>
+                    </div>
                 </div>
 
             </article>
@@ -58,33 +59,35 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Id livre</th>
                         <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Titre</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'isbn' ? '#31359C' : ''}">ISBN</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'author' ? '#31359C' : ''}">Auteur</th>
-                        <th>Statut</th>
+                        <th>N° membre emprunteur</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">N° membre réserveur</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'reservationDate' ? '#31359C' : ''}">Date réservation</th>
+                        <th>Date retour prévue</th>
+                        <th>Retard</th>
                         <th style="width: 10em;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let book of displayedBooks">
-                        <td>{{book.idBook}}</td>
-                        <td>{{book.title}}</td>
-                        <td>{{book.isbn}}</td>
-                        <td>{{book.author.firstName}} {{book.author.lastName}}</td>
-                        <td>{{book.status.status}}</td>
+                    <tr *ngFor="let reservation of displayedReservations">
+                        <td>{{reservation.book.idBook}}</td>
+                        <td>{{reservation.book.title}}</td>
+                        <td>{{getBorrowMemberNumber(reservation.idReservation)}}</td>
+                        <td>{{reservation.user.memberNumber}}</td>
+                        <td>{{reservation.reservationDate}}</td>
+                        <td>{{getDueDate(reservation.idReservation)}}</td>
+                        <td style="font-weight: bold; color: red;">{{checkIfLate(reservation.idReservation)}}</td>
                         <td>
                             <article style="display: flex;">
                                 <button class="btn btn-outline-dark btn-action">
                                     <i class="fa-solid fa-book-open-reader"></i>
                                     <span class="info-tooltip">Détails</span>
                                 </button>
-                                <a [routerLink]="['/editBook', book.idBook]">
-                                    <button class="btn btn-warning btn-action" (click)="changeTab('null')">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                        <span class="info-tooltip">Éditer</span>
-                                    </button>
-                                </a>
+                                <button *ngIf="reservation.isActive === 1" class="btn btn-danger btn-action">
+                                    <i class="fa-solid fa-ban"></i>
+                                    <span class="info-tooltip">Annuler</span>
+                                </button>
                             </article>
                         </td>
                     </tr>

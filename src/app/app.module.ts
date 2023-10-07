@@ -24,6 +24,8 @@ import { BorrowDetailsComponent } from './borrow-details/borrow-details.componen
 import { CreateBookComponent } from './create-book/create-book.component';
 import { EditBookComponent } from './edit-book/edit-book.component';
 import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
+import { AdminReservationsComponent } from './admin-reservations/admin-reservations.component';
+import { AdminUsersComponent } from './admin-users/admin-users.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
     BorrowDetailsComponent,
     CreateBookComponent,
     EditBookComponent,
-    AdminBorrowsComponent
+    AdminBorrowsComponent,
+    AdminReservationsComponent,
+    AdminUsersComponent
   ],
   imports: [
     AppRoutingModule,

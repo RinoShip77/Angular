@@ -1,27 +1,60 @@
+.main-section {
+    width: 13em;
+    height: 100vh;
+    background-color: #1C1C1C;
+    position: absolute;
+    left: 0;
+    top: 0;
+    position: fixed;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+.electrolib {
+    font-size: 32px;
+    background-color: #1C1C1C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em 0 1em 0;
+    color: white;
+    font-family: Trattatello, fantasy;
+}
+
+.btn-disconnect:hover {
+    background-color: #353CAB;
+}
+
+.btn-disconnect {
+    text-align: center;
+    margin: 2em 1em 2em 1em;
+    width: calc(100% - 2em);
+    height: 2.5em;
+    background-color: #3F48CC;
+    color: white;
+    border: none;
+    font-size: 20px;
+    position: absolute;
+    bottom: 0;
+}
+
 .btn-nav:hover {
-    background-color: lightgray;
-    font-weight: bold;
-    color: black;
+    background-color: #333333;
+    border-left: 6px solid #333333;
 }
 
 .btn-nav {
-    border-radius: 10px;
-    margin: 0 5px 0 5px;
-    min-width: 7em;
-    text-align: center;
+    width: 100%;
+    text-align: left;
+    font-size: 20px;
+    padding: 1em;
+    border: none;
+    border-left: 6px solid #1C1C1C;
+    background-color: #1C1C1C;
+    color: white;
 
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-}
-
-.btn-deconnect {
-    margin: 20px 0 20px 0;
-    font-size: 20px;
-}
-
-a {
-    text-decoration: none;
-    color: initial;
 }

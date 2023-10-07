@@ -1,81 +1,49 @@
 <section *ngIf="visible">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a [routerLink]="'adminInventory'">
-                <div class="d-flex justify-content-end me-3"> <!-- link the click to inventory -->
-                    <i class="fas fa-book-bookmark mt-1 fs-1"></i>
-                    <h1>Electrolib</h1>
-                </div>
+
+    <article style="width: 13em; float: left;"></article>
+
+    <section class="main-section">
+        <article>
+            <div class="electrolib">
+                <i class="fas fa-book-bookmark"></i>
+                <span style="margin-left: 8px;">Electrolib</span>
+            </div>
+        </article>
+
+
+
+        <section>
+            <a [routerLink]="['adminInventory']">
+                <button class="btn-nav" (click)="changeTab('inventory')"
+                    [ngStyle]="(tab === 'inventory') ? getStyles() : {}">
+                    Inventaire
+                </button>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
-                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation"
-                (click)="openOffcanvas(content)">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarScroll">
-                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                    <li class="nav-item">
-                       <a [routerLink]="['adminInventory']"> <span class="nav-link btn-nav" type="button" (click)="displayAdminInventory()">Inventaire</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a [routerLink]="['adminBorrows']"><span class="nav-link btn-nav" type="button">Emprunts</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <span class="nav-link btn-nav" type="button">Réservations</span>
-                    </li>
-                    <li class="nav-item">
-                        <span class="nav-link btn-nav" type="button">Membres</span>
-                    </li>
-                </ul>
-                <div class="row me-1">
-                    <button class="btn btn-danger" style="font-size: 20px;" (click)="disconnect()">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        Se déconnecter
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+            <a [routerLink]="['adminBorrows']">
+                <button class="btn-nav" (click)="changeTab('borrows')"
+                    [ngStyle]="(tab === 'borrows') ? getStyles() : {}">
+                    Emprunts
+                </button>
+            </a>
+            <a [routerLink]="['adminReservations']">
+                <button class="btn-nav" (click)="changeTab('reservations')"
+                    [ngStyle]="(tab === 'reservations') ? getStyles() : {}">
+                    Réservations
+                </button>
+            </a>
+            <a [routerLink]="['adminUsers']">
+                <button class="btn-nav" (click)="changeTab('members')"
+                    [ngStyle]="(tab === 'members') ? getStyles() : {}">
+                    Membres
+                </button>
+            </a>
+
+        </section>
+
+
+        <button class="btn btn-disconnect" (click)="disconnect()">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            Déconnexion
+        </button>
+    </section>
 </section>
-
-<ng-template #content let-offcanvas>
-    <div class="offcanvas-header">
-        <div class="d-flex justify-content-end me-3">
-            <i class="fas fa-book-bookmark mt-1 fs-1"></i>
-            <h1>Electrolib</h1>
-        </div>
-        <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="bg-secondary-subtle" style="border-radius: 1em; padding: 1em;">
-            <div class="row d-flex align-items-center">
-                <div class="fs-4 text-dark text-center">
-                    <label for="text">Bonjour </label>
-                    <span type="text" class="text-decoration-none text-secondary fw-bold">
-                        {{user.firstName}}
-                    </span>
-                    <br>
-                    <button class="btn btn-danger ms-2 btn-deconnect" (click)="disconnect()">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        Se déconnecter
-                    </button>
-
-                    <ul class="navbar-nav me-auto my-2 my-lg-0">
-                        <li class="nav-item">
-                            <p class="nav-link btn-nav" type="button" (click)="displayAdminInventory()">Inventaire</p>
-                        </li>
-                        <li class="nav-item">
-                            <p class="nav-link btn-nav" type="button">Emprunts</p>
-                        </li>
-                        <li class="nav-item">
-                            <p class="nav-link btn-nav" type="button">Réservations</p>
-                        </li>
-                        <li class="nav-item">
-                            <p class="nav-link btn-nav" type="button">Membres</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-template>

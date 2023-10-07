@@ -4,6 +4,7 @@ import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { RouteChangeService } from '../route-change.service';
 import { DataService } from '../data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -13,31 +14,43 @@ import { DataService } from '../data.service';
 export class AdminNavbarComponent {
 
   visible = false;
-  user: User = new User();
+  private tabChangeSubscription: Subscription;
+  tab = "inventory";
 
-  constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService, private dataService: DataService) { 
+  constructor(
+    private offcanvasService: NgbOffcanvas,
+    private router: Router,
+    private routeChangeService: RouteChangeService,
+    private dataService: DataService) {
+      
     this.visible = this.router.url !== "/";
-}
-
-ngOnInit() {
-  this.routeChangeService.routeChange$.subscribe(() => {
-    this.updateVisibility();
-  });
-
-  this.updateVisibility();
-}
-
-private updateVisibility() {
-  if (this.dataService.getUser() != undefined) {
-    if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_ADMIN"]') {
-      this,this.visible = true;
-    } else {
-      this,this.visible = false;
-    }
-  } else {
-    this.router.navigate([""]);
+    this.tabChangeSubscription = this.dataService.tabChange$.subscribe((tab) => {
+      this.changeTab(tab);
+    });
   }
-}
+
+  ngOnInit() {
+    this.routeChangeService.routeChange$.subscribe(() => {
+      this.updateVisibility();
+    });
+
+    this.updateVisibility();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  private updateVisibility() {
+    if (this.dataService.getUser() != undefined) {
+      if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_ADMIN"]') {
+        this, this.visible = true;
+      } else {
+        this, this.visible = false;
+      }
+    } else {
+      this.router.navigate([""]);
+    }
+  }
 
   //-------------------------------------------------------
   // Expansionne la barre de navigation admin
@@ -47,7 +60,7 @@ private updateVisibility() {
   }
 
   //-------------------------------------------------------
-  // Déconnecte l'admin
+  //
   //-------------------------------------------------------
   disconnect() {
     this.offcanvasService.dismiss();
@@ -57,10 +70,17 @@ private updateVisibility() {
   }
 
   //-------------------------------------------------------
-  // Affiche l'inventaire admin
+  //
   //-------------------------------------------------------
-  displayAdminInventory() {
-    this.router.navigate(["adminInventory"]);
+  changeTab(tab: string) {
+    this.tab = tab;
   }
-  
+
+  getStyles() {
+    return {
+      'background-color': '#333333',
+      'border-left': '6px solid white'
+    };
+  }
+
 }

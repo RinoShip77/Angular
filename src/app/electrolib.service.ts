@@ -87,6 +87,28 @@ export class ElectrolibService {
     return this.http.get<Borrow[]>(url);
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getActiveBorrows() {
+    let url = urlServer + 'active-borrows';
+
+    return this.http.get<Borrow[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  returnBorrow(borrow: Borrow) {
+    let url = `${urlServer}return-borrow/${borrow.idBorrow}`;
+
+    const formData = new FormData();
+    formData.append('returnedDate', borrow.returnedDate.toDateString());
+    
+
+    return this.http.post<Borrow>(url, formData);
+  }
+
   getBorrowsFromUser(user: User)
   {
     let idUser = user.idUser;
@@ -295,5 +317,14 @@ export class ElectrolibService {
     let url = urlServer + 'favorites';
 
     return this.http.get<Favorite[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getReservationsData() {
+    let url = urlServer + 'reservations-data';
+
+    return this.http.get(url);
   }
 }
