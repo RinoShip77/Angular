@@ -4,8 +4,8 @@ import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
-import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { MAX_FILE_SIZE, getURLProfilePicture } from '../util';
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,18 +18,13 @@ export class ProfileComponent implements OnInit {
   formData = new FormData();
   file: any;
   file_data: any = "";
-  show: any = {
-    type: '',
-    showToast: false,
-    message: ''
-  };
-  switch: boolean = false;
+  colorSwitch: boolean = false;
   url: string = '';
 
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router, private toastService: ToastService) { }
 
   //---------------------------------
   // Function to display every book in the database
@@ -37,7 +32,11 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     if (this.dataService.getUser() != undefined) {
       this.user = this.dataService.getUser();
-      this.url = getURLProfilePicture(this.user?.idUser);
+    }
+    if (localStorage.getItem('theme') != 'light') {
+      this.colorSwitch = true;
+    } else {
+      this.colorSwitch = false;
     }
   }
 
@@ -45,12 +44,11 @@ export class ProfileComponent implements OnInit {
   // Function to open the page for a specific book
   //---------------------------------
   switchTheme() {
-    if (this.switch) {
-      console.log('dark')
+    if (this.colorSwitch) {
+      localStorage.setItem('theme', 'dark')
     } else {
-      console.log('light')
+      localStorage.setItem('theme', 'light')
     }
-    localStorage.setItem('theme', '' );
   }
 
   //---------------------------------
@@ -59,16 +57,15 @@ export class ProfileComponent implements OnInit {
   updateProfilePicture(idUser: number | undefined) {
     this.electrolibService.uploadProfilePicture(idUser, this.file_data).subscribe(
       user => {
-        this.show.type = 'Succès';
-        this.show.showToast = true;
-        this.show.message = 'Votre profil a été mis à jour';
+        this.toastService.show('Votre profil a été mis à jour.', {
+          classname: 'bg-success',
+        });
         this.url = getURLProfilePicture(idUser);
-        
       },
       (error) => {
-        this.show.type = 'Erreur';
-        this.show.showToast = true;
-        this.show.message = 'La mise à jour a échoué';
+        this.toastService.show('La mise à jour a échoué.', {
+          classname: 'bg-danger',
+        });
       }
     );
   }
@@ -107,11 +104,15 @@ export class ProfileComponent implements OnInit {
         fileSupported = true;
       }
       if (!fileSupported)
-        console.log("Erreur: extension de fichier non-supportée", true)
+        this.toastService.show("L'extension du fichier n'est pas supportée.", {
+          classname: 'bg-danger',
+        });
     }
     else {
       fileSupported = false;
-      console.log("Erreur: Fichier trop volumineux. Maximum 500 kB et le fichier a " + (this.selectedImage.size / 1024).toFixed(0) + " kB", true, true)
+      this.toastService.show('Le fichier est trop volumineux.', {
+        classname: 'bg-danger',
+      });
     }
 
     return fileSupported;
@@ -139,31 +140,31 @@ export class ProfileComponent implements OnInit {
           // passwords.newPassword.hash(); //TODO: Hash the password
           this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
             user => {
-              this.show.type = 'Succès';
-              this.show.showToast = true;
-              this.show.message = 'Votre mot de passe a été mis à jour';
+              this.toastService.show('Votre mot de passe a été mis à jour.', {
+                classname: 'bg-success',
+              });
               this.dataService.updatePassword(passwords.newPassword);
             },
             (error) => {
-              this.show.type = 'Erreur';
-              this.show.showToast = true;
-              this.show.message = 'La mise à jour a échoué';
+              this.toastService.show('La mise à jour a échoué.', {
+                classname: 'bg-danger',
+              });
             }
           );
         } else {
-          this.show.type = 'Erreur';
-          this.show.showToast = true;
-          this.show.message = 'Les nouveaux mot de passe ne correspondent pas';
+          this.toastService.show('Les nouveaux mot de passe ne correspondent pas.', {
+            classname: 'bg-danger',
+          });
         }
       } else {
-        this.show.type = 'Erreur';
-        this.show.showToast = true;
-        this.show.message = 'Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement';
+        this.toastService.show('Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement.', {
+          classname: 'bg-danger',
+        });
       }
     } else {
-      this.show.type = 'Erreur';
-      this.show.showToast = true;
-      this.show.message = 'Le mot de passe saisi ne correspond pas à votre mot de passe actuelle';
+      this.toastService.show('Le mot de passe saisi ne correspond pas à votre mot de passe actuel.', {
+        classname: 'bg-danger',
+      });
     }
   }
 
@@ -174,21 +175,21 @@ export class ProfileComponent implements OnInit {
     if (this.user?.password === password) {
       this.electrolibService.updateProfile('deactivateAccount', idUser).subscribe(
         user => {
-          this.show.type = 'Succès';
-          this.show.showToast = true;
-          this.show.message = 'Votre profil a été fermé';
+          this.toastService.show('Votre profil a été fermé.', {
+            classname: 'bg-success',
+          });
           setTimeout(() => { this.router.navigate([""]); }, 2000);
         },
         (error) => {
-          this.show.type = 'Erreur';
-          this.show.showToast = true;
-          this.show.message = 'La fermeture du compte a échoué';
+          this.toastService.show('La fermeture du compte a échoué.', {
+            classname: 'bg-danger',
+          });
         }
       );
     } else {
-      this.show.type = 'Erreur';
-      this.show.showToast = true;
-      this.show.message = 'Le mot de passe est incorrecte';
+      this.toastService.show('Le mot de passe est incorrecte.', {
+        classname: 'bg-danger',
+      });
     }
   }
 
@@ -225,15 +226,15 @@ export class ProfileComponent implements OnInit {
     if ((user.email.length != 0) && (user.firstName.length != 0) && (user.lastName.length != 0) && (user.address.length != 0) && (user.postalCode.length != 0) && (user.phoneNumber.length != 0)) {
       this.electrolibService.updateProfile('updateInformations', idUser, user).subscribe(
         user => {
-          this.show.type = 'Succès';
-          this.show.showToast = true;
-          this.show.message = 'Votre profil a été mis à jour';
+          this.toastService.show('Votre profil a été mis à jour.', {
+            classname: 'bg-success',
+          });
           this.dataService.updateUser(user);
         },
         (error) => {
-          this.show.type = 'Erreur';
-          this.show.showToast = true;
-          this.show.message = 'La mise à jour a échoué';
+          this.toastService.show('La mise à jour a échoué.', {
+            classname: 'bg-success',
+          });
         }
       );
     }

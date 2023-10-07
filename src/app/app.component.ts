@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChatComponent } from './chat/chat.component';
 import { DataService } from './data.service';
-import { User } from './model/User';
+import { ToastService } from './toast.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +10,19 @@ import { User } from './model/User';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  theme: string | null = 'light';
+
   //---------------------------------
   // Function to disconnect the current user
   //---------------------------------
-  constructor(private modalService: NgbModal, public dataService: DataService) { }
+  constructor(private modalService: NgbModal, public dataService: DataService, private toastService: ToastService) { }
+
+  //---------------------------------
+  // Function to display every book in the database
+  //---------------------------------
+  ngOnInit() {
+    this.theme = localStorage.getItem('theme');
+  }
 
   //---------------------------------
   // Function to disconnect the current user
