@@ -87,6 +87,13 @@ export class ElectrolibService {
     return this.http.get<Borrow[]>(url);
   }
 
+  getBorrow(idBorrow:number) {
+    let url = urlServer + 'borrow';
+    //url = "http://127.0.0.1:8000/borrows";
+
+    return this.http.get<Borrow>(url);
+  }
+
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
