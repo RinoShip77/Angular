@@ -1,35 +1,50 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { ElectrolibService } from '../electrolib.service';
 import { Borrow } from '../model/Borrow';
 import { User } from '../model/User';
+import { Book } from '../model/Book';
+import { DataService } from '../data.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-borrow-details',
   templateUrl: './borrow-details.component.html',
   styleUrls: ['./borrow-details.component.css']
 })
-export class BorrowDetailsComponent {
+export class BorrowDetailsComponent implements OnInit {
 
-  visible = false;
   borrow: Borrow = new Borrow();
-  user: User = new User();
+  user: User | undefined = new User();
+  book:Book = new Book();
 
-  @Output() openBorrows = new EventEmitter<User>();
-
-  //Lorsqu'on appele et ouvre ce commentaire
-  onBorrowDetails(data:any)
+  ngOnInit(): void 
   {
+    this.user = this.datasrv.getUser();
+    const idBorrow = Number(this.route.snapshot.paramMap.get('id'));
 
-    console.log("détails de l'emprunt 2")
-    this.borrow = data.selectedBorrow;
-    this.user = data.user;
-    this.visible = true;
+    this.retrieveBorrow(idBorrow);
   }
 
-  //Retourne à la page de tous les emprunts
-  borrows()
+  retrieveBorrow(idBorrow:Number)
   {
-    this.openBorrows.emit(this.user);
-    this.visible = false;
+    if(this.user)
+    {
+      this.electrolibService.getBorrow(idBorrow).subscribe(
+        borrow => {
+          this.borrow = Object.assign(new Borrow(), borrow);
+        }
+      );
+
+      this.electrolibService.getBookBorrowed(this.borrow.book.idBook).subscribe(
+        book => {
+          this.book = Object.assign(new Book(), book)
+        }
+      );
+    }
   }
 
+  constructor(private electrolibService: ElectrolibService, private datasrv: DataService, private route: ActivatedRoute)
+  {
+
+  }
 }
