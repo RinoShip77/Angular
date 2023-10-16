@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: "adminInventory", component: AdminInventoryComponent },
   { path: "", component: ConnectionComponent },
   { path: "borrows", component: BorrowsComponent },
-  { path: "borrowDetails", component: BorrowDetailsComponent },
+  { path: "borrowDetails/:id", component: BorrowDetailsComponent },
   { path: "borrow", component: BorrowComponent },
   { path: "profile", component: ProfileComponent },
   { path: "createBook", component: CreateBookComponent },

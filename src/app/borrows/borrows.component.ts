@@ -4,6 +4,7 @@ import { User } from '../model/User';
 import { Borrow } from '../model/Borrow';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-borrows',
@@ -22,7 +23,7 @@ export class BorrowsComponent implements OnInit {
 
   aboutModal:any;
 
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal,private datasrv: DataService) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal,private datasrv: DataService,private router:Router) { }
 
   ngOnInit(): void 
   {
@@ -81,6 +82,7 @@ export class BorrowsComponent implements OnInit {
     console.log("détails de l'emprunt")
 
     let user = this.user;
+    this.router.navigate(['borrowDetails',selectedBorrow.idBorrow]);
     //this.openBorrowDetails.emit(selectedBorrow);
     //this.openBorrowDetails.emit({selectedBorrow:selectedBorrow, user:user});
     //this.openBorrowDetails.emit({selectedBorrow, user});
