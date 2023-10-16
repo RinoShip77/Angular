@@ -18,6 +18,7 @@ export class InventoryComponent {
   user: User = new User();
   genres: Genre[] = new Array();
   authors: Author[] = new Array();
+  status: Status[] = new Array();
   books: Book[] = new Array();
   inventoryDisplay: string = 'table';
   sortOrder: string = 'date;DESC';
@@ -38,8 +39,11 @@ export class InventoryComponent {
     //Get all the genres from the database
     this.retrieveGenres();
 
-    //Get all the genres from the database
+    //Get all the authors from the database
     this.retrieveAuthors();
+    
+    //Get all the status from the database
+    this.retrieveStatus();
 
     //Get all the books from the database
     this.retrieveBooks();
@@ -63,6 +67,17 @@ export class InventoryComponent {
     this.electrolibSrv.getAuthors().subscribe(
       authors => {
         this.authors = authors;
+      }
+    );
+  }
+  
+  //---------------------------------
+  // Function to select witch genre you want to see
+  //---------------------------------
+  retrieveStatus() {
+    this.electrolibSrv.getAllStatus().subscribe(
+      status => {
+        this.status = status;
       }
     );
   }
@@ -131,87 +146,10 @@ export class InventoryComponent {
   }
 
   //---------------------------------
-  // Function to sort by date descending
+  // Function to remove all the filters from the view
   //---------------------------------
-  compareDateDesc(book1: Book, book2: Book) {
-    if (book1.publishedDate > book2.publishedDate) {
-      return -1;
-    }
-    if (book1.publishedDate < book2.publishedDate) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareDateAsc(book1: Book, book2: Book) {
-    if (book1.publishedDate < book2.publishedDate) {
-      return -1;
-    }
-    if (book1.publishedDate > book2.publishedDate) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareTitleDesc(book1: Book, book2: Book) {
-    if (book1.title > book2.title) {
-      return -1;
-    }
-    if (book1.title < book2.title) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareTitleAsc(book1: Book, book2: Book) {
-    if (book1.title < book2.title) {
-      return -1;
-    }
-    if (book1.title > book2.title) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareAuthorDesc(book1: Book, book2: Book) {
-    if (book1.author.firstName > book2.author.firstName) {
-      return -1;
-    }
-    if (book1.author.firstName < book2.author.firstName) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareAuthorAsc(book1: Book, book2: Book) {
-    if (book1.author.firstName < book2.author.firstName) {
-      return -1;
-    }
-    if (book1.author.firstName > book2.author.firstName) {
-      return 1;
-    }
-
-    return 0;
+  applySearch(search: string) {
+    this.books = this.books.filter((book) => book.title.includes(search));
   }
 
   //---------------------------------
@@ -227,29 +165,35 @@ export class InventoryComponent {
   filterBooksByAuthors(idAuthor: number) {
     this.books = this.books.filter((book) => book.author.idAuthor === idAuthor);
   }
-
+  
   //---------------------------------
   // Function to remove all the filters from the view
   //---------------------------------
-  applySearch(search: string) {
-    this.books = this.books.filter((book) => book.title.includes(search));
+  filterBooksByStatus(idStatus: number) {
+    this.books = this.books.filter((book) => book.status.idStatus === idStatus);
   }
 
   //---------------------------------
   // Function to remove all the filters from the view
   //---------------------------------
   removeFilters() {
-    for (let i = 0; i < this.genres.length; i++) {
-      if (this.genres[i].isFilter) {
-        this.genres[i].isFilter = false;
-      }
-    }
+    // for (let i = 0; i < this.genres.length; i++) {
+    //   if (this.genres[i].isFilter) {
+    //     this.genres[i].isFilter = false;
+    //   }
+    // }
 
-    for (let i = 0; i < this.authors.length; i++) {
-      if (this.authors[i].isFilter) {
-        this.authors[i].isFilter = false;
-      }
-    }
+    // for (let i = 0; i < this.authors.length; i++) {
+    //   if (this.authors[i].isFilter) {
+    //     this.authors[i].isFilter = false;
+    //   }
+    // }
+    
+    // for (let i = 0; i < this.status.length; i++) {
+    //   if (this.status[i].isFilter) {
+    //     this.status[i].isFilter = false;
+    //   }
+    // }
 
     this.retrieveBooks();
   }
