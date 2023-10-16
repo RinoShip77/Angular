@@ -90,13 +90,8 @@
           <option value="list">Sous forme de simple liste</option>
         </select>
       </div>
-      <form #searchForm="ngForm" class="d-flex h-25 ms-2 my-auto" role="search"
-        (ngSubmit)="applySearch(searchForm.value.searchInp)">
-        <input name="searchInp" ngModel class="form-control me-2" type="search" placeholder="Rechercher ...">
-        <button class="btn btn-outline-info" type="submit">Chercher</button>
-      </form>
+      <input name="searchInp" [(ngModel)]="searchInp" (ngModelChange)="applySearch(searchInp)" class="form-control w-25 ms-2 my-auto me-2" type="search" placeholder="Rechercher ...">
     </div>
-
     <div *ngIf="books.length > 0; else elseBlock" [ngSwitch]="inventoryDisplay">
       <div *ngSwitchCase="'table'">
         <div class="row row-cols-2 g-3">

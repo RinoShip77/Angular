@@ -21,6 +21,7 @@ export class InventoryComponent {
   books: Book[] = new Array();
   inventoryDisplay: string = 'table';
   sortOrder: string = 'date;DESC';
+  searchInp = '';
 
   @Output() openProfile = new EventEmitter<User>();
   @Output() openBook = new EventEmitter<Number>();
@@ -107,23 +108,23 @@ export class InventoryComponent {
     switch (property) {
       case 'date':
         if (order === 'DESC') {
-          this.books.sort(this.compareDateDesc);
+          this.books.sort((a, b) => (a.publishedDate > b.publishedDate ? 1 : -1));
         } else {
-          this.books.sort(this.compareDateAsc);
+          this.books.sort((a, b) => (a.publishedDate < b.publishedDate ? 1 : -1));
         }
         break;
       case 'title':
         if (order === 'DESC') {
-          this.books.sort(this.compareTitleDesc);
+          this.books.sort((a, b) => (a.title > b.title ? 1 : -1));
         } else {
-          this.books.sort(this.compareTitleAsc);
+          this.books.sort((a, b) => (a.title < b.title ? 1 : -1));
         }
         break;
-      case 'author':
-        if (order === 'DESC') {
-          this.books.sort(this.compareAuthorDesc);
-        } else {
-          this.books.sort(this.compareAuthorAsc);
+        case 'author':
+          if (order === 'DESC') {
+            this.books.sort((a, b) => (a.author.lastName > b.author.lastName ? 1 : -1));
+          } else {
+          this.books.sort((a, b) => (a.author.lastName < b.author.lastName ? 1 : -1));
         }
         break;
     }
@@ -218,20 +219,6 @@ export class InventoryComponent {
   //---------------------------------
   filterBooksByGenres(idGenre: number) {
     this.books = this.books.filter((book) => book.genre.idGenre === idGenre);
-    
-    // let nbGenre = 0;
-
-    // for (let i = 0; i < this.genres.length; i++) {
-    //   if (this.genres[i].isFilter) {
-    //     nbGenre++;
-    //   }
-    // }
-    
-    // if(nbGenre < 1) {
-    //   this.books = this.books.filter((book) => book.genre.idGenre === idGenre);
-    // } else {
-    //   this.books = this.books.concat(this.books.filter((book) => book.genre.idGenre === idGenre));
-    // }
   }
 
   //---------------------------------
