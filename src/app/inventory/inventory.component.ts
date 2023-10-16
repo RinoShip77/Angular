@@ -28,7 +28,7 @@ export class InventoryComponent {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private electrolibSrv: ElectrolibService, private modalService: NgbModal, private router:Router) { }
+  constructor(private electrolibSrv: ElectrolibService, private modalService: NgbModal, private router: Router) { }
 
   //---------------------------------
   // Function to display every book in the database
@@ -216,15 +216,29 @@ export class InventoryComponent {
   //---------------------------------
   // Function to remove all the filters from the view
   //---------------------------------
-  filterBooksByGenres(genre: number) {
-      this.books = this.books.filter((book) => book.idGenre === genre);
+  filterBooksByGenres(idGenre: number) {
+    this.books = this.books.filter((book) => book.genre.idGenre === idGenre);
+    
+    // let nbGenre = 0;
+
+    // for (let i = 0; i < this.genres.length; i++) {
+    //   if (this.genres[i].isFilter) {
+    //     nbGenre++;
+    //   }
+    // }
+    
+    // if(nbGenre < 1) {
+    //   this.books = this.books.filter((book) => book.genre.idGenre === idGenre);
+    // } else {
+    //   this.books = this.books.concat(this.books.filter((book) => book.genre.idGenre === idGenre));
+    // }
   }
 
   //---------------------------------
   // Function to remove all the filters from the view
   //---------------------------------
-  filterBooksByAuthors(author: number) {
-      this.books = this.books.filter((book) => book.idAuthor === author);
+  filterBooksByAuthors(idAuthor: number) {
+    this.books = this.books.filter((book) => book.author.idAuthor === idAuthor);
   }
 
   //---------------------------------
@@ -285,8 +299,7 @@ export class InventoryComponent {
     //cette fnct fesait visible.false, on grade la fcnt au cas ou
   }
 
-  getBookCover(idBook: number)
-  {
+  getBookCover(idBook: number) {
     return getURLBookCover(idBook);
   }
 }
