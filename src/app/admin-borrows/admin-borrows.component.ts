@@ -19,6 +19,7 @@ export class AdminBorrowsComponent {
   selectedSortBy: String = "ascending";
 
   isChecked: Boolean = true;
+  isCheckedLates: Boolean = false;
 
   constructor(private electrolibService: ElectrolibService) { }
 
@@ -40,6 +41,16 @@ export class AdminBorrowsComponent {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
+  changeCheckBoxStateLates(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.isCheckedLates = target.checked;
+
+    this.showBorrowsCriteria();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   showBorrowsCriteria() {
     let tempBorrows: Borrow[] = [];
 
@@ -47,7 +58,18 @@ export class AdminBorrowsComponent {
 
       this.borrows.forEach(borrow => {
         if (borrow.returnedDate === null ) {
-          tempBorrows.push(borrow);
+          
+          if (this.isCheckedLates) {
+            
+            if (this.isLate(borrow)) {
+              tempBorrows.push(borrow);
+            }
+          }
+          
+          else {
+            tempBorrows.push(borrow);
+          }
+          
         }
       });
       this.displayedBorrows = tempBorrows;
@@ -72,7 +94,7 @@ export class AdminBorrowsComponent {
           this.showBorrowsCriteria();
         },
         (error) => {
-          console.error('Returned failed:', error);
+          console.error('Return failed:', error);
         }
       );
   }
@@ -219,6 +241,28 @@ export class AdminBorrowsComponent {
     }
 
     return "";
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  isLate(borrow: Borrow) {
+    const nowDate: Date = new Date();
+    const dueDate: Date = new Date(borrow.dueDate);
+
+    if (borrow.returnedDate === null) {
+      if (nowDate >= dueDate) {
+        return true;
+      }
+    }
+    else {
+      const returnedDate: Date = new Date(borrow.returnedDate);
+      if (dueDate >= returnedDate) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
 }

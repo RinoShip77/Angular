@@ -292,4 +292,14 @@ export class ElectrolibService {
 
     return this.http.get(url);
   }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  cancelReservation(reservation: Reservation) {
+    let url = `${urlServer}cancel-reservation/${reservation.idReservation}`;
+    const formData = new FormData();
+
+    return this.http.post<Borrow>(url, formData);
+  }
 }

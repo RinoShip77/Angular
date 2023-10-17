@@ -238,4 +238,23 @@ export class AdminReservationsComponent {
     return "";
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  cancelReservation(reservation: Reservation) {
+
+    this.electrolibService.cancelReservation(reservation).subscribe(
+      (response) => {
+        console.log('Reservation canceled successfully!', response);
+        this.retrieveReservations();
+        this.retrieveActiveBorrows();
+        this.retrieveReservationsData();
+        this.showReservationsCriteria();
+      },
+      (error) => {
+        console.error('Cancel failed:', error);
+      }
+    );
+}
+
 }
