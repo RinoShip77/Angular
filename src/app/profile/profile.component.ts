@@ -121,7 +121,7 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Open the modal to update the user password
   //---------------------------------
-  openModal(content: any) {
+  openModal(content: any, size?: string) {
     this.modalService.open(content, {
       animation: true,
       centered: true,

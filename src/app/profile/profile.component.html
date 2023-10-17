@@ -8,10 +8,14 @@
         </a>
         <div class="my-3">
           <div class="d-flex justify-content-center">
-            <img src="{{url}}" class="img-fluid img-thumbnail border-3 border-dark rounded-circle"
+            <img src="{{url}}" class="img-fluid img-thumbnail w-50 border-3 border-dark rounded-circle"
               alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}">
           </div>
-          <form (ngSubmit)="updateProfilePicture(user?.idUser)" class="d-flex justify-content-end"
+          <button class="btn btn-secondary rounded-circle" style="margin: 15%; margin-top: -50px" (click)="openModal(profilePictureContent)">
+            <i class="fas fa-plus text-dark fs-2"></i>
+          </button>
+
+          <!-- <form (ngSubmit)="updateProfilePicture(user?.idUser)" class="d-flex justify-content-end"
             style="margin-right: 15%; margin-top: -50px">
             <label for="file-upload" class="btn btn-secondary rounded-circle text-dark fs-2">
               <i class="fas fa-plus"></i>
@@ -20,7 +24,7 @@
               (change)="onFileSelected($event)">
             <button type="submit" class="bg-transparent">
             </button>
-          </form>
+          </form> -->
         </div>
         <div>
           <h1>{{user?.firstName + ' ' + user?.lastName}}</h1>
@@ -159,6 +163,32 @@
   </div>
 </section>
 
+<!-- Update profile picture modal -->
+<ng-template #profilePictureContent let-modal>
+  <div class="modal-body">
+    <h4>Mise à jour de la poto de profil</h4>
+    <hr>
+    <ngb-carousel class="m-3">
+      <ng-template ngbSlide class="row">
+        <img src="assets/images/users/profilePictures/Picture1.png" class="col-6" alt="Picture 1">
+        <img src="assets/images/users/profilePictures/Picture2.png" class="col-6" alt="Picture 2">
+      </ng-template>
+      <ng-template ngbSlide class="row">
+        <img src="assets/images/users/profilePictures/Picture3.png" class="float-left mx-2" alt="Picture 3">
+        <img src="assets/images/users/profilePictures/Picture4.png" class="float-right" alt="Picture 4">
+      </ng-template>
+      <ng-template ngbSlide class="row">
+        <img src="assets/images/users/profilePictures/Picture5.png" class="float-left mx-2" alt="Picture 5">
+        <img src="assets/images/users/profilePictures/Picture6.png" class="float-right" alt="Picture 6">
+      </ng-template>
+      <ng-template ngbSlide>
+        <img src="assets/images/users/profilePictures/Picture7.png" class="float-left mx-2" alt="Picture 7">
+        <img src="assets/images/users/profilePictures/Picture8.png" class="float-right" alt="Picture 8">
+      </ng-template>
+    </ngb-carousel>
+  </div>
+</ng-template>
+
 <!-- Update password modal -->
 <ng-template #passwordContent let-modal>
   <div class="modal-body">
@@ -190,6 +220,7 @@
   </div>
 </ng-template>
 
+<!-- Update user preference modal -->
 <ng-template #preferenceContent let-modal style="font-size: 5em">
   <div class="modal-header">
     <h4 class="modal-title mx-auto">
