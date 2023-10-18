@@ -45,7 +45,7 @@ export class ConnectionComponent {
   // Récupère un compte en base de données par les informations fournies
   //-------------------------------------------------------
   retrieveAccount() {
-    this.temporaryUser.password = this.EncrDecr.set(ENCRYPTION_KEY, this.temporaryUser.password);    
+    // this.temporaryUser.password = this.EncrDecr.set(ENCRYPTION_KEY, this.temporaryUser.password);    
     this.electrolibService.connection(this.temporaryUser).subscribe(
       connectedUser => {
         if (connectedUser.memberNumber === this.temporaryUser.memberNumber && 

@@ -59,73 +59,6 @@ export class ProfileComponent implements OnInit {
     this.url = getURLProfilePicture(pictureNumber);
   }
 
-  // // //---------------------------------
-  // // // Function to upload a new profile picture to the user
-  // // //---------------------------------
-  // // updateProfilePicture(idUser: number | undefined) {
-  // //   this.electrolibService.uploadProfilePicture(idUser, this.file_data).subscribe(
-  // //     user => {
-  // //       this.toastService.show('Votre profil a été mis à jour.', {
-  // //         classname: 'bg-success',
-  // //       });
-  // //       this.url = getURLProfilePicture(idUser);
-  // //     },
-  // //     (error) => {
-  // //       this.toastService.show('La mise à jour a échoué.', {
-  // //         classname: 'bg-danger',
-  // //       });
-  // //     }
-  // //   );
-  // // }
-
-  // //-------------------------------------------------------
-  // // Upload an image
-  // //-------------------------------------------------------
-  // onFileSelected(event: any) {
-  //   const fileList: FileList = event.target.files;
-
-  //   if (fileList.length > 0) {
-  //     this.selectedImage = fileList[0];
-
-  //     if (this.validateFile()) {
-  //       this.file_data = new Blob([this.selectedImage], { type: this.selectedImage.type });;
-  //     }
-  //   }
-  // }
-
-  // //-------------------------------------------------------
-  // // Retourne l'extension de l'image
-  // //-------------------------------------------------------
-  // extractExtension(nomFichier: string) {
-  //   let extension = nomFichier.split('.').pop();
-  //   return extension;
-  // }
-
-  // //-------------------------------------------------------
-  // // Validate the image before sending it to the DB
-  // //-------------------------------------------------------
-  // validateFile() {
-  //   let fileSupported = false;
-  //   if (this.selectedImage.size <= MAX_FILE_SIZE) {
-  //     let extension = this.extractExtension(this.selectedImage.name);
-  //     if (extension?.toLowerCase() === 'png') {
-  //       fileSupported = true;
-  //     }
-  //     if (!fileSupported)
-  //       this.toastService.show("L'extension du fichier n'est pas supportée.", {
-  //         classname: 'bg-danger',
-  //       });
-  //   }
-  //   else {
-  //     fileSupported = false;
-  //     this.toastService.show('Le fichier est trop volumineux.', {
-  //       classname: 'bg-danger',
-  //     });
-  //   }
-
-  //   return fileSupported;
-  // }
-
   //---------------------------------
   // Open the modal to update the user password
   //---------------------------------
@@ -145,11 +78,10 @@ export class ProfileComponent implements OnInit {
     if (this.user?.password === passwords.activePassword) {
       if (passwords.activePassword !== passwords.newPassword) {
         if (passwords.newPassword === passwords.confirmationPassword) {
-          var encrypted = this.EncrDecr.set(ENCRYPTION_KEY, passwords.newPassword);
-          var decrypted = this.EncrDecr.get(ENCRYPTION_KEY, encrypted);
-          console.log('Encrypted :' + encrypted);
+          // let encrypted = this.EncrDecr.set(ENCRYPTION_KEY, passwords.newPassword);
           
-          this.electrolibService.updateProfile('updatePassword', idUser, { newPassword: encrypted }).subscribe(
+          // this.electrolibService.updateProfile('updatePassword', idUser, { newPassword: encrypted }).subscribe(
+          this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
             user => {
               this.toastService.show('Votre mot de passe a été mis à jour.', {
                 classname: 'bg-success',
