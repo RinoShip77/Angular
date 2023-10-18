@@ -88,8 +88,8 @@
 <ng-template #infoReservationModal let-modal>
     <div class="modal-header modal-lg" >
       <h4 class="modal-title" id="modal-basic-title">Information du livre</h4> 
-      <span *ngIf="selectedReservation.idBook == 1" class="thick borrowed">(Emprunté)</span>
-      <span *ngIf="selectedReservation.idBook != 1" class="thick notBorrowed">(Disponible)</span>
+      <span *ngIf="selectedReservation.book.idBook == 1" class="thick borrowed">(Emprunté)</span>
+      <span *ngIf="selectedReservation.book.idBook != 1" class="thick notBorrowed">(Disponible)</span>
     </div>
   
     <!--  -->
@@ -100,8 +100,8 @@
       <div class="col-8" 
       [ngClass]="
       {
-         'divBorrowed' : selectedReservation.idBook == 1,
-         'divNotBorrowed' : selectedReservation.idBook != 1,
+         'divBorrowed' : selectedReservation.book.idBook == 1,
+         'divNotBorrowed' : selectedReservation.book.idBook != 1,
       }">
         <label class="thick">Titre:&nbsp;</label>
         <span>{{selectedReservation.book.title}}</span>
