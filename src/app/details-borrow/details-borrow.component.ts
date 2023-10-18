@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { Book } from '../model/Book';
 import { Genre } from '../model/Genre';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { User } from '../model/User';
 
@@ -12,11 +12,14 @@ import { User } from '../model/User';
   styleUrls: ['./details-borrow.component.css']
 })
 export class DetailsBorrowComponent {
-  constructor(private electrolibSrv: ElectrolibService,private dataSrv: DataService,private route: ActivatedRoute){ //private route: ActivatedRoute a jouter apres merge
+  constructor(private electrolibSrv: ElectrolibService,private dataSrv: DataService,private route: ActivatedRoute,private router:Router){ //private route: ActivatedRoute a jouter apres merge
 
   }
   book: Book = new Book();
   user: User | undefined = new User();
+  btnVisible=true;
+  Succes=false;
+  failure=false;
   //genre: Genre = new Genre();
   currentDate:Date=new Date();
   returnDate:Date=new Date();
@@ -47,9 +50,28 @@ export class DetailsBorrowComponent {
     if(this.user){
       this.electrolibSrv.createBorrow(this.book,this.user).subscribe(
         receivedBorrow=>{
-          console.log(receivedBorrow);
+          if(receivedBorrow){
+            this.succesBorrow();
+          }
+          else{
+            this.failureBorrow();
+          }
         }
       )};
     
+  }
+
+  succesBorrow(){
+    this.btnVisible=false;
+    this.Succes=true;
+  }
+
+  failureBorrow(){
+    this.btnVisible=false;
+    this.failure=true;
+  }
+
+  Acceuil(){
+    this.router.navigate(['inventory']);
   }
 }

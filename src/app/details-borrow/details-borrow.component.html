@@ -1,4 +1,4 @@
-<section style="width: 100%; ;" class="EncadrerLivre">
+<section  style="margin: 10vh;padding-bottom: 20vh; border: solid 1px gray; border-radius: 10px / 30px;" class="EncadrerLivre">
     <div class="container row mx-auto p-5">
         <section class="imageLivre col-5">
             <img class="img-fluid"
@@ -13,7 +13,10 @@
             <p>date de retour : {{returnDate}}</p>
             <p>frais de retards : 1$ par jour</p>
             <div>
-                <button class="btn btn-outline-info m-1" (click)="createBorrow()">Emprunter</button>
+                <button *ngIf="btnVisible" class="btn btn-outline-info m-1" (click)="createBorrow()">Emprunter</button>
+                <p *ngIf="Succes">emprunt crée avec succes</p>
+                <p *ngIf="failure">impossible d'emprunter {{book.title}}</p>
+                <button *ngIf="Succes || failure" class="btn btn-outline-info m-1" (click)="Acceuil()">retour a l'acceuil</button>
             </div>
         </section>
     </div>

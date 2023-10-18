@@ -1,4 +1,4 @@
-<main class="EncadrerLivre">
+<main class="EncadrerLivre" style="margin: 10vh;padding-bottom: 20vh; border: solid 1px gray; border-radius: 10px / 30px;">
     <div class="container row mx-auto p-5">
         <section class="imageLivre col-5">
             <img class="img-fluid"
@@ -31,13 +31,7 @@
 
             <div>
                 <button class="btn btn-outline-info m-1">
-                    réserver
-                </button>
-                <button class="btn btn-outline-info m-1">
                     <a [routerLink]="['/detailEmprunt',book.idBook]">Emprunter</a>
-                </button>
-                <button class="btn btn-outline-info m-1">
-                    Ajouter au favoris
                 </button>
             </div>
         </section>

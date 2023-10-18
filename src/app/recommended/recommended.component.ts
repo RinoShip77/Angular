@@ -31,11 +31,9 @@ export class RecommendedComponent {
      this.electrolibSrv.getRecommended(this.user.idUser).subscribe(receivedBooks =>{
       this.recommendedBooks=receivedBooks;
       console.log(this.recommendedBooks);
-
-    
-  }
-    )};
-    this.showSlides(this.slideIndex);
+      setTimeout(() =>this.showSlides(this.slideIndex), 1000);
+      
+  })};
   }
   
 

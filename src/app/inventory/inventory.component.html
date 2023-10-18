@@ -71,6 +71,8 @@
       <input name="searchInp" [(ngModel)]="searchInp" (ngModelChange)="applySearch(searchInp)"
         class="form-control w-25 ms-2 my-auto me-2" type="search" placeholder="Rechercher ...">
     </div>
+    <app-recommended></app-recommended>
+    <h2>inventaire</h2>
     <div class="shadow-lg rounded-2 p-2" *ngIf="books.length > 0; else elseBlock" [ngSwitch]="inventoryDisplay">
       <div *ngSwitchCase="'table'">
         <div class="row row-cols-2 g-3">
