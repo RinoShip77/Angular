@@ -30,6 +30,12 @@ export class ElectrolibService {
 
     return this.http.get<Book[]>(url);
   }
+
+  getRecommended(idUser:number) {
+    let url = urlServer + 'recommandation/'+idUser;
+
+    return this.http.get<Book[]>(url);
+  }
   
   //--------------------------------
   //

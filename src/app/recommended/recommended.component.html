@@ -1,1 +1,46 @@
-<p>recommended works!</p>
+
+<!-- Slideshow container -->
+<div class="slideshow-container" style="width: 70vw; height: 25vh; display: flex; flex-direction: row;">
+
+  <!-- Full-width images with number and caption text -->
+ <!--  <div *ngFor="let book of recommendedBooks" class="mySlides" id="mySlides" style="display: flex; flex-direction: row; margin: 5%;" hidden>
+    <div class="numbertext">1 / 3</div>
+    <img src="assets/images/books/default-book.png" style="width:15vh;">
+    <div style="width: 50vw;">
+        <h2>{{book.title}}</h2>
+        <p>{{book.description}}</p>
+    </div>
+  </div>
+ -->
+ <div type="button" class="col mySlides" id="mySlides" *ngFor="let book of recommendedBooks" (click)="displayBook(book.idBook)">
+    <div class="card h-100 mb-3">
+      <div class="row g-0">
+        <div class="col-4">
+          <img src="assets/images/books/default-book.png" style="height: 20vh;" class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
+            title="{{book.title}}">
+        </div>
+        <div class="col-8">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h2 class="card-title">{{book.title | titlecase}}</h2>
+              <i class="fas {{book.genre.icon}} fs-3"></i>
+            </div>
+            <p class="mb-3">{{book.description}}</p>
+            <div class="d-flex justify-content-between mt-3">
+              <div class="d-flex align-items-center">
+                <i class="text-danger fs-2"
+                  [ngClass]="(book.isFavorite) ? 'fas fa-heart' : 'far fa-heart'"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Next and previous buttons -->
+  <a class="prev" (click)="plusSlides(-1)">&#10094;prev</a>
+  <a class="next" (click)="plusSlides(1)">&#10095;next</a>
+</div>

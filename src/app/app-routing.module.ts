@@ -15,6 +15,7 @@ import { EditBookComponent } from './edit-book/edit-book.component';
 import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
 import { AdminReservationsComponent } from './admin-reservations/admin-reservations.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { RecommendedComponent } from './recommended/recommended.component';
 
 // Create a routes Array
 const routes: Routes = [
@@ -32,7 +33,8 @@ const routes: Routes = [
   { path: "editBook/:id", component: EditBookComponent },
   { path: "adminBorrows", component: AdminBorrowsComponent },
   { path: "adminReservations", component: AdminReservationsComponent },
-  { path: "adminUsers", component: AdminUsersComponent }
+  { path: "adminUsers", component: AdminUsersComponent },
+  { path:"recommended",component:RecommendedComponent}
 
 ];
 
