@@ -52,7 +52,7 @@ import { ToastComponent } from './toast/toast.component';
     AdminBorrowsComponent,
     AdminReservationsComponent,
     AdminUsersComponent,
-    ToastComponent
+    ToastComponent,
     HistoryComponent,
     ReservationComponent
   ],

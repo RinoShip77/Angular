@@ -175,7 +175,7 @@ export class ElectrolibService {
     return this.http.get<Reservation[]>(url);
   }
 
-  cancelReservation(reservation: Reservation)
+  cancelReservationUser(reservation: Reservation)
   {
     let idReservation = reservation.idReservation;
     let url = urlServer + 'borrows';
