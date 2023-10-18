@@ -3,7 +3,6 @@ main {
     width: 100%;
     display: table;
 
-    background: url(/assets/images/login-library.jpg) no-repeat;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
