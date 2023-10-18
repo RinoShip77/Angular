@@ -1,19 +1,22 @@
-import { Component, EventEmitter, OnInit, Output  } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { Borrow } from '../model/Borrow';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
-  selector: 'app-borrows',
-  templateUrl: './borrows.component.html',
-  styleUrls: ['./borrows.component.css']
+  selector: 'app-history',
+  templateUrl: './history.component.html',
+  styleUrls: ['./history.component.css']
 })
-export class BorrowsComponent implements OnInit {
-  
+export class HistoryComponent implements OnInit{
+
   user: User | undefined = new User();
   borrows: Borrow[] = new Array();
+
+  @Output() openBorrows = new EventEmitter<User>();
+
+  selectedBorrow:Borrow = new Borrow();
 
   //Lorsque le user reclick sur le même tri, active desc
   //Sinon, le remet à false
@@ -24,81 +27,29 @@ export class BorrowsComponent implements OnInit {
   {
     this.user = this.datasrv.getUser();
     this.retrieveBorrows();
+    console.log("test");
   }
 
-  aboutModal:any;
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService){}
 
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService) { }
-
-  //Lorsqu'on appele et ouvre le component
-  onBorrows(user: User) 
-  {
-
-    //TODO
-
-    //Changer le nom des status en retard... etc
-    //Livre perdu???
-    //Livre abimé???
-
-    
-
-    //TODO COTÉ INVENTAIRE (PAS MOI)
-    //Si le user a des frais, il ne peut plus emprunter jusqu'à ce qu'il paie
-    //Le user peut avoir un maximum de 5 emprunts
-
-    //TODO
-    //Check si membre pour bd et symfony
-  }
-
-  //Cherche tous les emprunts en bd
   retrieveBorrows()
   {
     if(this.user)
     {
-    this.electrolibService.getBorrowsFromUser(this.user).subscribe(
+    this.electrolibService.getBorrowsHistoryFromUser(this.user).subscribe(
       borrows => {
         
-        this.borrows = borrows.map(x => (Object.assign(new Borrow(), x)));
+        this.borrows = borrows.map(x => Object.assign(new Borrow(), x));
       }
     );
-  }
-}
-
-  //Renouvellement d'un emprunt
-  async borrowRenew(selectedBorrow: Borrow)
-  {
-    if(selectedBorrow.verifyRenew())
-    {
-      //Update l'entity pour être sûr qu'il n'y aie pas dde bug dans le html
-      selectedBorrow.renew();
-
-      //update la date dans la bd
-      this.electrolibService.renewDueDate(selectedBorrow).subscribe();
-
-      //Retourne chercher les emprunts updatés
-      await this.retrieveBorrows();
     }
   }
 
-  //Ouvrir la modal [à propos], qui explique tout ce qu'il faut savoir sur le système d'emprunts
-  openAbout(content:any) 
+  //Ouvrir la modal pour les infos du livre
+  openBorrowModal(content:any, selectedBorrow:Borrow) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
-  }
-
-  selectedBorrowModal: Borrow = new Borrow;
-
-  //Ouvrir la modal [Confirmer le renouvelement], qui confirme si le user veut vraiment renouveler
-  openRenewModal(content:any, selectedBorrowModal:Borrow) 
-  {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', animation:true, });
-    this.selectedBorrowModal = selectedBorrowModal;
-  }
-
-  save()
-  {
-    this.borrowRenew(this.selectedBorrowModal);
-    this.modalService.dismissAll();
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+    this.selectedBorrow = selectedBorrow;
   }
 
   //Tri par la valeur
@@ -157,8 +108,9 @@ export class BorrowsComponent implements OnInit {
     }
 
     //Sélection et tri pour les données de l'emprunt
-    if (this.user) {
-    this.electrolibService.getBorrowsOrderedBy(this.user, $event).subscribe(
+    if(this.user)
+    {
+    this.electrolibService.getBorrowsHistoryOrderedBy(this.user, $event).subscribe(
       borrows => {
         if(this.desc)
         {
@@ -170,8 +122,8 @@ export class BorrowsComponent implements OnInit {
         }
       }
     );
+    }
   }
-}
 
   sortByTitle()
   {

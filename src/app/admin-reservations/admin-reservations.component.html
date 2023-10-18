@@ -62,8 +62,10 @@
                         <th>Id livre</th>
                         <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Titre</th>
                         <th>N° membre emprunteur</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">N° membre réserveur</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'reservationDate' ? '#31359C' : ''}">Date réservation</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">N°
+                            membre réserveur</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'reservationDate' ? '#31359C' : ''}">Date
+                            réservation</th>
                         <th>Date retour prévue</th>
                         <th>Retard</th>
                         <th style="width: 10em;">Actions</th>
@@ -84,7 +86,8 @@
                                     <i class="fa-solid fa-book-open-reader"></i>
                                     <span class="info-tooltip">Détails</span>
                                 </button>
-                                <button *ngIf="reservation.isActive === 1" class="btn btn-danger btn-action">
+                                <button *ngIf="reservation.isActive === 1" class="btn btn-danger btn-action"
+                                    (click)="cancelReservation(reservation)">
                                     <i class="fa-solid fa-ban"></i>
                                     <span class="info-tooltip">Annuler</span>
                                 </button>

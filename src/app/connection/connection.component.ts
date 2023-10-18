@@ -4,6 +4,8 @@ import { User } from '../model/User';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { DataService } from '../data.service';
+import { EncrDecrService } from '../encr-decr.service';
+import { ENCRYPTION_KEY } from '../util';
 
 @Component({
   selector: 'app-connection',
@@ -18,7 +20,7 @@ export class ConnectionComponent {
 
   @Output() connected = new EventEmitter<User>();
 
-  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService) { }
+  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService, private EncrDecr: EncrDecrService) { }
 
   //--------------------------------
   // Function to connect a user
@@ -43,6 +45,7 @@ export class ConnectionComponent {
   // Récupère un compte en base de données par les informations fournies
   //-------------------------------------------------------
   retrieveAccount() {
+    // this.temporaryUser.password = this.EncrDecr.set(ENCRYPTION_KEY, this.temporaryUser.password);    
     this.electrolibService.connection(this.temporaryUser).subscribe(
       connectedUser => {
         if (connectedUser.memberNumber === this.temporaryUser.memberNumber && 

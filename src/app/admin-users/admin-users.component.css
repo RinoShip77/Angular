@@ -1,0 +1,62 @@
+.btn-action {
+    margin-right: 1em;
+    position: relative;
+}
+
+.btn-action:hover .info-tooltip {
+    opacity: 1;
+}
+
+.btn-search:hover {
+    background-color: #353CAB;
+}
+
+.btn-search {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: #3F48CC;
+    color: white;
+}
+
+.dropdown {
+    width: 8em;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.section-navbar {
+    background-color: #1C1C1C;
+    display: flex;
+    align-items: center;
+    padding: 1em;
+}
+
+.section-row {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    min-height: 5em;
+}
+
+.fit-label {
+    color: white;
+}
+
+.btn-add-book {
+    width: max-content;
+    float: right;
+
+    font-size: 18px;
+    height: 2.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    border: none;
+    background-color: #3F48CC;
+    color: white;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}

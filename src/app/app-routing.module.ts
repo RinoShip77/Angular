@@ -7,6 +7,7 @@ import { DetailsBorrowComponent } from './details-borrow/details-borrow.componen
 import { AdminInventoryComponent } from './admin-inventory/admin-inventory.component';
 import { ConnectionComponent } from './connection/connection.component';
 import { BorrowDetailsComponent } from './borrow-details/borrow-details.component';
+import { HistoryComponent } from './history/history.component';
 import { BorrowComponent } from './borrow/borrow.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BorrowsComponent } from './borrows/borrows.component';
@@ -15,6 +16,7 @@ import { EditBookComponent } from './edit-book/edit-book.component';
 import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
 import { AdminReservationsComponent } from './admin-reservations/admin-reservations.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { ReservationComponent } from './reservation/reservation.component';
 import { RecommendedComponent } from './recommended/recommended.component';
 
 // Create a routes Array
@@ -26,7 +28,9 @@ const routes: Routes = [
   { path: "adminInventory", component: AdminInventoryComponent },
   { path: "", component: ConnectionComponent },
   { path: "borrows", component: BorrowsComponent },
-  { path: "borrowDetails", component: BorrowDetailsComponent },
+  { path: "borrowDetails/:id", component: BorrowDetailsComponent },
+  { path: "history", component: HistoryComponent },
+  { path: "reservations", component: ReservationComponent },
   { path: "borrow", component: BorrowComponent },
   { path: "profile", component: ProfileComponent },
   { path: "createBook", component: CreateBookComponent },

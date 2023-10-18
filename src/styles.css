@@ -5,6 +5,11 @@ body {
   font-family: 'Ubuntu', sans-serif
 }
 
+a {
+  text-decoration: none;
+  color:initial;
+}
+
 .info-tooltip {
   position: absolute;
   top: -40px;
@@ -27,4 +32,16 @@ body {
   float: right;
   width: calc(100% - 13em);
   height: 100%;
+}
+
+/* modal animation */
+.modal-content{
+  animation-name: example;
+  animation-duration: 0.3s;
+}
+
+@keyframes example {
+  0%   {transform: scale(0.5)}
+  75%  {transform: scale(1.1)}
+  100% {transform: scale(1)}
 }

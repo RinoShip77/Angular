@@ -26,6 +26,10 @@ import { EditBookComponent } from './edit-book/edit-book.component';
 import { AdminBorrowsComponent } from './admin-borrows/admin-borrows.component';
 import { AdminReservationsComponent } from './admin-reservations/admin-reservations.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { HistoryComponent } from './history/history.component';
+import { ReservationComponent } from './reservation/reservation.component';
+import { ToastComponent } from './toast/toast.component';
+import { EncrDecrService } from './encr-decr.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +52,10 @@ import { AdminUsersComponent } from './admin-users/admin-users.component';
     EditBookComponent,
     AdminBorrowsComponent,
     AdminReservationsComponent,
-    AdminUsersComponent
+    AdminUsersComponent,
+    ToastComponent,
+    HistoryComponent,
+    ReservationComponent
   ],
   imports: [
     AppRoutingModule,
@@ -58,7 +65,7 @@ import { AdminUsersComponent } from './admin-users/admin-users.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [EncrDecrService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

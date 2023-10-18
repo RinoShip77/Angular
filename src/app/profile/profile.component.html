@@ -1,186 +1,149 @@
 <!-- Profile page -->
-
-<section  class="font">
-  <div class="container-fluid bg-light rounded-5 p-4">
-    <div class="row">
-      <div class="w-auto p-1 border-end border-3 border-secondary">
-        <div class="ms-5">
-          <div class="my-3 w-75">
-            <div class="d-flex justify-content-center">
-              <img class="img-fluid img-thumbnail border-3 border-dark rounded-circle w-75"
-                src="{{user?.profilePicture}}" alt="{{user?.firstName + ' ' + user?.lastName}}"
-                title="{{user?.firstName + ' ' + user?.lastName}}" (error)="handleMissingImage($event)"> <!-- TODO: Set the source at {{user.profilePicture}} -->
-            </div>
-            <div class="d-flex justify-content-end" style="margin-right: 15%; margin-top: -50px">
-              <label for="profilePicture"
-                class="btn btn-secondary border-2 border-dark rounded-circle text-dark fs-2 file-upload">
-                <i class="fas fa-plus"></i>
-              </label>
-              <input type="file" class="d-none" id="profilePicture" [(ngModel)]="profilePicture">
-            </div>
+<section class="container-fluid rounded-5 p-4">
+  <div class="d-flex">
+    <div class="col-4 mx-5 p-1 border-end border-3 border-secondary">
+      <div class="mx-5">
+        <a type="button" class="d-flex justify-content-end" (click)="openModal(preferenceContent)">
+          <i class="fas fa-toolbox text-secondary" style="font-size: 5em"></i>
+        </a>
+        <div class="my-3">
+          <div class="d-flex justify-content-center">
+            <img src="{{url}}" class="img-fluid img-thumbnail w-50 border-3 border-dark rounded-circle"
+              alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}" onerror="this.src='assets/images/users/default-user.png'">
           </div>
-          <div>
-            <h1>{{user?.firstName + ' ' + user?.lastName}}</h1>
-            <!-- TODO: Add a property in the user class that return the full name -->
-            <h6>{{user?.roles}} depuis le {{user?.registrationDate | date:'d/M/yyyy'}}</h6>
-            <h6>#{{user?.idUser}}</h6> <!-- TODO: Set the content to {{user.memberNumber}} -->
+          <button class="btn btn-secondary rounded-circle" style="margin: 15%; margin-top: -50px"
+            (click)="openModal(profilePictureContent)">
+            <i class="fas fa-plus text-dark fs-2"></i>
+          </button>
+        </div>
+        <div>
+          <h1>{{user?.firstName + ' ' + user?.lastName}}</h1>
+          <!-- TODO: Add a property in the user class that return the full name -->
+          <h6>{{user?.roles}} depuis le {{user?.registrationDate | date:'d/M/yyyy'}}</h6>
+          <h6>#{{user?.memberNumber}}</h6>
+        </div>
+        <hr>
+        <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" (click)="openModal(passwordContent)">
+          <i class="fas fa-vault me-2"></i>
+          Mettre à jour mon mot de passe
+        </button>
+      </div>
+    </div>
+    <div class="col-6 ms-2 p-1">
+      <h1 class="mt-5 text-center">Vos informations</h1>
+      <form #profileForm="ngForm" (ngSubmit)="updateProfile(user?.idUser, profileForm.value)" class="m-5">
+        <div class="mb-3">
+          <label class="form-label">Adresse courriel</label>
+          <input name="email" [ngModel]="user?.email" type="email" class="form-control" placeholder="user.email">
+        </div>
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Prénom</label>
+            <input name="firstName" [ngModel]="user?.firstName" type="text" class="form-control"
+              placeholder="user.firstName">
           </div>
-          <div class="mt-2 p-3">
-            <hr>
-            <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" (click)="openModal(content)">
-              <i class="fas fa-vault me-2"></i>
-              Mettre à jour mon mot de passe
-            </button>
-            <ng-template #content let-modal>
-              <div class="modal-body">
-                <h4 class="text-center">Mise à jour du mot de passe</h4>
-                <hr>
-                <form class="w-75 mx-auto" (ngSubmit)="updatePassword()">
-                  <div>
-                    <label class="form-label">Mot de passe</label>
-                    <input name="oldPassword" [(ngModel)]="password.oldPassword" type="password" class="form-control"
-                      placeholder="Veuillez insérer votre mot de passe actuel">
-                  </div>
-                  <div class="my-3">
-                    <label class="form-label">Nouveau mot de passe</label>
-                    <input name="newPassword" [(ngModel)]="password.newPassword" type="password" class="form-control"
-                      placeholder="Veuillez insérer votre nouveau mot de passe actuel">
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label">Confirmation du nouveau mot de passe</label>
-                    <input name="confirmationNewPassword" [(ngModel)]="password.confirmationNewPassword" type="password"
-                      class="form-control" placeholder="Veuillez de nouveau insérer votre nouveaumot de passe actuel">
-                  </div>
-                  <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-outline-warning mx-auto mt-2 fs-5 fw-bold"
-                      (click)="modal.dismiss()">
-                      <i class="fas fa-floppy-disk me-2"></i>
-                      Sauvegarder
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </ng-template>
+          <div class="col mb-3">
+            <label class="form-label">Nom</label>
+            <input name="lastName" [ngModel]="user?.lastName" type="text" class="form-control"
+              placeholder="user.lastName">
           </div>
         </div>
-      </div>
-      <div class="col p-1">
-        <h1 class="mt-5 text-center">Vos informations</h1>
-        <form #profileForm="ngForm" (ngSubmit)="updateProfile(profileForm.value)" class="m-5">
-          <div class="mb-3">
-            <label class="form-label">Adresse courriel</label>
-            <input name="email" [ngModel]="user?.email" type="email" class="form-control" placeholder="user.email">
+        <div class="row">
+          <div class="col mb-3">
+            <label class="form-label">Adresse civique</label>
+            <input name="address" [ngModel]="user?.address" type="text" class="form-control" placeholder="user.address">
           </div>
-          <div class="row">
-            <div class="col mb-3">
-              <label class="form-label">Prénom</label>
-              <input name="firstName" [ngModel]="user?.firstName" type="text" class="form-control"
-                placeholder="user.firstName">
-            </div>
-            <div class="col mb-3">
-              <label class="form-label">Nom</label>
-              <input name="lastName" [ngModel]="user?.lastName" type="text" class="form-control"
-                placeholder="user.lastName">
+          <div class="col mb-3">
+            <label class="form-label">Code postal</label>
+            <input name="postalCode" [ngModel]="user?.postalCode" type="text" class="form-control"
+              placeholder="user.postalCode" (ngModelChange)="formatPostalCode()">
+          </div>
+          <div class="col mb-3">
+            <label class="form-label">Téléphone</label>
+            <input name="phoneNumber" [ngModel]="user?.phoneNumber" type="text" class="form-control"
+              placeholder="user.phoneNumber" (ngModelChange)="formatPhoneNumber()">
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-warning mx-auto mt-5 fs-5 fw-bold">
+            <i class="fas fa-floppy-disk me-2"></i>
+            Mettre à jour mes informations
+          </button>
+        </div>
+      </form>
+      <hr>
+      <div class="w-75 mx-auto mt-5">
+        <h2 class="mb-3 text-center">Mes plus récents emprunts</h2>
+        <div class="row row-cols-3 g-3">
+          <div class="col-2">
+            <div class="card text-center">
+              <div class="card-img-top p-2">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                  class="img-fluid" alt="...">
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Titre du livre</h6>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col mb-3">
-              <label class="form-label">Adresse civique</label>
-              <input name="address" [ngModel]="user?.address" type="text" class="form-control"
-                placeholder="user.address">
-            </div>
-            <div class="col mb-3">
-              <label class="form-label">Code postal</label>
-              <input name="postalCode" [ngModel]="user?.postalCode" type="text" class="form-control"
-                placeholder="user.postalCode" (ngModelChange)="formatPostalCode()">
-            </div>
-            <div class="col mb-3">
-              <label class="form-label">Téléphone</label>
-              <input name="phoneNumber" [ngModel]="user?.phoneNumber" type="text" class="form-control"
-                placeholder="user.phoneNumber" (ngModelChange)="formatPhoneNumber()">
+          <div class="col-2">
+            <div class="card text-center">
+              <div class="card-img-top p-2">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                  class="img-fluid" alt="...">
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Titre du livre</h6>
+              </div>
             </div>
           </div>
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning mx-auto mt-5 fs-5 fw-bold">
-              <i class="fas fa-floppy-disk me-2"></i>
-              Mettre à jour mes informations
-            </button>
+          <div class="col-2">
+            <div class="card text-center">
+              <div class="card-img-top p-2">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                  class="img-fluid" alt="...">
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Titre du livre</h6>
+              </div>
+            </div>
           </div>
-        </form>
-        <hr>
-        <div class="w-75 mx-auto mt-5">
-          <h2 class="mb-3 text-center">Mes plus récents emprunts</h2>
-          <div class="row row-cols-3 g-3">
-            <div class="col-2">
-              <div class="card text-center">
-                <div class="card-img-top p-2">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                    class="img-fluid" alt="...">
-                </div>
-                <div class="card-body">
-                  <h6 class="card-title">Titre du livre</h6>
-                </div>
+          <div class="col-2">
+            <div class="card text-center">
+              <div class="card-img-top p-2">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                  class="img-fluid" alt="...">
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Titre du livre</h6>
               </div>
             </div>
-            <div class="col-2">
-              <div class="card text-center">
-                <div class="card-img-top p-2">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                    class="img-fluid" alt="...">
-                </div>
-                <div class="card-body">
-                  <h6 class="card-title">Titre du livre</h6>
-                </div>
+          </div>
+          <div class="col-2">
+            <div class="card text-center">
+              <div class="card-img-top p-2">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                  class="img-fluid" alt="...">
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Titre du livre</h6>
               </div>
             </div>
-            <div class="col-2">
-              <div class="card text-center">
-                <div class="card-img-top p-2">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                    class="img-fluid" alt="...">
-                </div>
-                <div class="card-body">
-                  <h6 class="card-title">Titre du livre</h6>
-                </div>
+          </div>
+          <div class="col-2">
+            <div class="card text-center">
+              <div class="card-img-top p-2">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                  class="img-fluid" alt="...">
               </div>
-            </div>
-            <div class="col-2">
-              <div class="card text-center">
-                <div class="card-img-top p-2">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                    class="img-fluid" alt="...">
-                </div>
-                <div class="card-body">
-                  <h6 class="card-title">Titre du livre</h6>
-                </div>
-              </div>
-            </div>
-            <div class="col-2">
-              <div class="card text-center">
-                <div class="card-img-top p-2">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                    class="img-fluid" alt="...">
-                </div>
-                <div class="card-body">
-                  <h6 class="card-title">Titre du livre</h6>
-                </div>
-              </div>
-            </div>
-            <div class="col-2">
-              <div class="card text-center">
-                <div class="card-img-top p-2">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                    class="img-fluid" alt="...">
-                </div>
-                <div class="card-body">
-                  <h6 class="card-title">Titre du livre</h6>
-                </div>
+              <div class="card-body">
+                <h6 class="card-title">Titre du livre</h6>
               </div>
             </div>
           </div>
@@ -189,3 +152,132 @@
     </div>
   </div>
 </section>
+
+<!-- Update profile picture modal -->
+<ng-template #profilePictureContent let-modal>
+  <div class="modal-body">
+    <h2>Mise à jour de la poto de profil</h2>
+    <hr>
+    <ngb-carousel class="p-5 bg-dark-subtle rounded-5" [animation]="true" [interval]="10000">
+      <ng-template ngbSlide>
+        <div class="d-flex justify-content-between mx-5">
+          <img src="assets/images/users/profilePictures/Picture1.png" alt="Picture 1" type="button" (click)="updateProfilePicture(user?.idUser, 1)">
+          <img src="assets/images/users/profilePictures/Picture2.png" alt="Picture 2" type="button" (click)="updateProfilePicture(user?.idUser, 2)">
+          <img src="assets/images/users/profilePictures/Picture3.png" alt="Picture 3" type="button" (click)="updateProfilePicture(user?.idUser, 3)">
+          <img src="assets/images/users/profilePictures/Picture4.png" alt="Picture 4" type="button" (click)="updateProfilePicture(user?.idUser, 4)">
+        </div>
+      </ng-template>
+      <ng-template ngbSlide>
+        <div class="d-flex justify-content-between mx-5">
+          <img src="assets/images/users/profilePictures/Picture5.png" alt="Picture 5" type="button" (click)="updateProfilePicture(user?.idUser, 5)">
+          <img src="assets/images/users/profilePictures/Picture6.png" alt="Picture 6" type="button" (click)="updateProfilePicture(user?.idUser, 6)">
+          <img src="assets/images/users/profilePictures/Picture7.png" alt="Picture 7" type="button" (click)="updateProfilePicture(user?.idUser, 7)">
+          <img src="assets/images/users/profilePictures/Picture8.png" alt="Picture 8" type="button" (click)="updateProfilePicture(user?.idUser, 8)">
+        </div>
+        </ng-template>
+    </ngb-carousel>
+    <!-- <form (ngSubmit)="updateProfilePicture(user?.idUser)" class="d-flex justify-content-end"
+            style="margin-right: 15%; margin-top: -50px">
+            <label for="file-upload" class="btn btn-secondary rounded-circle text-dark fs-2">
+              <i class="fas fa-plus"></i>
+            </label>
+            <input name="profilePicture" class="d-none" id="file-upload" type="file" accept="image/*"
+              (change)="onFileSelected($event)">
+            <button type="submit" class="bg-transparent">
+            </button>
+          </form> -->
+  </div>
+</ng-template>
+
+<!-- Update password modal -->
+<ng-template #passwordContent let-modal>
+  <div class="modal-body">
+    <h4 class="text-center">Mise à jour du mot de passe</h4>
+    <hr>
+    <form #passwordForm="ngForm" class="w-75 mx-auto" (ngSubmit)="updatePassword(user?.idUser, passwordForm.value)">
+      <div>
+        <label class="form-label">Mot de passe</label>
+        <input name="activePassword" ngModel type="password" class="form-control"
+          placeholder="Veuillez insérer votre mot de passe actuel">
+      </div>
+      <div class="my-3">
+        <label class="form-label">Nouveau mot de passe</label>
+        <input name="newPassword" ngModel type="password" class="form-control"
+          placeholder="Veuillez insérer votre nouveau mot de passe actuel">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Confirmation du nouveau mot de passe</label>
+        <input name="confirmationPassword" ngModel type="password" class="form-control"
+          placeholder="Veuillez de nouveau insérer votre nouveaumot de passe actuel">
+      </div>
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-outline-warning mx-auto mt-2 fs-5 fw-bold" (click)="modal.dismiss()">
+          <i class="fas fa-floppy-disk me-2"></i>
+          Sauvegarder
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Update user preference modal -->
+<ng-template #preferenceContent let-modal style="font-size: 5em">
+  <div class="modal-header">
+    <h4 class="modal-title mx-auto">
+      Vos préférences
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body mb-3 p-4">
+    <div class="d-flex">
+      <h4>Thème :</h4>
+      <div class="ms-5 my-auto d-flex justify-content-center fs-5">
+        <label>
+          <i class="fas fa-sun me-2"></i>
+        </label>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="colorSwitch">
+        </div>
+        <label>
+          <i class="fas fa-moon"></i>
+        </label>
+      </div>
+      <button class="btn btn-info ms-5" (click)="switchTheme()">Enregistrer</button>
+    </div>
+    <div class="d-flex">
+      <h4 class="mt-3">Zone à risque :</h4>
+      <div class="ms-5 my-auto d-flex justify-content-center">
+        <button class="btn btn-danger" (click)="openModal(closeContent)">
+          Fermer mon compte
+        </button>
+      </div>
+    </div>
+  </div>
+  <hr>
+</ng-template>
+
+<!-- Close account modal -->
+<ng-template #closeContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title mx-auto">
+      Vous êtes sur le point de fermer votre profil
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <form #closeAccountForm="ngForm" class="w-75 mx-auto my-3 text-center"
+      (ngSubmit)="closeProfile(user?.idUser, closeAccountForm.value.password)">
+      <label class="form-label">Pour continuer,<br><span class="text-danger fs-3 fw-bold">Veuillez entrer votre mot de
+          passe :</span></label>
+      <div class="input-group input-group-lg mx-auto mb-3">
+        <span class="input-group-text">
+          <i class="fa-solid fa-user-slash"></i>
+        </span>
+        <input name="password" ngModel type="password" class="form-control" placeholder="Mot de passe">
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="submit" class="btn btn-danger" (click)="modal.close()">Fermer le compte</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
