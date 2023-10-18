@@ -1,25 +1,27 @@
 <section class="main-section">
-    <header>
-      <!-- La barre de navigation des membres -->
-      <app-navbar></app-navbar>
+  <header>
+    <!-- La barre de navigation des membres -->
+    <app-navbar></app-navbar>
 
-      <!-- La barre de navigation des admins -->
-      <app-admin-navbar></app-admin-navbar>
-    </header>
+    <!-- La barre de navigation des admins -->
+    <app-admin-navbar></app-admin-navbar>
+  </header>
 
-    <main [ngStyle]="{'margin': checkUser() == true? '6%' : ''}">
-      <!-- Le router -->
-      <router-outlet></router-outlet>
+  <main [ngStyle]="{'margin': checkUser() == true? '5em' : ''}">
+    <app-toast [ngClass]="!checkUser() ? 'd-none' : ''"></app-toast>
 
-      <div *ngIf="this.dataService.getUser() != undefined && !checkAdmin()" class="chat-box">
-        <div class="d-flex justify-content-end" id="chat">
-          <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()">
-            <i class="far fa-comment-dots p-2 fs-1"></i>
-          </button>
-        </div>
+    <!-- Le router -->
+    <router-outlet></router-outlet>
+
+    <div *ngIf="checkUser()" class="chat-box">
+      <div class="d-flex justify-content-end" id="chat">
+        <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()">
+          <i class="far fa-comment-dots p-2 fs-1"></i>
+        </button>
       </div>
-    </main>
+    </div>
+  </main>
 
-    <footer></footer>
+  <footer></footer>
 
 </section>

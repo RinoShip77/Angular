@@ -16,6 +16,11 @@
 
 <body>
   <app-root></app-root>
+
+  <script>
+    let theme = localStorage.getItem('theme');
+    document.body.setAttribute('data-bs-theme', theme);
+  </script>
 </body>
 
 </html>

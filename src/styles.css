@@ -5,6 +5,11 @@ body {
   font-family: 'Ubuntu', sans-serif
 }
 
+a {
+  text-decoration: none;
+  color:initial;
+}
+
 .info-tooltip {
   position: absolute;
   top: -40px;

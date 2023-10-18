@@ -5,5 +5,4 @@ export class Genre {
   name: string = '';
   icon: string = '';
   books: Book[] = new Array();
-  isFilter: boolean = false;
 }

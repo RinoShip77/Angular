@@ -18,9 +18,11 @@ export class InventoryComponent {
   user: User = new User();
   genres: Genre[] = new Array();
   authors: Author[] = new Array();
+  status: Status[] = new Array();
   books: Book[] = new Array();
   inventoryDisplay: string = 'table';
   sortOrder: string = 'date;DESC';
+  searchInp = '';
 
   @Output() openProfile = new EventEmitter<User>();
   @Output() openBook = new EventEmitter<Number>();
@@ -28,7 +30,7 @@ export class InventoryComponent {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private electrolibSrv: ElectrolibService, private modalService: NgbModal, private router:Router) { }
+  constructor(private electrolibSrv: ElectrolibService, private modalService: NgbModal, private router: Router) { }
 
   //---------------------------------
   // Function to display every book in the database
@@ -37,8 +39,11 @@ export class InventoryComponent {
     //Get all the genres from the database
     this.retrieveGenres();
 
-    //Get all the genres from the database
+    //Get all the authors from the database
     this.retrieveAuthors();
+    
+    //Get all the status from the database
+    this.retrieveStatus();
 
     //Get all the books from the database
     this.retrieveBooks();
@@ -62,6 +67,17 @@ export class InventoryComponent {
     this.electrolibSrv.getAuthors().subscribe(
       authors => {
         this.authors = authors;
+      }
+    );
+  }
+  
+  //---------------------------------
+  // Function to select witch genre you want to see
+  //---------------------------------
+  retrieveStatus() {
+    this.electrolibSrv.getAllStatus().subscribe(
+      status => {
+        this.status = status;
       }
     );
   }
@@ -107,124 +123,26 @@ export class InventoryComponent {
     switch (property) {
       case 'date':
         if (order === 'DESC') {
-          this.books.sort(this.compareDateDesc);
+          this.books.sort((a, b) => (a.publishedDate > b.publishedDate ? 1 : -1));
         } else {
-          this.books.sort(this.compareDateAsc);
+          this.books.sort((a, b) => (a.publishedDate < b.publishedDate ? 1 : -1));
         }
         break;
       case 'title':
         if (order === 'DESC') {
-          this.books.sort(this.compareTitleDesc);
+          this.books.sort((a, b) => (a.title > b.title ? 1 : -1));
         } else {
-          this.books.sort(this.compareTitleAsc);
+          this.books.sort((a, b) => (a.title < b.title ? 1 : -1));
         }
         break;
-      case 'author':
-        if (order === 'DESC') {
-          this.books.sort(this.compareAuthorDesc);
-        } else {
-          this.books.sort(this.compareAuthorAsc);
+        case 'author':
+          if (order === 'DESC') {
+            this.books.sort((a, b) => (a.author.lastName > b.author.lastName ? 1 : -1));
+          } else {
+          this.books.sort((a, b) => (a.author.lastName < b.author.lastName ? 1 : -1));
         }
         break;
     }
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareDateDesc(book1: Book, book2: Book) {
-    if (book1.publishedDate > book2.publishedDate) {
-      return -1;
-    }
-    if (book1.publishedDate < book2.publishedDate) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareDateAsc(book1: Book, book2: Book) {
-    if (book1.publishedDate < book2.publishedDate) {
-      return -1;
-    }
-    if (book1.publishedDate > book2.publishedDate) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareTitleDesc(book1: Book, book2: Book) {
-    if (book1.title > book2.title) {
-      return -1;
-    }
-    if (book1.title < book2.title) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareTitleAsc(book1: Book, book2: Book) {
-    if (book1.title < book2.title) {
-      return -1;
-    }
-    if (book1.title > book2.title) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareAuthorDesc(book1: Book, book2: Book) {
-    if (book1.author.firstName > book2.author.firstName) {
-      return -1;
-    }
-    if (book1.author.firstName < book2.author.firstName) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to sort by date descending
-  //---------------------------------
-  compareAuthorAsc(book1: Book, book2: Book) {
-    if (book1.author.firstName < book2.author.firstName) {
-      return -1;
-    }
-    if (book1.author.firstName > book2.author.firstName) {
-      return 1;
-    }
-
-    return 0;
-  }
-
-  //---------------------------------
-  // Function to remove all the filters from the view
-  //---------------------------------
-  filterBooksByGenres(genre: number) {
-      this.books = this.books.filter((book) => book.idGenre === genre);
-  }
-
-  //---------------------------------
-  // Function to remove all the filters from the view
-  //---------------------------------
-  filterBooksByAuthors(author: number) {
-      this.books = this.books.filter((book) => book.idAuthor === author);
   }
 
   //---------------------------------
@@ -237,18 +155,45 @@ export class InventoryComponent {
   //---------------------------------
   // Function to remove all the filters from the view
   //---------------------------------
-  removeFilters() {
-    for (let i = 0; i < this.genres.length; i++) {
-      if (this.genres[i].isFilter) {
-        this.genres[i].isFilter = false;
-      }
-    }
+  filterBooksByGenres(idGenre: number) {
+    this.books = this.books.filter((book) => book.genre.idGenre === idGenre);
+  }
 
-    for (let i = 0; i < this.authors.length; i++) {
-      if (this.authors[i].isFilter) {
-        this.authors[i].isFilter = false;
-      }
-    }
+  //---------------------------------
+  // Function to remove all the filters from the view
+  //---------------------------------
+  filterBooksByAuthors(idAuthor: number) {
+    this.books = this.books.filter((book) => book.author.idAuthor === idAuthor);
+  }
+  
+  //---------------------------------
+  // Function to remove all the filters from the view
+  //---------------------------------
+  filterBooksByStatus(idStatus: number) {
+    this.books = this.books.filter((book) => book.status.idStatus === idStatus);
+  }
+
+  //---------------------------------
+  // Function to remove all the filters from the view
+  //---------------------------------
+  removeFilters() {
+    // for (let i = 0; i < this.genres.length; i++) {
+    //   if (this.genres[i].isFilter) {
+    //     this.genres[i].isFilter = false;
+    //   }
+    // }
+
+    // for (let i = 0; i < this.authors.length; i++) {
+    //   if (this.authors[i].isFilter) {
+    //     this.authors[i].isFilter = false;
+    //   }
+    // }
+    
+    // for (let i = 0; i < this.status.length; i++) {
+    //   if (this.status[i].isFilter) {
+    //     this.status[i].isFilter = false;
+    //   }
+    // }
 
     this.retrieveBooks();
   }
@@ -257,19 +202,11 @@ export class InventoryComponent {
   // Function to open the page for a specific book
   //---------------------------------
   updateDisplay(status: Status): string {
-    if (status.status == "Emprunté") {
+    if (status.status == 'Disponible') {
       return 'table-primary';
     } else {
       return 'opacity-25';
     }
-  }
-
-  //---------------------------------
-  // Function to open the page for a specific book
-  //---------------------------------
-  displayBook(idBook: number) {
-    console.log(idBook)
-    this.router.navigate(['detailLivre',idBook]);
   }
 
   //---------------------------------
@@ -293,8 +230,7 @@ export class InventoryComponent {
     //cette fnct fesait visible.false, on grade la fcnt au cas ou
   }
 
-  getBookCover(idBook: number)
-  {
+  getBookCover(idBook: number) {
     return getURLBookCover(idBook);
   }
 }
