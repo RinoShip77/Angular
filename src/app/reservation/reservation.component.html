@@ -11,12 +11,12 @@
     <!-- Div contenant le select pour trier la table -->
     <div style="float: right;">
         <label>Trier par: </label>
-        <select class="select-style" >
+        <select class="select-style" (change)="orderBySelect($event)">
             <option value="borrowedDate" selected>Id / Date de réservation</option>
             <option value="title">Titre du livre</option>
-            <option value="dueDate" >Date retour / Status / Frais</option>
+            <option value="status" >État</option>
         </select>
-        <select class="select-style" style="width: 100px;">
+        <select class="select-style" style="width: 100px;" (change)="orderWayBySelect($event)">
             <option value="ASC" selected>Croissant</option>
             <option value="DESC">Décroissant</option>
         </select>

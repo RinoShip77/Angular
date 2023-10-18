@@ -183,13 +183,27 @@ export class ReservationComponent implements OnInit {
     {
       for(let j = 0; j < this.reservations.length; j++)
       {
-        if(this.reservations[i].determineStatus() != "cancelled" && this.reservations[j].determineStatus() == "cancelled")
+        if(!this.desc)
         {
-          [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
+          if(this.reservations[i].determineStatus() != "cancelled" && this.reservations[j].determineStatus() == "cancelled")
+          {
+            [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
+          }
+          else if (this.reservations[i].determineStatus() == "borrowed" && this.reservations[j].determineStatus() != "borrowed")
+          {
+            [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
+          }
         }
-        else if (this.reservations[i].determineStatus() == "borrowed" && this.reservations[j].determineStatus() != "borrowed")
+        else
         {
-          [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
+          if(this.reservations[i].determineStatus() == "cancelled" && this.reservations[j].determineStatus() != "cancelled")
+          {
+            [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
+          }
+          else if (this.reservations[i].determineStatus() != "borrowed" && this.reservations[j].determineStatus() == "borrowed")
+          {
+            [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
+          }
         }
       }
     }
