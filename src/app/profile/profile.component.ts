@@ -4,8 +4,9 @@ import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
-import { MAX_FILE_SIZE, getURLProfilePicture } from '../util';
+import { ENCRYPTION_KEY, MAX_FILE_SIZE, getURLProfilePicture } from '../util';
 import { ToastService } from '../toast.service';
+import { EncrDecrService } from '../encr-decr.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,7 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router, private toastService: ToastService) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router, private toastService: ToastService, private EncrDecr: EncrDecrService) { }
 
   //---------------------------------
   // Function to display every book in the database
@@ -144,8 +145,11 @@ export class ProfileComponent implements OnInit {
     if (this.user?.password === passwords.activePassword) {
       if (passwords.activePassword !== passwords.newPassword) {
         if (passwords.newPassword === passwords.confirmationPassword) {
-          // passwords.newPassword.hash(); //TODO: Hash the password
-          this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
+          var encrypted = this.EncrDecr.set(ENCRYPTION_KEY, passwords.newPassword);
+          var decrypted = this.EncrDecr.get(ENCRYPTION_KEY, encrypted);
+          console.log('Encrypted :' + encrypted);
+          
+          this.electrolibService.updateProfile('updatePassword', idUser, { newPassword: encrypted }).subscribe(
             user => {
               this.toastService.show('Votre mot de passe a été mis à jour.', {
                 classname: 'bg-success',

@@ -29,6 +29,7 @@ import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { HistoryComponent } from './history/history.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { ToastComponent } from './toast/toast.component';
+import { EncrDecrService } from './encr-decr.service';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,7 @@ import { ToastComponent } from './toast/toast.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [EncrDecrService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
