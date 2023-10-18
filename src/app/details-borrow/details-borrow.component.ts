@@ -50,7 +50,7 @@ export class DetailsBorrowComponent {
     if(this.user){
       this.electrolibSrv.createBorrow(this.book,this.user).subscribe(
         receivedBorrow=>{
-          if(receivedBorrow){
+          if(receivedBorrow!=null){
             this.succesBorrow();
           }
           else{
