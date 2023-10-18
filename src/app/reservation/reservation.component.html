@@ -70,7 +70,7 @@
                 }">{{reservation.determineStatus()}}</td>
                 <td>
                     
-                    <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active " ngbTooltip="Plus de détails"></i></a>
+                    <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active " (click)="openReservationModal(infoReservationModal, reservation)" ngbTooltip="Plus de détails"></i></a>
                     <a><i class="fa-regular fa-circle-xmark col-6 icone-petite" style="color: #ac0202;" ngbTooltip="Annuler ma réservation"></i></a>
                 </td>
             </tr>
@@ -84,13 +84,57 @@
     </div>
 </div>
 
-<!-- Modal pour confirmer le à propos -->
+<!-- Modal pour les infos du livre de la réservation -->
+<ng-template #infoReservationModal let-modal>
+    <div class="modal-header modal-lg" >
+      <h4 class="modal-title" id="modal-basic-title">Information du livre</h4> 
+      <span *ngIf="selectedReservation.book.isBorrowed" class="thick borrowed">(Emprunté)</span>
+      <span *ngIf="!selectedReservation.book.isBorrowed" class="thick notBorrowed">(Disponible)</span>
+    </div>
+  
+    <!--  -->
+    <div class="modal-body row">
+      <div class="col-4 div-img">
+        <img class="image-livre" src="../{{selectedReservation.book.cover}}" default="../assets/images/books/1.png" style="margin-top:20px">
+      </div>
+      <div class="col-8" 
+      [ngClass]="
+      {
+         'divBorrowed' : selectedReservation.book.isBorrowed,
+         'divNotBorrowed' : !selectedReservation.book.isBorrowed,
+      }">
+        <label class="thick">Titre:&nbsp;</label>
+        <span>{{selectedReservation.book.title}}</span>
+        <br>
+        <label class="thick">Langue d'origine:&nbsp;</label>
+        <span>{{selectedReservation.book.originalLanguage}}</span>
+        <br>
+        <label class="thick">Date de publication:&nbsp;</label>
+        <span>{{selectedReservation.book.publishedDate}}</span>
+        <br>
+        <label class="thick">isbn:&nbsp;</label>
+        <span>{{selectedReservation.book.isbn}}</span>
+        <br>
+        <label class="thick">Description:&nbsp;</label>
+        <span style="display:block; word-break: break-all;">
+            {{selectedReservation.book.description}}
+        </span>
+      </div>
+    </div>
+
+    <!-- Bouton pour fermer la modal -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close()">Annuler</button>
+    </div>
+</ng-template>
+
+<!-- Modal pour le à propos -->
 <ng-template #about let-modal >
     <div class="modal-header modal-lg">
       <h4 class="modal-title" id="modal-basic-title">À Propos</h4>
     </div>
   
-    <!-- Info importantes sur le fonctionnement des emprunts etc. -->
+    <!-- Info importantes sur le fonctionnement des reservations etc. -->
     <div class="modal-body">
       <h5>Informations sur vos emprunts</h5>
       <hr>

@@ -1,6 +1,8 @@
 <div class="col-10 master-div">
     <div style="margin-bottom: 20px; margin-top: -40px; ">
-        <a [routerLink]="['../borrows']"><span>Mes Emprunts</span></a>&nbsp; <i class="fa-solid fa-angle-right fa-sm"></i> &nbsp;<a><span style="cursor: default;">Historique de l'emprunt</span></a>
+        <a [routerLink]="['../borrows']"><span>Mes Emprunts</span></a>&nbsp; <i
+            class="fa-solid fa-angle-right fa-sm"></i> &nbsp;<a><span style="cursor: default;">Historique de
+                l'emprunt</span></a>
     </div>
 
     <!-- Titre de la page -->
@@ -12,79 +14,128 @@
 
     <div class="shadow-sm rounded border border-2" style="padding:30px; background-color: rgba(90, 90, 90, 0.062);">
 
-    <!-- Div contenant le select pour trier la table -->
-    <div  style="float: right;">
-        <label>Trier par: </label>
-        <select class="select-style" (change)="orderBySelect($event)">
-            <option value="borrowedDate" selected>Id / Date d'emprunt</option>
-            <option value="title">Titre du livre</option>
-            <option value="dueDate" >Date retour / Status / Frais</option>
-        </select>
-        <select class="select-style" (change)="orderWayBySelect($event)" style="width: 100px;">
-            <option value="ASC" selected>Croissant</option>
-            <option value="DESC">Décroissant</option>
-        </select>
-    </div>
+        <!-- Div contenant le select pour trier la table -->
+        <div style="float: right;">
+            <label>Trier par: </label>
+            <select class="select-style" (change)="orderBySelect($event)">
+                <option value="borrowedDate" selected>Id / Date d'emprunt</option>
+                <option value="title">Titre du livre</option>
+                <option value="dueDate">Date retour / Status / Frais</option>
+            </select>
+            <select class="select-style" (change)="orderWayBySelect($event)" style="width: 100px;">
+                <option value="ASC" selected>Croissant</option>
+                <option value="DESC">Décroissant</option>
+            </select>
+        </div>
 
-    <!-- Tableau contenant les emprunts -->
-    <table class="table table-bordered shadow-sm table-emprunts">
+        <!-- Tableau contenant les emprunts -->
+        <table class="table table-bordered shadow-sm table-emprunts">
 
-        <!-- Titre des colonnes de la table -->
-        <thead class="table-secondary text-center">
-            <tr>
-                <th (click)="sortBy('idBorrow')">Id
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('title')">Titre du livre
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('borrowedDate')">Date de l'emprunt
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('dueDate')">Date du retour
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('dueDate')">État
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+            <!-- Titre des colonnes de la table -->
+            <thead class="table-secondary text-center">
+                <tr>
+                    <th (click)="sortBy('idBorrow')">Id
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('title')">Titre du livre
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('borrowedDate')">Date de l'emprunt
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('dueDate')">Date du retour
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('dueDate')">État
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-        <!-- Chaque rangée de la table correspond à 1 emprunt -->
-        <tbody class="text-center">
-            <tr *ngFor="let borrow of borrows" [ngClass]="
+            <!-- Chaque rangée de la table correspond à 1 emprunt -->
+            <tbody class="text-center">
+                <tr *ngFor="let borrow of borrows" [ngClass]="
             {
                'status-returned' : borrow.determineStatus() == 'En cours',
                'status-lost' : borrow.determineStatus() == 'En retard'
             }">
 
-                <!-- Reste des informations -->
-                <td scope="row" class="td-thick" style="font-weight: 700;">{{borrow.idBorrow}}</td>
-                <td>{{borrow.book.title}}</td>
-                <td>{{borrow.borrowedDate}}</td>
-                <td>{{borrow.returnedDate}}</td>
-                <td *ngIf="borrow.determineStatus() != 'En retard'" class="td-thick" style="font-weight: 700;">Remis</td>
-                <td *ngIf="borrow.determineStatus() == 'En retard'" class="td-thick" style="font-weight: 700; color: rgb(68,80,152);">Volé</td>
+                    <!-- Reste des informations -->
+                    <td scope="row" class="td-thick" style="font-weight: 700;">{{borrow.idBorrow}}</td>
+                    <td>{{borrow.book.title}}</td>
+                    <td>{{borrow.borrowedDate}}</td>
+                    <td>{{borrow.returnedDate}}</td>
+                    <td *ngIf="borrow.determineStatus() != 'En retard'" class="td-thick" style="font-weight: 700;">Remis
+                    </td>
+                    <td *ngIf="borrow.determineStatus() == 'En retard'" class="td-thick"
+                        style="font-weight: 700; color: rgb(68,80,152);">Volé</td>
 
 
-                <!-- Bouton Détails -->
-                <td>
-                    <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active " ngbTooltip="Plus de détails"></i></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <!-- Bouton Détails -->
+                    <td>
+                        <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active"
+                            (click)="openBorrowModal(infoReservationModal, borrow)" ngbTooltip="Plus de détails"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-    <!-- Bouton en bas de la page -->
-    <div>
-        <button [routerLink]="['../borrows']" type="button" class="btn btn-secondary" style="float:right;">Retourner aux emprunts</button>
-        <br>
+        <!-- Bouton en bas de la page -->
+        <div>
+            <button [routerLink]="['../borrows']" type="button" class="btn btn-secondary" style="float:right;">Retourner
+                aux emprunts</button>
+            <br>
+        </div>
     </div>
 </div>
-</div>
+
+
+<!-- Modal pour les infos du livre d'un emprunt -->
+<ng-template #infoReservationModal let-modal>
+    <div class="modal-header modal-lg" >
+      <h4 class="modal-title" id="modal-basic-title">Information du livre</h4> 
+      <span *ngIf="selectedBorrow.determineStatus() != 'En retard'" class="thick handed">(Remis)</span>
+      <span *ngIf="selectedBorrow.determineStatus() == 'En retard'" class="thick stolen">(Volé)</span>
+    </div>
+  
+    <!--  -->
+    <div class="modal-body row">
+      <div class="col-4 div-img">
+        <img class="image-livre" src="../{{selectedBorrow.book.cover}}" default="../assets/images/books/1.png" style="margin-top:20px">
+      </div>
+      <div class="col-8" 
+      [ngClass]="
+      {
+         'divHanded' : selectedBorrow.determineStatus() != 'En retard',
+         'divStolen' : selectedBorrow.determineStatus() == 'En retard',
+      }">
+        <label class="thick">Titre:&nbsp;</label>
+        <span>{{selectedBorrow.book.title}}</span>
+        <br>
+        <label class="thick">Langue d'origine:&nbsp;</label>
+        <span>{{selectedBorrow.book.originalLanguage}}</span>
+        <br>
+        <label class="thick">Date de publication:&nbsp;</label>
+        <span>{{selectedBorrow.book.publishedDate}}</span>
+        <br>
+        <label class="thick">isbn:&nbsp;</label>
+        <span>{{selectedBorrow.book.isbn}}</span>
+        <br>
+        <label class="thick">Description:&nbsp;</label>
+        <span style="display:block; word-break: break-all;">
+            {{selectedBorrow.book.description}}
+        </span>
+      </div>
+    </div>
+
+    <!-- Bouton pour fermer la modal -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close()">Annuler</button>
+    </div>
+</ng-template>

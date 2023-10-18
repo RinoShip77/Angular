@@ -115,3 +115,57 @@ a > span
     cursor: pointer;
     color: rgba(57, 93, 134, 0.781);
 }
+
+.image-livre
+{
+    height: 250px;
+    width: 200px;
+    border: 5px rgba(0, 0, 0, 0.452) ridge;
+    border-radius: 10px;
+}
+
+.div-img
+{
+    border-right: 3px solid rgba(39, 39, 39, 0.397); 
+    margin-right: 25px; 
+    width: fit-content;
+    border-radius: 20px;
+
+}
+
+.thick
+{
+    font-weight: 600;
+}
+
+.handed
+{
+    font-size: 20px;
+    color: green;
+}
+
+.stolen
+{
+    font-size: 20px;
+    color: rgba(68, 81, 152);
+}
+
+.divHanded
+{
+    border: 2px;
+    border-style: solid;
+    border-color: rgba(100, 100, 100, 0.699);
+    background-color: rgba(0, 128, 0, 0.233);
+    padding: 15px;
+    border-radius: 15px;
+    width: 65%;
+}
+
+.divStolen
+{
+    background-color: rgba(39, 49, 107, 0.137);
+    border: 2px solid rgba(100, 100, 100, 0.699);
+    padding: 15px;
+    border-radius: 15px;
+    width: 65%;
+}

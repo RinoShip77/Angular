@@ -23,6 +23,8 @@ export class ReservationComponent implements OnInit {
   desc = false;
   sortBefore = "";
 
+  selectedReservation:Reservation = new Reservation();
+
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
@@ -49,6 +51,13 @@ export class ReservationComponent implements OnInit {
   openAbout(content:any) 
   {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+  }
+
+  //Ouvrir la modal pour les infos du livre
+  openReservationModal(content:any, selectedReservation:Reservation) 
+  {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+    this.selectedReservation = selectedReservation;
   }
 
   //Tri par la valeur

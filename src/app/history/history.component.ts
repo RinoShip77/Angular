@@ -3,7 +3,7 @@ import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { Borrow } from '../model/Borrow';
 import { DataService } from '../data.service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -15,6 +15,8 @@ export class HistoryComponent implements OnInit{
   borrows: Borrow[] = new Array();
 
   @Output() openBorrows = new EventEmitter<User>();
+
+  selectedBorrow:Borrow = new Borrow();
 
   //Lorsque le user reclick sur le même tri, active desc
   //Sinon, le remet à false
@@ -28,7 +30,7 @@ export class HistoryComponent implements OnInit{
     console.log("test");
   }
 
-  constructor(private electrolibService: ElectrolibService, private datasrv: DataService){}
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService){}
 
   retrieveBorrows()
   {
@@ -41,6 +43,13 @@ export class HistoryComponent implements OnInit{
       }
     );
     }
+  }
+
+  //Ouvrir la modal pour les infos du livre
+  openBorrowModal(content:any, selectedBorrow:Borrow) 
+  {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+    this.selectedBorrow = selectedBorrow;
   }
 
   //Tri par la valeur
