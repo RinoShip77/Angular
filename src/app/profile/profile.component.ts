@@ -54,69 +54,76 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to upload a new profile picture to the user
   //---------------------------------
-  updateProfilePicture(idUser: number | undefined) {
-    this.electrolibService.uploadProfilePicture(idUser, this.file_data).subscribe(
-      user => {
-        this.toastService.show('Votre profil a été mis à jour.', {
-          classname: 'bg-success',
-        });
-        this.url = getURLProfilePicture(idUser);
-      },
-      (error) => {
-        this.toastService.show('La mise à jour a échoué.', {
-          classname: 'bg-danger',
-        });
-      }
-    );
+  updateProfilePicture(idUser: number | undefined, pictureNumber: number) {
+    this.url = getURLProfilePicture(pictureNumber);
   }
 
-  //-------------------------------------------------------
-  // Upload an image
-  //-------------------------------------------------------
-  onFileSelected(event: any) {
-    const fileList: FileList = event.target.files;
+  // // //---------------------------------
+  // // // Function to upload a new profile picture to the user
+  // // //---------------------------------
+  // // updateProfilePicture(idUser: number | undefined) {
+  // //   this.electrolibService.uploadProfilePicture(idUser, this.file_data).subscribe(
+  // //     user => {
+  // //       this.toastService.show('Votre profil a été mis à jour.', {
+  // //         classname: 'bg-success',
+  // //       });
+  // //       this.url = getURLProfilePicture(idUser);
+  // //     },
+  // //     (error) => {
+  // //       this.toastService.show('La mise à jour a échoué.', {
+  // //         classname: 'bg-danger',
+  // //       });
+  // //     }
+  // //   );
+  // // }
 
-    if (fileList.length > 0) {
-      this.selectedImage = fileList[0];
+  // //-------------------------------------------------------
+  // // Upload an image
+  // //-------------------------------------------------------
+  // onFileSelected(event: any) {
+  //   const fileList: FileList = event.target.files;
 
-      if (this.validateFile()) {
-        this.file_data = new Blob([this.selectedImage], { type: this.selectedImage.type });;
-      }
-    }
-  }
+  //   if (fileList.length > 0) {
+  //     this.selectedImage = fileList[0];
 
-  //-------------------------------------------------------
-  // Retourne l'extension de l'image
-  //-------------------------------------------------------
-  extractExtension(nomFichier: string) {
-    let extension = nomFichier.split('.').pop();
-    return extension;
-  }
+  //     if (this.validateFile()) {
+  //       this.file_data = new Blob([this.selectedImage], { type: this.selectedImage.type });;
+  //     }
+  //   }
+  // }
 
-  //-------------------------------------------------------
-  // Validate the image before sending it to the DB
-  //-------------------------------------------------------
-  validateFile() {
-    let fileSupported = false;
-    if (this.selectedImage.size <= MAX_FILE_SIZE) {
-      let extension = this.extractExtension(this.selectedImage.name);
-      if (extension?.toLowerCase() === 'png') {
-        fileSupported = true;
-      }
-      if (!fileSupported)
-        this.toastService.show("L'extension du fichier n'est pas supportée.", {
-          classname: 'bg-danger',
-        });
-    }
-    else {
-      fileSupported = false;
-      this.toastService.show('Le fichier est trop volumineux.', {
-        classname: 'bg-danger',
-      });
-    }
+  // //-------------------------------------------------------
+  // // Retourne l'extension de l'image
+  // //-------------------------------------------------------
+  // extractExtension(nomFichier: string) {
+  //   let extension = nomFichier.split('.').pop();
+  //   return extension;
+  // }
 
-    return fileSupported;
-  }
+  // //-------------------------------------------------------
+  // // Validate the image before sending it to the DB
+  // //-------------------------------------------------------
+  // validateFile() {
+  //   let fileSupported = false;
+  //   if (this.selectedImage.size <= MAX_FILE_SIZE) {
+  //     let extension = this.extractExtension(this.selectedImage.name);
+  //     if (extension?.toLowerCase() === 'png') {
+  //       fileSupported = true;
+  //     }
+  //     if (!fileSupported)
+  //       this.toastService.show("L'extension du fichier n'est pas supportée.", {
+  //         classname: 'bg-danger',
+  //       });
+  //   }
+  //   else {
+  //     fileSupported = false;
+  //     this.toastService.show('Le fichier est trop volumineux.', {
+  //       classname: 'bg-danger',
+  //     });
+  //   }
+
+  //   return fileSupported;
+  // }
 
   //---------------------------------
   // Open the modal to update the user password
@@ -229,7 +236,6 @@ export class ProfileComponent implements OnInit {
           this.toastService.show('Votre profil a été mis à jour.', {
             classname: 'bg-success',
           });
-          this.dataService.updateUser(user);
         },
         (error) => {
           this.toastService.show('La mise à jour a échoué.', {

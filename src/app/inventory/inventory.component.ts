@@ -102,18 +102,6 @@ export class InventoryComponent {
   }
 
   //---------------------------------
-  // Open the modal to update the user password
-  //---------------------------------
-  openModal(content: any) {
-    this.modalService.open(content, {
-      animation: true,
-      centered: true,
-      keyboard: true,
-      size: 'lg'
-    });
-  }
-
-  //---------------------------------
   // Function to select witch genre you want to see
   //---------------------------------
   sortInventory() {
@@ -199,13 +187,41 @@ export class InventoryComponent {
   }
 
   //---------------------------------
+  // Open the modal to update the user password
+  //---------------------------------
+  openModal(content: any, size: string) {
+    this.modalService.open(content, {
+      animation: true,
+      centered: true,
+      keyboard: true,
+      size: size
+    });
+  }
+
+  //---------------------------------
   // Function to open the page for a specific book
   //---------------------------------
-  updateDisplay(status: Status): string {
-    if (status.status == 'Disponible') {
-      return 'table-primary';
-    } else {
-      return 'opacity-25';
+  updateDisplay(status: Status) {
+    switch (status.status) {
+      case 'Disponible':
+        return 'table-primary';
+        break;
+      case 'Emprunté':
+        return 'table-dark opacity-50';
+        break;
+      case 'Réservé':
+        return 'table-warning';
+        break;
+      case 'Perdu':
+        return 'opacity-25';
+        break;
+      case 'Supprimé':
+        return 'table-danger';
+        break;
+
+        default:
+          return '';
+          break;
     }
   }
 

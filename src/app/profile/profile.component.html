@@ -1,7 +1,7 @@
 <!-- Profile page -->
 <section class="container-fluid rounded-5 p-4">
-  <div class="row">
-    <div class="col-5 mx-5 p-1 border-end border-3 border-secondary">
+  <div class="d-flex">
+    <div class="col-4 mx-5 p-1 border-end border-3 border-secondary">
       <div class="mx-5">
         <a type="button" class="d-flex justify-content-end" (click)="openModal(preferenceContent)">
           <i class="fas fa-toolbox text-secondary" style="font-size: 5em"></i>
@@ -9,22 +9,12 @@
         <div class="my-3">
           <div class="d-flex justify-content-center">
             <img src="{{url}}" class="img-fluid img-thumbnail w-50 border-3 border-dark rounded-circle"
-              alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}">
+              alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}" onerror="this.src='assets/images/users/default-user.png'">
           </div>
-          <button class="btn btn-secondary rounded-circle" style="margin: 15%; margin-top: -50px" (click)="openModal(profilePictureContent)">
+          <button class="btn btn-secondary rounded-circle" style="margin: 15%; margin-top: -50px"
+            (click)="openModal(profilePictureContent)">
             <i class="fas fa-plus text-dark fs-2"></i>
           </button>
-
-          <!-- <form (ngSubmit)="updateProfilePicture(user?.idUser)" class="d-flex justify-content-end"
-            style="margin-right: 15%; margin-top: -50px">
-            <label for="file-upload" class="btn btn-secondary rounded-circle text-dark fs-2">
-              <i class="fas fa-plus"></i>
-            </label>
-            <input name="profilePicture" class="d-none" id="file-upload" type="file" accept="image/*"
-              (change)="onFileSelected($event)">
-            <button type="submit" class="bg-transparent">
-            </button>
-          </form> -->
         </div>
         <div>
           <h1>{{user?.firstName + ' ' + user?.lastName}}</h1>
@@ -166,26 +156,36 @@
 <!-- Update profile picture modal -->
 <ng-template #profilePictureContent let-modal>
   <div class="modal-body">
-    <h4>Mise à jour de la poto de profil</h4>
+    <h2>Mise à jour de la poto de profil</h2>
     <hr>
-    <ngb-carousel class="m-3">
-      <ng-template ngbSlide class="row">
-        <img src="assets/images/users/profilePictures/Picture1.png" class="col-6" alt="Picture 1">
-        <img src="assets/images/users/profilePictures/Picture2.png" class="col-6" alt="Picture 2">
-      </ng-template>
-      <ng-template ngbSlide class="row">
-        <img src="assets/images/users/profilePictures/Picture3.png" class="float-left mx-2" alt="Picture 3">
-        <img src="assets/images/users/profilePictures/Picture4.png" class="float-right" alt="Picture 4">
-      </ng-template>
-      <ng-template ngbSlide class="row">
-        <img src="assets/images/users/profilePictures/Picture5.png" class="float-left mx-2" alt="Picture 5">
-        <img src="assets/images/users/profilePictures/Picture6.png" class="float-right" alt="Picture 6">
+    <ngb-carousel class="p-5 bg-dark-subtle rounded-5" [animation]="true" [interval]="10000">
+      <ng-template ngbSlide>
+        <div class="d-flex justify-content-between mx-5">
+          <img src="assets/images/users/profilePictures/Picture1.png" alt="Picture 1" type="button" (click)="updateProfilePicture(user?.idUser, 1)">
+          <img src="assets/images/users/profilePictures/Picture2.png" alt="Picture 2" type="button" (click)="updateProfilePicture(user?.idUser, 2)">
+          <img src="assets/images/users/profilePictures/Picture3.png" alt="Picture 3" type="button" (click)="updateProfilePicture(user?.idUser, 3)">
+          <img src="assets/images/users/profilePictures/Picture4.png" alt="Picture 4" type="button" (click)="updateProfilePicture(user?.idUser, 4)">
+        </div>
       </ng-template>
       <ng-template ngbSlide>
-        <img src="assets/images/users/profilePictures/Picture7.png" class="float-left mx-2" alt="Picture 7">
-        <img src="assets/images/users/profilePictures/Picture8.png" class="float-right" alt="Picture 8">
-      </ng-template>
+        <div class="d-flex justify-content-between mx-5">
+          <img src="assets/images/users/profilePictures/Picture5.png" alt="Picture 5" type="button" (click)="updateProfilePicture(user?.idUser, 5)">
+          <img src="assets/images/users/profilePictures/Picture6.png" alt="Picture 6" type="button" (click)="updateProfilePicture(user?.idUser, 6)">
+          <img src="assets/images/users/profilePictures/Picture7.png" alt="Picture 7" type="button" (click)="updateProfilePicture(user?.idUser, 7)">
+          <img src="assets/images/users/profilePictures/Picture8.png" alt="Picture 8" type="button" (click)="updateProfilePicture(user?.idUser, 8)">
+        </div>
+        </ng-template>
     </ngb-carousel>
+    <!-- <form (ngSubmit)="updateProfilePicture(user?.idUser)" class="d-flex justify-content-end"
+            style="margin-right: 15%; margin-top: -50px">
+            <label for="file-upload" class="btn btn-secondary rounded-circle text-dark fs-2">
+              <i class="fas fa-plus"></i>
+            </label>
+            <input name="profilePicture" class="d-none" id="file-upload" type="file" accept="image/*"
+              (change)="onFileSelected($event)">
+            <button type="submit" class="bg-transparent">
+            </button>
+          </form> -->
   </div>
 </ng-template>
 

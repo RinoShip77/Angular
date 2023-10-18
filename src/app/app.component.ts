@@ -50,4 +50,11 @@ export class AppComponent {
     }
     return false;
   }
+
+  getStyles() {
+    return {
+      'margin-top': '5em',
+      'margin-left': '5em'
+    };
+  }
 }

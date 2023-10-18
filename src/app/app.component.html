@@ -7,7 +7,7 @@
     <app-admin-navbar></app-admin-navbar>
   </header>
 
-  <main [ngStyle]="{'margin': checkUser() == true? '5em' : ''}">
+  <main [ngStyle]="checkUser() ? getStyles() : {}">
     <app-toast [ngClass]="!checkUser() ? 'd-none' : ''"></app-toast>
 
     <!-- Le router -->
