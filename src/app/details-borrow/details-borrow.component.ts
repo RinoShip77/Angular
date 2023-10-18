@@ -36,6 +36,9 @@ export class DetailsBorrowComponent {
      this.electrolibSrv.getBook(id).subscribe(receivedBook =>{
       this.book=receivedBook;
       console.log(this.book+ "book");
+      if(this.book.idStatus==2){
+        this.failureBorrow();
+      }
 
       //je mets le code pour aller chercher le genre ici, je pense que subsrcibe fait un bug sinon
       //this.electrolibSrv.getGenre(this.book.idGenre).subscribe(receivedGenre=>{
