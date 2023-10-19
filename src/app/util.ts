@@ -13,7 +13,7 @@ export function getURLProfilePicture(idUser: number | undefined)
   let url = '';
   
   if(idUser) {
-    url = urlServer + '/public/images/users/' + idUser + ".png";
+    url = urlServer + '../public/images/users/' + idUser + ".png";
   }
 
   return url;
