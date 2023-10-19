@@ -16,9 +16,6 @@ import { EncrDecrService } from '../encr-decr.service';
 export class ProfileComponent implements OnInit {
   user: User | undefined = new User();
   selectedImage: any;
-  formData = new FormData();
-  file: any;
-  file_data: any = "";
   colorSwitch: boolean = false;
   url: string = '';
 
@@ -34,11 +31,14 @@ export class ProfileComponent implements OnInit {
     if (this.dataService.getUser() != undefined) {
       this.user = this.dataService.getUser();
     }
+
     if (localStorage.getItem('theme') != 'light') {
       this.colorSwitch = true;
     } else {
       this.colorSwitch = false;
     }
+
+    this.url = getURLProfilePicture(this.user?.idUser);
   }
 
   //---------------------------------
@@ -56,7 +56,19 @@ export class ProfileComponent implements OnInit {
   // Function to upload a new profile picture to the user
   //---------------------------------
   updateProfilePicture(idUser: number | undefined, pictureNumber: number) {
-    this.url = getURLProfilePicture(pictureNumber);
+    this.electrolibService.updateProfilePicture(idUser, pictureNumber).subscribe(
+      user => {
+        this.toastService.show('Votre profil a été mis à jour.', {
+          classname: 'bg-success',
+        });
+        this.url = 'assets/images/users/profilePictures/Picture' + pictureNumber + '.png';
+      },
+      (error) => {
+        this.toastService.show('La mise à jour a échoué.', {
+          classname: 'bg-danger',
+        });
+      }
+    );
   }
 
   //---------------------------------

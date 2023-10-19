@@ -1,4 +1,4 @@
-export const urlServer = 'http://localhost:8000/';
+export const urlServer = 'https://localhost:8000/';
 export const MAX_FILE_SIZE:number = 500*1048;
 export const ENCRYPTION_KEY: string = '123456$#@$^@1ERF';
 
@@ -8,8 +8,13 @@ export function getURLBookCover(idBook: number)
   return urltmp;
 }
 
-export function getURLProfilePicture(pictureNumber: number)
+export function getURLProfilePicture(idUser: number | undefined)
 {
-  let urltmp = urlServer + '../images/users/Picture' + pictureNumber + ".png"; 
-  return urltmp;
+  let url = '';
+  
+  if(idUser) {
+    url = urlServer + '../images/users/' + idUser + ".png";
+  }
+
+  return url;
 }

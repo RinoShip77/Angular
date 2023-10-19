@@ -333,18 +333,21 @@ export class ElectrolibService {
     return this.http.put<Book>(url, requestData);*/
   }
 
-  // //--------------------------------
-  // // Update the profile informations
-  // //--------------------------------
-  // uploadProfilePicture(idUser: number | undefined, imageData: string) {
-  //   const formData = new FormData();
-  //   formData.append('action', 'updateProfilePicture');
-  //   formData.append('profilePicture', imageData);
-    
-  //   let url = urlServer + 'user/' + idUser;
-    
-  //   return this.http.post(url, formData);
-  // }
+  //--------------------------------
+  // Update the profile informations
+  //--------------------------------
+  updateProfilePicture(idUser: number | undefined, pictureNumber: number) {
+    let url = urlServer + 'user/' + idUser;
+
+    const params = new HttpParams({
+      fromObject: {
+        action: 'updateProfilePicture',
+        pictureNumber: pictureNumber
+      }
+    });
+
+    return this.http.post(url, params);
+  }
   
   //--------------------------------
   // Update the profile informations
