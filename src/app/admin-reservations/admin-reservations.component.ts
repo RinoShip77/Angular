@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { Reservation } from '../model/Reservation';
 import { ElectrolibService } from '../electrolib.service';
 import { Borrow } from '../model/Borrow';
+import { Book } from '../model/Book';
+import { getURLBookCover } from '../util';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin-reservations',
@@ -14,6 +17,7 @@ export class AdminReservationsComponent {
   displayedReservations: Reservation[] = [];
   activeBorrows: Borrow[] = [];
   ReservationsData: any;
+  book: Book = new Book();
 
   searchField: string = "";
   selectedSearchBy: String = "title";
@@ -21,7 +25,7 @@ export class AdminReservationsComponent {
 
   isChecked = true;
 
-  constructor(private electrolibService: ElectrolibService) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal) { }
 
   ngOnInit() {
 
@@ -49,7 +53,7 @@ export class AdminReservationsComponent {
     if (!this.ReservationsData) {
       return null;
     }
-  
+
     const reservation = this.ReservationsData.find(
       (res: { idReservation: number; }) => res.idReservation === idReservation
     );
@@ -63,7 +67,7 @@ export class AdminReservationsComponent {
     if (!this.ReservationsData) {
       return "";
     }
-  
+
     const reservation = this.ReservationsData.find(
       (res: { idReservation: number; }) => res.idReservation === idReservation
     );
@@ -116,7 +120,7 @@ export class AdminReservationsComponent {
         }
       });
       this.displayedReservations = tempRes;
-    } 
+    }
 
     else {
       this.displayedReservations = this.reservations;
@@ -189,7 +193,7 @@ export class AdminReservationsComponent {
           this.displayedReservations.sort((a, b) => (a.reservationDate > b.reservationDate ? 1 : -1));
           break;
       }
-    } 
+    }
     else {
       switch (this.selectedSearchBy) {
         case "title":
@@ -229,7 +233,7 @@ export class AdminReservationsComponent {
 
     const nowDate: Date = new Date();
     const dueDate: Date = new Date(this.getDueDate(idReservation));
-    
+
 
     if (nowDate >= dueDate) {
       return "En retard";
@@ -255,6 +259,28 @@ export class AdminReservationsComponent {
         console.error('Cancel failed:', error);
       }
     );
-}
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  openAbout(content: any, idBook: number) 
+  {
+    this.book = new Book();
+    this.electrolibService.getBook(idBook).subscribe(
+      book => {
+        this.book = book;
+      }
+    );
+
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getBookCover(idBook: number) {
+    return getURLBookCover(idBook);
+  }
 
 }

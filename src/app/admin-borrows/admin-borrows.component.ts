@@ -3,6 +3,10 @@ import { Borrow } from '../model/Borrow';
 import { ElectrolibService } from '../electrolib.service';
 import { format } from 'date-fns';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Book } from '../model/Book';
+import { getURLBookCover } from '../util';
+import { Genre } from '../model/Genre';
 
 @Component({
   selector: 'app-admin-borrows',
@@ -13,6 +17,7 @@ export class AdminBorrowsComponent {
 
   borrows: Borrow[] = [];
   displayedBorrows: Borrow[] = [];
+  book: Book = new Book();
 
   searchField: string = "";
   selectedSearchBy: String = "title";
@@ -21,7 +26,7 @@ export class AdminBorrowsComponent {
   isChecked: Boolean = true;
   isCheckedLates: Boolean = false;
 
-  constructor(private electrolibService: ElectrolibService) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal) { }
 
   ngOnInit() {
 
@@ -263,6 +268,28 @@ export class AdminBorrowsComponent {
     }
 
     return false;
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  openAbout(content: any, idBook: number) 
+  {
+    this.book = new Book();
+    this.electrolibService.getBook(idBook).subscribe(
+      book => {
+        this.book = book;
+      }
+    );
+
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getBookCover(idBook: number) {
+    return getURLBookCover(idBook);
   }
 
 }

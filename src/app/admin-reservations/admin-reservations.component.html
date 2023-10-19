@@ -82,7 +82,7 @@
                         <td style="font-weight: bold; color: red;">{{checkIfLate(reservation.idReservation)}}</td>
                         <td>
                             <article style="display: flex;">
-                                <button class="btn btn-outline-dark btn-action">
+                                <button class="btn btn-outline-dark btn-action" (click)="openAbout(about, reservation.book.idBook)"s>
                                     <i class="fa-solid fa-book-open-reader"></i>
                                     <span class="info-tooltip">Détails</span>
                                 </button>
@@ -97,6 +97,47 @@
                 </tbody>
             </table>
         </section>
+
+        <!-- Modal pour afficher les détails d'un livre -->
+        <ng-template #about let-modal>
+            
+            <div class="container row mx-auto p-5">
+                <section class="imageLivre col-5">
+                    <img class="img-fluid"
+                        src={{getBookCover(book.idBook)}}
+                        alt="imageDuLivre">
+                </section>
+                <section class="infoLivre col-6 offset-1 ">
+                    <h2>{{book.title}}</h2>
+                    <p>
+                        {{book.description}}
+                    </p>
+        
+                    <div class="row">
+                        <p class="col-6">Genre :</p>
+                        <p class="col-6"></p>
+                    </div>
+                    <div class="row">
+                        <p class="col-6">Langue :</p>
+                        <p class="col-6">{{book.originalLanguage}}</p>
+                    </div>
+                    <div class="row">
+                        <p class="col-6">Date de publication :</p>
+                        <p class=" col-6">{{book.publishedDate | date : 'yyyy-MM-dd'}}</p>
+        
+                    </div>
+                    <div class="row">
+                        <p class="col-6">Isbn :</p>
+                        <p class="col-6">{{book.isbn}}</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Bouton pour fermer la modal -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+            </div>
+        </ng-template>
 
     </section>
 </section>
