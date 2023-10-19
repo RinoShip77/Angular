@@ -91,10 +91,11 @@ export class ProfileComponent implements OnInit {
       if (passwords.activePassword !== passwords.newPassword) {
         if (passwords.newPassword === passwords.confirmationPassword) {
           // * Encrypte the password
-          // * De-comment those line to encrypte
-          // let encrypted = this.Encryption.set(ENCRYPTION_KEY, passwords.newPassword);
-          // this.electrolibService.updateProfile('updatePassword', idUser, { newPassword: encrypted }).subscribe(
-          
+          // * De-comment this line to encrypte
+          //let encrypted = this.Encryption.set(ENCRYPTION_KEY, passwords.newPassword);
+   
+          // * De-comment this line to encrypte and erase the next line
+          //this.electrolibService.updateProfile('updatePassword', idUser, { newPassword: encrypted }).subscribe(
           this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
             user => {
               this.toastService.show('Votre mot de passe a été mis à jour.', {

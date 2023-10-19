@@ -37,11 +37,6 @@ export class ConnectionComponent {
     } else {
       this.temporaryUser.memberNumber = "11";
       this.temporaryUser.password = "11";
-
-      // * Encrypte the password
-      // * De-comment this line to encrypte
-      // this.temporaryUser.password = this.Encryption.set(ENCRYPTION_KEY, '11');
-
       this.retrieveAccount();
     }
   }
