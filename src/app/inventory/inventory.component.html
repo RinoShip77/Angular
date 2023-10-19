@@ -80,8 +80,8 @@
             <div class="card h-100 mb-3">
               <div class="row g-0">
                 <div class="col-4">
-                  <img src="{{book.cover}}" class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
-                    title="{{book.title}}" (error)="handleMissingImage($event)">
+                  <img src={{getBookCover(book.idBook)}} class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
+                    title="{{book.title}}">
                 </div>
                 <div class="col-8">
                   <div class="card-body">
