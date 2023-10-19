@@ -4,7 +4,7 @@ export const ENCRYPTION_KEY: string = '123456$#@$^@1ERF';
 
 export function getURLBookCover(idBook: number)
 {
-  let urltmp = urlServer + '../images/books/' + idBook + ".png"; 
+  let urltmp = urlServer + '../public/images/books/' + idBook + ".png"; 
   return urltmp;
 }
 
@@ -13,7 +13,7 @@ export function getURLProfilePicture(idUser: number | undefined)
   let url = '';
   
   if(idUser) {
-    url = urlServer + '/images/users/' + idUser + ".png";
+    url = urlServer + '/public/images/users/' + idUser + ".png";
   }
 
   return url;
