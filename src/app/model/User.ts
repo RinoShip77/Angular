@@ -30,4 +30,8 @@ export class User {
   evaluations: Evaluation[] = new Array();
   favorites: Favorite[] = new Array();
   reservations: Reservation[] = new Array();
+
+  // * In the data base, change the plain password for encryted password
+  // Password: '11'  ->  Encrypted: '++cdq/GB/bH/XEbb9RrLrg=='
+  // Password: 'admin'  ->  Encrypted: 'SMecCl59g0Q75GIxCgLagQ=='
 }

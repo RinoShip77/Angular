@@ -4,7 +4,7 @@ import { User } from '../model/User';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { DataService } from '../data.service';
-import { EncrDecrService } from '../encr-decr.service';
+import { EncryptionService } from '../encryption.service';
 import { ENCRYPTION_KEY } from '../util';
 
 @Component({
@@ -20,7 +20,7 @@ export class ConnectionComponent {
 
   @Output() connected = new EventEmitter<User>();
 
-  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService, private EncrDecr: EncrDecrService) { }
+  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService, private Encryption: EncryptionService) { }
 
   //--------------------------------
   // Function to connect a user
@@ -28,15 +28,20 @@ export class ConnectionComponent {
   connect(type: string) {
     if (type == "credentials") {
       if (this.temporaryUser.memberNumber.toString().length > 0 && this.temporaryUser.password.length > 0) {
-        
+
         this.retrieveAccount();
-        
+
       } else {
         alert('Erreur: Veuillez fournir les informations nécessaires.');
       }
     } else {
       this.temporaryUser.memberNumber = "11";
       this.temporaryUser.password = "11";
+
+      // * Encrypte the password
+      // * De-comment this line to encrypte
+      // this.temporaryUser.password = this.Encryption.set(ENCRYPTION_KEY, '11');
+
       this.retrieveAccount();
     }
   }
@@ -45,29 +50,32 @@ export class ConnectionComponent {
   // Récupère un compte en base de données par les informations fournies
   //-------------------------------------------------------
   retrieveAccount() {
-    // this.temporaryUser.password = this.EncrDecr.set(ENCRYPTION_KEY, this.temporaryUser.password);    
+    // * Encrypte the password
+    // * De-comment this line to encrypte
+    // this.temporaryUser.password = this.Encryption.set(ENCRYPTION_KEY, this.temporaryUser.password);
+
     this.electrolibService.connection(this.temporaryUser).subscribe(
       connectedUser => {
-        if (connectedUser.memberNumber === this.temporaryUser.memberNumber && 
+        if (connectedUser.memberNumber === this.temporaryUser.memberNumber &&
           connectedUser.password === this.temporaryUser.password) {
-          
-            if (connectedUser.roles === '["ROLE_ADMIN"]') {
+
+          if (connectedUser.roles === '["ROLE_ADMIN"]') {
             this.user = connectedUser;
 
             this.dataService.updateUser(this.user);
 
             this.connected.emit(this.user);
             this.router.navigate(["adminInventory"]);
-            
+
           } else {
             this.user = connectedUser;
 
             this.dataService.updateUser(this.user);
-            
+
             this.router.navigate(["/inventory"]);
             //this.connected.emit(this.user);
-       
-          } 
+
+          }
         } else {
           alert('Erreur: Informations de connexion incorrectes.');
         }

@@ -6,7 +6,7 @@ import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 import { ENCRYPTION_KEY, MAX_FILE_SIZE, getURLProfilePicture } from '../util';
 import { ToastService } from '../toast.service';
-import { EncrDecrService } from '../encr-decr.service';
+import { EncryptionService } from '../encryption.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to display every book in the database
   //---------------------------------
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router, private toastService: ToastService, private EncrDecr: EncrDecrService) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router, private toastService: ToastService, private Encryption: EncryptionService) { }
 
   //---------------------------------
   // Function to display every book in the database
@@ -90,9 +90,11 @@ export class ProfileComponent implements OnInit {
     if (this.user?.password === passwords.activePassword) {
       if (passwords.activePassword !== passwords.newPassword) {
         if (passwords.newPassword === passwords.confirmationPassword) {
-          // let encrypted = this.EncrDecr.set(ENCRYPTION_KEY, passwords.newPassword);
-          
+          // * Encrypte the password
+          // * De-comment those line to encrypte
+          // let encrypted = this.Encryption.set(ENCRYPTION_KEY, passwords.newPassword);
           // this.electrolibService.updateProfile('updatePassword', idUser, { newPassword: encrypted }).subscribe(
+          
           this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
             user => {
               this.toastService.show('Votre mot de passe a été mis à jour.', {
