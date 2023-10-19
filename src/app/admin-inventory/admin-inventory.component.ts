@@ -3,6 +3,8 @@ import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { Book } from '../model/Book';
 import { DataService } from '../data.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { getURLBookCover } from '../util';
 
 @Component({
   selector: 'app-admin-inventory',
@@ -18,8 +20,9 @@ export class AdminInventoryComponent {
   searchField: string = "";
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
+  book: Book = new Book();
 
-  constructor(private electrolibService: ElectrolibService, private dataService: DataService) { }
+  constructor(private electrolibService: ElectrolibService, private dataService: DataService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.retrieveBooks();
@@ -117,5 +120,27 @@ export class AdminInventoryComponent {
 
   changeTab(tab: string) {
     this.dataService.changeTab(tab);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  openAbout(content: any, idBook: number) 
+  {
+    this.book = new Book();
+    this.electrolibService.getBook(idBook).subscribe(
+      book => {
+        this.book = book;
+      }
+    );
+
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getBookCover(idBook: number) {
+    return getURLBookCover(idBook);
   }
 }
