@@ -31,7 +31,7 @@ export class RecommendedComponent {
      this.electrolibSrv.getRecommended(this.user.idUser).subscribe(receivedBooks =>{
       this.recommendedBooks=receivedBooks;
       console.log(this.recommendedBooks);
-      setTimeout(() =>this.showSlides(this.slideIndex), 1000);
+      setTimeout(() =>this.showSlides(this.slideIndex), 200);
       
   })};
   }

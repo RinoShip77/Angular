@@ -12,7 +12,7 @@
     </div>
   </div>
  -->
- <div type="button" class="col mySlides" id="mySlides" *ngFor="let book of recommendedBooks" (click)="displayBook(book.idBook)" hidden>
+ <div type="button" class="col mySlides" id="mySlides" *ngFor="let book of recommendedBooks" (click)="displayBook(book.idBook)">
     <div class="card h-100 mb-3">
       <div class="row g-0">
         <div class="col-4">
@@ -27,8 +27,8 @@
             <p class="mb-3">{{book.description}}</p>
             <div class="d-flex justify-content-between mt-3">
               <div class="d-flex align-items-center">
-                <i class="text-danger fs-2"
-                  [ngClass]="(book.isFavorite) ? 'fas fa-heart' : 'far fa-heart'"></i>
+                <i title="une étoile veut dire que le livre vous est recommendé par les administrateurs.les barres veulent dire que le livre est recommendé selon votre historique" class="text-danger fs-2"
+                  [ngClass]="(book.isRecommended) ? 'fa-regular fa-star' : 'fa-regular fa-chart-bar'"></i>
               </div>
             </div>
           </div>
