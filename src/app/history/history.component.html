@@ -74,7 +74,7 @@
                     <td *ngIf="borrow.determineStatus() != 'En retard'" class="td-thick" style="font-weight: 700;">Remis
                     </td>
                     <td *ngIf="borrow.determineStatus() == 'En retard'" class="td-thick"
-                        style="font-weight: 700; color: rgb(68,80,152);">Volé</td>
+                        style="font-weight: 700; color: rgb(68,80,152);">Perdu</td>
 
 
                     <!-- Bouton Détails -->
@@ -101,7 +101,7 @@
     <div class="modal-header modal-lg" >
       <h4 class="modal-title" id="modal-basic-title">Information du livre</h4> 
       <span *ngIf="selectedBorrow.determineStatus() != 'En retard'" class="thick handed">(Remis)</span>
-      <span *ngIf="selectedBorrow.determineStatus() == 'En retard'" class="thick stolen">(Volé)</span>
+      <span *ngIf="selectedBorrow.determineStatus() == 'En retard'" class="thick stolen">(Perdu)</span>
     </div>
   
     <!--  -->
