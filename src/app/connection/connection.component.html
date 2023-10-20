@@ -16,10 +16,12 @@
 
         <article style="width: 80%; margin: auto; margin-bottom: 30px;">
           <label class="form-label fw-bold">Numéro de membre</label>
-          <input [(ngModel)]="temporaryUser.memberNumber" name="memberNumber" placeholder="Votre numéro de membre" type="text" class="form-control">
+          <input [(ngModel)]="temporaryUser.memberNumber" name="memberNumber" placeholder="Votre numéro de membre"
+            type="text" class="form-control">
 
           <label class="form-label fw-bold">Mot de passe</label>
-          <input [(ngModel)]="temporaryUser.password" name="pwd" placeholder="Votre mot de passe" type="password" class="form-control">
+          <input [(ngModel)]="temporaryUser.password" name="pwd" placeholder="Votre mot de passe" type="password"
+            class="form-control">
 
         </article>
 
@@ -35,13 +37,23 @@
               Se connecter
             </button>
           </form>
-  
-          <form (ngSubmit)="connect('cheat')" style="margin-top: 10px;">
+        </div>
+
+        <!-- #region 2023-10-20 11:04 - Olivier Bourgault -->
+          <!-- Uncomment the "cheatButton" -->
+          <form class="my-2" (ngSubmit)="connect('cheatUser')">
             <button class="btn btn-warning" type="submit">
-              Tricher
+              Tricher<br>(en tant que membre)
             </button>
           </form>
-        </div>
+
+          <!-- Add a new button to cheat as admin -->
+          <form (ngSubmit)="connect('cheatAdmin')">
+            <button class="btn btn-warning" type="submit">
+              Tricher<br>(en tant qu'administrateur)
+            </button>
+          </form>
+        <!-- #endregion -->
 
         <!--
           <button class="btn btn-warning" (click)="createAccount()">
