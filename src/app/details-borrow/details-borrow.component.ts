@@ -29,14 +29,12 @@ export class DetailsBorrowComponent {
   ngOnInit() {
     this.returnDate.setDate(this.currentDate.getDate()+7*1);
     this.user = this.dataSrv.getUser();
-    console.log("oninit validBorrow");
 
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if(id){
      this.electrolibSrv.getBook(id).subscribe(receivedBook =>{
       this.book=receivedBook;
-      console.log(this.book+ "book");
       if(this.book.idStatus==2){
         this.failureBorrow();
       }
@@ -54,11 +52,12 @@ export class DetailsBorrowComponent {
     if(this.user){
       this.electrolibSrv.createBorrow(this.book,this.user).subscribe(
         receivedBorrow=>{
-          if(receivedBorrow!=null){
-            this.succesBorrow();
+          console.log(receivedBorrow);
+          if(receivedBorrow.book==null){
+            this.failureBorrow();
           }
           else{
-            this.failureBorrow();
+            this.succesBorrow();
           }
         }
       )};
@@ -78,6 +77,7 @@ export class DetailsBorrowComponent {
   Acceuil(){
     this.router.navigate(['inventory']);
   }
+
   getBookCover(idBook: number) {
     return getURLBookCover(idBook);
   }

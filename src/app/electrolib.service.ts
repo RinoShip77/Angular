@@ -277,7 +277,6 @@ export class ElectrolibService {
 
   createBorrow(book:Book,user:User){
     const url = `${urlServer}create-Borrow`;
-    console.log(user.idUser);
     const formData = new FormData();
     formData.append('idBook',book.idBook.toString());
     formData.append('idUser',user.idUser.toString());
