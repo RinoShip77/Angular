@@ -117,15 +117,14 @@ export class ElectrolibService {
 
   getBorrow(idBorrow:Number)
   {
-    let url = "http://127.0.0.1:8000/borrows/borrow/" + idBorrow;
+    let url = urlServer + "borrows/borrow/" + idBorrow;
     return this.http.get<Borrow>(url);
   }
 
   getBorrowsFromUser(user: User)
   {
     let idUser = user.idUser;
-    let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/borrows/" + idUser;
+    let url = urlServer + 'borrows/' + idUser;
 
     return this.http.get<Borrow[]>(url);
   }
@@ -133,8 +132,7 @@ export class ElectrolibService {
   getBorrowsHistoryFromUser(user: User)
   {
     let idUser = user.idUser;
-    let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/borrows/history/" + idUser;
+    let url = urlServer + "borrows/history/" + idUser;
 
     return this.http.get<Borrow[]>(url);
   }
@@ -142,8 +140,7 @@ export class ElectrolibService {
   getBorrowsOrderedBy(user: User, order:any)
   {
     let idUser = user.idUser;
-    let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/borrows/" + idUser + "/" + order;
+    let url = urlServer + "borrows/" + idUser + "/" + order;
 
     return this.http.get<Borrow[]>(url);
   }
@@ -151,8 +148,7 @@ export class ElectrolibService {
   getBorrowsHistoryOrderedBy(user: User, order:any)
   {
     let idUser = user.idUser;
-    let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/borrows/history/" + idUser + "/" + order;
+    let url = urlServer + "borrows/history/" + idUser + "/" + order;
 
     return this.http.get<Borrow[]>(url);
   }
@@ -160,8 +156,8 @@ export class ElectrolibService {
   renewDueDate(borrow: Borrow)
   {
     let idBorrow = borrow.idBorrow;
-    let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/renew/" + idBorrow;
+    let url = urlServer + "renew/" + idBorrow;
+
     return this.http.get<any>(url);
   }
 
@@ -176,7 +172,7 @@ export class ElectrolibService {
   {
     let idUser = user.idUser;
     let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/reservations/" + idUser + "/" + order;
+    url = urlServer + "reservations/" + idUser + "/" + order;
 
     return this.http.get<Reservation[]>(url);
   }
@@ -185,7 +181,7 @@ export class ElectrolibService {
   {
     let idReservation = reservation.idReservation;
     let url = urlServer + 'borrows';
-    url = "http://127.0.0.1:8000/reservations/cancel/" + idReservation;
+    url = urlServer + "reservations/cancel/" + idReservation;
 
     return this.http.get<Reservation>(url);
   }
