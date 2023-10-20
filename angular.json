@@ -31,6 +31,11 @@
             "scripts": [
               "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/crypto-js/crypto-js.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "crypto-js",
+              "moment",
+              "moment/local/pt-br"
             ]
           },
           "configurations": {
