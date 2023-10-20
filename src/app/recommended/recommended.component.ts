@@ -30,7 +30,7 @@ export class RecommendedComponent {
 
     if(this.user.idUser){
      this.electrolibSrv.getRecommended(this.user.idUser).subscribe(receivedBooks =>{
-      this.recommendedBooks=receivedBooks;
+      this.recommendedBooks=receivedBooks.slice(0,10);
       console.log(this.recommendedBooks);
       setTimeout(() =>this.showSlides(this.slideIndex), 200);
       
