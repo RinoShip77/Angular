@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from '../model/Book';
+import { getURLBookCover } from '../util';
 //import { Genre } from '../model/Genre';
 
 @Component({
@@ -32,6 +33,9 @@ export class DetailLivreComponent {
     //  });
      });
     }
+  }
+  getBookCover(idBook: number) {
+    return getURLBookCover(idBook);
   }
 
 }

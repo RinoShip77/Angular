@@ -3,6 +3,7 @@ import { ElectrolibService } from '../electrolib.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '../model/Book';
 import { DataService } from '../data.service';
+import { getURLBookCover } from '../util';
 
 @Component({
   selector: 'app-recommended',
@@ -63,5 +64,9 @@ export class RecommendedComponent {
 displayBook(idBook: number) {
   console.log(idBook)
   this.router.navigate(['detailLivre',idBook]);
+}
+
+getBookCover(idBook: number) {
+  return getURLBookCover(idBook);
 }
 }

@@ -5,6 +5,7 @@ import { Genre } from '../model/Genre';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { User } from '../model/User';
+import { getURLBookCover } from '../util';
 
 @Component({
   selector: 'app-details-borrow',
@@ -76,5 +77,8 @@ export class DetailsBorrowComponent {
 
   Acceuil(){
     this.router.navigate(['inventory']);
+  }
+  getBookCover(idBook: number) {
+    return getURLBookCover(idBook);
   }
 }
