@@ -6,6 +6,7 @@ import { Reservation } from '../model/Reservation';
 import { Borrow } from '../model/Borrow';
 import { Book } from '../model/Book';
 import { DataService } from '../data.service';
+import { getURLBookCover } from '../util';
 
 @Component({
   selector: 'app-reservation',
@@ -29,6 +30,11 @@ export class ReservationComponent implements OnInit {
   {
     this.user = this.datasrv.getUser();
     this.retrieveReservations();
+  }
+
+  getBookCover(idBook: number) 
+  {
+    return getURLBookCover(idBook);
   }
 
   constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService) { }

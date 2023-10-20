@@ -13,15 +13,15 @@
         <div class="col-6 row div-livre">
             <!-- Image du livre -->
             <div class="col-4">
-                <img class="image-livre" src="../assets/images/books/1.png">
+                <img class="image-livre" src="{{getBookCover(borrow.book.idBook)}}">
             </div>
             <!-- Infos du livre -->
             <div class="col-6 div-info-emprunt" >
                 <label>Nom du livre:&nbsp;</label>
-                <span>{{book.title}}</span>
+                <span>{{borrow.book.title}}</span>
                 <br>
                 <label>isbn:&nbsp;</label>
-                <span>{{book.isbn}}</span>
+                <span>{{borrow.book.isbn}}</span>
                 <br>
                 <label>Auteur du livre:&nbsp;</label>
                 <span>{{book.author.firstName}} {{book.author.lastName}}</span>

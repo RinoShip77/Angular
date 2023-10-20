@@ -5,6 +5,7 @@ import { User } from '../model/User';
 import { Book } from '../model/Book';
 import { DataService } from '../data.service';
 import { ActivatedRoute } from '@angular/router';
+import { getURLBookCover } from '../util';
 
 @Component({
   selector: 'app-borrow-details',
@@ -17,10 +18,12 @@ export class BorrowDetailsComponent implements OnInit {
   user: User | undefined = new User();
   book:Book = new Book();
 
+  idBook = 0;
+
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
-    const idBorrow = Number(this.route.snapshot.paramMap.get('id'));
+    let idBorrow = Number(this.route.snapshot.paramMap.get('id'));
 
     this.retrieveBorrow(idBorrow);
   }
@@ -32,15 +35,29 @@ export class BorrowDetailsComponent implements OnInit {
       this.electrolibService.getBorrow(idBorrow).subscribe(
         borrow => {
           this.borrow = Object.assign(new Borrow(), borrow);
-        }
-      );
-
-      this.electrolibService.getBookBorrowed(this.borrow.book.idBook).subscribe(
-        book => {
-          this.book = Object.assign(new Book(), book)
+          this.idBook = borrow.book.idBook;
+          this.retrieveBook(this.idBook);
         }
       );
     }
+  }
+
+  retrieveBook(idBook:number)
+  {
+    if(this.user)
+    {
+      this.electrolibService.getBookBorrowed(idBook).subscribe(
+        book => {
+          this.book = Object.assign(new Book(), book)
+          console.log(idBook)
+        }
+      );
+    }
+  }
+
+  getBookCover(idBook: number) 
+  {
+    return getURLBookCover(idBook);
   }
 
   constructor(private electrolibService: ElectrolibService, private datasrv: DataService, private route: ActivatedRoute)

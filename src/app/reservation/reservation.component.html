@@ -95,7 +95,7 @@
     <!--  -->
     <div class="modal-body row">
       <div class="col-4 div-img">
-        <img class="image-livre" src="../{{selectedReservation.book.cover}}" default="../assets/images/books/1.png" style="margin-top:20px">
+        <img class="image-livre" src="{{getBookCover(selectedReservation.book.idBook)}}" default="../assets/images/books/1.png" style="margin-top:20px">
       </div>
       <div class="col-8" 
       [ngClass]="

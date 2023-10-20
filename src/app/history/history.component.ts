@@ -4,6 +4,8 @@ import { User } from '../model/User';
 import { Borrow } from '../model/Borrow';
 import { DataService } from '../data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { getURLBookCover } from '../util';
+
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -28,6 +30,11 @@ export class HistoryComponent implements OnInit{
     this.user = this.datasrv.getUser();
     this.retrieveBorrows();
     console.log("test");
+  }
+
+  getBookCover(idBook: number) 
+  {
+    return getURLBookCover(idBook);
   }
 
   constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService){}
