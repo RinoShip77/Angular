@@ -28,7 +28,7 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['profile']">
             Bonjour <span class=" fw-bold">{{user?.firstName}}</span>
-            <span type="button" class="link-secondary" (click)="disconnect()">Se déconnecter</span>
+          <!--   <span type="button" class="link-secondary" (click)="disconnect()">Se déconnecter</span> -->
             <span class="shortmenu animate">
               <img src="https://ui-avatars.com/api/?name={{user?.firstName}}+{{user?.lastName}}&rounded=true">
               <div style="margin-top: -15px; margin-left: 45px">
@@ -67,14 +67,14 @@
             <i class="fas fa-hand-holding m-3 fs-3 shortmenu animate" style="color: #d1901f"></i>
           </a>
         </li>
-        <li class="nav-item border-top border-bottom border-dark" placement="bottom"
+        <!-- <li class="nav-item border-top border-bottom border-dark" placement="bottom"
           ngbTooltip="Voir mes coup de coeur">
           <a class="nav-link" href="#">
             <i class="fas fa-star me-2"></i>
             Favoris
             <i class="fas fa-star m-3 text-danger fs-3 shortmenu animate"></i>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
   </nav>
