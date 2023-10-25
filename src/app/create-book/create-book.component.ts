@@ -23,7 +23,7 @@ export class CreateBookComponent {
   file: any;
   file_data: any = "";
 
-  validations: { [key: string]: boolean | null | undefined } = {
+  errors: { [key: string]: string | null } = {
     title: null,
     description: null,
     isbn: null,
@@ -39,6 +39,16 @@ export class CreateBookComponent {
   ngOnInit() {
     this.retrieveAuthors();
     this.retrieveGenres();
+
+    const imageUrl = 'assets/images/default-book.png';
+
+    this.createBlobFromLocalFile(imageUrl).then((blob) => {
+      this.file_data = blob;
+    });
+  }
+
+  async createBlobFromLocalFile(imageUrl: string): Promise<Blob> {
+    return fetch(imageUrl).then((response) => response.blob());
   }
 
   //-------------------------------------------------------
@@ -67,6 +77,8 @@ export class CreateBookComponent {
   // Envoie les données du formulaire au serveur Symfony
   //-------------------------------------------------------
   onSubmit() {
+    this.validateAllFields();
+    console.log(this.validateForm());
     if (this.validateForm()) {
       this.electrolibService.createBookWithImage(this.book, this.file_data).subscribe(
         createdBook => {
@@ -78,8 +90,6 @@ export class CreateBookComponent {
           console.error('Creation failed:', error);
         }
       );
-    } else {
-      this.validateAllFiends();
     }
   }
 
@@ -96,9 +106,7 @@ export class CreateBookComponent {
         const blob = new Blob([this.selectedImage], { type: this.selectedImage.type });
 
         this.file_data = blob;
-        this.validations["cover"] = true;
-      } else {
-        this.validations["cover"] = false;
+        this.errors["cover"] = null;
       }
     }
   }
@@ -119,15 +127,16 @@ export class CreateBookComponent {
     let fileSupported = false;
     if (this.selectedImage.size <= MAX_FILE_SIZE) {
       let extension = this.extractExtension(this.selectedImage.name);
-      if (extension?.toLowerCase() == 'png') {
+      if (extension?.toLowerCase() == 'png' || extension?.toLowerCase() == 'jpg' || extension?.toLowerCase() == 'jpeg') {
         fileSupported = true;
       }
-      if (!fileSupported)
-        console.log("Erreur: extension de fichier non-supportée", true)
+      else {
+        this.errors["cover"] = "Extension de fichier non-supportée. Votre image doit petre de type PNG, JPG ou JPEG.";
+      }
     }
     else {
       fileSupported = false;
-      console.log("Erreur: Fichier trop volumineux. Maximum 500 kB et le fichier a " + (this.selectedImage.size / 1024).toFixed(0) + " kB", true, true)
+      this.errors["cover"] = "Fichier trop volumineux. Maximum 500 kB et le fichier a " + (this.selectedImage.size / 1024).toFixed(0) + " kB";
     }
 
     return fileSupported;
@@ -138,9 +147,9 @@ export class CreateBookComponent {
   //-------------------------------------------------------
   validateTitle() {
     if (this.book.title.length <= 0 || this.book.title.length > 100) {
-      this.validations["title"] = false;
+      this.errors["title"] = "Le titre doit contenir entre 1 et 100 caractères.";
     } else {
-      this.validations["title"] = true;
+      this.errors["title"] = null;
     }
   }
 
@@ -149,9 +158,10 @@ export class CreateBookComponent {
   //-------------------------------------------------------
   validateDescription() {
     if (this.book.description.length <= 0 || this.book.description.length > 255) {
-      this.validations["description"] = false;
+      
+      this.errors["description"] = "La description doit contenir entre 1 et 2048 caractères.";
     } else {
-      this.validations["description"] = true;
+      this.errors["description"] = null;
     }
   }
 
@@ -160,9 +170,10 @@ export class CreateBookComponent {
   //-------------------------------------------------------
   validateISBN() {
     if (this.book.isbn.length <= 0 || this.book.isbn.length > 255) {
-      this.validations["isbn"] = false;
+      
+      this.errors["isbn"] = "L'ISBN doit contenir entre 1 et 255 caractères.";
     } else {
-      this.validations["isbn"] = true;
+      this.errors["isbn"] = null;
     }
   }
 
@@ -171,9 +182,10 @@ export class CreateBookComponent {
   //-------------------------------------------------------
   validatePublishedDate() {
     if (this.book.publishedDate.length <= 0) {
-      this.validations["publishedDate"] = false;
+      
+      this.errors["publishedDate"] = "Vous devez fournir une date de publication.";
     } else {
-      this.validations["publishedDate"] = true;
+      this.errors["publishedDate"] = null;
     }
   }
 
@@ -182,21 +194,10 @@ export class CreateBookComponent {
   //-------------------------------------------------------
   validateOriginalLanguage() {
     if (this.book.originalLanguage.length <= 0 || this.book.originalLanguage.length > 255) {
-      this.validations["originalLanguage"] = false;
+      
+      this.errors["originalLanguage"] = "La langue doit contenir entre 1 et 255 caractères.";
     } else {
-      this.validations["originalLanguage"] = true;
-    }
-  }
-
-  //-------------------------------------------------------
-  // Valide l'image de couverture du livre
-  //-------------------------------------------------------
-  validateCover() {
-    if (this.validations["cover"] == null) {
-      this.validations["cover"] = undefined;
-    } 
-    else if (!this.validations["cover"] == null) {
-      this.validations["cover"] = false;
+      this.errors["originalLanguage"] = null;
     }
   }
 
@@ -205,9 +206,10 @@ export class CreateBookComponent {
   //-------------------------------------------------------
   validateIdAuthor() {
     if (!this.book.idAuthor) {
-      this.validations["idAuthor"] = false;
+      
+      this.errors["idAuthor"] = "Vous devez fournir un auteur.";
     } else {
-      this.validations["idAuthor"] = true;
+      this.errors["idAuthor"] = null;
     }
   }
 
@@ -216,22 +218,22 @@ export class CreateBookComponent {
   //-------------------------------------------------------
   validateIdGenre() {
     if (!this.book.idGenre) {
-      this.validations["idGenre"] = false;
+      
+      this.errors["idGenre"] = "Vous devez fournir un genre.";
     } else {
-      this.validations["idGenre"] = true;
+      this.errors["idGenre"] = null;
     }
   }
 
   //-------------------------------------------------------
   // Valide tous les champs du livre
   //-------------------------------------------------------
-  validateAllFiends() {
+  validateAllFields() {
     this.validateTitle();
     this.validateDescription();
     this.validateISBN();
     this.validatePublishedDate();
     this.validateOriginalLanguage();
-    this.validateCover();
     this.validateIdAuthor();
     this.validateIdGenre();
   }
@@ -240,8 +242,8 @@ export class CreateBookComponent {
   // Valide le formulaire du livre
   //-------------------------------------------------------
   validateForm() {
-    for (const key in this.validations) {
-      if (this.validations.hasOwnProperty(key) && (this.validations[key] === null || this.validations[key] === false)) {
+    for (const key in this.errors) {
+      if (this.errors.hasOwnProperty(key) && this.errors[key] !== null) {
         return false;
       }
     }

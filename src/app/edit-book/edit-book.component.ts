@@ -27,13 +27,15 @@ export class EditBookComponent {
   file: any;
   file_data: any = "";
 
-  validations: { [key: string]: boolean } = {
-    title: true,
-    description: true,
-    isbn: true,
-    publishedDate: true,
-    originalLanguage: true,
-    cover: true
+  errors: { [key: string]: string | null } = {
+    title: null,
+    description: null,
+    isbn: null,
+    publishedDate: null,
+    originalLanguage: null,
+    cover: null,
+    idAuthor: null,
+    idGenre: null
   };
 
   constructor(
@@ -95,11 +97,12 @@ export class EditBookComponent {
   // Envoie les données du formulaire au serveur Symfony
   //-------------------------------------------------------
   onSubmit() {
-    //PEUT-ÊTRE UNE ERREUR AVEC LE FORM QUE J'ENVOIE (À VÉRIFIER)
+    this.validateAllFields();
+    console.log(this.validateForm());
     if (this.validateForm()) {
       this.electrolibService.updateBook(this.book, this.file_data).subscribe(
-        (response) => {
-          console.log('Book updated successfully!', response);
+        updatedBook => {
+          console.log('Book updated successfully!', updatedBook);
           this.changeTab('inventory');
           this.router.navigate(["/adminInventory"]);
         },
@@ -107,8 +110,6 @@ export class EditBookComponent {
           console.error('Update failed:', error);
         }
       );
-    } else {
-      this.validateAllFields();
     }
   }
 
@@ -125,9 +126,7 @@ export class EditBookComponent {
         const blob = new Blob([this.selectedImage], { type: this.selectedImage.type });
 
         this.file_data = blob;
-        this.validations["cover"] = true;
-      } else {
-        this.validations["cover"] = false;
+        this.errors["cover"] = null;
       }
     }
   }
@@ -148,77 +147,106 @@ export class EditBookComponent {
     let fileSupported = false;
     if (this.selectedImage.size <= MAX_FILE_SIZE) {
       let extension = this.extractExtension(this.selectedImage.name);
-      if (extension?.toLowerCase() == 'png') {
+      if (extension?.toLowerCase() == 'png' || extension?.toLowerCase() == 'jpg' || extension?.toLowerCase() == 'jpeg') {
         fileSupported = true;
       }
-      if (!fileSupported)
-        console.log("Erreur: extension de fichier non-supportée", true)
+      else {
+        this.errors["cover"] = "Extension de fichier non-supportée. Votre image doit petre de type PNG, JPG ou JPEG.";
+      }
     }
     else {
       fileSupported = false;
-      console.log("Erreur: Fichier trop volumineux. Maximum 500 kB et le fichier a " + (this.selectedImage.size / 1024).toFixed(0) + " kB", true, true)
+      this.errors["cover"] = "Fichier trop volumineux. Maximum 500 kB et le fichier a " + (this.selectedImage.size / 1024).toFixed(0) + " kB";
     }
 
     return fileSupported;
   }
 
   //-------------------------------------------------------
-  //
+  // Valide le titre du livre
   //-------------------------------------------------------
   validateTitle() {
     if (this.book.title.length <= 0 || this.book.title.length > 100) {
-      this.validations["title"] = false;
+      this.errors["title"] = "Le titre doit contenir entre 1 et 100 caractères.";
     } else {
-      this.validations["title"] = true;
+      this.errors["title"] = null;
     }
   }
 
   //-------------------------------------------------------
-  //
+  // Valide la description du livre
   //-------------------------------------------------------
   validateDescription() {
     if (this.book.description.length <= 0 || this.book.description.length > 255) {
-      this.validations["description"] = false;
+      
+      this.errors["description"] = "La description doit contenir entre 1 et 2048 caractères.";
     } else {
-      this.validations["description"] = true;
+      this.errors["description"] = null;
     }
   }
 
   //-------------------------------------------------------
-  //
+  // Valide l'ISBN du livre
   //-------------------------------------------------------
   validateISBN() {
     if (this.book.isbn.length <= 0 || this.book.isbn.length > 255) {
-      this.validations["isbn"] = false;
+      
+      this.errors["isbn"] = "L'ISBN doit contenir entre 1 et 255 caractères.";
     } else {
-      this.validations["isbn"] = true;
+      this.errors["isbn"] = null;
     }
   }
 
   //-------------------------------------------------------
-  //
+  // Valide la date de publication du livre
   //-------------------------------------------------------
   validatePublishedDate() {
     if (this.book.publishedDate.length <= 0) {
-      this.validations["publishedDate"] = false;
+      
+      this.errors["publishedDate"] = "Vous devez fournir une date de publication.";
     } else {
-      this.validations["publishedDate"] = true;
+      this.errors["publishedDate"] = null;
     }
   }
 
   //-------------------------------------------------------
-  //
+  // Valide la langue originale du livre
   //-------------------------------------------------------
   validateOriginalLanguage() {
     if (this.book.originalLanguage.length <= 0 || this.book.originalLanguage.length > 255) {
-      this.validations["originalLanguage"] = false;
+      
+      this.errors["originalLanguage"] = "La langue doit contenir entre 1 et 255 caractères.";
     } else {
-      this.validations["originalLanguage"] = true;
+      this.errors["originalLanguage"] = null;
     }
   }
 
   //-------------------------------------------------------
-  //
+  // Valide l'auteur' du livre
+  //-------------------------------------------------------
+  validateIdAuthor() {
+    if (!this.book.idAuthor) {
+      
+      this.errors["idAuthor"] = "Vous devez fournir un auteur.";
+    } else {
+      this.errors["idAuthor"] = null;
+    }
+  }
+
+  //-------------------------------------------------------
+  // Valide le genre du livre
+  //-------------------------------------------------------
+  validateIdGenre() {
+    if (!this.book.idGenre) {
+      
+      this.errors["idGenre"] = "Vous devez fournir un genre.";
+    } else {
+      this.errors["idGenre"] = null;
+    }
+  }
+
+  //-------------------------------------------------------
+  // Valide tous les champs du livre
   //-------------------------------------------------------
   validateAllFields() {
     this.validateTitle();
@@ -226,20 +254,21 @@ export class EditBookComponent {
     this.validateISBN();
     this.validatePublishedDate();
     this.validateOriginalLanguage();
+    this.validateIdAuthor();
+    this.validateIdGenre();
   }
 
   //-------------------------------------------------------
-  //
+  // Valide le formulaire du livre
   //-------------------------------------------------------
   validateForm() {
-    for (const key in this.validations) {
-      if (this.validations.hasOwnProperty(key) && this.validations[key] === false) {
+    for (const key in this.errors) {
+      if (this.errors.hasOwnProperty(key) && this.errors[key] !== null) {
         return false;
       }
     }
     return true;
   }
-
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
