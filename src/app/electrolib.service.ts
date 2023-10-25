@@ -179,11 +179,16 @@ export class ElectrolibService {
 
   cancelReservationUser(reservation: Reservation)
   {
-    let idReservation = reservation.idReservation;
-    let url = urlServer + 'borrows';
-    url = urlServer + "reservations/cancel/" + idReservation;
+    let url = urlServer + "reservations-cancel/" + reservation.idReservation;
 
-    return this.http.get<Reservation>(url);
+    return this.http.get<any>(url);
+  }
+
+  reactivateReservationUser(reservation: Reservation)
+  {
+    let url = urlServer + "reservations-reactivate/" + reservation.idReservation;
+
+    return this.http.get<any>(url);
   }
 
   getBorrowFromBook(idBook:Number)

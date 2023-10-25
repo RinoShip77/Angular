@@ -20,6 +20,8 @@ export class BorrowsComponent implements OnInit {
   desc = false;
   sortBefore = "";
 
+  window:string = "";
+
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
@@ -35,19 +37,19 @@ export class BorrowsComponent implements OnInit {
   {
 
     //TODO
+    //Priority of reservation
+    //
 
     //Changer le nom des status en retard... etc
     //Livre perdu???
     //Livre abimé???
 
-    
 
     //TODO COTÉ INVENTAIRE (PAS MOI)
     //Si le user a des frais, il ne peut plus emprunter jusqu'à ce qu'il paie
     //Le user peut avoir un maximum de 5 emprunts
 
-    //TODO
-    //Check si membre pour bd et symfony
+
   }
 
   //Cherche tous les emprunts en bd
@@ -83,7 +85,14 @@ export class BorrowsComponent implements OnInit {
   //Ouvrir la modal [à propos], qui explique tout ce qu'il faut savoir sur le système d'emprunts
   openAbout(content:any) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+
+    this.window = "> à propos";
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
   }
 
   selectedBorrowModal: Borrow = new Borrow;
@@ -91,8 +100,15 @@ export class BorrowsComponent implements OnInit {
   //Ouvrir la modal [Confirmer le renouvelement], qui confirme si le user veut vraiment renouveler
   openRenewModal(content:any, selectedBorrowModal:Borrow) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', animation:true, });
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', animation:true, });
     this.selectedBorrowModal = selectedBorrowModal;
+
+    this.window = "> renouveler l'emprunt (" + selectedBorrowModal.book.title + ")";
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
   }
 
   save()

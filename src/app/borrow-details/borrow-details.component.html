@@ -1,80 +1,128 @@
-<div class="col-11 master-div">
-    <div style="margin-bottom: 20px; margin-top: -40px;">
-        <a [routerLink]="['../borrows']"><span>Mes Emprunts</span></a>&nbsp; <i class="fa-solid fa-angle-right fa-sm"></i> &nbsp;<a><span style="cursor: default;">Détails de l'emprunt</span></a>
-    </div>
+<div style="background-color: rgba(0, 0, 0, 0.068); min-height: 850px;">
     <!-- Titre de la page -->
-    <h4 style="margin-left: 20px;">Détails de l'emprunt</h4>
-    <hr>
+    <div class="title-bar">
+        <div>
+            <h4 style="margin-left: 20px;">
+                <i class="fa-regular fa-file-lines" style="color: rgb(114, 114, 250);"></i>&nbsp;&nbsp; Détails de l'emprunt
+            </h4>
+        </div>
+    </div>
 
-    <div class="shadow-lg row border rounded-top div-details">
+    <!-- Localisation sur la page -->
+    <div class="location-bar">
+        <label style="margin-left: 20px; font-size: 18px;">
+            emprunts > détails de l'emprunt
+        </label>
+    </div>
 
-        <h5 style="margin-left: 20px; margin-bottom: 20px;">Emprunt #{{borrow.idBorrow}}</h5>
-        <!-- Informations concernant le livre -->
-        <div class="col-6 row div-livre">
-            <!-- Image du livre -->
-            <div class="col-4">
-                <img class="image-livre" src="{{getBookCover(borrow.book.idBook)}}">
+    <!-- Séparateur -->
+    <div
+        style="height: 0; border-bottom: 8px rgba(0, 0, 0, 0.089) double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;">
+    </div>
+
+    <div class="borrow-div">
+        <div class="shadow-lg row div-details">
+            <!-- titre de l'emprunt -->
+            <h5 style="margin-left: 20px; margin-bottom: 20px; border-bottom: 3px rgba(0, 0, 0, 0.185) solid; border-bottom-left-radius:10px; padding-bottom: 10px;">
+                <i class="fa-solid fa-book"></i>&nbsp;
+                Emprunt #{{borrow.idBorrow}}
+            </h5>
+
+            <!-- Petits icones en haut des infos-->
+            <div class="row" style="margin-left: 1px;">
+                <div class="col-6">
+                    <div class="div-icones">
+                        <i class="fa-solid fa-book-open" style="color: rgb(114, 114, 250);"></i>
+                    </div>
+                </div>
+                <div class="col-4" style=" margin-left: 50px;">
+                    <div class="div-icones">
+                        <i class="fa-solid fa-hand-holding-dollar" style="color: rgb(114, 114, 250); "></i>
+                    </div>
+                </div>
             </div>
-            <!-- Infos du livre -->
-            <div class="col-6 div-info-emprunt" >
-                <label>Nom du livre:&nbsp;</label>
-                <span>{{borrow.book.title}}</span>
-                <br>
-                <label>isbn:&nbsp;</label>
-                <span>{{borrow.book.isbn}}</span>
-                <br>
-                <label>Auteur du livre:&nbsp;</label>
-                <span>{{book.author.firstName}} {{book.author.lastName}}</span>
-                <br>
-                <label>Genre du Livre:&nbsp;</label>
-                <span>{{book.genre.name}}</span>
-                <br>
-                <label>Langue d'origine:&nbsp;</label>
-                <span>{{book.originalLanguage}}</span>
-                <br>
-                <label>Année de publication:&nbsp;</label>
-                <span>{{book.publishedDate}}</span>
-                <hr>
+
+            <!-- Informations concernant le livre -->
+            <div class="col-6 row div-livre">
+                <!-- Image du livre -->
+                <div class="col-4">
+                    <img class="image-livre" src="{{getBookCover(borrow.book.idBook)}}">
+                </div>
+                <!-- Infos du livre -->
+                <div class="col-6 div-info-emprunt">
+                    <label>Nom du livre:&nbsp;</label>
+                    <span>{{borrow.book.title}}</span>
+                    <br>
+                    <label>isbn:&nbsp;</label>
+                    <span>{{borrow.book.isbn}}</span>
+                    <br>
+                    <label>Auteur du livre:&nbsp;</label>
+                    <span>{{book.author.firstName}} {{book.author.lastName}}</span>
+                    <br>
+                    <label>Genre du Livre:&nbsp;</label>
+                    <span>{{book.genre.name}}</span>
+                    <br>
+                    <label>Langue d'origine:&nbsp;</label>
+                    <span>{{book.originalLanguage}}</span>
+                    <br>
+                    <label>Année de publication:&nbsp;</label>
+                    <span>{{book.publishedDate}}</span>
+                    <hr>
+                </div>
+            </div>
+
+            <!-- Information concernant l'emprunt -->
+            <div class="col-4 div-info-commande" style="margin-left: 20px;">
+                <div style="">
+                    <label>Date de l'emprunt:&nbsp;</label>
+                    <span>{{borrow.borrowedDate}}</span>
+                    <br>
+                    <label>Date limite de retour:&nbsp;</label>
+                    <span>{{borrow.formattedDueDate()}}</span>
+                    <br>
+                    <label *ngIf="borrow.determineStatus() != 'En retard'">Nombre de jours restants:&nbsp;</label>
+                    <label *ngIf="borrow.determineStatus() == 'En retard'">Nombre de jours de retard:&nbsp;</label>
+                    <span *ngIf="borrow.transformTimeAndLate() > 1">{{borrow.transformTimeAndLate()}} jours</span>
+                    <span *ngIf="borrow.transformTimeAndLate() <= 1">{{borrow.transformTimeAndLate()}} jour</span>
+                    <br>
+                    <label>Nombre de renouvellement fait:&nbsp;</label>
+                    <span>{{borrow.getRenewTimes()}}</span>
+                    <br>
+                    <label>Status:&nbsp;</label>
+                    <span [ngClass]="
+                {
+                   'status-not-urgent' : borrow.determineStatus() == 'En cours',
+                   'status-semi-urgent' : borrow.determineStatus() == 'Semi-urgent',
+                   'status-urgent' : borrow.determineStatus() == 'Urgent',
+                   'status-late' : borrow.determineStatus() == 'En retard'
+                }">{{borrow.determineStatus()}}</span>
+                    <br>
+                    <label>Frais de retard:&nbsp;</label>
+                    <span *ngIf="borrow.calculateFee() != null"
+                        style="color: green; font-weight: 600; text-decoration: underline">{{borrow.calculateFee()}}$</span>
+                    <span *ngIf="borrow.calculateFee() == null">0</span>
+                    <hr>
+                </div>
+            </div>
+
+            <!-- à faire -->
+            <div class="col-1" style="">
+                <div style="background-color: lightcoral; height: 100%">
+                    <span>test</span>
+                </div>
+            </div>
+
+            <!-- Boutons situés en bas de la page -->
+            <div class="div-btns">
+                <button class="btn-details btn btn-danger border" [disabled]="borrow.calculateFee() == null">Payer les
+                    frais</button>
+                <button class="btn-details btn btn-warning border" [disabled]="borrow.calculateFee() != null">Remettre
+                    l'emprunt</button>
+                <div style="float: right; width: auto;">
+                    <button [routerLink]="['../../borrows']" class="btn-details btn btn-secondary border">Retourner aux
+                        emprunts</button>
+                </div>
             </div>
         </div>
-
-        <!-- Information concernant l'emprunt -->
-        <div class="col-4 div-info-commande" style="margin-left: 20px;"> 
-            <label>Date de l'emprunt:&nbsp;</label>
-            <span>{{borrow.borrowedDate}}</span>
-            <br>
-            <label>Date limite de retour:&nbsp;</label>
-            <span>{{borrow.formattedDueDate()}}</span>
-            <br>
-            <label *ngIf="borrow.determineStatus() != 'En retard'">Nombre de jours restants:&nbsp;</label>
-            <label *ngIf="borrow.determineStatus() == 'En retard'">Nombre de jours de retard:&nbsp;</label>
-            <span *ngIf="borrow.transformTimeAndLate() > 1">{{borrow.transformTimeAndLate()}} jours</span>
-            <span *ngIf="borrow.transformTimeAndLate() <= 1">{{borrow.transformTimeAndLate()}} jour</span>
-            <br>
-            <label>Nombre de renouvellement fait:&nbsp;</label>
-            <span>{{borrow.getRenewTimes()}}</span>
-            <br>
-            <label>Status:&nbsp;</label>
-            <span [ngClass]="
-            {
-               'status-not-urgent' : borrow.determineStatus() == 'En cours',
-               'status-semi-urgent' : borrow.determineStatus() == 'Semi-urgent',
-               'status-urgent' : borrow.determineStatus() == 'Urgent',
-               'status-late' : borrow.determineStatus() == 'En retard'
-            }">{{borrow.determineStatus()}}</span>
-            <br>
-            <label>Frais de retard:&nbsp;</label>
-            <span *ngIf="borrow.calculateFee() != null" style="color: green; font-weight: 600; text-decoration: underline">{{borrow.calculateFee()}}$</span>
-            <span *ngIf="borrow.calculateFee() == null">0</span>
-            <hr>
-        </div>
-
-        <!-- Boutons situés en bas de la page -->
-        <div class="div-btns">
-                <button class="btn-details btn btn-danger border" [disabled]="borrow.calculateFee() == null">Payer les frais</button>
-                <button class="btn-details btn btn-warning border" [disabled]="borrow.calculateFee() != null">Remettre l'emprunt</button>
-            <div style="float: right; width: auto;">
-                <button [routerLink]="['../../borrows']" class="btn-details btn btn-secondary border">Retourner aux emprunts</button></div>
-            </div>
-        </div>
+    </div>
 </div>

@@ -40,8 +40,8 @@ export class ConnectionComponent {
         break;
         
         case 'cheatUser':
-          this.temporaryUser.memberNumber = "80379801";
-          this.temporaryUser.password = "password";
+          this.temporaryUser.memberNumber = "11";
+          this.temporaryUser.password = "11";
           this.retrieveAccount();
           break;
           

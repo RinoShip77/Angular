@@ -26,10 +26,14 @@ export class ReservationComponent implements OnInit {
 
   selectedReservation:Reservation = new Reservation();
 
+  //Fenêtre dans laquelle on se trouve
+  window:string = "";
+
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
     this.retrieveReservations();
+    this.window = "";
   }
 
   getBookCover(idBook: number) 
@@ -54,16 +58,41 @@ export class ReservationComponent implements OnInit {
     } 
   }
 
+  cancelReservation(reservation: Reservation)
+  {
+    this.electrolibService.cancelReservationUser(reservation).subscribe();
+    this.retrieveReservations();
+  }
+
+  reactivateReservation(reservation: Reservation)
+  {
+    this.electrolibService.reactivateReservationUser(reservation).subscribe();
+    this.retrieveReservations();
+  }
+
   openAbout(content:any) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+    
+    this.window = "> à propos";
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
   }
 
   //Ouvrir la modal pour les infos du livre
   openReservationModal(content:any, selectedReservation:Reservation) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
     this.selectedReservation = selectedReservation;
+    this.window = "> détails de la réservation";
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
   }
 
   //Tri par la valeur

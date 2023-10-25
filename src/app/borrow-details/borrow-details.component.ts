@@ -20,6 +20,8 @@ export class BorrowDetailsComponent implements OnInit {
 
   idBook = 0;
 
+  window:string = "";
+
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();

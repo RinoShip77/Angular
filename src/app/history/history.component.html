@@ -1,31 +1,48 @@
-<div class="col-10 master-div">
-    <div style="margin-bottom: 20px; margin-top: -40px; ">
-        <a [routerLink]="['../borrows']"><span>Mes Emprunts</span></a>&nbsp; <i
-            class="fa-solid fa-angle-right fa-sm"></i> &nbsp;<a><span style="cursor: default;">Historique de
-                l'emprunt</span></a>
+<div style="background-color: rgba(0, 0, 0, 0.068); min-height: 850px;">
+    <!-- Titre de la page -->
+    <div class="title-bar">
+        <div>
+            <h4 style="margin-left: 20px;">
+                <i class="fa-solid fa-book-open" style="color: #947ad1;"></i>&nbsp;&nbsp; Historique de mes Emprunts
+            </h4>
+        </div>
     </div>
 
-    <!-- Titre de la page -->
-    <h4 style="margin-left: 20px;">
-        <i class="fa-solid fa-clock-rotate-left"></i>
-        Historique de mes emprunts
-    </h4>
-    <hr>
+    <!-- Localisation sur la page -->
+    <div class="location-bar">
+        <label style="margin-left: 20px; font-size: 18px;">
+            emprunts > historique {{window}}
+        </label>
+    </div>
 
-    <div class="shadow-sm rounded border border-2" style="padding:30px; background-color: rgba(90, 90, 90, 0.062);">
+    <!-- Séparateur -->
+    <div
+        style="height: 0; border-bottom: 8px rgba(0, 0, 0, 0.089) double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;">
+    </div>
+
+    <div class="table-div">
 
         <!-- Div contenant le select pour trier la table -->
-        <div style="float: right;">
-            <label>Trier par: </label>
-            <select class="select-style" (change)="orderBySelect($event)">
-                <option value="borrowedDate" selected>Id / Date d'emprunt</option>
-                <option value="title">Titre du livre</option>
-                <option value="dueDate">Date retour / Status / Frais</option>
-            </select>
-            <select class="select-style" (change)="orderWayBySelect($event)" style="width: 100px;">
-                <option value="ASC" selected>Croissant</option>
-                <option value="DESC">Décroissant</option>
-            </select>
+        <div class="row" style="margin-bottom: -25px;">
+            <div *ngIf="user" class="col-6">
+                <i class="fa-regular fa-user"></i>&nbsp; 
+                Historique de 
+                <span [routerLink]="['../profile']" style="text-decoration: underline; font-weight: 600; cursor: pointer;">{{user.firstName}}</span>
+            </div>
+            <div style="float: right; text-align: right;" class="col-6">
+                <label>Trier par: </label>
+                <select class="select-style" (change)="orderBySelect($event)" style="width: 220px; text-align: center;">
+                    <option value="borrowedDate" selected>Id / Date d'emprunt</option>
+                    <option value="title">Titre du livre</option>
+                    <option value="dueDate">Date retour / Status / Frais</option>
+                </select>
+                &nbsp;&nbsp;
+                <label>Ordre: </label>
+                <select class="select-style" (change)="orderWayBySelect($event)" style="width: 130px; text-align: center;">
+                    <option value="ASC" selected>Croissant</option>
+                    <option value="DESC">Décroissant</option>
+                </select>
+            </div>
         </div>
 
         <!-- Tableau contenant les emprunts -->
@@ -87,14 +104,70 @@
         </table>
 
         <!-- Bouton en bas de la page -->
-        <div>
-            <button [routerLink]="['../borrows']" type="button" class="btn btn-secondary" style="float:right;">Retourner
-                aux emprunts</button>
-            <br>
+        <div class="div-btns" style="justify-content:space-between; display: flex;">
+            <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary border-btn">À propos des
+                emprunts passés</button>
+            <button [routerLink]="['../borrows']" type="button" class="btn btn-secondary border-btn" style="float:right;">
+                Retourner
+                aux emprunts
+            </button>
         </div>
+    </div>
+
+    <div class="d-flex logo">
+        <i class="fas fa-book-bookmark mt-1 fs-1"></i>
+        <h1>Electrolib</h1>
     </div>
 </div>
 
+<!-- Modal pour le à propos -->
+<ng-template #about let-modal>
+    <div class="modal-header modal-lg">
+      <h4 class="modal-title" id="modal-basic-title">À Propos</h4>
+    </div>
+  
+    <!-- Info importantes sur le fonctionnement des reservations etc. -->
+    <div class="modal-body">
+      <h5>Informations sur vos emprunts passés</h5>
+      <hr>
+      <!-- Div pour les modalités -->
+      <div class="divAbout" ngbAutoFocus>
+          <label class="sous-titre">Modalités:</label>
+          <br>
+          <label style="font-weight: 600;">Historique:</label>
+          <span> 
+              Cette liste affiche vos emprunts passés, ils sont inactifs, mais vous pouvez tout de même les revisiter
+          </span>
+          <br>
+          <label class="mt-2" style="font-weight: 600;">Détails:</label>
+          <span> 
+              Vous pouvez afficher les détails du livre correspondant à votre emprunt
+          </span>
+      </div>
+      <br>
+  
+      <!-- Informations pour le code couleur -->
+      <div class="divAbout" >
+          <label class="sous-titre">Code de couleur:</label>
+          <br>
+          <label class="mt-2" style="font-weight: 600;">Blanc:</label>
+          <span> lorsque votre emprunt a été remis, celui-ci apparait en
+                 <span style="color: #3052c2;"> blanc</span>.
+          </span>
+          <br>
+          <label class="mt-2" style="color: rgba(68, 81, 152, 0.685); font-weight: 600;">Mauve:</label>
+          <span> 
+                 Lorsque vous avez perdu le livre, l'emprunt apparait en
+                 <span style="color: rgba(68, 81, 152, 0.685);">mauve</span>.
+          </span>
+      </div>
+    </div>
+  
+    <!-- Bouton pour fermer la modal -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+    </div>
+</ng-template>
 
 <!-- Modal pour les infos du livre d'un emprunt -->
 <ng-template #infoReservationModal let-modal>

@@ -15,19 +15,14 @@ export class Reservation
 
   determineStatus()
   {
-    if((this.idReservation % 3) == 1)
-    {
-      return "cancelled";
-    }
-
-    if((this.idReservation % 3) == 2)
+    if(this.isActive)
     {
       return "borrowed";
     }
 
-    if((this.idReservation % 3) == 0)
+    if(!this.isActive)
     {
-      return "ordered";
+      return "cancelled";
     }
 
     return false;
