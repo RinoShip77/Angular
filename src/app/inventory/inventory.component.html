@@ -16,7 +16,7 @@
               <div class="form-check form-switch" (click)="filterBooksByGenres(genre.idGenre)">
                 <input class="form-check-input me-2" type="checkbox" role="switch">
                 <label class="form-check-label">
-                  {{genre.name | titlecase}} | <i class="fas {{genre.icon}} ms-2"></i>
+                  {{genre.name | titlecase}}
                 </label>
               </div>
             </div>
@@ -87,7 +87,6 @@
                   <div class="card-body">
                     <div class="d-flex justify-content-between">
                       <h2 class="card-title">{{book.title | titlecase}}</h2>
-                      <i class="fas {{book.genre.icon}} fs-3"></i>
                     </div>
                     <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}
                     </p>
@@ -135,7 +134,7 @@
               <td>#{{book.isbn}}</td>
               <td>{{book.title}}</td>
               <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
-              <td><i class="fas {{book.genre.icon}}"></i></td>
+              <td></td>
               <td>{{book.originalLanguage}}</td>
               <td>{{book.publishedDate | date:'yyyy'}}</td>
               <td>{{book.status.status}}</td>
