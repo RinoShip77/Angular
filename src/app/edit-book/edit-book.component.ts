@@ -5,7 +5,7 @@ import { Book } from '../model/Book';
 import { Router } from '@angular/router';
 import { Author } from '../model/Author';
 import { Genre } from '../model/Genre';
-import { MAX_FILE_SIZE } from '../util';
+import { MAX_FILE_SIZE, ISBN_REGEX_PATTERN } from '../util';
 import { format, parse } from 'date-fns';
 import { Status } from '../model/Status';
 import { DataService } from '../data.service';
@@ -33,9 +33,7 @@ export class EditBookComponent {
     isbn: null,
     publishedDate: null,
     originalLanguage: null,
-    cover: null,
-    idAuthor: null,
-    idGenre: null
+    cover: null
   };
 
   constructor(
@@ -177,7 +175,7 @@ export class EditBookComponent {
   // Valide la description du livre
   //-------------------------------------------------------
   validateDescription() {
-    if (this.book.description.length <= 0 || this.book.description.length > 255) {
+    if (this.book.description.length <= 0 || this.book.description.length > 2048) {
       
       this.errors["description"] = "La description doit contenir entre 1 et 2048 caractères.";
     } else {
@@ -189,9 +187,9 @@ export class EditBookComponent {
   // Valide l'ISBN du livre
   //-------------------------------------------------------
   validateISBN() {
-    if (this.book.isbn.length <= 0 || this.book.isbn.length > 255) {
+    if (!ISBN_REGEX_PATTERN.test(this.book.isbn)) {
       
-      this.errors["isbn"] = "L'ISBN doit contenir entre 1 et 255 caractères.";
+      this.errors["isbn"] = `L'ISBN doit un nombre de 13 chiffres. Contient actuellement ${this.book.isbn.toString().length} chiffres.`;
     } else {
       this.errors["isbn"] = null;
     }
@@ -222,30 +220,6 @@ export class EditBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide l'auteur' du livre
-  //-------------------------------------------------------
-  validateIdAuthor() {
-    if (!this.book.idAuthor) {
-      
-      this.errors["idAuthor"] = "Vous devez fournir un auteur.";
-    } else {
-      this.errors["idAuthor"] = null;
-    }
-  }
-
-  //-------------------------------------------------------
-  // Valide le genre du livre
-  //-------------------------------------------------------
-  validateIdGenre() {
-    if (!this.book.idGenre) {
-      
-      this.errors["idGenre"] = "Vous devez fournir un genre.";
-    } else {
-      this.errors["idGenre"] = null;
-    }
-  }
-
-  //-------------------------------------------------------
   // Valide tous les champs du livre
   //-------------------------------------------------------
   validateAllFields() {
@@ -254,8 +228,6 @@ export class EditBookComponent {
     this.validateISBN();
     this.validatePublishedDate();
     this.validateOriginalLanguage();
-    this.validateIdAuthor();
-    this.validateIdGenre();
   }
 
   //-------------------------------------------------------

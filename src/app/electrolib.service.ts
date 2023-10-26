@@ -31,6 +31,24 @@ export class ElectrolibService {
     return this.http.get<Book[]>(url);
   }
 
+  //--------------------------------
+  // Route to get all the available books
+  //--------------------------------
+  getAvailableBooks() {
+    let url = urlServer + 'available-books';
+
+    return this.http.get<Book[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getUsers() {
+    let url = urlServer + 'users';
+
+    return this.http.get<User[]>(url);
+  }
+
   getRecommended(idUser:number) {
     let url = urlServer + 'recommandation/'+idUser;
 
@@ -108,11 +126,7 @@ export class ElectrolibService {
   returnBorrow(borrow: Borrow) {
     let url = `${urlServer}return-borrow/${borrow.idBorrow}`;
 
-    const formData = new FormData();
-    formData.append('returnedDate', borrow.returnedDate.toDateString());
-    
-
-    return this.http.post<Borrow>(url, formData);
+    return this.http.post<Borrow>(url, new FormData());
   }
 
   getBorrow(idBorrow:Number)
@@ -275,14 +289,44 @@ export class ElectrolibService {
     return this.http.post<Book>(url, formData);
   }
 
-  createBorrow(book:Book,user:User){
-    const url = `${urlServer}create-Borrow`;
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  createBorrow(idUser: number, idBook: number){
+    const url = `${urlServer}create-borrow`;
     const formData = new FormData();
-    formData.append('idBook',book.idBook.toString());
-    formData.append('idUser',user.idUser.toString());
+    
+    formData.append('idUser', idUser.toString());
+    formData.append('idBook', idBook.toString());
 
-    return this.http.post<Borrow>(url,formData);
+    return this.http.post<Borrow>(url, formData);
   }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  createAuthor(author: Author) {
+    const url = `${urlServer}create-author`;
+    const formData = new FormData();
+    
+    formData.append('firstName', author.firstName);
+    formData.append('lastName', author.lastName);
+
+    return this.http.post<Author>(url, formData);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  createGenre(genre: Genre) {
+    const url = `${urlServer}create-genre`;
+    const formData = new FormData();
+    
+    formData.append('name', genre.name);
+
+    return this.http.post<Genre>(url, formData);
+  }
+
 
   //-------------------------------------------------------
   //

@@ -1,6 +1,7 @@
 export const urlServer = 'https://localhost:8000/';
 export const MAX_FILE_SIZE:number = 500*1048;
 export const ENCRYPTION_KEY: string = '123456$#@$^@1ERF';
+export const ISBN_REGEX_PATTERN = /^[0-9]{13}$/;
 
 export function getURLBookCover(idBook: number)
 {

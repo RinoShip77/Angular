@@ -30,6 +30,7 @@ import { HistoryComponent } from './history/history.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { ToastComponent } from './toast/toast.component';
 import { EncryptionService } from './encryption.service';
+import { CreateBorrowComponent } from './create-borrow/create-borrow.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { EncryptionService } from './encryption.service';
     AdminUsersComponent,
     ToastComponent,
     HistoryComponent,
-    ReservationComponent
+    ReservationComponent,
+    CreateBorrowComponent
   ],
   imports: [
     AppRoutingModule,
