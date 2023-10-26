@@ -1,0 +1,48 @@
+<section class="admin-container">
+
+  <section class="section">
+    <article class="article">
+      <form (ngSubmit)="onSubmit()">
+
+        <section class="row">
+          <article class="col-lg-6">
+            <input name="bookSearchField" [(ngModel)]="bookSearchField" class="form-control" type="search"
+              placeholder="Titre du livre" autocomplete="off" aria-label="Search" (ngModelChange)="searchBooks()">
+            <div class="resultsBox">
+              <div *ngFor="let book of foundBooks" class="result">
+                <button type="button" class="result-button" (click)="selectBook(book)">{{book.title}}</button>
+              </div>
+            </div>
+
+            <div>
+              <span>Livre sélectionné: {{selectedBook.title}}</span>
+            </div>
+          </article>
+  
+          <article class="col-lg-6">
+            <input name="userSearchField" [(ngModel)]="userSearchField" class="form-control" type="search"
+              placeholder="Numéro de membre" autocomplete="off" aria-label="Search" (ngModelChange)="searchUsers()">
+            <div class="resultsBox">
+              <div *ngFor="let user of foundUsers" class="result">
+                <button type="button" class="result-button" (click)="selectUser(user)">
+                  {{user.memberNumber}} {{user.firstName}} {{user.lastName}}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <span>membre sélectionné: {{selectedUser.memberNumber}} {{selectedUser.firstName}} {{selectedUser.lastName}}</span>
+            </div>
+          </article>
+        </section>
+        
+
+        <button type="submit">Enregistrer</button>
+        <br>
+        <a [routerLink]="['/adminBorrows']">
+          <button class="button-cancel" (click)="changeTab('borrows')">Annuler</button>
+        </a>
+      </form>
+    </article>
+  </section>
+</section>

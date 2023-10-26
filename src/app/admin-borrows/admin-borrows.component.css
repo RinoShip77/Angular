@@ -43,6 +43,11 @@
     color: white;
 }
 
+.checkbox {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
 /* ----------------------------------------------------------- */
 /* Section pour le style de la table de données */
 /* ----------------------------------------------------------- */
@@ -89,4 +94,26 @@ td, th {
 
 .fa {
     font-size: 18px;
+}
+
+.btn-add-borrow:hover {
+    background-color: #353CAB;
+}
+
+.btn-add-borrow {
+    width: max-content;
+    float: right;
+
+    font-size: 18px;
+    height: 2.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    border: none;
+    background-color: #3F48CC;
+    color: white;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }

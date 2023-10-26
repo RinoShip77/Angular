@@ -6,21 +6,21 @@
 
         <div class="form-group">
           <label for="title">Titre:</label>
-          <input class="form-control" type="text" name="title" [(ngModel)]="book.title" (change)="validateTitle()"
-            required />
+          <input class="form-control" type="text" name="title" [(ngModel)]="book.title"
+            (ngModelChange)="validateTitle()" required />
           <p class="error" *ngIf="errors['title'] != null">{{errors['title']}}</p>
         </div>
 
         <div class="form-group">
           <label for="description">Description:</label>
           <textarea class="form-control" name="description" [(ngModel)]="book.description"
-            (change)="validateDescription()" required></textarea>
+            (ngModelChange)="validateDescription()" required></textarea>
           <p class="error" *ngIf="errors['description'] != null">{{errors['description']}}</p>
         </div>
 
         <div class="form-group">
           <label for="isbn">ISBN:</label>
-          <input class="form-control" type="text" name="isbn" [(ngModel)]="book.isbn" (change)="validateISBN()"
+          <input class="form-control" type="number" name="isbn" [(ngModel)]="book.isbn" (ngModelChange)="validateISBN()"
             required />
           <p class="error" *ngIf="errors['isbn'] != null">{{errors['isbn']}}</p>
         </div>
@@ -28,42 +28,104 @@
         <div class="form-group">
           <label for="publishedDate">Date de publication:</label>
           <input class="form-control" type="date" name="publishedDate" [(ngModel)]="book.publishedDate"
-            (change)="validatePublishedDate()" required />
+            (ngModelChange)="validatePublishedDate()" required />
           <p class="error" *ngIf="errors['publishedDate'] != null">{{errors['publisheDate']}}</p>
         </div>
 
         <div class="form-group">
           <label for="originalLanguage">Langue originale:</label>
           <input class="form-control" type="text" name="originalLanguage" [(ngModel)]="book.originalLanguage"
-            (change)="validateOriginalLanguage()" required />
+            (ngModelChange)="validateOriginalLanguage()" required />
           <p class="error" *ngIf="errors['originalLanguage'] != null">{{errors['originalLanguage']}}</p>
         </div>
 
         <div class="form-group">
           <label for="cover">Couverture:</label>
-          <input class="form-control" type="file" name="cover" (change)="onFileSelected($event)" accept="image/*" />
+          <input class="form-control" type="file" name="cover" (ngModelChange)="onFileSelected($event)"
+            accept="image/*" />
           <p class="error" *ngIf="errors['cover'] != null">{{errors['cover']}}</p>
         </div>
 
         <div class="form-group">
           <label for="idAuthor">Auteur:</label>
-          <select [(ngModel)]="book.idAuthor" name="idAuthor" (change)="validateIdAuthor()" required>
-            <option *ngFor="let author of authors" [value]="author.idAuthor">{{ author.firstName }} {{ author.lastName
-              }}</option>
-          </select>
+          <div style="display: flex;">
+            <select [(ngModel)]="book.idAuthor" name="idAuthor" (ngModelChange)="validateIdAuthor()" required>
+              <option *ngFor="let author of authors" [value]="author.idAuthor">
+                {{ author.firstName }} {{ author.lastName}}
+              </option>
+            </select>
+            <button class="add-button" type="button" (click)="openModal(authorTemplate)" data-toggle="modal">Ajouter</button>
+          </div>
           <p class="error" *ngIf="errors['idAuthor'] != null">{{errors['idAuthor']}}</p>
         </div>
 
         <div class="form-group">
           <label for="idGenre">Genre:</label>
-          <select [(ngModel)]="book.idGenre" name="idGenre" (change)="validateIdGenre()" required>
-            <option *ngFor="let genre of genres" [value]="genre.idGenre">{{ genre.name }}</option>
-          </select>
+          <div style="display: flex;">
+            <select [(ngModel)]="book.idGenre" name="idGenre" (ngModelChange)="validateIdGenre()" required>
+              <option *ngFor="let genre of genres" [value]="genre.idGenre">
+                {{ genre.name }}
+              </option>
+            </select>
+            <button class="add-button" type="button" (click)="openModal(genreTemplate)" data-toggle="modal">Ajouter</button>
+          </div>
           <p class="error" *ngIf="errors['idGenre'] != null">{{errors['idGenre']}}</p>
         </div>
 
         <button type="submit">Enregistrer</button>
       </form>
     </article>
+
+    <!-- Modal pour afficher le formulaire d'ajout d'un auteur -->
+    <ng-template #authorTemplate let-modal>
+
+      <div class="container row mx-auto p-5">
+        <h3 style="text-align: center;">Création d'un(e) auteur(e)</h3>
+        <form (ngSubmit)="onCreateAuthorSubmit()">
+          <div class="form-group">
+            <label for="authorFirstName">Prénom:</label>
+            <input class="form-control" type="text" name="firstName" [(ngModel)]="newAuthor.firstName" (ngModelChange)="validateCreateAuthorFirstName()">
+            <p class="error" *ngIf="authorFirstName != null">{{authorFirstName}}</p>
+          </div>
+
+          <div class="form-group">
+            <label for="authorLastName">Nom:</label>
+            <input class="form-control" type="text" name="lastName" [(ngModel)]="newAuthor.lastName" (ngModelChange)="validateCreateAuthorLastName()">
+            <p class="error" *ngIf="authorLastName != null">{{authorLastName}}</p>
+          </div>
+
+          <button type="submit" (click)="this.isNewAuthorValid() && modal.close()">Créer</button>
+        </form>
+      </div>
+
+      <!-- Bouton pour fermer la modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+      </div>
+    </ng-template>
+
+    <!-- Modal pour afficher le formulaire d'ajout d'un genre -->
+    <ng-template #genreTemplate let-modal>
+
+      <div class="container row mx-auto p-5">
+        <h3 style="text-align: center;">Création d'un genre</h3>
+        <form (ngSubmit)="onCreateGenreSubmit()">
+
+          <div class="form-group">
+            <label for="genreName">Nom du genre:</label>
+            <input class="form-control" type="text" name="genreName" [(ngModel)]="newGenre.name" (ngModelChange)="validateCreateGenre()">
+            <p class="error" *ngIf="genreName != null">{{genreName}}</p>
+          </div>
+
+          <button type="submit" (click)="this.isNewGenreValid() && modal.close()">Créer</button>
+        </form>
+      </div>
+
+      <!-- Bouton pour fermer la modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+      </div>
+    </ng-template>
+
   </section>
 </section>

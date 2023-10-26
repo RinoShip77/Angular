@@ -39,22 +39,20 @@
           </form>
         </div>
 
-        <!-- #region 2023-10-20 11:04 - Olivier Bourgault -->
-          <!-- Uncomment the "cheatButton" -->
-          <form class="my-2" (ngSubmit)="connect('cheatUser')">
+        <!-- Les boutons pour tricher la connexion -->
+        <article style="display: flex; justify-content: space-evenly; margin-top: 10px;">
+          <form (ngSubmit)="connect('cheatUser')">
             <button class="btn btn-warning" type="submit">
-              Tricher<br>(en tant que membre)
+              Tricher (membre)
             </button>
           </form>
 
-          <!-- Add a new button to cheat as admin -->
           <form (ngSubmit)="connect('cheatAdmin')">
             <button class="btn btn-warning" type="submit">
-              Tricher<br>(en tant qu'administrateur)
+              Tricher (admin)
             </button>
           </form>
-        <!-- #endregion -->
-
+        </article>
         <!--
           <button class="btn btn-warning" (click)="createAccount()">
             <i class="fas fa-user-plus me-2"></i>

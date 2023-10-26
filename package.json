@@ -32,6 +32,7 @@
     "bootstrap": "^5.2.3",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "moment": "^2.29.4",
     "ng2-order-pipe": "^0.1.5",

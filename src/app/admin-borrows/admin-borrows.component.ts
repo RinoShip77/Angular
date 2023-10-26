@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Book } from '../model/Book';
 import { getURLBookCover } from '../util';
 import { Genre } from '../model/Genre';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-admin-borrows',
@@ -26,7 +27,7 @@ export class AdminBorrowsComponent {
   isChecked: Boolean = true;
   isCheckedLates: Boolean = false;
 
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService) { }
 
   ngOnInit() {
 
@@ -57,31 +58,42 @@ export class AdminBorrowsComponent {
   //
   //-------------------------------------------------------
   showBorrowsCriteria() {
-    let tempBorrows: Borrow[] = [];
+    this.displayedBorrows = [];
 
-    if (this.isChecked) {
-
+    // Afficher seulement les emprunts en cours et seulement les retards
+    if (this.isChecked && this.isCheckedLates) {
       this.borrows.forEach(borrow => {
-        if (borrow.returnedDate === null ) {
-          
-          if (this.isCheckedLates) {
-            
-            if (this.isLate(borrow)) {
-              tempBorrows.push(borrow);
-            }
-          }
-          
-          else {
-            tempBorrows.push(borrow);
-          }
-          
+        if (borrow.returnedDate === null && this.checkIfLate(borrow) != "") {
+          this.displayedBorrows.push(borrow);
         }
       });
-      this.displayedBorrows = tempBorrows;
-    } 
+      return;
+    }
 
-    else {
+    // Afficher seulement les emprunts en cours, en retard ou non
+    if (this.isChecked && !this.isCheckedLates) {
+      this.borrows.forEach(borrow => {
+        if (borrow.returnedDate === null) {
+          this.displayedBorrows.push(borrow);
+        }
+      });
+      return;
+    }
+
+    // Afficher tous les emprunts en retard
+    if (!this.isChecked && this.isCheckedLates) {
+      this.borrows.forEach(borrow => {
+        if (this.checkIfLate(borrow) != "") {
+          this.displayedBorrows.push(borrow);
+        }
+      });
+      return;
+    }
+
+    // Afficher tous les emprunts en cours, en retard ou non
+    if (!this.isChecked && !this.isCheckedLates) {
       this.displayedBorrows = this.borrows;
+      return;
     }
   }
 
@@ -89,19 +101,18 @@ export class AdminBorrowsComponent {
   //
   //-------------------------------------------------------
   returnBorrow(borrow: Borrow) {
-      let returnedBorrow: Borrow = borrow;
-      returnedBorrow.returnedDate = new Date();
+    let returnedBorrow: Borrow = borrow;
 
-      this.electrolibService.returnBorrow(returnedBorrow).subscribe(
-        (response) => {
-          console.log('Book returned successfully!', response);
-          this.retrieveBorrows();
-          this.showBorrowsCriteria();
-        },
-        (error) => {
-          console.error('Return failed:', error);
-        }
-      );
+    this.electrolibService.returnBorrow(returnedBorrow).subscribe(
+      (response) => {
+        console.log('Book returned successfully!', response);
+        this.retrieveBorrows();
+        this.showBorrowsCriteria();
+      },
+      (error) => {
+        console.error('Return failed:', error);
+      }
+    );
   }
 
 
@@ -150,7 +161,7 @@ export class AdminBorrowsComponent {
           this.displayedBorrows.sort((a, b) => (a.dueDate > b.dueDate ? 1 : -1));
           break;
       }
-    } 
+    }
     else {
       switch (this.selectedSearchBy) {
         case "title":
@@ -234,13 +245,13 @@ export class AdminBorrowsComponent {
     const dueDate: Date = new Date(borrow.dueDate);
 
     if (borrow.returnedDate === null) {
-      if (nowDate >= dueDate) {
+      if (nowDate > dueDate) {
         return "En retard";
       }
     }
     else {
       const returnedDate: Date = new Date(borrow.returnedDate);
-      if (dueDate >= returnedDate) {
+      if (dueDate < returnedDate) {
         return "Retourné avec retard";
       }
     }
@@ -251,30 +262,7 @@ export class AdminBorrowsComponent {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
-  isLate(borrow: Borrow) {
-    const nowDate: Date = new Date();
-    const dueDate: Date = new Date(borrow.dueDate);
-
-    if (borrow.returnedDate === null) {
-      if (nowDate >= dueDate) {
-        return true;
-      }
-    }
-    else {
-      const returnedDate: Date = new Date(borrow.returnedDate);
-      if (dueDate >= returnedDate) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  openAbout(content: any, idBook: number) 
-  {
+  openAbout(content: any, idBook: number) {
     this.book = new Book();
     this.electrolibService.getBook(idBook).subscribe(
       book => {
@@ -282,7 +270,7 @@ export class AdminBorrowsComponent {
       }
     );
 
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
   }
 
   //-------------------------------------------------------
@@ -290,6 +278,13 @@ export class AdminBorrowsComponent {
   //-------------------------------------------------------
   getBookCover(idBook: number) {
     return getURLBookCover(idBook);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  changeTab(tab: string) {
+    this.dataService.changeTab(tab);
   }
 
 }

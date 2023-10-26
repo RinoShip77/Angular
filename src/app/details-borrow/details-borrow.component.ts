@@ -49,7 +49,7 @@ export class DetailsBorrowComponent {
   }
 
   createBorrow(){
-    if(this.user){
+    /*if(this.user){
       this.electrolibSrv.createBorrow(this.book,this.user).subscribe(
         receivedBorrow=>{
           console.log(receivedBorrow);
@@ -60,7 +60,7 @@ export class DetailsBorrowComponent {
             this.succesBorrow();
           }
         }
-      )};
+      )};*/
     
   }
 

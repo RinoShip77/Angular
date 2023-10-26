@@ -7,7 +7,7 @@
 }
 
 .article {
-  width: 40em;
+  width: 100%;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -34,7 +34,7 @@ label {
 
 button[type="submit"] {
   display: block;
-  width: 100%;
+  width: 50%;
   padding: 10px;
   background-color: #007bff;
   color: #fff;
@@ -42,49 +42,49 @@ button[type="submit"] {
   border-radius: 5px;
   cursor: pointer;
   font-size: 18px;
+  margin: auto;
 }
 
 button[type="submit"]:hover {
   background-color: #0056b3;
 }
 
-select {
+.resultsBox {
+  overflow-y: auto;
+  max-height: 14em;
+  background-color: #f5f5f5;
+}
+
+.result-button:hover {
+  background-color: lightblue;
+}
+
+.result-button {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  color: #333;
-  font-size: 16px;
+  height: 100%;
+  text-align: left;
+  padding: 6px;
+  border: none;
 }
 
-option {
-  background-color: #fff;
-  color: #333;
+.result {
+  width: 100%;
 }
 
-select:hover,
-select:focus {
-  border-color: #007bff;
-}
-
-.error {
-  font-weight: bold;
-  color: red;
-}
-
-.add-button:hover {
-  background-color: #007c15;
-}
-
-.add-button {
+.button-cancel {
   display: block;
-  width: 6em;
+  width: 50%;
   padding: 10px;
-  background-color: #009619;
+  background-color: #ffb300;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 18px;
+  margin: auto;
+  color: black;
+}
+
+.button-cancel:hover {
+  background-color: #d69600;
 }

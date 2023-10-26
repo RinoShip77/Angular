@@ -43,6 +43,11 @@
     color: white;
 }
 
+.checkbox {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
 /* ----------------------------------------------------------- */
 /* Section pour le style de la table de données */
 /* ----------------------------------------------------------- */
