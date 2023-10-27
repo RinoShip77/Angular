@@ -97,12 +97,12 @@
                         <td>{{borrow.borrowedDate}}</td>
                         <td>{{borrow.dueDate}}</td>
                         <td *ngIf="!isChecked">{{borrow.returnedDate}}</td>
-                        <td style="font-weight: bold; color: red;">{{checkIfLate(borrow)}}</td>
+                        <td style="font-weight: bold; color: crimson;">{{checkIfLate(borrow)}}</td>
                         <td>
                             <article style="display: flex;">
                                 <button class="btn btn-outline-dark btn-action"
                                     (click)="openAbout(about, borrow.book.idBook)" data-toggle="modal">
-                                    <i class="fa-solid fa-book-open-reader"></i>
+                                    <i class="fa-solid fa-magnifying-glass"></i>
                                     <span class="info-tooltip">Détails</span>
                                 </button>
                                 <button *ngIf="borrow.returnedDate == null" (click)="returnBorrow(borrow)"

@@ -29,7 +29,7 @@
           <label for="publishedDate">Date de publication:</label>
           <input class="form-control" type="date" name="publishedDate" [(ngModel)]="book.publishedDate"
             (ngModelChange)="validatePublishedDate()" required />
-          <p class="error" *ngIf="errors['publishedDate'] != null">{{errors['publisheDate']}}</p>
+          <p class="error" *ngIf="errors['publishedDate'] != null">{{errors['publishedDate']}}</p>
         </div>
 
         <div class="form-group">

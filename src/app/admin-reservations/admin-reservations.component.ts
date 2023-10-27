@@ -18,6 +18,7 @@ export class AdminReservationsComponent {
   activeBorrows: Borrow[] = [];
   ReservationsData: any;
   book: Book = new Book();
+  BorrowReturnedMessage: string = "Retourné";
 
   searchField: string = "";
   selectedSearchBy: String = "title";
@@ -29,60 +30,7 @@ export class AdminReservationsComponent {
 
   ngOnInit() {
 
-    this.retrieveReservations();
-    this.retrieveActiveBorrows();
     this.retrieveReservationsData();
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  retrieveReservations() {
-    this.electrolibService.getReservations().subscribe(
-      reservations => {
-        this.reservations = reservations;
-        this.showReservationsCriteria();
-      }
-    );
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  getBorrowMemberNumber(idReservation: number): string | null {
-    if (!this.ReservationsData) {
-      return null;
-    }
-
-    const reservation = this.ReservationsData.find(
-      (res: { idReservation: number; }) => res.idReservation === idReservation
-    );
-    return reservation ? reservation.borrowMemberNumber : null;
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  getDueDate(idReservation: number): string {
-    if (!this.ReservationsData) {
-      return "";
-    }
-
-    const reservation = this.ReservationsData.find(
-      (res: { idReservation: number; }) => res.idReservation === idReservation
-    );
-    return reservation.dueDate;
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  retrieveActiveBorrows() {
-    this.electrolibService.getActiveBorrows().subscribe(
-      borrows => {
-        this.activeBorrows = borrows;
-      }
-    );
   }
 
   //-------------------------------------------------------
@@ -92,8 +40,45 @@ export class AdminReservationsComponent {
     this.electrolibService.getReservationsData().subscribe(
       data => {
         this.ReservationsData = data;
+        this.retrieveReservations();
       }
     );
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  retrieveReservations() {
+    this.electrolibService.getReservations().subscribe(
+      reservations => {
+        this.reservations = reservations;
+        this.setReservationsWithBorrows()
+        this.showReservationsCriteria();
+      }
+    );
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  setReservationsWithBorrows() {
+    this.reservations.forEach(reservation => {
+      try {
+        const borrowMemberNumberData = this.ReservationsData.find(
+          (res: { idReservation: number; }) => res.idReservation === reservation.idReservation
+        );
+
+        const borrowDueDateData = this.ReservationsData.find(
+          (res: { idReservation: number; }) => res.idReservation === reservation.idReservation
+        );
+
+        reservation.borrowMemberNumber = borrowMemberNumberData.borrowMemberNumber;
+        reservation.borrowDueDate = borrowDueDateData.dueDate;
+      } catch (error) {
+        reservation.borrowMemberNumber = this.BorrowReturnedMessage;
+        reservation.borrowDueDate = this.BorrowReturnedMessage;
+      }
+    });
   }
 
   //-------------------------------------------------------
@@ -229,10 +214,10 @@ export class AdminReservationsComponent {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
-  checkIfLate(idReservation: number) {
+  checkIfLate(reservation: Reservation) {
 
     const nowDate: Date = new Date();
-    const dueDate: Date = new Date(this.getDueDate(idReservation));
+    const dueDate: Date = new Date(reservation.borrowDueDate);
 
 
     if (nowDate >= dueDate) {
@@ -251,7 +236,6 @@ export class AdminReservationsComponent {
       (response) => {
         console.log('Reservation canceled successfully!', response);
         this.retrieveReservations();
-        this.retrieveActiveBorrows();
         this.retrieveReservationsData();
         this.showReservationsCriteria();
       },
@@ -264,8 +248,7 @@ export class AdminReservationsComponent {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
-  openAbout(content: any, idBook: number) 
-  {
+  openAbout(content: any, idBook: number) {
     this.book = new Book();
     this.electrolibService.getBook(idBook).subscribe(
       book => {
@@ -273,7 +256,7 @@ export class AdminReservationsComponent {
       }
     );
 
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
   }
 
   //-------------------------------------------------------
@@ -283,4 +266,39 @@ export class AdminReservationsComponent {
     return getURLBookCover(idBook);
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  canBeBorrowed(reservation: Reservation) {
+    if (reservation.isActive && reservation.borrowDueDate == this.BorrowReturnedMessage) {
+      return true;
+    }
+    return false;
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  createBorrowFromReservation(reservation: Reservation) {
+    this.electrolibService.createBorrow(reservation.user.idUser, reservation.book.idBook).subscribe(
+      (response) => {
+          console.log('Borrow created successfully!', response);
+
+          this.electrolibService.cancelReservation(reservation).subscribe(
+            (response) => {
+              console.log('Reservation canceled successfully!', response);
+              this.retrieveReservations();
+              this.retrieveReservationsData();
+              this.showReservationsCriteria();
+            },
+            (error) => {
+              console.error('Cancel failed:', error);
+            }
+          );
+      },
+      (error) => {
+        console.error('Creation failed:', error);
+      }
+    );
+  }
 }

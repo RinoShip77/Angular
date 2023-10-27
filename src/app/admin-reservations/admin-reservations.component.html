@@ -75,21 +75,26 @@
                     <tr *ngFor="let reservation of displayedReservations">
                         <td>{{reservation.book.idBook}}</td>
                         <td>{{reservation.book.title}}</td>
-                        <td>{{getBorrowMemberNumber(reservation.idReservation)}}</td>
+                        <td>{{reservation.borrowMemberNumber}}</td>
                         <td>{{reservation.user.memberNumber}}</td>
                         <td>{{reservation.reservationDate}}</td>
-                        <td>{{getDueDate(reservation.idReservation)}}</td>
-                        <td style="font-weight: bold; color: red;">{{checkIfLate(reservation.idReservation)}}</td>
+                        <td>{{reservation.borrowDueDate}}</td>
+                        <td style="font-weight: bold; color: crimson;">{{checkIfLate(reservation)}}</td>
                         <td>
                             <article style="display: flex;">
-                                <button class="btn btn-outline-dark btn-action" (click)="openAbout(about, reservation.book.idBook)"s>
-                                    <i class="fa-solid fa-book-open-reader"></i>
-                                    <span class="info-tooltip">Détails</span>
+                                <button class="btn btn-outline-dark btn-action" (click)="openAbout(about, reservation.book.idBook)"
+                                    title="Afficher les détails du livre réservé">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>
                                 <button *ngIf="reservation.isActive === 1" class="btn btn-danger btn-action"
-                                    (click)="cancelReservation(reservation)">
+                                    (click)="cancelReservation(reservation)"
+                                    title="Annuler la réservation">
                                     <i class="fa-solid fa-ban"></i>
-                                    <span class="info-tooltip">Annuler</span>
+                                </button>
+                                <button *ngIf="canBeBorrowed(reservation)" class="btn btn-warning btn-action"
+                                    (click)="createBorrowFromReservation(reservation)"
+                                    title="Transformer la réservation en emprunt">
+                                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
                                 </button>
                             </article>
                         </td>

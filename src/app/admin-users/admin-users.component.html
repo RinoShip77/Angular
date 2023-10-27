@@ -26,5 +26,40 @@
             </article>
         </article>
 
+        <!-- Section de la table des données -->
+        <section>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Numéro membre</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Rôle</th>
+                        <th>Pénalités en cours</th>
+                        <th style="width: 10em;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of displayedUsers">
+                        <td>{{user.memberNumber}}</td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{parseRole(user)}}</td>
+                        <td>
+                            <span class="penalty" *ngIf="user.totalPenalities > 0">{{user.totalPenalities}}$</span>
+                        </td>
+                        <td>
+                            <article style="display: flex;">
+                                <button class="btn btn-outline-dark btn-action">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <span class="info-tooltip">Détails</span>
+                                </button>
+                            </article>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
     </section>
 </section>

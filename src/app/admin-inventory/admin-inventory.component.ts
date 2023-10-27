@@ -118,6 +118,9 @@ export class AdminInventoryComponent {
      );
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   changeTab(tab: string) {
     this.dataService.changeTab(tab);
   }

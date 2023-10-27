@@ -13,6 +13,11 @@ export class Reservation
   reservationDate: Date = new Date();
   isActive: number = 1;
 
+  // Pour l'affichage des réservations dans admin
+  borrowMemberNumber: string = "";
+  borrowDueDate: string = "";
+
+
   determineStatus()
   {
     if((this.idReservation % 3) == 1)

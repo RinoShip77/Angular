@@ -67,33 +67,29 @@ export class AdminBorrowsComponent {
           this.displayedBorrows.push(borrow);
         }
       });
-      return;
     }
 
     // Afficher seulement les emprunts en cours, en retard ou non
-    if (this.isChecked && !this.isCheckedLates) {
+    else if (this.isChecked && !this.isCheckedLates) {
       this.borrows.forEach(borrow => {
         if (borrow.returnedDate === null) {
           this.displayedBorrows.push(borrow);
         }
       });
-      return;
     }
 
     // Afficher tous les emprunts en retard
-    if (!this.isChecked && this.isCheckedLates) {
+    else if (!this.isChecked && this.isCheckedLates) {
       this.borrows.forEach(borrow => {
         if (this.checkIfLate(borrow) != "") {
           this.displayedBorrows.push(borrow);
         }
       });
-      return;
     }
 
     // Afficher tous les emprunts en cours, en retard ou non
-    if (!this.isChecked && !this.isCheckedLates) {
+    else {
       this.displayedBorrows = this.borrows;
-      return;
     }
   }
 
