@@ -60,3 +60,56 @@
     -moz-user-select: none;
     -ms-user-select: none;
 }
+
+.penalty {
+    font-weight: bold;
+    color: crimson;
+}
+
+/* ----------------------------------------------------------- */
+/* Section pour le style de la table de données */
+/* ----------------------------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th {
+    background-color: #3F48CC;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td, th {
+    padding: 10px;
+}
+
+.info-tooltip {
+    display: none;
+}
+
+.btn-action:hover .info-tooltip {
+    display: inline-block;
+    background-color: #333;
+    color: #fff;
+    position: absolute;
+    z-index: 1;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.fa {
+    font-size: 18px;
+}

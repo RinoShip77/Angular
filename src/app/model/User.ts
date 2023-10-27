@@ -19,13 +19,9 @@ export class User {
   asObservable: any;
   next: any;
 
-  constructor() {
-    /*if (this.roles == '["ROLES_USER"]') {
-      this.roles = '["ROLES_USER"]';
-    } else {
-      this.roles = '["ROLE_ADMIN"]';
-    }*/
-  }
+  // Pour l'affichage des users dans admin
+  totalPenalities: number = 0;
+
   borrows: Borrow[] = new Array();
   evaluations: Evaluation[] = new Array();
   favorites: Favorite[] = new Array();
