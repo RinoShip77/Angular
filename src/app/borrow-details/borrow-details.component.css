@@ -1,3 +1,5 @@
+
+
 .logo
 {
     margin-top: 50px;
@@ -40,7 +42,9 @@
 .div-icones
 {
     font-size: 24px;
-    width: 80px;
+    width:max-content;
+    padding-left: 10px;
+    padding-right: 10px;
     text-align: center;
     margin: 0 auto;
     margin-bottom: 15px;
@@ -79,11 +83,12 @@
     margin-left: 5px;
     margin-right: 20px;
 
-    background-color: rgba(126, 126, 126, 0.072);
-    border: 0;
-    border-right: 6px solid;
-    border-radius: 15px;
-    border-color: rgba(109, 109, 109, 0.322);
+    background-color: rgba(126, 126, 126, 0.089);
+    border: 2px solid;
+    border-right: 7px solid;
+    border-left: 7px solid;
+    border-radius: 17px;
+    border-color: rgba(109, 109, 109, 0.397);
 }
 
 .image-livre
@@ -98,20 +103,31 @@
 {
     text-align: left; 
     padding: 20px;
-    
+    background-color: rgba(126, 126, 126, 0.089);
+    height: 200px;
+    border-radius: 15px;
+    border: 3px solid rgba(109, 109, 109, 0.144);
 }
 
 .div-info-commande
 {
     text-align: left; 
     padding: 20px;
-    padding-top: 40px;
-
     background-color: rgba(126, 126, 126, 0.072);
-    border: 0;
-    border-left: 6px solid;
+    border: 2px solid;
+    border-left: 7px solid;
+    border-right: 7px solid;
+    border-radius: 17px;
+    border-color: rgba(109, 109, 109, 0.397);
+}
+
+.div-txt-cmd
+{
+    background-color: rgba(0, 0, 0, 0.075);
+    padding: 20px;
+    height: 200px;
     border-radius: 15px;
-    border-color: rgba(109, 109, 109, 0.322);
+    border: 3px solid rgba(109, 109, 109, 0.144);
 }
 
 .btn-details
@@ -172,4 +188,25 @@ a > span
     text-decoration: underline;
     cursor: pointer;
     color: rgba(57, 93, 134, 0.781);
+}
+
+.img-details
+{
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 170px;
+    width: 170px;
+}
+
+.div-image
+{
+    margin-left: 20px;
+    height: 200px;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.247);
+    border: 5px rgba(0, 0, 0, 0.452) ridge;
+    border-radius: 10px;
 }

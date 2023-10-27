@@ -3,16 +3,19 @@
     <div class="title-bar">
         <div>
             <h4 style="margin-left: 20px;">
-                <i class="fa-solid fa-book-open" style="color: #947ad1;"></i>&nbsp;&nbsp; Historique de mes Emprunts
+                <i class="fa-solid fa-book-open" style="color: #947ad1;"></i>&nbsp;&nbsp; 
+                <span class="titres-emprunts">Historique de mes Emprunts</span>
             </h4>
         </div>
     </div>
 
     <!-- Localisation sur la page -->
     <div class="location-bar">
-        <label style="margin-left: 20px; font-size: 18px;">
-            emprunts > historique {{window}}
-        </label>
+        <i class="fa-regular fa-circle-dot fa-fade" style="color: #198754; margin-right: 10px;"></i>
+        <span class="location-page-link sous-titres-emprunts" [routerLink]="['../borrows']">emprunts</span>
+        >
+        <span class="location-page-link sous-titres-emprunts">historique</span>
+        {{window}}
     </div>
 
     <!-- Séparateur -->
@@ -24,21 +27,21 @@
 
         <!-- Div contenant le select pour trier la table -->
         <div class="row" style="margin-bottom: -25px;">
-            <div *ngIf="user" class="col-6">
+            <div *ngIf="user" class="col-6 label-emprunts">
                 <i class="fa-regular fa-user"></i>&nbsp; 
                 Historique de 
-                <span [routerLink]="['../profile']" style="text-decoration: underline; font-weight: 600; cursor: pointer;">{{user.firstName}}</span>
+                <span [routerLink]="['../profile']" style="text-decoration: underline; font-weight: 600; cursor: pointer;" class="label-emprunts">{{user.firstName}}</span>
             </div>
             <div style="float: right; text-align: right;" class="col-6">
-                <label>Trier par: </label>
-                <select class="select-style" (change)="orderBySelect($event)" style="width: 220px; text-align: center;">
+                <label class="label-emprunts">Trier par: </label>
+                <select class="select-style label-emprunts" (change)="orderBySelect($event)" style="width: 220px; text-align: center;">
                     <option value="borrowedDate" selected>Id / Date d'emprunt</option>
                     <option value="title">Titre du livre</option>
                     <option value="dueDate">Date retour / Status / Frais</option>
                 </select>
                 &nbsp;&nbsp;
-                <label>Ordre: </label>
-                <select class="select-style" (change)="orderWayBySelect($event)" style="width: 130px; text-align: center;">
+                <label class="label-emprunts">Ordre: </label>
+                <select class="select-style label-emprunts" (change)="orderWayBySelect($event)" style="width: 130px; text-align: center;">
                     <option value="ASC" selected>Croissant</option>
                     <option value="DESC">Décroissant</option>
                 </select>
@@ -105,9 +108,9 @@
 
         <!-- Bouton en bas de la page -->
         <div class="div-btns" style="justify-content:space-between; display: flex;">
-            <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary border-btn">À propos des
+            <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary border-btn label-emprunts">À propos des
                 emprunts passés</button>
-            <button [routerLink]="['../borrows']" type="button" class="btn btn-secondary border-btn" style="float:right;">
+            <button [routerLink]="['../borrows']" type="button" class="btn btn-secondary border-btn label-emprunts" style="float:right;">
                 Retourner
                 aux emprunts
             </button>

@@ -3,16 +3,18 @@
     <div class="title-bar">
         <div>
             <h4 style="margin-left: 20px;">
-                <i class="fa-regular fa-file-lines" style="color: rgb(114, 114, 250);"></i>&nbsp;&nbsp; Détails de l'emprunt
+                <i class="fa-regular fa-file-lines" style="color: rgb(114, 114, 250);"></i>&nbsp;&nbsp;
+                <span class="titres-emprunts">Détails de l'emprunt</span>
             </h4>
         </div>
     </div>
 
     <!-- Localisation sur la page -->
     <div class="location-bar">
-        <label style="margin-left: 20px; font-size: 18px;">
-            emprunts > détails de l'emprunt
-        </label>
+        <i class="fa-regular fa-circle-dot fa-fade" style="color: #198754; margin-right: 10px;"></i>
+        <span class="location-page-link sous-titres-emprunts" [routerLink]="['../borrows']">emprunts</span>
+        >
+        <span class="location-page-link sous-titres-emprunts">détails de l'emprunt</span>
     </div>
 
     <!-- Séparateur -->
@@ -21,75 +23,77 @@
     </div>
 
     <div class="borrow-div">
-        <div class="shadow-lg row div-details">
+        <div class="shadow-lg row div-details"  style="justify-content: space-evenly;">
             <!-- titre de l'emprunt -->
             <h5 style="margin-left: 20px; margin-bottom: 20px; border-bottom: 3px rgba(0, 0, 0, 0.185) solid; border-bottom-left-radius:10px; padding-bottom: 10px;">
                 <i class="fa-solid fa-book"></i>&nbsp;
-                Emprunt #{{borrow.idBorrow}}
+                <span class="label-emprunts-bold" style="font-size: 19px;">Emprunt #{{borrow.idBorrow}}</span>
             </h5>
 
             <!-- Petits icones en haut des infos-->
             <div class="row" style="margin-left: 1px;">
                 <div class="col-6">
                     <div class="div-icones">
-                        <i class="fa-solid fa-book-open" style="color: rgb(114, 114, 250);"></i>
+                        <i class="fa-solid fa-book-open" style="color: rgb(114, 114, 250);"></i>&nbsp;
+                        <span style="color: rgb(80, 80, 180);">Informations livre</span>
                     </div>
                 </div>
-                <div class="col-4" style=" margin-left: 50px;">
+                <div class="col-5" style=" margin-left: 70px;">
                     <div class="div-icones">
-                        <i class="fa-solid fa-hand-holding-dollar" style="color: rgb(114, 114, 250); "></i>
+                        <i class="fa-solid fa-hand-holding-dollar" style="color: rgb(114, 114, 250);"></i>&nbsp;
+                        <span style="color: rgb(80, 80, 180);">Informations emprunt</span>
                     </div>
                 </div>
             </div>
 
             <!-- Informations concernant le livre -->
-            <div class="col-6 row div-livre">
+            <div class="col-5 row div-livre shadow-sm">
                 <!-- Image du livre -->
-                <div class="col-4">
-                    <img class="image-livre" src="{{getBookCover(borrow.book.idBook)}}">
+                <div class="col-4 shadow-sm">
+                    <img class="image-livre" src="{{getBookCover(borrow.book.idBook)}}" onerror="this.src='assets/images/books/1.png'">
                 </div>
                 <!-- Infos du livre -->
-                <div class="col-6 div-info-emprunt">
-                    <label>Nom du livre:&nbsp;</label>
-                    <span>{{borrow.book.title}}</span>
+                <div class="col-8 div-info-emprunt shadow-sm">
+                    <label class="label-emprunts">Nom du livre:&nbsp;</label>
+                    <span class="label-emprunts">{{borrow.book.title}}</span>
                     <br>
-                    <label>isbn:&nbsp;</label>
-                    <span>{{borrow.book.isbn}}</span>
+                    <label class="label-emprunts">isbn:&nbsp;</label>
+                    <span class="label-emprunts">{{borrow.book.isbn}}</span>
                     <br>
-                    <label>Auteur du livre:&nbsp;</label>
-                    <span>{{book.author.firstName}} {{book.author.lastName}}</span>
+                    <label class="label-emprunts">Auteur du livre:&nbsp;</label>
+                    <span class="label-emprunts">{{book.author.firstName}} {{book.author.lastName}}</span>
                     <br>
-                    <label>Genre du Livre:&nbsp;</label>
-                    <span>{{book.genre.name}}</span>
+                    <label class="label-emprunts">Genre du Livre:&nbsp;</label>
+                    <span class="label-emprunts">{{book.genre.name}}</span>
                     <br>
-                    <label>Langue d'origine:&nbsp;</label>
-                    <span>{{book.originalLanguage}}</span>
+                    <label class="label-emprunts">Langue d'origine:&nbsp;</label>
+                    <span class="label-emprunts">{{book.originalLanguage}}</span>
                     <br>
-                    <label>Année de publication:&nbsp;</label>
-                    <span>{{book.publishedDate}}</span>
+                    <label class="label-emprunts">Année de publication:&nbsp;</label>
+                    <span class="label-emprunts">{{book.publishedDate}}</span>
                     <hr>
                 </div>
             </div>
 
             <!-- Information concernant l'emprunt -->
-            <div class="col-4 div-info-commande" style="margin-left: 20px;">
-                <div style="">
-                    <label>Date de l'emprunt:&nbsp;</label>
-                    <span>{{borrow.borrowedDate}}</span>
+            <div class="col-5 div-info-commande row shadow-sm" style="">
+                <div class="col-8 div-txt-cmd">
+                    <label class="label-emprunts-bold">Date de l'emprunt:&nbsp;</label>
+                    <span class="label-emprunts">{{borrow.borrowedDate}}</span>
                     <br>
-                    <label>Date limite de retour:&nbsp;</label>
-                    <span>{{borrow.formattedDueDate()}}</span>
+                    <label class="label-emprunts-bold">Date limite de retour:&nbsp;</label>
+                    <span class="label-emprunts">{{borrow.formattedDueDate()}}</span>
                     <br>
-                    <label *ngIf="borrow.determineStatus() != 'En retard'">Nombre de jours restants:&nbsp;</label>
-                    <label *ngIf="borrow.determineStatus() == 'En retard'">Nombre de jours de retard:&nbsp;</label>
-                    <span *ngIf="borrow.transformTimeAndLate() > 1">{{borrow.transformTimeAndLate()}} jours</span>
-                    <span *ngIf="borrow.transformTimeAndLate() <= 1">{{borrow.transformTimeAndLate()}} jour</span>
+                    <label *ngIf="borrow.determineStatus() != 'En retard'" class="label-emprunts-bold">Nombre de jours restants:&nbsp;</label>
+                    <label *ngIf="borrow.determineStatus() == 'En retard'" class="label-emprunts-bold">Nombre de jours de retard:&nbsp;</label>
+                    <span *ngIf="borrow.transformTimeAndLate() > 1" class="label-emprunts">{{borrow.transformTimeAndLate()}} jours</span>
+                    <span *ngIf="borrow.transformTimeAndLate() <= 1" class="label-emprunts">{{borrow.transformTimeAndLate()}} jour</span>
                     <br>
-                    <label>Nombre de renouvellement fait:&nbsp;</label>
-                    <span>{{borrow.getRenewTimes()}}</span>
+                    <label class="label-emprunts-bold">Nombre de renouvellement fait:&nbsp;</label>
+                    <span class="label-emprunts">{{borrow.getRenewTimes()}}</span>
                     <br>
-                    <label>Status:&nbsp;</label>
-                    <span [ngClass]="
+                    <label class="label-emprunts-bold">Status:&nbsp;</label>
+                    <span class="label-emprunts" [ngClass]="
                 {
                    'status-not-urgent' : borrow.determineStatus() == 'En cours',
                    'status-semi-urgent' : borrow.determineStatus() == 'Semi-urgent',
@@ -97,29 +101,32 @@
                    'status-late' : borrow.determineStatus() == 'En retard'
                 }">{{borrow.determineStatus()}}</span>
                     <br>
-                    <label>Frais de retard:&nbsp;</label>
+                    <label class="label-emprunts-bold">Frais de retard:&nbsp;</label>
                     <span *ngIf="borrow.calculateFee() != null"
-                        style="color: green; font-weight: 600; text-decoration: underline">{{borrow.calculateFee()}}$</span>
-                    <span *ngIf="borrow.calculateFee() == null">0</span>
+                        style="color: green; font-weight: 600; text-decoration: underline" class="label-emprunts">{{borrow.calculateFee()}}$</span>
+                    <span *ngIf="borrow.calculateFee() == null" class="label-emprunts">0</span> 
                     <hr>
                 </div>
+
+                <!-- à faire -->
+                <div class="col-4 div-image shadow-sm" style="width:auto; padding: 13px;">
+                    <img src="{{url}}" class="img-details"
+                    alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}"
+                    onerror="this.src='assets/images/users/default-user.png'">
+                </div>
+                
             </div>
 
-            <!-- à faire -->
-            <div class="col-1" style="">
-                <div style="background-color: lightcoral; height: 100%">
-                    <span>test</span>
-                </div>
-            </div>
+            
 
             <!-- Boutons situés en bas de la page -->
             <div class="div-btns">
-                <button class="btn-details btn btn-danger border" [disabled]="borrow.calculateFee() == null">Payer les
+                <button class="btn-details btn btn-success border-btn label-emprunts" [disabled]="borrow.calculateFee() == null">Payer les
                     frais</button>
-                <button class="btn-details btn btn-warning border" [disabled]="borrow.calculateFee() != null">Remettre
+                <button class="btn-details btn btn-warning border-btn label-emprunts" [disabled]="borrow.calculateFee() != null">Remettre
                     l'emprunt</button>
                 <div style="float: right; width: auto;">
-                    <button [routerLink]="['../../borrows']" class="btn-details btn btn-secondary border">Retourner aux
+                    <button [routerLink]="['../../borrows']" class="btn-details btn btn-secondary border-btn label-emprunts">Retourner aux
                         emprunts</button>
                 </div>
             </div>

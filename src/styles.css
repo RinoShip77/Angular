@@ -1,13 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@300&family=Quicksand:wght@500&family=Roboto:wght@300&display=swap');
 
 body {
-  font-family: 'Ubuntu', sans-serif
+  font-family: 'Ubuntu', sans-serif;
 }
 
 a {
   text-decoration: none;
   color:initial;
+}
+
+.titres-emprunts
+{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.sous-titres-emprunts
+{
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+}
+
+.label-emprunts
+{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+}
+
+.label-emprunts-bold
+{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+th
+{
+  font-family: 'Montserrat', sans-serif;
+  
+  font-size: 17px;
+}
+
+td
+{
+  font-family: 'Quicksand', sans-serif;
+  font-size: 17px;
 }
 
 .info-tooltip {
@@ -44,4 +82,15 @@ a {
   0%   {transform: scale(0.5)}
   75%  {transform: scale(1.1)}
   100% {transform: scale(1)}
+}
+
+.location-page-link
+{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.location-bar > i
+{
+  margin-left: 20px;
 }

@@ -5,7 +5,7 @@ import { User } from '../model/User';
 import { Book } from '../model/Book';
 import { DataService } from '../data.service';
 import { ActivatedRoute } from '@angular/router';
-import { getURLBookCover } from '../util';
+import { getURLBookCover, getURLProfilePicture } from '../util';
 
 @Component({
   selector: 'app-borrow-details',
@@ -21,6 +21,7 @@ export class BorrowDetailsComponent implements OnInit {
   idBook = 0;
 
   window:string = "";
+  url:string = "";
 
   ngOnInit(): void 
   {
@@ -28,6 +29,8 @@ export class BorrowDetailsComponent implements OnInit {
     let idBorrow = Number(this.route.snapshot.paramMap.get('id'));
 
     this.retrieveBorrow(idBorrow);
+
+    this.url = getURLProfilePicture(this.user?.idUser);
   }
 
   retrieveBorrow(idBorrow:Number)
