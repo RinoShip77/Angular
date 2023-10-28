@@ -1,0 +1,99 @@
+<section class="admin-container">
+    <section class="section">
+        <article class="article" *ngIf="!userCreated">
+            <form (ngSubmit)="onSubmit()">
+
+                <div class="form-group">
+                    <label>Prénom:</label>
+                    <input class="form-control" type="text" name="firstName" required [(ngModel)]="user.firstName"
+                        (ngModelChange)="validateFirstName()" />
+                    <p class="error" *ngIf="errors['firstName'] != null">{{errors['firstName']}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Nom:</label>
+                    <input class="form-control" type="text" name="title" required [(ngModel)]="user.lastName"
+                        (ngModelChange)="validateLastName()" />
+                    <p class="error" *ngIf="errors['lastName'] != null">{{errors['lastName']}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Courriel:</label>
+                    <input class="form-control" type="text" name="title" required [(ngModel)]="user.email"
+                        (ngModelChange)="validateEmail()" />
+                    <p class="error" *ngIf="errors['email'] != null">{{errors['email']}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Adresse:</label>
+                    <input class="form-control" type="text" name="title" required [(ngModel)]="user.address"
+                        (ngModelChange)="validateAddress()" />
+                    <p class="error" *ngIf="errors['address'] != null">{{errors['address']}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Code postal:</label>
+                    <input class="form-control" type="text" name="title" required [(ngModel)]="user.postalCode"
+                        (ngModelChange)="validatePostalCode()" />
+                    <p class="error" *ngIf="errors['postalCode'] != null">{{errors['postalCode']}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Numéro de téléphone:</label>
+                    <input class="form-control" type="text" name="title" required [(ngModel)]="user.phoneNumber"
+                        (ngModelChange)="validatePhoneNumber()" />
+                    <p class="error" *ngIf="errors['phoneNumber'] != null">{{errors['phoneNumber']}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Rôle:</label>
+                    <select [(ngModel)]="user.roles" name="roles" required>
+                        <option selected value='["ROLE_USER"]'>Membre</option>
+                        <option value='["ROLE_ADMIN"]'>Administrateur</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Mot de passe:</label>
+                    <input class="form-control" type="password" name="title" required [(ngModel)]="user.password"
+                        (ngModelChange)="validatePassword()" />
+                    <p class="error" *ngIf="errors['password'] != null">{{errors['password']}}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmer le mot de passe:</label>
+                    <input class="form-control" type="password" name="title" required [(ngModel)]="validationPassword"
+                    (ngModelChange)="validateValidationPassword()" />
+                    <p class="error" *ngIf="errors['validationPassword'] != null">{{errors['validationPassword']}}</p>
+                </div>
+
+                <button type="submit">Enregistrer</button>
+            </form>
+        </article>
+
+        <article *ngIf="userCreated" class="article" style="padding: 2em;">
+            <h4 style="text-align: center;">Nouveau compte créé avec succès!</h4>
+            <article style="padding: 2em;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Numéro de membre</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{user.memberNumber}}</td>
+                            <td>{{user.firstName}}</td>
+                            <td>{{user.lastName}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+            <a [routerLink]="['/adminUsers']">
+                <button class="btn-continue" (click)="changeTab('members')">Continuer</button>
+            </a>
+        </article>
+    </section>
+</section>

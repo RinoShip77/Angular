@@ -73,6 +73,7 @@ export class ConnectionComponent {
             this.dataService.updateUser(this.user);
 
             this.connected.emit(this.user);
+            this.changeTab('inventory');
             this.router.navigate(["adminInventory"]);
 
           } else {
@@ -112,5 +113,12 @@ export class ConnectionComponent {
   cancelCreationAccount() {
     this.connectionVisible = true;
     this.createAccountVisible = false;
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  changeTab(tab: string) {
+    this.dataService.changeTab(tab);
   }
 }

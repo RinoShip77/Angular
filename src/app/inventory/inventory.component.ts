@@ -8,6 +8,7 @@ import { Author } from '../model/Author';
 import { Router } from '@angular/router';
 import { getURLBookCover } from '../util';
 import { Status } from '../model/Status';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-inventory',

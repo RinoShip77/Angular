@@ -292,6 +292,25 @@ export class ElectrolibService {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
+  createUser(user: User) {
+    let url = `${urlServer}create-user`;
+
+    const formData = new FormData();
+    formData.append('firstName', user.firstName);
+    formData.append('lastName', user.lastName);
+    formData.append('email', user.email);
+    formData.append('address', user.address);
+    formData.append('postalCode', user.postalCode);
+    formData.append('phoneNumber', user.phoneNumber);
+    formData.append('roles', user.roles);
+    formData.append('password', user.password);
+
+    return this.http.post<User>(url, formData);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   createBorrow(idUser: number, idBook: number){
     const url = `${urlServer}create-borrow`;
     const formData = new FormData();

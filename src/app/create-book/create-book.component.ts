@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Book } from '../model/Book';
 import { ElectrolibService } from '../electrolib.service';
-import { ISBN_REGEX_PATTERN, MAX_FILE_SIZE } from '../util';
+import { ISBN_REGEX, MAX_FILE_SIZE } from '../util';
 import { Author } from '../model/Author';
 import { Genre } from '../model/Genre';
 import { Router } from '@angular/router';
@@ -85,7 +85,6 @@ export class CreateBookComponent {
   //-------------------------------------------------------
   onSubmit() {
     this.validateAllFields();
-    console.log(this.validateForm());
     if (this.validateForm()) {
       this.electrolibService.createBookWithImage(this.book, this.file_data).subscribe(
         (response) => {
@@ -150,7 +149,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide le titre du livre
+  //
   //-------------------------------------------------------
   validateTitle() {
     if (this.book.title.length <= 0 || this.book.title.length > 100) {
@@ -161,7 +160,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide la description du livre
+  //
   //-------------------------------------------------------
   validateDescription() {
     if (this.book.description.length <= 0 || this.book.description.length > 2048) {
@@ -172,10 +171,10 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide l'ISBN du livre
+  //
   //-------------------------------------------------------
   validateISBN() {
-    if (!ISBN_REGEX_PATTERN.test(this.book.isbn)) {
+    if (!ISBN_REGEX.test(this.book.isbn)) {
       this.errors["isbn"] = `L'ISBN doit un nombre de 13 chiffres. Contient actuellement ${this.book.isbn.toString().length} chiffres.`;
     } else {
       this.errors["isbn"] = null;
@@ -183,7 +182,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide la date de publication du livre
+  //
   //-------------------------------------------------------
   validatePublishedDate() {
     if (this.book.publishedDate.length <= 0) {
@@ -194,7 +193,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide la langue originale du livre
+  //
   //-------------------------------------------------------
   validateOriginalLanguage() {
     if (this.book.originalLanguage.length <= 0 || this.book.originalLanguage.length > 255) {
@@ -205,7 +204,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide l'auteur' du livre
+  //
   //-------------------------------------------------------
   validateIdAuthor() {
     if (!this.book.idAuthor) {
@@ -216,7 +215,7 @@ export class CreateBookComponent {
   }
 
   //-------------------------------------------------------
-  // Valide le genre du livre
+  //
   //-------------------------------------------------------
   validateIdGenre() {
     if (!this.book.idGenre) {
