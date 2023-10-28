@@ -181,32 +181,33 @@ export class AdminBorrowsComponent {
   //-------------------------------------------------------
   search() {
     if (this.searchField.trim().length > 0) {
-      this.displayedBorrows = [];
+      let tempBorrows: Borrow[] = [];
 
-      this.borrows.forEach(borrow => {
+      this.displayedBorrows.forEach(borrow => {
         if (this.isBorrowValid(borrow)) {
           switch (this.selectedSearchBy) {
             case "title":
               if (this.isFieldValid(borrow.book.title)) {
-                this.displayedBorrows.push(borrow);
+                tempBorrows.push(borrow);
               }
               break;
             case "memberNumber":
               if (this.isFieldValid(borrow.user.memberNumber)) {
-                this.displayedBorrows.push(borrow);
+                tempBorrows.push(borrow);
               }
               break;
             case "borrowedDate":
               if (this.isFieldValid(borrow.borrowedDate.toString())) {
-                this.displayedBorrows.push(borrow);
+                tempBorrows.push(borrow);
               }
               break;
             case "dueDate":
               if (this.isFieldValid(borrow.dueDate.toString())) {
-                this.displayedBorrows.push(borrow);
+                tempBorrows.push(borrow);
               }
               break;
           }
+          this.displayedBorrows = tempBorrows;
         }
       });
     }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { User } from '../model/User';
 import { ElectrolibService } from '../electrolib.service';
 import { Borrow } from '../model/Borrow';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-admin-users',
@@ -13,7 +14,7 @@ export class AdminUsersComponent {
   users: User[] = [];
   displayedUsers: User[] = [];
 
-  constructor(private electrolibService: ElectrolibService) { }
+  constructor(private electrolibService: ElectrolibService, private dataService: DataService) { }
 
   ngOnInit() {
     this.retrieveUsers();
@@ -77,5 +78,12 @@ export class AdminUsersComponent {
       return "Administrateur";
     }
     return "Membre";
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  changeTab(tab: string) {
+    this.dataService.changeTab(tab);
   }
 }

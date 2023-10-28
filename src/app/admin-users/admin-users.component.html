@@ -15,12 +15,12 @@
 
                 <!-- Les contrôles de la page -->
                 <div class="col-lg-3">
-                    <!-- <a [routerLink]="['/createBook']"> -->
-                        <button class="btn btn-add-book">
+                    <a [routerLink]="['/create-user']">
+                        <button class="btn btn-add-book" (click)="changeTab('null')">
                             <i class="fa-solid fa-book" style="margin-right: 4px;"></i>
                             <span>Créer un compte</span>
                         </button>
-                    <!-- </a> -->
+                    </a>
                 </div>
 
             </article>
@@ -50,10 +50,12 @@
                         </td>
                         <td>
                             <article style="display: flex;">
+                                <a [routerLink]="['/profile']">
                                 <button class="btn btn-outline-dark btn-action">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                     <span class="info-tooltip">Détails</span>
                                 </button>
+                                </a>
                             </article>
                         </td>
                     </tr>

@@ -15,7 +15,7 @@ export class User {
   address: string = '';
   phoneNumber: string = '';
   postalCode: string = '';
-  roles: string = '';
+  roles: string = '["ROLE_USER"]';
   asObservable: any;
   next: any;
 

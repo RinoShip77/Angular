@@ -5,7 +5,7 @@ import { Book } from '../model/Book';
 import { Router } from '@angular/router';
 import { Author } from '../model/Author';
 import { Genre } from '../model/Genre';
-import { MAX_FILE_SIZE, ISBN_REGEX_PATTERN } from '../util';
+import { MAX_FILE_SIZE, ISBN_REGEX } from '../util';
 import { format, parse } from 'date-fns';
 import { Status } from '../model/Status';
 import { DataService } from '../data.service';
@@ -187,7 +187,7 @@ export class EditBookComponent {
   // Valide l'ISBN du livre
   //-------------------------------------------------------
   validateISBN() {
-    if (!ISBN_REGEX_PATTERN.test(this.book.isbn)) {
+    if (!ISBN_REGEX.test(this.book.isbn)) {
       
       this.errors["isbn"] = `L'ISBN doit un nombre de 13 chiffres. Contient actuellement ${this.book.isbn.toString().length} chiffres.`;
     } else {
