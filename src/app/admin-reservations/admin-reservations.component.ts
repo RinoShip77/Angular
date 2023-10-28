@@ -19,6 +19,7 @@ export class AdminReservationsComponent {
   ReservationsData: any;
   book: Book = new Book();
   BorrowReturnedMessage: string = "Retourné";
+  reservation: Reservation = new Reservation();
 
   searchField: string = "";
   selectedSearchBy: String = "title";
@@ -256,6 +257,14 @@ export class AdminReservationsComponent {
       }
     );
 
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  openConfirmActionReservation(content: any, reservation: Reservation) {
+    this.reservation = reservation;
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
   }
 

@@ -35,7 +35,8 @@ label {
 
 button[type="submit"] {
   display: block;
-  width: 50%;
+  width: 100%;
+  max-width: 20em;
   padding: 10px;
   background-color: #007bff;
   color: #fff;
@@ -74,7 +75,8 @@ button[type="submit"]:hover {
 
 .button-cancel {
   display: block;
-  width: 50%;
+  width: 100%;
+  max-width: 20em;
   padding: 10px;
   background-color: #ffb300;
   color: #fff;

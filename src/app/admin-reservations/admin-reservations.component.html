@@ -87,12 +87,12 @@
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>
                                 <button *ngIf="reservation.isActive === 1" class="btn btn-danger btn-action"
-                                    (click)="cancelReservation(reservation)"
+                                    (click)="openConfirmActionReservation(modalConfirmCancelReservation, reservation)"
                                     title="Annuler la réservation">
                                     <i class="fa-solid fa-ban"></i>
                                 </button>
                                 <button *ngIf="canBeBorrowed(reservation)" class="btn btn-warning btn-action"
-                                    (click)="createBorrowFromReservation(reservation)"
+                                    (click)="openConfirmActionReservation(modalConfirmCreateBorrowFromReservation, reservation)"
                                     title="Transformer la réservation en emprunt">
                                     <i class="fa-solid fa-arrow-right-arrow-left"></i>
                                 </button>
@@ -141,6 +141,74 @@
             <!-- Bouton pour fermer la modal -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+            </div>
+        </ng-template>
+
+        <!-- Modal pour la confirmation de l'annulation d'une réservation -->
+        <ng-template #modalConfirmCancelReservation let-modal>
+
+            <div class="container row mx-auto p-5">
+                <h4 style="text-align: center; margin-bottom: 1em;">Voulez-vous annuler la réservation?</h4>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id livre</th>
+                            <th>Titre</th>
+                            <th>N° membre emprunteur</th>
+                            <th>N° membre réserveur</th>
+                            <th>Date réservation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{reservation.book.idBook}}</td>
+                            <td>{{reservation.book.title}}</td>
+                            <td>{{reservation.borrowMemberNumber}}</td>
+                            <td>{{reservation.user.memberNumber}}</td>
+                            <td>{{reservation.reservationDate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="display: flex; justify-content: space-evenly;">
+                    <button class="btn btn-warning" style="width: 100%; max-width: 10em;" (click)="cancelReservation(reservation) + modal.close()">Confirmer</button>
+                    <button class="btn btn-primary" style="width: 100%; max-width: 10em;" (click)="modal.close()">Annuler</button>
+                </div>
+                
+            </div>
+        </ng-template>
+
+        <!-- Modal pour la confirmation de la transformation de la réservation en emprunt -->
+        <ng-template #modalConfirmCreateBorrowFromReservation let-modal>
+
+            <div class="container row mx-auto p-5">
+                <h4 style="text-align: center; margin-bottom: 1em;">Voulez-vous transformer la réservation en emprunt?</h4>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id livre</th>
+                            <th>Titre</th>
+                            <th>N° membre réserveur</th>
+                            <th>Date réservation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{reservation.book.idBook}}</td>
+                            <td>{{reservation.book.title}}</td>
+                            <td>{{reservation.user.memberNumber}}</td>
+                            <td>{{reservation.reservationDate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="display: flex; justify-content: space-evenly;">
+                    <button class="btn btn-warning" style="width: 100%; max-width: 10em;" (click)="createBorrowFromReservation(reservation) + modal.close()">Confirmer</button>
+                    <button class="btn btn-primary" style="width: 100%; max-width: 10em;" (click)="modal.close()">Annuler</button>
+                </div>
+                
             </div>
         </ng-template>
 

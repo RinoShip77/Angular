@@ -49,12 +49,10 @@
         <div class="form-group">
           <label for="idAuthor">Auteur:</label>
           <div style="display: flex;">
-            <select [(ngModel)]="book.idAuthor" name="idAuthor" (ngModelChange)="validateIdAuthor()" required>
-              <option *ngFor="let author of authors" [value]="author.idAuthor">
-                {{ author.firstName }} {{ author.lastName}}
-              </option>
-            </select>
-            <button class="add-button" type="button" (click)="openModal(authorTemplate)" data-toggle="modal">Ajouter</button>
+            <button class="form-control btn-selection" type="button" (click)="openModal(authorTemplate)"
+              data-toggle="modal" [ngStyle]="{'text-align': book.idAuthor != 0 ? 'left' : ''}">
+              {{selectedAuthor}}
+            </button>
           </div>
           <p class="error" *ngIf="errors['idAuthor'] != null">{{errors['idAuthor']}}</p>
         </div>
@@ -67,7 +65,8 @@
                 {{ genre.name }}
               </option>
             </select>
-            <button class="add-button" type="button" (click)="openModal(genreTemplate)" data-toggle="modal">Ajouter</button>
+            <button class="btn btn-outline-dark" type="button" (click)="openModal(genreTemplate)"
+              data-toggle="modal" style="margin-left: 1em;">Ajouter</button>
           </div>
           <p class="error" *ngIf="errors['idGenre'] != null">{{errors['idGenre']}}</p>
         </div>
@@ -78,52 +77,81 @@
 
     <!-- Modal pour afficher le formulaire d'ajout d'un auteur -->
     <ng-template #authorTemplate let-modal>
-
-      <div class="container row mx-auto p-5">
-        <h3 style="text-align: center;">Création d'un(e) auteur(e)</h3>
-        <form (ngSubmit)="onCreateAuthorSubmit()">
-          <div class="form-group">
-            <label for="authorFirstName">Prénom:</label>
-            <input class="form-control" type="text" name="firstName" [(ngModel)]="newAuthor.firstName" (ngModelChange)="validateCreateAuthorFirstName()">
-            <p class="error" *ngIf="authorFirstName != null">{{authorFirstName}}</p>
-          </div>
-
-          <div class="form-group">
-            <label for="authorLastName">Nom:</label>
-            <input class="form-control" type="text" name="lastName" [(ngModel)]="newAuthor.lastName" (ngModelChange)="validateCreateAuthorLastName()">
-            <p class="error" *ngIf="authorLastName != null">{{authorLastName}}</p>
-          </div>
-
-          <button type="submit" (click)="this.isNewAuthorValid() && modal.close()">Créer</button>
-        </form>
+      <div type="button" class="btn btn-outline-danger" style="position: absolute; right: 0; aspect-ratio: 1 / 1; border-top-left-radius: 0;
+        border-bottom-right-radius: 0;" (click)="modal.close()">
+        <i class="fa-solid fa-xmark"></i>
       </div>
 
-      <!-- Bouton pour fermer la modal -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
-      </div>
+      <section class="container row mx-auto p-5">
+
+        <article class="modal-form-container">
+          <h5 style="text-align: center;">Trouver un(e) auteur(e)</h5>
+          <form>
+            <div class="form-group">
+              <label>Recherche:</label>
+              <input name="authorSearchField" [(ngModel)]="authorSearchField" class="form-control" type="search"
+                placeholder="Nom de l'auteur(e)" autocomplete="off" aria-label="Search"
+                (ngModelChange)="searchAuthors()">
+              <div class="resultsBox">
+                <div *ngFor="let author of foundAuthors" class="result">
+                  <button type="button" class="result-button"
+                    (click)="selectAuthor(author) + modal.close()">{{author.firstName}} {{author.lastName}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </article>
+
+        <p></p>
+
+        <article class="modal-form-container">
+          <h5 style="text-align: center;">Créer un(e) auteur(e)</h5>
+          <form (ngSubmit)="onCreateAuthorSubmit()">
+            <div class="form-group">
+              <label>Prénom:</label>
+              <input class="form-control" type="text" name="firstName" [(ngModel)]="newAuthor.firstName"
+                (ngModelChange)="validateCreateAuthorFirstName()">
+              <p class="error" *ngIf="authorFirstName != null">{{authorFirstName}}</p>
+            </div>
+
+            <div class="form-group">
+              <label>Nom:</label>
+              <input class="form-control" type="text" name="lastName" [(ngModel)]="newAuthor.lastName"
+                (ngModelChange)="validateCreateAuthorLastName()">
+              <p class="error" *ngIf="authorLastName != null">{{authorLastName}}</p>
+            </div>
+
+            <button type="submit" style="width: 50%; min-width: 10em; margin: auto;"
+              (click)="this.isNewAuthorValid() && modal.close()">Créer</button>
+          </form>
+        </article>
+
+      </section>
     </ng-template>
 
     <!-- Modal pour afficher le formulaire d'ajout d'un genre -->
     <ng-template #genreTemplate let-modal>
 
+      <div type="button" class="btn btn-outline-danger" style="position: absolute; right: 0; aspect-ratio: 1 / 1; border-top-left-radius: 0;
+        border-bottom-right-radius: 0;" (click)="modal.close()">
+        <i class="fa-solid fa-xmark"></i>
+      </div>
+
       <div class="container row mx-auto p-5">
-        <h3 style="text-align: center;">Création d'un genre</h3>
+        <h5 style="text-align: center;">Créer un genre</h5>
         <form (ngSubmit)="onCreateGenreSubmit()">
 
           <div class="form-group">
             <label for="genreName">Nom du genre:</label>
-            <input class="form-control" type="text" name="genreName" [(ngModel)]="newGenre.name" (ngModelChange)="validateCreateGenre()">
+            <input class="form-control" type="text" name="genreName" [(ngModel)]="newGenre.name"
+              (ngModelChange)="validateCreateGenre()">
             <p class="error" *ngIf="genreName != null">{{genreName}}</p>
           </div>
 
-          <button type="submit" (click)="this.isNewGenreValid() && modal.close()">Créer</button>
+          <button type="submit" (click)="this.isNewGenreValid() && modal.close()"
+            style="width: 50%; min-width: 10em; margin: auto;">Créer</button>
         </form>
-      </div>
-
-      <!-- Bouton pour fermer la modal -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
       </div>
     </ng-template>
 
