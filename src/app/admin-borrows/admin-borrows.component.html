@@ -105,7 +105,7 @@
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                     <span class="info-tooltip">Détails</span>
                                 </button>
-                                <button *ngIf="borrow.returnedDate == null" (click)="returnBorrow(borrow)"
+                                <button *ngIf="borrow.returnedDate == null" (click)="openConfirmReturnBorrow(modalConfirmReturnBorrow, borrow)"
                                     class="btn btn-warning btn-action">
                                     <i class="fa-solid fa-paper-plane"></i>
                                     <span class="info-tooltip">Rendre</span>
@@ -153,6 +153,38 @@
             <!-- Bouton pour fermer la modal -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+            </div>
+        </ng-template>
+
+        <!-- Modal pour confirmation de retour d'un emprunt -->
+        <ng-template #modalConfirmReturnBorrow let-modal>
+
+            <div class="container row mx-auto p-5">
+                <h4 style="text-align: center; margin-bottom: 1em;">Voulez-vous retrourner l'emprunt?</h4>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id livre</th>
+                            <th>Titre</th>
+                            <th>N° membre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{borrow.book.idBook}}</td>
+                            <td>{{borrow.book.title}}</td>
+                            <td>{{borrow.user.memberNumber}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <div style="display: flex; justify-content: space-evenly;">
+                    <button class="btn btn-warning" style="width: 100%; max-width: 10em;" (click)="returnBorrow(borrow) + modal.close()">Confirmer</button>
+                    <button class="btn btn-primary" style="width: 100%; max-width: 10em;" (click)="modal.close()">Annuler</button>
+                </div>
+                
             </div>
         </ng-template>
 

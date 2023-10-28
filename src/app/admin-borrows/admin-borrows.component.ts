@@ -19,6 +19,7 @@ export class AdminBorrowsComponent {
   borrows: Borrow[] = [];
   displayedBorrows: Borrow[] = [];
   book: Book = new Book();
+  borrow: Borrow = new Borrow();
 
   searchField: string = "";
   selectedSearchBy: String = "title";
@@ -150,7 +151,7 @@ export class AdminBorrowsComponent {
         case "memberNumber":
           this.displayedBorrows.sort((a, b) => (a.user.memberNumber > b.user.memberNumber ? 1 : -1));
           break;
-        case "borowedDate":
+        case "borrowedDate":
           this.displayedBorrows.sort((a, b) => (a.borrowedDate > b.borrowedDate ? 1 : -1));
           break;
         case "dueDate":
@@ -166,7 +167,7 @@ export class AdminBorrowsComponent {
         case "memberNumber":
           this.displayedBorrows.sort((a, b) => (a.user.memberNumber < b.user.memberNumber ? 1 : -1));
           break;
-        case "borowedDate":
+        case "borrowedDate":
           this.displayedBorrows.sort((a, b) => (a.borrowedDate < b.borrowedDate ? 1 : -1));
           break;
         case "dueDate":
@@ -267,6 +268,14 @@ export class AdminBorrowsComponent {
       }
     );
 
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  openConfirmReturnBorrow(content: any, borrow: Borrow) {
+    this.borrow = borrow;
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
   }
 

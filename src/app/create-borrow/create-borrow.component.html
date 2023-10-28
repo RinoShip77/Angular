@@ -4,7 +4,9 @@
     <article class="article">
       <form (ngSubmit)="onSubmit()">
 
-        <section class="row">
+        <h5 style="text-align: center;">Créer un emprunt</h5>
+
+        <section class="row" style="padding: 1em;">
           <article class="col-lg-6">
             <input name="bookSearchField" [(ngModel)]="bookSearchField" class="form-control" type="search"
               placeholder="Titre du livre" autocomplete="off" aria-label="Search" (ngModelChange)="searchBooks()">
@@ -14,8 +16,9 @@
               </div>
             </div>
 
-            <div>
-              <span>Livre sélectionné: {{selectedBook.title}}</span>
+            <div style="margin-top: 1em;">
+              <span>Livre sélectionné:</span>
+              <label>{{selectedBook.title}}</label>
             </div>
           </article>
   
@@ -30,8 +33,9 @@
               </div>
             </div>
 
-            <div>
-              <span>membre sélectionné: {{selectedUser.memberNumber}} {{selectedUser.firstName}} {{selectedUser.lastName}}</span>
+            <div style="margin-top: 1em;">
+              <span>membre sélectionné:</span>
+              <label>{{selectedUser.memberNumber}}   {{selectedUser.firstName}} {{selectedUser.lastName}}</label>
             </div>
           </article>
         </section>

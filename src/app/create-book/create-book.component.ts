@@ -18,6 +18,9 @@ export class CreateBookComponent {
   book: Book = new Book();
   authors: Author[] = [];
   genres: Genre[] = [];
+  foundAuthors: Author[] = [];
+  authorSearchField: string = "";
+  selectedAuthor: string = "Sélectionner";
 
   selectedImage: any;
   formData = new FormData();
@@ -264,7 +267,8 @@ export class CreateBookComponent {
   isNewAuthorValid() {
     this.validateCreateAuthorFirstName();
     this.validateCreateAuthorLastName();
-    return this.authorFirstName === null && this.authorFirstName === null;
+
+    return this.authorFirstName === null && this.authorLastName === null;
   }
 
   //-------------------------------------------------------
@@ -323,6 +327,8 @@ export class CreateBookComponent {
         (response) => {
           this.authors.push(response);
           this.book.idAuthor = response.idAuthor;
+          this.selectedAuthor = `${response.firstName} ${response.lastName}`;
+          this.newAuthor = new Author();
         },
         (error) => {
           console.error('Creation failed:', error);
@@ -345,6 +351,32 @@ export class CreateBookComponent {
           console.error('Creation failed:', error);
         }
       );
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  selectAuthor(author: Author) {
+    this.authorSearchField = "";
+    this.foundAuthors = [];
+    this.book.idAuthor = author.idAuthor;
+    this.selectedAuthor = `${author.firstName} ${author.lastName}`;
+    this.validateIdAuthor();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  searchAuthors() {
+    this.foundAuthors = [];
+    if (this.authorSearchField.length > 0) {
+      this.authors.forEach(author => {
+        if (author.firstName.toUpperCase().includes(this.authorSearchField.toUpperCase()) ||
+          author.lastName.toUpperCase().includes(this.authorSearchField.toUpperCase())) {
+          this.foundAuthors.push(author);
+        }
+      });
     }
   }
 }
