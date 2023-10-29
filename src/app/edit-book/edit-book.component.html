@@ -41,7 +41,7 @@
 
         <div class="form-group">
           <label for="cover">Couverture:</label>
-          <input class="form-control" type="file" name="cover" (ngModelChange)="onFileSelected($event)" accept="image/*" />
+          <input class="form-control" type="file" name="cover" (change)="onFileSelected($event)" accept="image/*" />
           <p class="error" *ngIf="errors['cover'] != null">{{errors['cover']}}</p>
         </div>
 
