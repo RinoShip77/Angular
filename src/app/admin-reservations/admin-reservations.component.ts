@@ -131,7 +131,6 @@ export class AdminReservationsComponent {
   //
   //-------------------------------------------------------
   search() {
-    console.log(this.displayedReservations);
     if (this.searchField.trim().length > 0) {
       this.displayedReservations = [];
 

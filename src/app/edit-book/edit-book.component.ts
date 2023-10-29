@@ -116,13 +116,11 @@ export class EditBookComponent {
   //-------------------------------------------------------
   onFileSelected(event: any) {
     const fileList: FileList = event.target.files;
-
     if (fileList.length > 0) {
       this.selectedImage = fileList[0];
 
       if (this.validateFile()) {
         const blob = new Blob([this.selectedImage], { type: this.selectedImage.type });
-
         this.file_data = blob;
         this.errors["cover"] = null;
       }
