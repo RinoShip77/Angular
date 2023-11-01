@@ -18,7 +18,21 @@
 
             <div style="margin-top: 1em;">
               <span>Livre sélectionné:</span>
-              <label>{{selectedBook.title}}</label>
+              <div *ngFor="let book of selectedBooks" style="display: flex;">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <button class="btn btn-danger" style="height: min-content;" (click)="removeSelectedBook(book)">x</button>
+                      </td>
+                      <td>
+                        <label>{{book.title}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
             </div>
           </article>
   

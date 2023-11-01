@@ -20,7 +20,7 @@ export class CreateBorrowComponent {
   foundBooks: Book[] = [];
   foundUsers: User[] = [];
 
-  selectedBook: Book = new Book();
+  selectedBooks: Book[] = [];
   selectedUser: User = new User();
 
   bookSearchField: string = "";
@@ -55,29 +55,51 @@ export class CreateBorrowComponent {
     );
   }
 
-  selectBook(book: Book) {
-    this.bookSearchField = "";
-    this.foundBooks = [];
-    this.selectedBook = book;
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  removeSelectedBook(book: Book) {
+    let index = this.selectedBooks.findIndex(b => b.idBook === book.idBook);
+    if (index > -1) {
+      this.selectedBooks.splice(index, 1);
+    }
+    this.searchBooks();
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  selectBook(book: Book) {
+    this.selectedBooks.push(book);
+    this.searchBooks();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   selectUser(user: User) {
     this.userSearchField = "";
     this.foundUsers = [];
     this.selectedUser = user;
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   searchBooks() {
     this.foundBooks = [];
     if (this.bookSearchField.length > 0) {
       this.books.forEach(book => {
-        if (book.title.toUpperCase().includes(this.bookSearchField.toUpperCase())) {
+        if (book.title.toUpperCase().includes(this.bookSearchField.toUpperCase()) && !this.selectedBooks.includes(book)) {
           this.foundBooks.push(book);
         }
       });
     }
   }
 
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   searchUsers() {
     this.foundUsers = [];
     if (this.userSearchField.length > 0) {
@@ -93,16 +115,20 @@ export class CreateBorrowComponent {
   // Envoie les données du formulaire au serveur Symfony
   //-------------------------------------------------------
   onSubmit() {
-    this.electrolibService.createBorrow(this.selectedUser.idUser, this.selectedBook.idBook).subscribe(
-      (response) => {
-          console.log('Borrow created successfully!', response);
-          this.changeTab('borrows');
-          this.router.navigate(["/adminBorrows"]);
-      },
-      (error) => {
-        console.error('Creation failed:', error);
-      }
-    );
+    if (this.selectedBooks.length > 0 && this.selectedUser.idUser != 0) {
+      this.selectedBooks.forEach(book => {
+        this.electrolibService.createBorrow(this.selectedUser.idUser, book.idBook).subscribe(
+          (response) => {
+              console.log('Borrow created successfully!', response);
+              this.changeTab('borrows');
+              this.router.navigate(["/adminBorrows"]);
+          },
+          (error) => {
+            console.error('Creation failed:', error);
+          }
+        );
+      });
+    }
   }
 
   //-------------------------------------------------------
