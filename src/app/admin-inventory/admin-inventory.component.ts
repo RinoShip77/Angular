@@ -22,6 +22,8 @@ export class AdminInventoryComponent {
   selectedSortBy: String = "ascending";
   book: Book = new Book();
 
+  isChecked = false;
+
   constructor(private electrolibService: ElectrolibService, private dataService: DataService, private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -103,6 +105,7 @@ export class AdminInventoryComponent {
     } else {
       this.displayedBooks = this.books;
     }
+    this.showBooksCriteria();
     this.sortBooks();
   }
 
@@ -145,5 +148,33 @@ export class AdminInventoryComponent {
   //-------------------------------------------------------
   getBookCover(idBook: number) {
     return getURLBookCover(idBook);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  changeCheckBoxState(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.isChecked = target.checked;
+
+    this.search();
+    this.showBooksCriteria();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  showBooksCriteria() {
+    let tempBooks: Book[] = [];
+
+    if (this.isChecked) {
+
+      this.displayedBooks.forEach(b => {
+        if (b.isRecommended) {
+          tempBooks.push(b);
+        }
+      });
+      this.displayedBooks = tempBooks;
+    }
   }
 }

@@ -50,6 +50,17 @@
                     </a>
                 </div>
 
+                <!-- Les contrôles de la page -->
+                <div class="col-lg-12">
+                    <div class="checkbox" style="display: flex; align-items: center;">
+                        <input type="checkbox" class="check-box" name="checkbox"
+                            (change)="changeCheckBoxState($event)" style="min-height: 26px; min-width: 26px;">
+                        <label for="checkbox" style="margin-left: 1em; color: white;">
+                            Afficher uniquement les livres recommandés
+                        </label>
+                    </div>
+                </div>
+
             </article>
         </article>
 
@@ -59,6 +70,7 @@
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th></th>
                         <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Titre</th>
                         <th [ngStyle]="{'background-color': searchBy.value == 'isbn' ? '#31359C' : ''}">ISBN</th>
                         <th [ngStyle]="{'background-color': searchBy.value == 'author' ? '#31359C' : ''}">Auteur</th>
@@ -69,6 +81,7 @@
                 <tbody>
                     <tr *ngFor="let book of displayedBooks">
                         <td>{{book.idBook}}</td>
+                        <td><i class="fa-solid fa-heart" style="color: crimson;" *ngIf="book.isRecommended"></i></td>
                         <td>{{book.title}}</td>
                         <td>{{book.isbn}}</td>
                         <td>{{book.author.firstName}} {{book.author.lastName}}</td>
