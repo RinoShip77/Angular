@@ -160,7 +160,7 @@ a > span
 
 .div-img
 {
-    border-right: 3px solid rgba(39, 39, 39, 0.397); 
+    border-right: 4px solid rgba(39, 39, 39, 0.397); 
     margin-right: 25px; 
     width: fit-content;
     border-radius: 20px;

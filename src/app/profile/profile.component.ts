@@ -196,4 +196,14 @@ export class ProfileComponent implements OnInit {
       );
     }
   }
+
+  openFeesModal(content:any)
+  {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+  }
+
+  payFees()
+  {
+    
+  }
 }

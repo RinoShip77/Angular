@@ -12,7 +12,7 @@
     <!-- Localisation sur la page -->
     <div class="location-bar">
         <i class="fa-regular fa-circle-dot fa-fade" style="color: #198754; margin-right: 10px;"></i>
-        <span class="location-page-link sous-titres-emprunts" [routerLink]="['../borrows']">emprunts</span>
+        <span class="location-page-link sous-titres-emprunts" [routerLink]="['../../borrows']">emprunts</span>
         >
         <span class="location-page-link sous-titres-emprunts">détails de l'emprunt</span>
     </div>
@@ -27,7 +27,8 @@
             <!-- titre de l'emprunt -->
             <h5 style="margin-left: 20px; margin-bottom: 20px; border-bottom: 3px rgba(0, 0, 0, 0.185) solid; border-bottom-left-radius:10px; padding-bottom: 10px;">
                 <i class="fa-solid fa-book"></i>&nbsp;
-                <span class="label-emprunts-bold" style="font-size: 19px;">Emprunt #{{borrow.idBorrow}}</span>
+                <span class="label-emprunts-bold" style="font-size: 19px;">Emprunt #{{borrow.idBorrow}} de </span>
+                <span *ngIf="user" [routerLink]="['../../profile']" style="text-decoration: underline; font-weight: 600; cursor: pointer;" class="label-emprunts">{{user.firstName}}</span>
             </h5>
 
             <!-- Petits icones en haut des infos-->
@@ -54,16 +55,16 @@
                 </div>
                 <!-- Infos du livre -->
                 <div class="col-8 div-info-emprunt shadow-sm">
-                    <label class="label-emprunts">Nom du livre:&nbsp;</label>
+                    <label class="label-emprunts">Titre:&nbsp;</label>
                     <span class="label-emprunts">{{borrow.book.title}}</span>
                     <br>
                     <label class="label-emprunts">isbn:&nbsp;</label>
                     <span class="label-emprunts">{{borrow.book.isbn}}</span>
                     <br>
-                    <label class="label-emprunts">Auteur du livre:&nbsp;</label>
+                    <label class="label-emprunts">Auteur:&nbsp;</label>
                     <span class="label-emprunts">{{book.author.firstName}} {{book.author.lastName}}</span>
                     <br>
-                    <label class="label-emprunts">Genre du Livre:&nbsp;</label>
+                    <label class="label-emprunts">Genre:&nbsp;</label>
                     <span class="label-emprunts">{{book.genre.name}}</span>
                     <br>
                     <label class="label-emprunts">Langue d'origine:&nbsp;</label>
@@ -71,25 +72,24 @@
                     <br>
                     <label class="label-emprunts">Année de publication:&nbsp;</label>
                     <span class="label-emprunts">{{book.publishedDate}}</span>
-                    <hr>
                 </div>
             </div>
 
             <!-- Information concernant l'emprunt -->
-            <div class="col-5 div-info-commande row shadow-sm" style="">
-                <div class="col-8 div-txt-cmd">
-                    <label class="label-emprunts-bold">Date de l'emprunt:&nbsp;</label>
+            <div class="col-5 div-info-commande row shadow-sm">
+                <div class="col-7 div-txt-cmd">
+                    <label class="label-emprunts-bold">Date d'emprunt:&nbsp;</label>
                     <span class="label-emprunts">{{borrow.borrowedDate}}</span>
                     <br>
-                    <label class="label-emprunts-bold">Date limite de retour:&nbsp;</label>
+                    <label class="label-emprunts-bold">Limite de retour:&nbsp;</label>
                     <span class="label-emprunts">{{borrow.formattedDueDate()}}</span>
                     <br>
-                    <label *ngIf="borrow.determineStatus() != 'En retard'" class="label-emprunts-bold">Nombre de jours restants:&nbsp;</label>
-                    <label *ngIf="borrow.determineStatus() == 'En retard'" class="label-emprunts-bold">Nombre de jours de retard:&nbsp;</label>
+                    <label *ngIf="borrow.determineStatus() != 'En retard'" class="label-emprunts-bold">Jours restants:&nbsp;</label>
+                    <label *ngIf="borrow.determineStatus() == 'En retard'" class="label-emprunts-bold">Jours de retard:&nbsp;</label>
                     <span *ngIf="borrow.transformTimeAndLate() > 1" class="label-emprunts">{{borrow.transformTimeAndLate()}} jours</span>
                     <span *ngIf="borrow.transformTimeAndLate() <= 1" class="label-emprunts">{{borrow.transformTimeAndLate()}} jour</span>
                     <br>
-                    <label class="label-emprunts-bold">Nombre de renouvellement fait:&nbsp;</label>
+                    <label class="label-emprunts-bold">Renouvellements fait:&nbsp;</label>
                     <span class="label-emprunts">{{borrow.getRenewTimes()}}</span>
                     <br>
                     <label class="label-emprunts-bold">Status:&nbsp;</label>
@@ -105,10 +105,9 @@
                     <span *ngIf="borrow.calculateFee() != null"
                         style="color: green; font-weight: 600; text-decoration: underline" class="label-emprunts">{{borrow.calculateFee()}}$</span>
                     <span *ngIf="borrow.calculateFee() == null" class="label-emprunts">0</span> 
-                    <hr>
                 </div>
 
-                <!-- à faire -->
+                
                 <div class="col-4 div-image shadow-sm" style="width:auto; padding: 13px;">
                     <img src="{{url}}" class="img-details"
                     alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}"
@@ -121,15 +120,52 @@
 
             <!-- Boutons situés en bas de la page -->
             <div class="div-btns">
-                <button class="btn-details btn btn-success border-btn label-emprunts" [disabled]="borrow.calculateFee() == null">Payer les
-                    frais</button>
-                <button class="btn-details btn btn-warning border-btn label-emprunts" [disabled]="borrow.calculateFee() != null">Remettre
-                    l'emprunt</button>
+                <button class="btn-details btn btn-success border-btn label-emprunts" *ngIf="borrow.calculateFee() == null"
+                (click)="openReturnModal(returnModal)">
+                    Remettre l'emprunt
+                </button>
+                <button class="btn-details btn btn-warning border-btn label-emprunts" *ngIf="borrow.calculateFee() != null" 
+                (click)="openReturnModal(returnModal)">
+                    Payer les frais
+                </button>
                 <div style="float: right; width: auto;">
-                    <button [routerLink]="['../../borrows']" class="btn-details btn btn-secondary border-btn label-emprunts">Retourner aux
-                        emprunts</button>
+                    <button [routerLink]="['../../borrows']" class="btn-details btn btn-secondary border-btn label-emprunts">
+                        Retourner aux
+                        emprunts
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal pour annuler/réactiver un emprunt -->
+<ng-template #returnModal let-modal>
+    <div class="modal-header modal-lg" style="text-align: center; align-items: center; display: flex;">
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title" *ngIf="borrow.calculateFee() == null">Remettre l'emprunt</h4>
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title" *ngIf="borrow.calculateFee() != null">Paiement des frais</h4>
+    </div>
+
+    <!--  lorsqu'il n'y a aucun frais à payer -->
+    <div class="modal-body" style="text-align: center;" *ngIf="borrow.calculateFee() == null">
+        <i class="fa-solid fa-qrcode icon-modal-return" style="color: #2e8a15;"></i>
+        <br>
+        <label class="titres-emprunts titre-modal-return" style="color: #2e8a15;">(Lien pour scanner le QR code)</label>
+        <br>
+        <i class="fa-solid fa-qrcode icon-modal-return" style="color: #2e8a15;"></i>
+    </div>
+
+    <!-- lorsqu'il y a des frais à payer -->
+    <div class="modal-body" style="text-align: center;" *ngIf="borrow.calculateFee() != null">
+        <i class="fa-solid fa-book-open icon-modal-return" style="color: #9e0000;"></i>
+        <br>
+        <label class="titres-emprunts titre-modal-return" style="color: #9e0000;">Vous devez vous rendre à sur les lieux pour payer les frais</label>
+        <br>
+        <i class="fa-solid fa-book-open icon-modal-return" style="color: #9e0000;"></i>
+    </div>
+
+    <!-- Bouton pour fermer la modal -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Fermer</button>
+    </div>
+</ng-template>

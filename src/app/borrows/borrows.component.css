@@ -195,3 +195,16 @@ select:hover
     border: 5px rgba(0, 0, 0, 0.452) ridge;
     border-radius: 10px;
 }
+
+.div-info-renew
+{
+    justify-content: center;
+    padding: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.062);
+    border: 4px solid rgba(0, 0, 0, 0.164);
+    border-radius: 10px;
+    margin: 0 auto;
+    width: fit-content;
+}

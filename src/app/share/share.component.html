@@ -1,0 +1,90 @@
+<div class="mt-2">
+    <div class="title-bar">
+        <div>
+            <h4 style="margin-left: 20px;">
+                <i class="fa-solid fa-envelope-open-text"></i>&nbsp;&nbsp;
+                <span class="titres-emprunts">Communiquez votre expérience</span>
+            </h4>
+        </div>
+    </div>
+
+    <div class="col-5 div-icon">
+        <i class="fa-solid fa-envelope-open-text" style="font-size: 40px;"></i>
+    </div>
+    <div class="col-5 div-message" *ngIf="user">
+        <div class="div-cat">
+            <label class="label-emprunts-bold">Envoyé à</label><br>
+            <input value="support@electrolib.ca" class="form-control" disabled>
+        </div>
+
+        <div class="div-cat">
+            <label class="label-emprunts-bold">Courriel de</label><br>
+            <input value="{{user.email}}" class="form-control" disabled>
+        </div>
+
+        <div class="div-cat">
+            <label class="label-emprunts-bold">Raison</label>&nbsp;
+            <select [(ngModel)]="reason" class="form-select label-emprunts">
+                <option class="label-emprunts">Suggestion d'amélioration</option>
+                <option class="label-emprunts">Mauvaise exprérience</option>
+                <option class="label-emprunts">Mauvais fonctionnement de l'application</option>
+                <option class="label-emprunts">Erreur liée à mon compte</option>
+                <option class="label-emprunts">Suggestion d'ajout d'un livre</option>
+                <option class="label-emprunts">Problème avec un emprunt</option>
+                <option class="label-emprunts">Problème avec une réservation</option>
+                <option class="label-emprunts">Problème avec un paiement</option>
+            </select>
+        </div>
+        
+        <div class="div-cat">
+            <label class="label-emprunts-bold">Commentaire</label><br>
+            <textarea [(ngModel)]="description" class="form-control label-emprunts" rows="5"></textarea>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <button (click)="openSendModal(sendModal)" class="btn btn-primary label-emprunts border-btn">Envoyer</button>
+        </div>
+    </div>
+
+    <hr>
+    <div class="d-flex logo">
+        <i class="fas fa-book-bookmark mt-1 fs-1"></i>
+        <h1>Electrolib</h1>
+    </div>
+</div>
+
+<!-- Modal pour confirmer l'envoie ou refuser l'envoie -->
+<ng-template #sendModal let-modal>
+    <div class="modal-header modal-lg" style="justify-content: center;">
+        <h4 *ngIf="validateContent()" class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Votre message a été envoyé!</h4>
+        <h4 *ngIf="!validateContent()" class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Envoie du message impossible!</h4>
+    </div>
+
+    <!-- Message indiquant que le message du user a été envoyé -->
+    <div *ngIf="validateContent()" class="modal-body " style="text-align: center;">
+        <div class="div-content-modal" style="color: forestgreen;">
+            
+            <span class="label-emprunts-bold">Votre message a été envoyé avec succès!</span>
+            <br><br>
+            <span class="label-emprunts-bold">Nous vous remercions pour votre commentaire et vontre temps</span>
+        </div>
+        <i class="fa-solid fa-check" style="font-size: 30px; color: forestgreen;"></i>
+    </div>
+
+    <!-- Message indiquant que l'envoloie du message est impossible' -->
+    <div *ngIf="!validateContent()" class="modal-body " style="text-align: center;">
+        <div *ngIf="reason == ''" class="div-content-modal" style="color: darkred;">
+            <span class="label-emprunts-bold">Vous devez sélectionner une raison pour votre message</span>
+        </div>
+        
+        <div *ngIf="description == ''" class="div-content-modal" style="color: darkred;">
+            <span class="label-emprunts-bold">Vous devez ajouter un commentaire à votre message</span>
+        </div>
+        <i class="fa-solid fa-x" style="font-size: 30px; color: darkred;"></i>
+    </div>
+
+    <!-- Boutons pour fermer la modal -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Fermer</button>
+    </div>
+</ng-template>

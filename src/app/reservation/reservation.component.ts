@@ -58,16 +58,16 @@ export class ReservationComponent implements OnInit {
     } 
   }
 
-  cancelReservation(reservation: Reservation)
+  async cancelReservation(reservation: Reservation)
   {
-    this.electrolibService.cancelReservationUser(reservation).subscribe();
-    this.retrieveReservations();
+    await this.electrolibService.cancelReservationUser(reservation).subscribe();
+    await this.retrieveReservations();
   }
 
-  reactivateReservation(reservation: Reservation)
+  async reactivateReservation(reservation: Reservation)
   {
-    this.electrolibService.reactivateReservationUser(reservation).subscribe();
-    this.retrieveReservations();
+    await this.electrolibService.reactivateReservationUser(reservation).subscribe();
+    await this.retrieveReservations();
   }
 
   openAbout(content:any) 
@@ -93,6 +93,41 @@ export class ReservationComponent implements OnInit {
     {
       this.window = "";
     });
+  }
+
+  //Ouvrir la modal [Confirmer le renouvelement], qui confirme si le user veut vraiment renouveler
+  openCancelModal(content:any, selectedReservation:Reservation) 
+  {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', animation:true, });
+    this.selectedReservation = selectedReservation;
+
+    if(selectedReservation.isActive)
+    {
+      this.window = "> annuler la réservation (" + selectedReservation.book.title + ")";
+    }
+    else
+    {
+      this.window = "> réactiver la réservation (" + selectedReservation.book.title + ")";
+    }
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
+  }
+
+  save()
+  {
+    if(this.selectedReservation.isActive)
+    {
+      this.cancelReservation(this.selectedReservation);
+    }
+    else
+    {
+      this.reactivateReservation(this.selectedReservation);
+    }
+
+    this.modalService.dismissAll();
   }
 
   //Tri par la valeur

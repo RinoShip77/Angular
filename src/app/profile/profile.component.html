@@ -24,10 +24,19 @@
           <h6>#{{user?.memberNumber}}</h6>
         </div>
         <hr>
-        <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" (click)="openModal(passwordContent)">
-          <i class="fas fa-vault me-2"></i>
-          Mettre à jour mon mot de passe
-        </button>
+        <div style="justify-content: center; text-align: center;">
+          <button class="btn btn-warning mt-3 mb-3 p-3 fs-4 fw-bold" (click)="openModal(passwordContent)">
+            <i class="fas fa-vault me-2"></i>
+            Mettre à jour mon mot de passe
+          </button>
+          <button class="btn btn-success mt-5 p-3 fs-4 fw-bold" (click)="openFeesModal(feesModal)">
+            <i class="fa-solid fa-money-check-dollar me-2"></i>
+            Payer les frais
+          </button>
+          <button class="btn btn-success mt-5 p-3 fs-4 fw-bold" *ngIf="user && user.firstName == 'toopi'">
+            Aucun frais
+          </button>
+        </div>
       </div>
     </div>
     <div class="col-6 ms-2 p-1">
@@ -278,5 +287,31 @@
         <button type="submit" class="btn btn-danger" (click)="modal.close()">Fermer le compte</button>
       </div>
     </form>
+  </div>
+</ng-template>
+
+<!-- Modal pour confirmer le paiement des frais -->
+<ng-template #feesModal let-modal>
+  <div class="modal-header modal-lg" style="text-align: center; align-items: center; display: flex;">
+      <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Payer les frais</h4>
+  </div>
+
+  <!-- infos sur le paiement -->
+  <div class="modal-body" style="text-align: center;">
+      <span class="label-emprunts-bold" style="margin-bottom: 15px;">Vous avez <span style="color:darkgreen">(0)$</span> de frais dû au retard de remise de vos emprunts.</span>
+      <br><br>
+      <span class="label-emprunts-bold" style="margin-bottom: 15px; color:darkred; text-decoration: underline;">Vous ne pourrez plus faire d'emprunts tant et aussi longtemps que 
+        <br> les frais ne seront pas payés.</span>
+      <br><br>
+      <span class="label-emprunts-bold" style="margin-bottom: 10px;">Vous pouvez payer à la <span style="color: rgb(75, 75, 252)">bibliothèque</span>
+      ou <span style="color:darkgreen ">en ligne</span>, par carte</span>
+      <br><br>
+      <span class="label-emprunts-bold" style="margin-bottom: 10px; text-decoration: underline; color:darkgreen">Si vous cliquez sur confirmer, pour payer en ligne, 
+        <br>vous serez redirigé vers le formulaire de paiement</span>
+  </div>
+  <!-- Bouton pour confirmer et fermer la modal -->
+  <div class="modal-footer">
+      <button class="btn btn-success label-emprunts" type="submit" name="submit" value="Submit" (click)="payFees()">Confirmer</button>
+      <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
   </div>
 </ng-template>

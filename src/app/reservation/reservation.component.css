@@ -211,6 +211,14 @@ tr > td
     border-radius: 10px;
 }
 
+.image-livre-cancel
+{
+    height: 200px;
+    width: 200px;
+    border: 5px rgba(0, 0, 0, 0.452) ridge;
+    border-radius: 10px;
+}
+
 .div-img
 {
     border-right: 3px solid rgba(39, 39, 39, 0.397); 
@@ -257,4 +265,17 @@ tr > td
     padding: 15px;
     border-radius: 15px;
     width: 65%;
+}
+
+.div-info-cancel
+{
+    justify-content: center;
+    padding: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.062);
+    border: 4px solid rgba(0, 0, 0, 0.164);
+    border-radius: 10px;
+    margin: 0 auto;
+    width: fit-content;
 }

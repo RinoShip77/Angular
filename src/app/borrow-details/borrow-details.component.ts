@@ -6,6 +6,7 @@ import { Book } from '../model/Book';
 import { DataService } from '../data.service';
 import { ActivatedRoute } from '@angular/router';
 import { getURLBookCover, getURLProfilePicture } from '../util';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-borrow-details',
@@ -65,8 +66,31 @@ export class BorrowDetailsComponent implements OnInit {
     return getURLBookCover(idBook);
   }
 
-  constructor(private electrolibService: ElectrolibService, private datasrv: DataService, private route: ActivatedRoute)
+  constructor(private electrolibService: ElectrolibService, private datasrv: DataService, private route: ActivatedRoute, private modalService: NgbModal)
   {
 
+  }
+
+  //Ouvrir la modal pour les infos du livre
+  openReturnModal(content:any) 
+  {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+
+    if(this.borrow.calculateFee() == null)
+    {
+
+      this.window = "> Remettre l'emprunt";
+    } 
+    else
+    {
+
+      this.window = "> Payer les frais";
+    }
+    
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
   }
 }

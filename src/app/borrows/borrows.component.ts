@@ -9,9 +9,12 @@ import { DataService } from '../data.service';
   selector: 'app-borrows',
   templateUrl: './borrows.component.html',
   styleUrls: ['./borrows.component.css']
+  //styleUrls: ['./borrows-' + this.themes + '.component.css']
 })
 export class BorrowsComponent implements OnInit {
   
+  themes:string = "dark";
+
   user: User | undefined = new User();
   borrows: Borrow[] = new Array();
 
@@ -75,7 +78,7 @@ export class BorrowsComponent implements OnInit {
       selectedBorrow.renew();
 
       //update la date dans la bd
-      this.electrolibService.renewDueDate(selectedBorrow).subscribe();
+      await this.electrolibService.renewDueDate(selectedBorrow).subscribe();
 
       //Retourne chercher les emprunts updatés
       await this.retrieveBorrows();
@@ -224,5 +227,15 @@ export class BorrowsComponent implements OnInit {
         }
       }
     }
+  }
+
+  openFeesModal(content:any)
+  {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+  }
+
+  payFees()
+  {
+    
   }
 }

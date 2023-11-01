@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ProfileComponent } from './profile/profile.component';
-import { BorrowComponent } from './borrow/borrow.component';
 import { FavoriteComponent } from './favorite/favorite.component';
 import { ChatComponent } from './chat/chat.component';
 import { DetailsBorrowComponent } from './details-borrow/details-borrow.component';
@@ -30,6 +29,8 @@ import { HistoryComponent } from './history/history.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { ToastComponent } from './toast/toast.component';
 import { EncryptionService } from './encryption.service';
+import { AboutComponent } from './about/about.component';
+import { ShareComponent } from './share/share.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,6 @@ import { EncryptionService } from './encryption.service';
     NavbarComponent,
     InventoryComponent,
     ProfileComponent,
-    BorrowComponent,
     FavoriteComponent,
     ChatComponent,
     DetailsBorrowComponent,
@@ -55,7 +55,9 @@ import { EncryptionService } from './encryption.service';
     AdminUsersComponent,
     ToastComponent,
     HistoryComponent,
-    ReservationComponent
+    ReservationComponent,
+    AboutComponent,
+    ShareComponent
   ],
   imports: [
     AppRoutingModule,

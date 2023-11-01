@@ -16,6 +16,14 @@
         {{window}}
     </div>
 
+    <!-- Boutons pour transitionner à l'historique des réservations -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button [routerLink]="['../history']" data-toggle="modal" type="button" class="btn btn-warning border-btn label-emprunts">
+            <i class="fa-solid fa-clock-rotate-left"></i>&nbsp;
+            Historique d'emprunts
+        </button>
+    </div>
+
     <!-- Séparateur -->
     <div
         style="height: 0; border-bottom: 8px rgba(0, 0, 0, 0.089) double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;">
@@ -61,11 +69,11 @@
                         <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                         <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                     </th>
-                    <th (click)="sortBy('borrowedDate')">Date de l'emprunt
+                    <th (click)="sortBy('borrowedDate')">Date d'emprunt
                         <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                         <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                     </th>
-                    <th (click)="sortBy('dueDate')">Date limite de retour
+                    <th (click)="sortBy('dueDate')">Limite de retour
                         <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                         <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                     </th>
@@ -126,7 +134,8 @@
                                 ngbTooltip="Renouveler l'emprunt"></i></a>
                         <a *ngIf="borrow.verifyRenew() == false"><i
                                 class="fa-solid fa-repeat col-6 icone-petite desactivated"
-                                ngbTooltip="Renouvelement indisponible"></i></a>
+                                ngbTooltip="{{borrow.renewReason()}}"></i>
+                        </a>
                     </td>
                 </tr>
             </tbody>
@@ -135,9 +144,15 @@
         <!-- Bouton en bas de la page -->
         <div class="div-btns" style="justify-content: space-between; display: flex;">
             <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary border-btn label-emprunts">À propos des
-                emprunts</button>
-            <button [routerLink]="['../history']" data-toggle="modal" type="button" class="btn btn-warning border-btn label-emprunts">Historique
-                d'emprunts</button>
+                emprunts
+            </button>
+            <button class="btn btn-success border-btn label-emprunts" (click)="openFeesModal(feesModal)">
+                <i class="fa-solid fa-money-check-dollar me-2"></i>
+                Payer les frais
+            </button>
+            <button class="btn btn-success border-btn label-emprunts" *ngIf="user && user.firstName == 'toopi'">
+                Aucun frais
+            </button>
             <button [routerLink]="['../inventory']" type="button" class="btn btn-secondary border-btn label-emprunts">Retourner à
                 l'inventaire</button>
         </div>
@@ -151,21 +166,29 @@
 <!-- Modal pour la confirmation de renouvellement -->
 <ng-template #renewModal let-modal>
     <div class="modal-header modal-lg" style="text-align: center; align-items: center; display: flex;">
-        <h4 class="modal-title" id="modal-basic-title">Renouveler l'emprunt</h4>
+        <h4 *ngIf="selectedBorrowModal.getRenewsLeft() > 1" class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Renouveler l'emprunt ({{selectedBorrowModal.getRenewsLeft()}} restants)</h4>
+        <h4 *ngIf="selectedBorrowModal.getRenewsLeft() == 1" class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Renouveler l'emprunt ({{selectedBorrowModal.getRenewsLeft()}} restant)</h4>
     </div>
 
-    <!-- Info importantes sur le fonctionnement des emprunts etc. -->
+    <!-- Info sur l'emprunt à renouveller -->
     <div class="modal-body" style="text-align: center;">
-        <label>Êtes vous sûr de vouloir renouveler :</label>
+        <label style="margin-bottom: 15px;" class="label-emprunts">Êtes vous sûr de vouloir renouveler :</label>
+        
+        <div class="div-info-renew">
+            <span class="td-thick label-emprunts" style="margin-bottom: 10px;">{{selectedBorrowModal.book.title}}</span>
+            <br> 
+            <img class="image-livre" src="../assets/images/books/1.png" style="margin-top: 10px;">
+        </div>
+
+        <label style="margin-top: 15px; font-weight: 600; text-decoration: underline;" class="label-emprunts-bold">Une durée d'un mois sera ajouté à votre emprunt</label>
         <br>
-        <span class="td-thick">{{selectedBorrowModal.book.title}}</span>
-        <br>
-        <img class="image-livre" src="../assets/images/books/1.png">
+        <label *ngIf="selectedBorrowModal.getRenewsLeft() > 1" style="margin-top: 5px; font-weight: 600; color: rgb(5, 131, 5);" class="label-emprunts">{{selectedBorrowModal.getRenewsLeft()}} renouvellements restants</label>
+        <label *ngIf="selectedBorrowModal.getRenewsLeft() == 1" style="margin-top: 5px; font-weight: 600; color: rgb(5, 131, 5);" class="label-emprunts">{{selectedBorrowModal.getRenewsLeft()}} renouvellements restant</label>
     </div>
-    <!-- Bouton pour fermer la modal -->
+    <!-- Boutons pour fermer la modal ou confirmer le renouvellement -->
     <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" name="submit" value="Submit" (click)="save()">Confirmer</button>
-        <button type="button" class="btn btn-secondary" (click)="modal.close()">Annuler</button>
+        <button class="btn btn-primary label-emprunts" type="submit" name="submit" value="Submit" (click)="save()">Confirmer</button>
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
     </div>
 </ng-template>
 
@@ -259,3 +282,29 @@
         <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
     </div>
 </ng-template>
+
+<!-- Modal pour confirmer le paiement des frais -->
+<ng-template #feesModal let-modal>
+    <div class="modal-header modal-lg" style="text-align: center; align-items: center; display: flex;">
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Payer les frais</h4>
+    </div>
+  
+    <!-- infos sur le paiement -->
+    <div class="modal-body" style="text-align: center;">
+        <span class="label-emprunts-bold" style="margin-bottom: 15px;">Vous avez <span style="color:darkgreen">(0)$</span> de frais dû au retard de remise de vos emprunts.</span>
+        <br><br>
+        <span class="label-emprunts-bold" style="margin-bottom: 15px; color:darkred; text-decoration: underline;">Vous ne pourrez plus faire d'emprunts tant et aussi longtemps que 
+          <br> les frais ne seront pas payés.</span>
+        <br><br>
+        <span class="label-emprunts-bold" style="margin-bottom: 10px;">Vous pouvez payer à la <span style="color: rgb(75, 75, 252)">bibliothèque</span>
+        ou <span style="color:darkgreen ">en ligne</span>, par carte</span>
+        <br><br>
+        <span class="label-emprunts-bold" style="margin-bottom: 10px; text-decoration: underline; color:darkgreen">Si vous cliquez sur confirmer, pour payer en ligne, 
+          <br>vous serez redirigé vers le formulaire de paiement</span>
+    </div>
+    <!-- Bouton pour confirmer et fermer la modal -->
+    <div class="modal-footer">
+        <button class="btn btn-success label-emprunts" type="submit" name="submit" value="Submit" (click)="payFees()">Confirmer</button>
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
+    </div>
+  </ng-template>

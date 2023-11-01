@@ -18,6 +18,14 @@
         {{window}}
     </div>
 
+    <!-- Boutons pour transitionner à l'historique des réservations -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button [routerLink]="['../borrows']" type="button" class="btn btn-warning border-btn label-emprunts">
+            <i class="fa-regular fa-clock"></i>&nbsp;
+            Emprunts courants
+        </button>
+    </div>
+
     <!-- Séparateur -->
     <div
         style="height: 0; border-bottom: 8px rgba(0, 0, 0, 0.089) double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;">
@@ -62,11 +70,11 @@
                         <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                         <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                     </th>
-                    <th (click)="sortBy('borrowedDate')">Date de l'emprunt
+                    <th (click)="sortBy('borrowedDate')">Date d'emprunt
                         <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                         <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                     </th>
-                    <th (click)="sortBy('dueDate')">Date du retour
+                    <th (click)="sortBy('dueDate')">Date de retour / perte
                         <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                         <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                     </th>
@@ -109,10 +117,10 @@
         <!-- Bouton en bas de la page -->
         <div class="div-btns" style="justify-content:space-between; display: flex;">
             <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary border-btn label-emprunts">À propos des
-                emprunts passés</button>
+                emprunts passés
+            </button>
             <button [routerLink]="['../borrows']" type="button" class="btn btn-secondary border-btn label-emprunts" style="float:right;">
-                Retourner
-                aux emprunts
+                Retourner aux emprunts
             </button>
         </div>
     </div>
@@ -175,7 +183,7 @@
 <!-- Modal pour les infos du livre d'un emprunt -->
 <ng-template #infoReservationModal let-modal>
     <div class="modal-header modal-lg" >
-      <h4 class="modal-title" id="modal-basic-title">Information du livre</h4> 
+      <h4 class="modal-title" id="modal-basic-title">Informations du livre</h4> 
       <span *ngIf="selectedBorrow.determineStatus() != 'En retard'" class="thick handed">(Remis)</span>
       <span *ngIf="selectedBorrow.determineStatus() == 'En retard'" class="thick stolen">(Perdu)</span>
     </div>
