@@ -67,6 +67,14 @@
           </select>
         </div>
 
+        <div class="form-group">
+          <label for="isRecommended">Recommandation:</label>
+          <select [(ngModel)]="book.isRecommended" name="isRecommended" required>
+            <option [value]="1">Recommandé</option>
+            <option [value]="0">Non recommandé</option>
+          </select>
+        </div>
+
         <button type="submit">Enregistrer</button>
       </form>
     </article>
