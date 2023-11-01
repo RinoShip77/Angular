@@ -13,7 +13,11 @@
 
             <div class="row">
                 <p class="col-6">Genre :</p>
-                <!-- <p class="col-6">{{book.genre}}</p>-->
+                <p class="col-6">{{genre.name}}</p>
+            </div>
+            <div class="row">
+                <p class="col-6">Auteur :</p>
+                <p class="col-6">{{author.firstName}} {{author.lastName}}</p>
             </div>
             <div class="row">
                 <p class="col-6">Langue :</p>
@@ -30,10 +34,14 @@
             </div>
 
             <div>
-                <button class="btn btn-outline-info m-1">
-                    <a [routerLink]="['/detailEmprunt',book.idBook]">Emprunter</a>
-                </button>
+                <div>
+                    <button *ngIf="btnVisible" class="btn btn-outline-info m-1" (click)="createBorrow()">Emprunter</button>
+                    <p *ngIf="Succes">emprunt crée avec succes</p>
+                    <p *ngIf="failure">impossible d'emprunter {{book.title}}</p>
+                    <button *ngIf="Succes || failure" class="btn btn-outline-info m-1" (click)="Acceuil()">retour a l'acceuil</button>
+                </div>
             </div>
+            <button class="btn btn-outline-info m-1" (click)="AjoutFav()">ajouter au favoris</button>
         </section>
     </div>
 </main>
