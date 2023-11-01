@@ -16,6 +16,7 @@ export class DetailsBorrowComponent {
   constructor(private electrolibSrv: ElectrolibService,private dataSrv: DataService,private route: ActivatedRoute,private router:Router){ //private route: ActivatedRoute a jouter apres merge
 
   }
+  isReturn:boolean=false;
   book: Book = new Book();
   user: User | undefined = new User();
   btnVisible=true;

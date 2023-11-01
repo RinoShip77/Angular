@@ -411,4 +411,13 @@ export class ElectrolibService {
 
     return this.http.post<Borrow>(url, formData);
   }
+
+  createFavorite(book:Book,user:User){
+    const url = `${urlServer}create-favorite`;
+    const formData = new FormData();
+    formData.append('idBook',book.idBook.toString());
+    formData.append('idUser',user.idUser.toString());
+
+    return this.http.post<Favorite>(url,formData);
+  }
 }
