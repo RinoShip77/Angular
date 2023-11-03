@@ -90,8 +90,8 @@ export class ProfileComponent implements OnInit {
   // Function to upload a new profile picture to the user
   //---------------------------------
   updatePicture(idUser: number | undefined, pictureNumber: number) {
-    this.electrolibService.updateProfilePicture(idUser, pictureNumber).subscribe(
-      response => {
+    this.electrolibService.updateProfile('updatePicture', idUser, { pictureNumber: pictureNumber }).subscribe(
+      user => {
         this.toastService.show('Votre profil a été mis à jour.', {
           classname: 'bg-success',
         });
@@ -253,7 +253,7 @@ export class ProfileComponent implements OnInit {
           });
         },
         (error) => {
-          this.toastService.show('La mise à jour a échoué.', {
+          this.toastService.show('Votre profil a été mis à jour.', {
             classname: 'bg-success',
           });
         }

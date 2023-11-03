@@ -1,7 +1,7 @@
 {
   "main": "main.js",
   "name": "electrolib",
-  "version": "0.9",
+  "version": "0.0.9",
   "author": "Electrolabs",
   "description": "Electrolib est un logiciel pour vous aidez dans la gestion d'une bibliothèque.",
   "scripts": {

@@ -391,39 +391,24 @@ export class ElectrolibService {
     //PEUT-ÊTRE UNE ERREUR AVEC LE FORM QUE J'ENVOIE (À VÉRIFIER)
     return this.http.put<Book>(url, requestData);*/
   }
-
-  //--------------------------------
-  // Update the profile informations
-  //--------------------------------
-  updateProfilePicture(idUser: number | undefined, pictureNumber: number) {
-    let url = urlServer + 'user/' + idUser;
-
-    const params = new HttpParams({
-      fromObject: {
-        action: 'updateProfilePicture',
-        pictureNumber: pictureNumber
-      }
-    });
-
-    return this.http.post(url, params);
-  }
   
   //--------------------------------
   // Update the profile informations
   //--------------------------------
   updateProfile(action: string, idUser: number | undefined, object?: any) {
-    let url = urlServer + 'user/' + idUser;
+    let url = urlServer + 'users/' + idUser;
     
     const params = new HttpParams({
       fromObject: {
         action: action,
+        pictureNumber: object?.pictureNumber,
+        newPassword: object?.newPassword,
         email: object?.email,
         firstName: object?.firstName,
         lastName: object?.lastName,
         address: object?.address,
         postalCode: object?.postalCode,
-        phoneNumber: object?.phoneNumber,
-        newPassword: object?.newPassword
+        phoneNumber: object?.phoneNumber
       }
     });
 
