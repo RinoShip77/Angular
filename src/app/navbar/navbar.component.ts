@@ -14,19 +14,16 @@ export class NavbarComponent implements OnInit {
   visible: boolean;
   user: User | undefined = new User();
 
-  @Output() connected = new EventEmitter<User>();
-  @Output() openProfile = new EventEmitter<User>();
-  @Output() disconnected = new EventEmitter<User>();
-
-  @Output() openBorrows = new EventEmitter<User>();
-
   //---------------------------------
-  // Function to display every book in the database
+  // Function to build the component
   //---------------------------------
   constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService, private dataService: DataService) {
     this.visible = this.router.url !== "/";
   }
 
+  //---------------------------------
+  // Function to initialize the component
+  //---------------------------------
   ngOnInit() {
     this.routeChangeService.routeChange$.subscribe(() => {
       this.updateVisibility();
@@ -35,7 +32,10 @@ export class NavbarComponent implements OnInit {
     this.updateVisibility();
   }
   
-  private updateVisibility() {
+  //---------------------------------
+  // Function to set the UI
+  //---------------------------------
+  updateVisibility() {
     if (this.dataService.getUser() != undefined) {
       this.user = this.dataService.getUser();
       if (this.router.url !== "/" && this.dataService.getUser()?.roles === '["ROLE_USER"]') {
@@ -49,7 +49,7 @@ export class NavbarComponent implements OnInit {
   }
 
   //---------------------------------
-  // Function to disconnect a user
+  // Function to disconnect the user
   //---------------------------------
   disconnect() {
     this.offcanvasService.dismiss();
@@ -61,15 +61,7 @@ export class NavbarComponent implements OnInit {
   //---------------------------------
   // Function to expand the navbar
   //---------------------------------
-  openOffcanvas(content: any) {
-    this.offcanvasService.open(content, { position: 'end' });
-  }
-
-  //
-  // Function to open the borrows section
-  borrows()
-  {
-    
-    this.openBorrows.emit(this.user);
-  }
+  // openOffcanvas(content: any) {
+  //   this.offcanvasService.open(content, { position: 'end' });
+  // }
 }

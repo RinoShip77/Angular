@@ -31,21 +31,21 @@ export class ConnectionComponent {
     switch (type) {
       case 'credentials':
         if (this.temporaryUser.memberNumber.toString().length > 0 && this.temporaryUser.password.length > 0) {
-          
+
           this.retrieveAccount();
-          
+
         } else {
           alert('Erreur: Veuillez fournir les informations nécessaires.');
         }
         break;
-        
-        case 'cheatUser':
-          this.temporaryUser.memberNumber = "80379801";
-          this.temporaryUser.password = "password";
-          this.retrieveAccount();
-          break;
-          
-          case 'cheatAdmin':
+
+      case 'cheatUser':
+        this.temporaryUser.memberNumber = "80379801";
+        this.temporaryUser.password = "password";
+        this.retrieveAccount();
+        break;
+
+      case 'cheatAdmin':
         this.temporaryUser.memberNumber = "98631907";
         this.temporaryUser.password = "password";
         this.retrieveAccount();
@@ -64,29 +64,35 @@ export class ConnectionComponent {
 
     this.electrolibService.connection(this.temporaryUser).subscribe(
       connectedUser => {
-        if (connectedUser.memberNumber === this.temporaryUser.memberNumber &&
-          connectedUser.password === this.temporaryUser.password) {
-
-          if (connectedUser.roles === '["ROLE_ADMIN"]') {
-            this.user = connectedUser;
-
-            this.dataService.updateUser(this.user);
-
-            this.connected.emit(this.user);
-            this.changeTab('inventory');
-            this.router.navigate(["adminInventory"]);
-
-          } else {
-            this.user = connectedUser;
-
-            this.dataService.updateUser(this.user);
-
-            this.router.navigate(["/inventory"]);
-            //this.connected.emit(this.user);
-
-          }
+        // #region 2023-10-29 12:50 - Olivier Bourgault
+        // Check if the account is active before login
+        if (connectedUser.roles.includes('ROLE_DEACTIVATE')) {
+          alert('La connexion a échoué.');
         } else {
-          alert('Erreur: Informations de connexion incorrectes.');
+          if (connectedUser.memberNumber === this.temporaryUser.memberNumber &&
+            connectedUser.password === this.temporaryUser.password) {
+
+            if (connectedUser.roles === '["ROLE_ADMIN"]') {
+              this.user = connectedUser;
+
+              this.dataService.updateUser(this.user);
+
+              this.connected.emit(this.user);
+              this.changeTab('inventory');
+              this.router.navigate(["adminInventory"]);
+
+            } else {
+              this.user = connectedUser;
+
+              this.dataService.updateUser(this.user);
+
+              this.router.navigate(["/inventory"]);
+              //this.connected.emit(this.user);
+
+            }
+          } else {
+            alert('Erreur: Informations de connexion incorrectes.');
+          }
         }
       }
     )

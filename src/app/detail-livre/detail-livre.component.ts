@@ -61,18 +61,18 @@ export class DetailLivreComponent {
   }
 
   createBorrow(){
-    if(this.user){
-      this.electrolibSrv.createBorrow(this.book,this.user).subscribe(
-        receivedBorrow=>{
-          console.log(receivedBorrow);
-          if(receivedBorrow.book==null){
-           this.failureBorrow();
-          }
-          else{
-            this.succesBorrow();
-          }
-        }
-      )};
+    // if(this.user){
+    //   this.electrolibSrv.createBorrow(this.book,this.user).subscribe(
+    //     receivedBorrow=>{
+    //       console.log(receivedBorrow);
+    //       if(receivedBorrow.book==null){
+    //        this.failureBorrow();
+    //       }
+    //       else{
+    //         this.succesBorrow();
+    //       }
+    //     }
+    //   )};
   }
 
    succesBorrow(){

@@ -1,10 +1,10 @@
-<div class="d-flex mt-3">
+<div class="d-flex flex-rows mt-3">
   <div class="col-4 w-25">
-    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary rounded-5">
-      <span class="fs-4">Affiner votre recherche</span>
+    <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary rounded-5">
+      <span class="fs-4 mx-3">Affiner votre recherche</span>
       <hr>
-      <button class="btn btn-outline-success p-1 fs-5 fw-bold" (click)="openModal(filtersContent, 'lg')">
-        Filtrer l'affichage
+      <button class="btn btn-outline-success mx-3 p-1 fs-5 fw-bold" (click)="openModal(ordersContent, 'lg')">
+        Trier l'affichage
         <i class="fas fa-sort ms-2"></i>
       </button>
       <hr>
@@ -13,8 +13,8 @@
           <button ngbNavLink>Par genre</button>
           <ng-template ngbNavContent class="my-4">
             <div *ngFor="let genre of genres" class="my-2">
-              <div class="form-check form-switch" (click)="filterBooksByGenres(genre.idGenre)">
-                <input class="form-check-input me-2" type="checkbox" role="switch">
+              <div class="form-check form-switch" (click)="filterBooks('genre', genre.idGenre, genre.isFilter)">
+                <input [(ngModel)]="genre.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
                 <label class="form-check-label">
                   {{genre.name | titlecase}}
                 </label>
@@ -26,8 +26,8 @@
           <button ngbNavLink>Par auteur</button>
           <ng-template ngbNavContent>
             <div *ngFor="let author of authors" class="my-2">
-              <div class="form-check" (click)="filterBooksByAuthors(author.idAuthor)">
-                <input class="form-check-input me-2" type="checkbox" role="switch">
+              <div class="form-check" (click)="filterBooks('author', author.idAuthor, author.isFilter)">
+                <input [(ngModel)]="author.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
                 <label class="form-check-label">
                   {{(author.firstName | titlecase) + ' ' + (author.lastName | titlecase)}}
                 </label>
@@ -39,9 +39,11 @@
           <button ngbNavLink>Par statut</button>
           <ng-template ngbNavContent>
             <div *ngFor="let status of status" class="my-2">
-              <div class="form-check form-switch" (click)="filterBooksByStatus(status.idStatus)">
-                <input class="form-check-input me-2" type="checkbox" role="switch">
-                <label class="form-check-label">{{status.status}}</label>
+              <div class="form-check form-switch" (click)="filterBooks('status', status.idStatus, status.isFilter)">
+                <input [(ngModel)]="status.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
+                <label class="form-check-label">
+                  {{status.status}}
+                </label>
               </div>
             </div>
           </ng-template>
@@ -49,17 +51,17 @@
       </ul>
       <div class="mx-auto" [ngbNavOutlet]="nav"></div>
       <hr>
-      <button class="btn btn-outline-danger mt-4 mb-1" (click)="removeFilters()">
+      <button class="btn btn-outline-danger mx-3 mt-4 mb-1" (click)="removeFilters()">
         <i class="fa-solid fa-filter-circle-xmark me-2"></i>
         Retirer les filtres
       </button>
-      <button class="btn btn-info mx-auto mt-5 fs-4" (click)="openModal(informationsContent, 'sm')">
+      <button class="btn bg-info mx-3 mx-auto mt-5 fs-4" (click)="openModal(informationsContent, 'sm')">
         <i class="fas fa-circle-question me-2"></i>
         Informations
       </button>
     </div>
   </div>
-  <div class="col-9">
+  <div class="col-8 mx-auto">
     <div class="d-flex justify-content-around my-4">
       <div class="form-check form-switch">
         <h4>Personnaliser l'affichage de l'inventaire :</h4>
@@ -68,130 +70,193 @@
           <option value="list">Sous forme de simple liste</option>
         </select>
       </div>
-      <input name="searchInp" [(ngModel)]="searchInp" (ngModelChange)="applySearch(searchInp)"
-        class="form-control w-25 ms-2 my-auto me-2" type="search" placeholder="Rechercher ...">
+      <input name="searchInp" [(ngModel)]="searchInp" (ngModelChange)="applySearch(searchInp, false)"
+        (keyup)="onKeyup($event)" class="form-control w-25 ms-2 my-auto me-2" type="search"
+        placeholder="Rechercher ...">
     </div>
     <app-recommended></app-recommended>
-    <h2>inventaire</h2>
-    <div class="shadow-lg rounded-2 p-2" *ngIf="books.length > 0; else elseBlock" [ngSwitch]="inventoryDisplay">
-      <div *ngSwitchCase="'table'">
-        <div class="row row-cols-2 g-3">
-          <a type="button" class="col" *ngFor="let book of books" [routerLink]="['/detailLivre', book.idBook]">
-            <div class="card h-100 mb-3">
-              <div class="row g-0">
-                <div class="col-4">
-                  <img src={{getBookCover(book.idBook)}} class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
-                    title="{{book.title}}">
-                </div>
-                <div class="col-8">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                      <h2 class="card-title">{{book.title | titlecase}}</h2>
+    <h2>Inventaire</h2>
+    <div *ngIf="loading; else loadedBlock">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        style="margin: auto; background: rgba(241, 242, 243, 0); display: block;" width="200px" height="200px"
+        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+        <path d="M20 25L80 25L80 75L20 75Z" fill="#efd58f" stroke="#917d6a" stroke-width="3"></path>
+        <path d="M50 25L80 25L80 75L50 75" fill="#efd58f" stroke="#917d6a" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+          <animate attributeName="d" dur="1s" repeatCount="indefinite" begin="0s" keyTimes="0;0.5;0.501;1"
+            values="M50 25L80 25L80 75L50 75;M50 25L50 20L50 80L50 75;M50 25L80 25L80 75L50 75;M50 25L80 25L80 75L50 75">
+          </animate>
+          <animate attributeName="opacity" dur="1s" repeatCount="indefinite" begin="0s" keyTimes="0;0.5;0.5001;1"
+            values="1;1;0;0"></animate>
+        </path>
+        <path d="M50 25L80 25L80 75L50 75" fill="#efd58f" stroke="#917d6a" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+          <animate attributeName="d" dur="1s" repeatCount="indefinite" begin="-0.166s" keyTimes="0;0.5;0.501;1"
+            values="M50 25L80 25L80 75L50 75;M50 25L50 20L50 80L50 75;M50 25L80 25L80 75L50 75;M50 25L80 25L80 75L50 75">
+          </animate>
+          <animate attributeName="opacity" dur="1s" repeatCount="indefinite" begin="-0.166s" keyTimes="0;0.5;0.5001;1"
+            values="1;1;0;0"></animate>
+        </path>
+        <path d="M50 25L80 25L80 75L50 75" fill="#efd58f" stroke="#917d6a" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+          <animate attributeName="d" dur="1s" repeatCount="indefinite" begin="-0.33s" keyTimes="0;0.5;0.501;1"
+            values="M50 25L80 25L80 75L50 75;M50 25L50 20L50 80L50 75;M50 25L80 25L80 75L50 75;M50 25L80 25L80 75L50 75">
+          </animate>
+          <animate attributeName="opacity" dur="1s" repeatCount="indefinite" begin="-0.33s" keyTimes="0;0.5;0.5001;1"
+            values="1;1;0;0"></animate>
+        </path>
+        <path d="M50 25L80 25L80 75L50 75" fill="#efd58f" stroke="#917d6a" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+          <animate attributeName="d" dur="1s" repeatCount="indefinite" begin="-0.33s" keyTimes="0;0.499;0.5;1"
+            values="M50 25L20 25L20 75L50 75;M50 25L20 25L20 75L50 75;M50 25L50 20L50 80L50 75;M50 25L20 25L20 75L50 75">
+          </animate>
+          <animate attributeName="opacity" dur="1s" repeatCount="indefinite" begin="-0.33s" keyTimes="0;0.4999;0.5;1"
+            values="0;0;1;1"></animate>
+        </path>
+        <path d="M50 25L80 25L80 75L50 75" fill="#efd58f" stroke="#917d6a" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+          <animate attributeName="d" dur="1s" repeatCount="indefinite" begin="-0.166s" keyTimes="0;0.499;0.5;1"
+            values="M50 25L20 25L20 75L50 75;M50 25L20 25L20 75L50 75;M50 25L50 20L50 80L50 75;M50 25L20 25L20 75L50 75">
+          </animate>
+          <animate attributeName="opacity" dur="1s" repeatCount="indefinite" begin="-0.166s" keyTimes="0;0.4999;0.5;1"
+            values="0;0;1;1"></animate>
+        </path>
+        <path d="M50 25L80 25L80 75L50 75" fill="#efd58f" stroke="#917d6a" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+          <animate attributeName="d" dur="1s" repeatCount="indefinite" begin="0s" keyTimes="0;0.499;0.5;1"
+            values="M50 25L20 25L20 75L50 75;M50 25L20 25L20 75L50 75;M50 25L50 20L50 80L50 75;M50 25L20 25L20 75L50 75">
+          </animate>
+          <animate attributeName="opacity" dur="1s" repeatCount="indefinite" begin="0s" keyTimes="0;0.4999;0.5;1"
+            values="0;0;1;1"></animate>
+        </path>
+      </svg>
+    </div>
+    <ng-template #loadedBlock>
+      <div class="shadow-lg rounded-2 p-2" *ngIf="displayedBooks.length > 0; else emptyBlock"
+        [ngSwitch]="inventoryDisplay">
+        <div *ngSwitchCase="'table'">
+          <div class="row row-cols-2 g-3">
+            <a type="button" class="col" *ngFor="let book of displayedBooks"
+              [routerLink]="['/detailLivre', book.idBook]">
+              <div class="card h-100 mb-3">
+                <div class="row g-0">
+                  <div class="col-4">
+                    <img src={{getBookCover(book.idBook)}} class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
+                      title="{{book.title}}" onerror="this.src='assets/images/users/default-user.png'">
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                      <h5>{{book.publishedDate | date:'yyyy-MM-dd'}}</h5>
                     </div>
-                    <p class="mb-3">{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}
-                    </p>
-                    <span class="card-text"><small>{{book.description}}</small></span>
-                    <div class="d-flex justify-content-between mt-3">
-                      <div class="d-flex align-items-center">
-                        <i class="text-danger fs-2" [ngClass]="(book.isFavorite) ? 'fas fa-heart' : 'far fa-heart'"></i>
+                  </div>
+                  <div class="col-8">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h2 class="card-title">{{book.title | titlecase}}</h2>
                       </div>
-                      <div [ngSwitch]="book.status.status">
-                        <div *ngSwitchCase="'Disponible'"
-                          class="border border-2 bg-transparent rounded-3 p-2 text-center">{{book.status.status}}</div>
-                        <div *ngSwitchCase="'Emprunté'" class="border border-2 bg-info rounded-3 p-2 text-center">
-                          {{book.status.status}}</div>
-                        <div *ngSwitchCase="'Réservé'" class="border border-2 bg-warning rounded-3 p-2 text-center">
-                          {{book.status.status}}</div>
-                        <div *ngSwitchCase="'Perdu'" class="border border-2 bg-secondary rounded-3 p-2 text-center">
-                          {{book.status.status}}</div>
-                        <div *ngSwitchCase="'Supprimé'" class="border border-2 bg-danger rounded-3 p-2 text-center">
-                          {{book.status.status}}</div>
+                      <p class="mb-3">
+                        <span class="fs-5 fw-bold me-3">{{book.genre.name | titlecase}}</span>
+                        {{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}
+                      </p>
+                      <span class="card-text"><small>{{book.description}}</small></span>
+                      <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex align-items-center">
+                          <i class="text-danger fs-2"
+                            [ngClass]="(book.isFavorite) ? 'fas fa-heart' : 'far fa-heart'"></i>
+                        </div>
+                        <div [ngSwitch]="book.status.status">
+                          <div *ngSwitchCase="'Disponible'" class="border border-2 bg-info rounded-3 p-2 text-center">
+                            {{book.status.status}}</div>
+                          <div *ngSwitchCase="'Emprunté'"
+                            class="border border-2 bg-transparent rounded-3 p-2 text-center">
+                            {{book.status.status}}</div>
+                          <div *ngSwitchCase="'Réservé'" class="border border-2 bg-warning rounded-3 p-2 text-center">
+                            {{book.status.status}}</div>
+                          <div *ngSwitchCase="'Perdu'" class="border border-2 bg-secondary rounded-3 p-2 text-center">
+                            {{book.status.status}}</div>
+                          <div *ngSwitchCase="'Supprimé'" class="border border-2 bg-danger rounded-3 p-2 text-center">
+                            {{book.status.status}}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
+        </div>
+        <div *ngSwitchCase="'list'">
+          <table class="table table-hover table-borderless">
+            <thead>
+              <tr>
+                <th scope="col">Numéro</th>
+                <th scope="col">Titre</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Auteur</th>
+                <th scope="col">Langue d'origine</th>
+                <th scope="col">Année de parution</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let book of displayedBooks" [ngClass]="updateDisplay(book.status)">
+                <td>#{{book.isbn}}</td>
+                <td>{{book.title}}</td>
+                <td class="fs-5 fw-bold me-3">{{book.genre.name | titlecase}}</td>
+                <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
+                <td>{{book.originalLanguage}}</td>
+                <td>{{book.publishedDate | date:'yyyy'}}</td>
+                <td>{{book.status.status}}</td>
+                <td>
+                  <a [routerLink]="['/detailLivre', book.idBook]">
+                    <i class="fas fa-circle-info text-light fs-4 m-2"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div *ngSwitchCase="'list'">
-        <table class="table table-hover table-borderless">
-          <thead>
-            <tr>
-              <th scope="col">Numéro</th>
-              <th scope="col">Titre</th>
-              <th scope="col">Auteur</th>
-              <th scope="col">Genre</th>
-              <th scope="col">Langue d'origine</th>
-              <th scope="col">Année de parution</th>
-              <th scope="col">Statut</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let book of books" [ngClass]="updateDisplay(book.status)">
-              <td>#{{book.isbn}}</td>
-              <td>{{book.title}}</td>
-              <td>{{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}</td>
-              <td></td>
-              <td>{{book.originalLanguage}}</td>
-              <td>{{book.publishedDate | date:'yyyy'}}</td>
-              <td>{{book.status.status}}</td>
-              <td>
-                <a [routerLink]="['/detailLivre', book.idBook]">
-                  <i class="fas fa-circle-info fs-4 m-2"></i>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <ng-template #elseBlock>
-      <h1 class="mt-5 text-center fst-italic fw-bolder">Aucun résultat.</h1>
+      <ng-template #emptyBlock>
+        <h1 class="mt-5 text-center fst-italic fw-bolder">Aucun résultat.</h1>
+      </ng-template>
     </ng-template>
   </div>
-  <a [routerLink]="['/recommended']">recommended</a>
+  <!-- TODO: Ask Vincent if this line is necessary -->
+  <a class="d-none" [routerLink]="['/recommended']">recommended</a>
 </div>
 
-<!-- Filters modal -->
-<ng-template #filtersContent let-modal>
+<!-- orders modal -->
+<ng-template #ordersContent let-modal>
   <div class="modal-body">
-    <h4 class="text-center">Appliquer un filtre</h4>
+    <h4 class="text-center">Appliquer un ordre de tri</h4>
     <hr>
-    <form class="d-flex justify-content-between" (ngSubmit)="sortInventory()">
-      <select name="sortOrder" [(ngModel)]="sortOrder" class="form-select">
-        <option value="date;DESC">Trier du plus récent au plus ancien</option>
-        <option value="date;ASC">Trier du plus ancien au plus récent</option>
-        <option value="title;ASC">Trier par titre (A-Z)</option>
-        <option value="title;DESC">Trier par titre (Z-A)</option>
-        <option value="author;ASC">Trier par auteur (A-Z)</option>
-        <option value="author;DESC">Trier par auteur (Z-A)</option>
-      </select>
-      <button type="submit" class="btn btn-outline-info mx-3 fs-3" (click)="modal.dismiss()">
+    <div class="d-flex justify-content-around my-3">
+      <div class="dropdown">
+        <label class="form-label">Ordre</label>
+        <select class="form-select" [(ngModel)]="sortOrder" (ngModelChange)="sortInventory()">
+          <option value="ascending">Croissant</option>
+          <option value="descending">Décroissant</option>
+        </select>
+      </div>
+      <div class="dropdown">
+        <label class="form-label">Trier par</label>
+        <select class="form-select" [(ngModel)]="sortProperty" (ngModelChange)="sortInventory()">
+          <option value="date">Date</option>
+          <option value="title">Titre</option>
+          <option value="author">Auteur</option>
+        </select>
+      </div>
+      <button class="btn p-3 fs-3" (click)="modal.dismiss()">
         <div [ngSwitch]="sortOrder">
-          <div *ngSwitchCase="'date;DESC'">
-            <i class="fa-solid fa-arrow-down-wide-short"></i>
+          <div *ngSwitchCase="'descending'">
+            <i class="fas fa-arrow-down-short-wide"></i>
           </div>
-          <div *ngSwitchCase="'date;ASC'">
-            <i class="fa-solid fa-arrow-down-short-wide"></i>
-          </div>
-          <div *ngSwitchCase="'title;ASC'">
-            <i class="fa-solid fa-arrow-down-a-z"></i>
-          </div>
-          <div *ngSwitchCase="'title;DESC'">
-            <i class="fa-solid fa-arrow-down-z-a"></i>
-          </div>
-          <div *ngSwitchCase="'author;ASC'">
-            <i class="fa-solid fa-arrow-down-a-z"></i>
-          </div>
-          <div *ngSwitchCase="'author;DESC'">
-            <i class="fa-solid fa-arrow-down-z-a"></i>
+          <div *ngSwitchCase="'ascending'">
+            <i class="fas fa-arrow-up-wide-short"></i>
           </div>
         </div>
       </button>
-    </form>
+    </div>
   </div>
 </ng-template>
 
@@ -199,13 +264,13 @@
 <ng-template #informationsContent let-modal>
   <div class="modal-body">
     <div class="d-flex justify-content-between">
-      <div class="border border-2 bg-transparent rounded-3 p-2 text-center">
+      <div class="border border-2 bg-info rounded-3 p-2 text-center">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </div>
       <p>Est <span class="h5 fw-bold">disponible</span></p>
     </div>
     <div class="d-flex justify-content-between">
-      <div class="border border-2 bg-info rounded-3 p-2 text-center">
+      <div class="border border-2 bg-light rounded-3 p-2 text-center">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </div>
       <p>Est <span class="h5 fw-bold">emprunté</span></p>

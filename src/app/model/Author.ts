@@ -5,4 +5,5 @@ export class Author {
   firstName: string = '';
   lastName: string = '';
   books: Book[] = new Array();
+  isFilter: boolean = false;
 }

@@ -8,7 +8,6 @@ import { Author } from '../model/Author';
 import { Router } from '@angular/router';
 import { getURLBookCover } from '../util';
 import { Status } from '../model/Status';
-import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-inventory',
@@ -21,37 +20,38 @@ export class InventoryComponent {
   authors: Author[] = new Array();
   status: Status[] = new Array();
   books: Book[] = new Array();
+  displayedBooks: Book[] = new Array();
+  previousBooks: Book[] = new Array();
+  loading: boolean = true;
   inventoryDisplay: string = 'table';
-  sortOrder: string = 'date;DESC';
   searchInp = '';
-
-  @Output() openProfile = new EventEmitter<User>();
-  @Output() openBook = new EventEmitter<Number>();
+  sortOrder: string = 'ascending';
+  sortProperty: string = 'date';
 
   //---------------------------------
-  // Function to display every book in the database
+  // Function to build the component
   //---------------------------------
   constructor(private electrolibSrv: ElectrolibService, private modalService: NgbModal, private router: Router) { }
 
   //---------------------------------
-  // Function to display every book in the database
+  // Function to initialize the component
   //---------------------------------
   ngOnInit() {
-    //Get all the genres from the database
+    //Get all the genres
     this.retrieveGenres();
 
-    //Get all the authors from the database
+    //Get all the authors
     this.retrieveAuthors();
-    
-    //Get all the status from the database
+
+    //Get all the statuses
     this.retrieveStatus();
 
-    //Get all the books from the database
+    //Get all the books
     this.retrieveBooks();
   }
 
   //---------------------------------
-  // Function to select witch genre you want to see
+  // Function to retrieve the genres from the database
   //---------------------------------
   retrieveGenres() {
     this.electrolibSrv.getGenres().subscribe(
@@ -62,7 +62,7 @@ export class InventoryComponent {
   }
 
   //---------------------------------
-  // Function to select witch genre you want to see
+  // Function to retrieve the authors from the database
   //---------------------------------
   retrieveAuthors() {
     this.electrolibSrv.getAuthors().subscribe(
@@ -71,9 +71,9 @@ export class InventoryComponent {
       }
     );
   }
-  
+
   //---------------------------------
-  // Function to select witch genre you want to see
+  // Function to retrieve the statuses from the database
   //---------------------------------
   retrieveStatus() {
     this.electrolibSrv.getAllStatus().subscribe(
@@ -84,111 +84,175 @@ export class InventoryComponent {
   }
 
   //---------------------------------
-  // Function to get all the books from the database
+  // Function to retrieve the books from the database
   //---------------------------------
   retrieveBooks() {
     this.electrolibSrv.getBooks().subscribe(
       books => {
-        this.books = books;
+        setTimeout(() => {
+          this.loading = false;
+          this.books = books;
+          this.displayedBooks = books;
+        }, 1000);
       }
     );
   }
 
   //---------------------------------
-  // Function to display every book in the database
-  //---------------------------------
-  onInventory(user: User) {
-    //this.visible = true;
-    this.user = user;
-  }
-
-  //---------------------------------
-  // Function to select witch genre you want to see
+  // Function to sort the books
   //---------------------------------
   sortInventory() {
-    let property = this.sortOrder.split(';')[0];
-    let order = this.sortOrder.split(';')[1];
-
-    switch (property) {
+    switch (this.sortProperty) {
       case 'date':
-        if (order === 'DESC') {
-          this.books.sort((a, b) => (a.publishedDate > b.publishedDate ? 1 : -1));
+        if (this.sortOrder === 'descending') {
+          this.displayedBooks.sort((a, b) => (a.publishedDate < b.publishedDate ? 1 : -1));
         } else {
-          this.books.sort((a, b) => (a.publishedDate < b.publishedDate ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.publishedDate > b.publishedDate ? 1 : -1));
         }
         break;
       case 'title':
-        if (order === 'DESC') {
-          this.books.sort((a, b) => (a.title > b.title ? 1 : -1));
+        if (this.sortOrder === 'descending') {
+          this.displayedBooks.sort((a, b) => (a.title < b.title ? 1 : -1));
         } else {
-          this.books.sort((a, b) => (a.title < b.title ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.title > b.title ? 1 : -1));
         }
         break;
-        case 'author':
-          if (order === 'DESC') {
-            this.books.sort((a, b) => (a.author.lastName > b.author.lastName ? 1 : -1));
-          } else {
-          this.books.sort((a, b) => (a.author.lastName < b.author.lastName ? 1 : -1));
+      case 'author':
+        if (this.sortOrder === 'descending') {
+          this.displayedBooks.sort((a, b) => (a.author.lastName < b.author.lastName ? 1 : -1));
+        } else {
+          this.displayedBooks.sort((a, b) => (a.author.lastName > b.author.lastName ? 1 : -1));
         }
         break;
     }
   }
 
   //---------------------------------
-  // Function to remove all the filters from the view
+  // Function to filter the books by a research
   //---------------------------------
-  applySearch(search: string) {
-    this.books = this.books.filter((book) => book.title.includes(search));
+  applySearch(search: string, reset: boolean) {
+    if (reset) {
+      this.displayedBooks = this.books;
+    }
+
+    this.displayedBooks = this.displayedBooks.filter((book) => book.title.toLowerCase().includes(search));
   }
 
   //---------------------------------
-  // Function to remove all the filters from the view
+  // Function to add dynamic response to the search bar
   //---------------------------------
-  filterBooksByGenres(idGenre: number) {
-    this.books = this.books.filter((book) => book.genre.idGenre === idGenre);
+  onKeyup(event: KeyboardEvent) {
+    if (event.keyCode == 8) {
+      this.applySearch(this.searchInp, true);
+    }
   }
 
   //---------------------------------
-  // Function to remove all the filters from the view
+  // Function to filter the books by the criteria given
   //---------------------------------
-  filterBooksByAuthors(idAuthor: number) {
-    this.books = this.books.filter((book) => book.author.idAuthor === idAuthor);
-  }
-  
-  //---------------------------------
-  // Function to remove all the filters from the view
-  //---------------------------------
-  filterBooksByStatus(idStatus: number) {
-    this.books = this.books.filter((book) => book.status.idStatus === idStatus);
+  filterBooks(filter: string, id: number, isFilter: boolean) {
+    if (!isFilter || isFilter == undefined) {
+      let nbFilter = 1;
+
+      switch (filter) {
+        case 'genre':
+          for (let i = 0; i < this.genres.length; i++) {
+            if (this.genres[i].isFilter || this.genres[i].isFilter != undefined) {
+              nbFilter++;
+            }
+          }
+
+          if (nbFilter == 1) {
+            this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
+          }
+
+          this.displayedBooks = this.books.filter((book) => book.genre.idGenre === id);
+          this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
+          break;
+
+        case 'author':
+          for (let i = 0; i < this.genres.length; i++) {
+            if (this.genres[i].isFilter || this.genres[i].isFilter != undefined) {
+              nbFilter++;
+            }
+          }
+
+          if (nbFilter == 1) {
+            this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
+          }
+
+          this.displayedBooks = this.books.filter((book) => book.author.idAuthor === id);
+          this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
+          break;
+
+        case 'status':
+          for (let i = 0; i < this.genres.length; i++) {
+            if (this.genres[i].isFilter || this.genres[i].isFilter != undefined) {
+              nbFilter++;
+            }
+          }
+
+          if (nbFilter == 1) {
+            this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
+          }
+
+          this.displayedBooks = this.books.filter((book) => book.status.idStatus === id);
+          this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
+          break;
+      }
+    } else {
+      // if(nbFilter > 0) {
+      //   this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
+      // }
+
+      // console.log(this.previousBooks)
+      // this.displayedBooks.concat(this.previousBooks);
+
+      switch (filter) {
+        case 'genre':
+          // this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
+          // this.displayedBooks.concat(this.previousBooks);
+          this.displayedBooks = this.books.filter((book) => book.genre.idGenre === id);
+          break;
+
+        case 'author':
+          this.displayedBooks = this.books.filter((book) => book.author.idAuthor === id);
+          break;
+
+        case 'status':
+          this.displayedBooks = this.books.filter((book) => book.status.idStatus === id);
+          break;
+      }
+    }
   }
 
   //---------------------------------
   // Function to remove all the filters from the view
   //---------------------------------
   removeFilters() {
-    // for (let i = 0; i < this.genres.length; i++) {
-    //   if (this.genres[i].isFilter) {
-    //     this.genres[i].isFilter = false;
-    //   }
-    // }
+    for (let i = 0; i < this.genres.length; i++) {
+      if (this.genres[i].isFilter) {
+        this.genres[i].isFilter = false;
+      }
+    }
 
-    // for (let i = 0; i < this.authors.length; i++) {
-    //   if (this.authors[i].isFilter) {
-    //     this.authors[i].isFilter = false;
-    //   }
-    // }
-    
-    // for (let i = 0; i < this.status.length; i++) {
-    //   if (this.status[i].isFilter) {
-    //     this.status[i].isFilter = false;
-    //   }
-    // }
+    for (let i = 0; i < this.authors.length; i++) {
+      if (this.authors[i].isFilter) {
+        this.authors[i].isFilter = false;
+      }
+    }
+
+    for (let i = 0; i < this.status.length; i++) {
+      if (this.status[i].isFilter) {
+        this.status[i].isFilter = false;
+      }
+    }
 
     this.retrieveBooks();
   }
 
   //---------------------------------
-  // Open the modal to update the user password
+  // Open a modal with the given content
   //---------------------------------
   openModal(content: any, size: string) {
     this.modalService.open(content, {
@@ -200,44 +264,41 @@ export class InventoryComponent {
   }
 
   //---------------------------------
-  // Function to open the page for a specific book
+  // Function to change the way to display the books
   //---------------------------------
   updateDisplay(status: Status) {
     switch (status.status) {
       case 'Disponible':
         return 'table-primary';
         break;
+
       case 'Emprunté':
-        return 'table-dark opacity-50';
+        return 'table-light';
         break;
+
       case 'Réservé':
         return 'table-warning';
         break;
+
       case 'Perdu':
         return 'opacity-25';
         break;
+
       case 'Supprimé':
         return 'table-danger';
         break;
 
-        default:
-          return '';
-          break;
+      default:
+        return '';
+        break;
     }
   }
 
   //---------------------------------
-  // Function to open the page for a specific book
+  // Function to mark the book as favorite
   //---------------------------------
   addFavorite(idBook: number) {
     console.log(idBook)
-  }
-
-  //---------------------------------
-  // Function to open the page for a specific book
-  //---------------------------------
-  handleMissingImage(event: Event) {
-    (event.target as HTMLImageElement).src = 'assets/images/books/default-book.png';
   }
 
   //---------------------------------
@@ -246,7 +307,10 @@ export class InventoryComponent {
   onDisconnect(user: User) {
     //cette fnct fesait visible.false, on grade la fcnt au cas ou
   }
-
+  
+  //---------------------------------
+  // Function to retrieve the image of a book
+  //---------------------------------
   getBookCover(idBook: number) {
     return getURLBookCover(idBook);
   }

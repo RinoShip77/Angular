@@ -1,5 +1,5 @@
 <!-- Profile page -->
-<section class="container-fluid rounded-5 p-4">
+<section class="container-fluid rounded-5 p-4 {{background}}" [ngStyle]="checkRoles() ? { 'margin-left': '6em' } : {}">
   <div class="d-flex">
     <div class="col-4 mx-5 p-1 border-end border-3 border-secondary">
       <div class="mx-5">
@@ -11,7 +11,7 @@
             <img src="{{url}}" class="img-fluid img-thumbnail w-50 border-3 border-dark rounded-circle"
               alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}"
               onerror="this.src='assets/images/users/default-user.png'">
-            <button class="btn btn-secondary rounded-circle p-3" style="margin-left: -40px; margin-top: 90px"
+            <button class="btn btn-secondary rounded-circle p-3" style="margin-left: -60px; margin-top: 200px"
               (click)="openModal(profilePictureContent)">
               <i class="fas fa-plus text-dark fs-2"></i>
             </button>
@@ -19,9 +19,13 @@
         </div>
         <div>
           <h1>{{user?.firstName + ' ' + user?.lastName}}</h1>
-          <!-- TODO: Add a property in the user class that return the full name -->
-          <h6>{{user?.roles}} depuis le {{user?.registrationDate | date:'d/M/yyyy'}}</h6>
           <h6>#{{user?.memberNumber}}</h6>
+          <h5>{{role}} depuis le {{user?.registrationDate | date:'yyyy-MM-dd'}}</h5>
+          <!-- TODO: Change the date format to AAAA-MM-JJ -->
+          <h3 class="d-flex justify-content-around align-items-center bg-danger-subtle mt-3 py-2 rounded-4">
+            {{user?.idUser | currency:'CAD'}}
+            <i class="fas fa-file-invoice-dollar text-danger fs-1"></i>
+          </h3>
         </div>
         <hr>
         <button class="btn btn-warning mt-3 p-3 fs-4 fw-bold" (click)="openModal(passwordContent)">
@@ -35,34 +39,83 @@
       <form #profileForm="ngForm" (ngSubmit)="updateProfile(user?.idUser, profileForm.value)" class="m-5">
         <div class="mb-3">
           <label class="form-label">Adresse courriel</label>
-          <input name="email" [ngModel]="user?.email" type="email" class="form-control" placeholder="user.email">
+          <input name="email" [ngModel]="user?.email" type="email" class="form-control" placeholder="user.email"
+            pattern="(\w|\d)+@[a-zA-Z]+\.[a-zA-Z]{2,}">
+          <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['email'] === true">
+            <i class="fas fa-check"></i>
+            L'adresse courriel est valide.
+          </p>
+          <p class="mt-2 mb-3 text-warning fw-bold" *ngIf="validations['email'] === false">
+            <i class="fas fa-triangle-exclamation"></i>
+            L'adresse courriel n'est pas valide.
+          </p>
         </div>
         <div class="row">
           <div class="col mb-3">
             <label class="form-label">Prénom</label>
             <input name="firstName" [ngModel]="user?.firstName" type="text" class="form-control"
-              placeholder="user.firstName">
+              placeholder="user.firstName" pattern="[a-zA-Z]+">
+            <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['firstName'] === true">
+              <i class="fas fa-check"></i>
+              Le prénom est valide.
+            </p>
+            <p class="mt-2 mb-3 text-warning fw-bold" *ngIf="validations['firstName'] === false">
+              <i class="fas fa-triangle-exclamation"></i>
+              Le prénom n'est pas valide.
+            </p>
           </div>
           <div class="col mb-3">
             <label class="form-label">Nom</label>
             <input name="lastName" [ngModel]="user?.lastName" type="text" class="form-control"
-              placeholder="user.lastName">
+              placeholder="user.lastName" pattern="[a-zA-Z]+">
+            <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['lastName'] === true">
+              <i class="fas fa-check"></i>
+              Le nom est valide.
+            </p>
+            <p class="mt-2 mb-3 text-warning fw-bold" *ngIf="validations['lastName'] === false">
+              <i class="fas fa-triangle-exclamation"></i>
+              Le nom n'est pas valide.
+            </p>
           </div>
         </div>
         <div class="row">
           <div class="col mb-3">
             <label class="form-label">Adresse civique</label>
             <input name="address" [ngModel]="user?.address" type="text" class="form-control" placeholder="user.address">
+            <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['address'] === true">
+              <i class="fas fa-check"></i>
+              L'adresse civique est valide.
+            </p>
+            <p class="mt-2 mb-3 text-warning fw-bold" *ngIf="validations['address'] === false">
+              <i class="fas fa-triangle-exclamation"></i>
+              L'adresse civique n'est pas valide.
+            </p>
           </div>
           <div class="col mb-3">
             <label class="form-label">Code postal</label>
-            <input name="postalCode" [ngModel]="user?.postalCode" type="text" class="form-control"
-              placeholder="user.postalCode" (ngModelChange)="formatPostalCode()">
+            <input name="postalCode" [ngModel]="user?.postalCode" type="text" class="form-control" placeholder="___ ___"
+              pattern="[a-zA-Z]\d[a-zA-Z] \d[a-zA-Z]\d" (ngModelChange)="formatPostalCode()">
+            <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['postalCode'] === true">
+              <i class="fas fa-check"></i>
+              Le code postal est valide.
+            </p>
+            <p class="mt-2 mb-3 text-warning fw-bold" *ngIf="validations['postalCode'] === false">
+              <i class="fas fa-triangle-exclamation"></i>
+              Le code postal n'est pas valide.
+            </p>
           </div>
           <div class="col mb-3">
             <label class="form-label">Téléphone</label>
-            <input name="phoneNumber" [ngModel]="user?.phoneNumber" type="text" class="form-control"
-              placeholder="user.phoneNumber" (ngModelChange)="formatPhoneNumber()">
+            <input name="phoneNumber" [ngModel]="user?.phoneNumber" type="tel" class="form-control"
+              placeholder="(___) ___-____" pattern="(\d{3}-){2}\d{4}" (ngModelChange)="formatPhoneNumber()">
+            <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['phoneNumber'] === true">
+              <i class="fas fa-check"></i>
+              Le numéro de téléphone est valide.
+            </p>
+            <p class="mt-2 mb-3 text-warning fw-bold" *ngIf="validations['phoneNumber'] === false">
+              <i class="fas fa-triangle-exclamation"></i>
+              Le numéro de téléphone n'est pas valide.
+            </p>
           </div>
         </div>
         <div class="d-flex justify-content-center">
@@ -163,25 +216,25 @@
       <ng-template ngbSlide>
         <div class="d-flex justify-content-between mx-5">
           <img src="assets/images/users/profilePictures/Picture1.png" alt="Picture 1" type="button"
-            (click)="updateProfilePicture(user?.idUser, 1)">
+            (click)="updatePicture(user?.idUser, 1)">
           <img src="assets/images/users/profilePictures/Picture2.png" alt="Picture 2" type="button"
-            (click)="updateProfilePicture(user?.idUser, 2)">
+            (click)="updatePicture(user?.idUser, 2)">
           <img src="assets/images/users/profilePictures/Picture3.png" alt="Picture 3" type="button"
-            (click)="updateProfilePicture(user?.idUser, 3)">
+            (click)="updatePicture(user?.idUser, 3)">
           <img src="assets/images/users/profilePictures/Picture4.png" alt="Picture 4" type="button"
-            (click)="updateProfilePicture(user?.idUser, 4)">
+            (click)="updatePicture(user?.idUser, 4)">
         </div>
       </ng-template>
       <ng-template ngbSlide>
         <div class="d-flex justify-content-between mx-5">
           <img src="assets/images/users/profilePictures/Picture5.png" alt="Picture 5" type="button"
-            (click)="updateProfilePicture(user?.idUser, 5)">
+            (click)="updatePicture(user?.idUser, 5)">
           <img src="assets/images/users/profilePictures/Picture6.png" alt="Picture 6" type="button"
-            (click)="updateProfilePicture(user?.idUser, 6)">
+            (click)="updatePicture(user?.idUser, 6)">
           <img src="assets/images/users/profilePictures/Picture7.png" alt="Picture 7" type="button"
-            (click)="updateProfilePicture(user?.idUser, 7)">
+            (click)="updatePicture(user?.idUser, 7)">
           <img src="assets/images/users/profilePictures/Picture8.png" alt="Picture 8" type="button"
-            (click)="updateProfilePicture(user?.idUser, 8)">
+            (click)="updatePicture(user?.idUser, 8)">
         </div>
       </ng-template>
     </ngb-carousel>
@@ -228,6 +281,18 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body mb-3 p-4">
+    <div class="d-flex align-items-center my-2">
+      <h4>Arrière plan :</h4>
+      <select class="form-select form-select-lg w-75 ms-3" [(ngModel)]="background">
+        <option value="bg-transparent" selected>Aucun</option>
+        <option value="bg-primary-subtle">Bleu foncé</option>
+        <option value="bg-secondary-subtle">Gris</option>
+        <option value="bg-success-subtle">Vert</option>
+        <option value="bg-danger-subtle">Rouge</option>
+        <option value="bg-warning-subtle">Jaune</option>
+        <option value="bg-info-subtle">Bleu pâle</option>
+      </select>
+    </div>
     <div class="d-flex">
       <h4>Thème :</h4>
       <div class="ms-5 my-auto d-flex justify-content-center fs-5">
@@ -246,9 +311,16 @@
     <div class="d-flex">
       <h4 class="mt-3">Zone à risque :</h4>
       <div class="ms-5 my-auto d-flex justify-content-center">
-        <button class="btn btn-danger" (click)="openModal(closeContent)">
+        <button class="btn btn-danger" *ngIf="!disconnected; else elseBlock" (click)="openModal(closeAccountContent)">
+          <i class="fa-solid fa-lock me-2"></i>
           Fermer mon compte
         </button>
+        <ng-template #elseBlock>
+          <button class="btn btn-success" (click)="openModal(openAccountContent)">
+            <i class="fas fa-lock-open me-2"></i>
+            Réouvrir votre compte
+          </button>
+        </ng-template>
       </div>
     </div>
   </div>
@@ -256,7 +328,7 @@
 </ng-template>
 
 <!-- Close account modal -->
-<ng-template #closeContent let-modal>
+<ng-template #closeAccountContent let-modal>
   <div class="modal-header">
     <h4 class="modal-title mx-auto">
       Vous êtes sur le point de fermer votre profil
@@ -265,12 +337,38 @@
   </div>
   <div class="modal-body">
     <form #closeAccountForm="ngForm" class="w-75 mx-auto my-3 text-center"
-      (ngSubmit)="closeProfile(user?.idUser, closeAccountForm.value.password)">
+      (ngSubmit)="modifyRole('close', user?.idUser, closeAccountForm.value.password)">
       <label class="form-label">Pour continuer,<br><span class="text-danger fs-3 fw-bold">Veuillez entrer votre mot de
           passe :</span></label>
       <div class="input-group input-group-lg mx-auto mb-3">
         <span class="input-group-text">
-          <i class="fa-solid fa-user-slash"></i>
+          <i class="fas fa-user-slash"></i>
+        </span>
+        <input name="password" ngModel type="password" class="form-control" placeholder="Mot de passe">
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="submit" class="btn btn-danger" (click)="modal.close()">Fermer le compte</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Open account modal -->
+<ng-template #openAccountContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title mx-auto">
+      Vous êtes sur le point de fermer votre profil
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <form #openAccountForm="ngForm" class="w-75 mx-auto my-3 text-center"
+      (ngSubmit)="modifyRole('open', user?.idUser, openAccountForm.value.password)">
+      <label class="form-label">Pour continuer,<br><span class="text-danger fs-3 fw-bold">Veuillez entrer votre mot de
+          passe :</span></label>
+      <div class="input-group input-group-lg mx-auto mb-3">
+        <span class="input-group-text">
+          <i class="fas fa-user-slash"></i>
         </span>
         <input name="password" ngModel type="password" class="form-control" placeholder="Mot de passe">
       </div>
