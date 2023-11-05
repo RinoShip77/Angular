@@ -391,6 +391,15 @@ export class ElectrolibService {
     //PEUT-ÊTRE UNE ERREUR AVEC LE FORM QUE J'ENVOIE (À VÉRIFIER)
     return this.http.put<Book>(url, requestData);*/
   }
+
+  //--------------------------------
+  // Route to get all the genre
+  //--------------------------------
+  getUser(idUser: number) {
+    let url = urlServer + 'users/' + idUser;
+
+    return this.http.get<User>(url);
+  }
   
   //--------------------------------
   // Update the profile informations

@@ -35,6 +35,7 @@ const routes: Routes = [
   { path: "reservations", component: ReservationComponent },
   { path: "borrow", component: BorrowComponent },
   { path: "profile", component: ProfileComponent },
+  { path: "profile/:id", component: ProfileComponent },
   { path: "createBook", component: CreateBookComponent },
   { path: "editBook/:id", component: EditBookComponent },
   { path: "adminBorrows", component: AdminBorrowsComponent },

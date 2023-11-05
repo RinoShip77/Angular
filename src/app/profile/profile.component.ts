@@ -3,7 +3,7 @@ import { User } from '../model/User';
 import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ENCRYPTION_KEY, getURLProfilePicture } from '../util';
 import { ToastService } from '../toast.service';
 import { EncryptionService } from '../encryption.service';
@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   colorSwitch: boolean = false;
   background: string = '';
   url: string = '';
+  margin: string = '';
   validations: { [key: string]: boolean | null | undefined } = {
     email: null,
     firstName: null,
@@ -33,14 +34,31 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to build the component
   //---------------------------------
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router, private toastService: ToastService, private Encryption: EncryptionService) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService, private router: Router, private toastService: ToastService, private Encryption: EncryptionService, private route: ActivatedRoute) { }
 
   //---------------------------------
   // Function to initialize the component
   //---------------------------------
   ngOnInit() {
-    if (this.dataService.getUser() != undefined) {
-      this.user = this.dataService.getUser();
+    let id = Number(this.route.snapshot.paramMap.get('id'));
+
+    if (!id) {
+      if (this.dataService.getUser() != undefined) {
+        this.user = this.dataService.getUser();
+      }
+    } else {
+      this.electrolibService.getUser(id).subscribe(
+        user => {
+          this.user = user;
+        }
+      );
+      this.margin = 'admin';
+    }
+
+    if (this.checkRoles()) {
+      this.role = 'Administrateur';
+    } else {
+      this.role = 'Membre';
     }
 
     if (localStorage.getItem('theme') != 'light') {
@@ -50,12 +68,6 @@ export class ProfileComponent implements OnInit {
     }
 
     this.url = getURLProfilePicture(this.user?.idUser);
-
-    if (this.checkRoles()) {
-      this.role = 'Administrateur';
-    } else {
-      this.role = 'Membre';
-    }
   }
 
   //---------------------------------
