@@ -286,17 +286,17 @@
       <div>
         <label class="form-label">Mot de passe</label>
         <input name="activePassword" ngModel type="password" class="form-control"
-          placeholder="Veuillez insérer votre mot de passe actuel">
+          placeholder="Veuillez insérer votre mot de passe actuel" pattern="([a-zA-Z]|\d){8,}" required>
       </div>
       <div class="my-3">
         <label class="form-label">Nouveau mot de passe</label>
         <input name="newPassword" ngModel type="password" class="form-control"
-          placeholder="Veuillez insérer votre nouveau mot de passe actuel">
+          placeholder="Veuillez insérer votre nouveau mot de passe actuel" pattern="([a-zA-Z]|\d){8,}" required>
       </div>
       <div class="mb-3">
         <label class="form-label">Confirmation du nouveau mot de passe</label>
         <input name="confirmationPassword" ngModel type="password" class="form-control"
-          placeholder="Veuillez de nouveau insérer votre nouveaumot de passe actuel">
+          placeholder="Veuillez de nouveau insérer votre nouveaumot de passe actuel" pattern="([a-zA-Z]|\d){8,}" required>
       </div>
       <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-outline-warning mx-auto mt-2 fs-5 fw-bold" (click)="modal.dismiss()">

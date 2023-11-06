@@ -133,42 +133,50 @@ export class ProfileComponent implements OnInit {
   // Function to change the user password
   //---------------------------------
   updatePassword(idUser: number | undefined, passwords: any) {
-    if (this.user?.password === passwords.activePassword) {
-      if (passwords.activePassword !== passwords.newPassword) {
-        if (passwords.newPassword === passwords.confirmationPassword) {
-          // * Encrypte the password
-          // * De-comment this line to encrypte
-          //let encrypted = this.Encryption.set(ENCRYPTION_KEY, passwords.newPassword);
-
-          // * De-comment this line to encrypte and erase the next line
-          //this.electrolibService.updateProfile('updatePassword', idUser, { newPassword: encrypted }).subscribe(
-          this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
-            user => {
-              this.toastService.show('Votre mot de passe a été mis à jour.', {
-                classname: 'bg-success',
-              });
-              this.dataService.updatePassword(passwords.newPassword);
-            },
-            (error) => {
-              this.toastService.show('La mise à jour a échoué.', {
-                classname: 'bg-danger',
-              });
-            }
-          );
-        } else {
-          this.toastService.show('Les nouveaux mot de passe ne correspondent pas.', {
-            classname: 'bg-danger',
-          });
-        }
-      } else {
-        this.toastService.show('Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement.', {
-          classname: 'bg-danger',
-        });
-      }
-    } else {
+    if (this.user?.password != passwords.activePassword) {
       this.toastService.show('Le mot de passe saisi ne correspond pas à votre mot de passe actuel.', {
         classname: 'bg-danger',
       });
+    } else {
+      if (passwords.activePassword === passwords.newPassword) {
+        this.toastService.show('Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement.', {
+          classname: 'bg-danger',
+        });
+      } else {
+        let pattern = /([a-zA-Z]|\d){8,}/;
+
+        if (!pattern.test(passwords.newPassword)) {
+          this.toastService.show('Le nouveau mot de passe ne respecte pas les critères.', {
+            classname: 'bg-danger',
+          });
+        } else {
+          if (passwords.newPassword !== passwords.confirmationPassword) {
+            this.toastService.show('Les nouveaux mot de passe ne correspondent pas.', {
+              classname: 'bg-danger',
+            });
+          } else {
+            // * Encrypte the password
+            // * De-comment this line to encrypte
+            //let encrypted = this.Encryption.set(ENCRYPTION_KEY, passwords.newPassword);
+
+            // * De-comment this line to encrypte and erase the next line
+            //this.electrolibService.updateProfile('updatePassword', idUser, { newPassword: encrypted }).subscribe(
+            this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
+              user => {
+                this.toastService.show('Votre mot de passe a été mis à jour.', {
+                  classname: 'bg-success',
+                });
+                this.dataService.updatePassword(passwords.newPassword);
+              },
+              (error) => {
+                this.toastService.show('La mise à jour a échoué.', {
+                  classname: 'bg-danger',
+                });
+              }
+            );
+          }
+        }
+      }
     }
   }
 
