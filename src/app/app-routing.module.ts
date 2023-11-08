@@ -8,7 +8,6 @@ import { AdminInventoryComponent } from './admin-inventory/admin-inventory.compo
 import { ConnectionComponent } from './connection/connection.component';
 import { BorrowDetailsComponent } from './borrow-details/borrow-details.component';
 import { HistoryComponent } from './history/history.component';
-import { BorrowComponent } from './borrow/borrow.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BorrowsComponent } from './borrows/borrows.component';
 import { CreateBookComponent } from './create-book/create-book.component';
@@ -20,6 +19,10 @@ import { ReservationComponent } from './reservation/reservation.component';
 import { RecommendedComponent } from './recommended/recommended.component';
 import { CreateBorrowComponent } from './create-borrow/create-borrow.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { AboutComponent } from './about/about.component';
+import { ShareComponent } from './share/share.component';
+import { PaymentComponent } from './payment/payment.component';
+import { AdminShareComponent } from './admin-share/admin-share.component';
 
 // Create a routes Array
 const routes: Routes = [
@@ -33,7 +36,6 @@ const routes: Routes = [
   { path: "borrowDetails/:id", component: BorrowDetailsComponent },
   { path: "history", component: HistoryComponent },
   { path: "reservations", component: ReservationComponent },
-  { path: "borrow", component: BorrowComponent },
   { path: "profile", component: ProfileComponent },
   { path: "profile/:id", component: ProfileComponent },
   { path: "createBook", component: CreateBookComponent },
@@ -43,7 +45,11 @@ const routes: Routes = [
   { path: "adminUsers", component: AdminUsersComponent },
   { path:"recommended",component:RecommendedComponent},
   { path: "create-borrow", component:CreateBorrowComponent},
-  { path: "create-user", component:CreateUserComponent}
+  { path: "create-user", component:CreateUserComponent},
+  { path:"about",component:AboutComponent},
+  { path:"share",component:ShareComponent},
+  { path:"payment",component:PaymentComponent},
+  { path:"adminShare",component:AdminShareComponent}
 
 ];
 

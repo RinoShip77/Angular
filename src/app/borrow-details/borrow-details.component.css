@@ -1,3 +1,114 @@
+
+
+.logo
+{
+    margin-top: 50px;
+    justify-content: center;
+}
+
+.title-bar
+{
+    background-color: rgb(53, 53, 53);
+    color: white;
+    margin-top: 9px;
+    padding: 20px;
+    padding-bottom: 10px;
+    border-left: 3px solid rgb(148, 148, 148);
+}
+
+.location-bar
+{
+    background-color: rgb(223, 223, 223);
+    color: rgb(53, 53, 53);
+    padding: 5px;
+    border-bottom: 3px solid rgb(148, 148, 148);
+    border-left: 3px solid rgb(148, 148, 148);
+    border-bottom-left-radius: 10px;
+}
+
+.borrow-div
+{
+    margin-top: 20px;
+    padding: 12px; 
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgba(78, 92, 131, 0.596);
+    margin-bottom: -15px;
+    border-right: 0;
+    border-top-left-radius: 10px;
+}
+
+.borrow-div-dark
+{
+    margin-top: 20px;
+    padding: 12px; 
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: rgb(40,44,47);
+    border: 2px solid rgba(78, 92, 131, 0.596);
+    margin-bottom: -15px;
+    border-right: 0;
+    border-top-left-radius: 10px;
+}
+
+.div-icones
+{
+    font-size: 24px;
+    width:max-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    border-bottom: 4px solid rgba(34, 34, 78, 0.548);
+    border-radius: 10px;
+}
+
+.div-icones-dark
+{
+    font-size: 24px;
+    width:max-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    border-bottom: 4px solid rgb(76, 76, 161);
+    border-radius: 10px;
+}
+
+.titre-div
+{
+    margin-left: 20px; 
+    margin-bottom: 20px; 
+    border-bottom: 3px rgba(0, 0, 0, 0.185) solid; 
+    border-bottom-left-radius:10px; 
+    padding-bottom: 10px;
+}
+
+.titre-div-dark
+{
+    margin-left: 20px; 
+    margin-bottom: 20px; 
+    border-bottom: 3px rgba(255, 255, 255, 0.322) solid; 
+    border-bottom-left-radius:10px; 
+    padding-bottom: 10px;
+}
+
+.btn-div
+{
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgba(78, 92, 131, 0.596);
+    padding: 15px;
+    border-right: 0;
+}
+
+.border-btn
+{
+    border: 2px solid rgba(0, 0, 0, 0.247);
+}
+
 .master-div
 {
     margin: 0 auto;
@@ -16,11 +127,12 @@
     margin-left: 5px;
     margin-right: 20px;
 
-    background-color: rgba(126, 126, 126, 0.072);
-    border: 0;
-    border-right: 6px solid;
-    border-radius: 15px;
-    border-color: rgba(109, 109, 109, 0.322);
+    background-color: rgba(126, 126, 126, 0.089);
+    border: 2px solid;
+    border-right: 8px solid;
+    border-left: 8px solid;
+    border-radius: 17px;
+    border-color: rgba(109, 109, 109, 0.397);
 }
 
 .image-livre
@@ -35,20 +147,31 @@
 {
     text-align: left; 
     padding: 20px;
-    
+    background-color: rgba(126, 126, 126, 0.089);
+    height: fit-content;
+    border-radius: 15px;
+    border: 3px solid rgba(109, 109, 109, 0.144);
 }
 
 .div-info-commande
 {
     text-align: left; 
     padding: 20px;
-    padding-top: 40px;
-
     background-color: rgba(126, 126, 126, 0.072);
-    border: 0;
-    border-left: 6px solid;
+    border: 2px solid;
+    border-left: 8px solid;
+    border-right: 8px solid;
+    border-radius: 17px;
+    border-color: rgba(109, 109, 109, 0.397);
+}
+
+.div-txt-cmd
+{
+    background-color: rgba(0, 0, 0, 0.075);
+    padding: 20px;
+    height: fit-content;
     border-radius: 15px;
-    border-color: rgba(109, 109, 109, 0.322);
+    border: 3px solid rgba(109, 109, 109, 0.144);
 }
 
 .btn-details
@@ -62,15 +185,22 @@
     margin-top: 20px;
     padding: 20px;
     border-top: 3px solid;
+    border-bottom: 3px solid;
     background-color: rgba(126, 126, 126, 0.247);
     border-radius: 4px;
     border-color: rgba(109, 109, 109, 0.322);
 }
 
-label
+.div-info-commande > label
 {
     font-weight: 600;
 }
+
+.div-info-emprunt > label
+{
+    font-weight: 600;
+}
+
 
 .status-not-urgent
 {
@@ -102,4 +232,49 @@ a > span
     text-decoration: underline;
     cursor: pointer;
     color: rgba(57, 93, 134, 0.781);
+}
+
+.img-details
+{
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 170px;
+    width: 170px;
+}
+
+.div-image
+{
+    margin-left: 20px;
+    height: 200px;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.247);
+    border: 5px rgba(0, 0, 0, 0.452) ridge;
+    border-radius: 10px;
+}
+
+.titre-modal-return
+{
+    font-size: 24px;
+    margin-top: 10px; 
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.icon-modal-return
+{
+    font-size: 30px;
+}
+
+.hr-light
+{
+    color:rgba(0, 0, 0, 0.089);
+}
+
+.hr-dark
+{
+    color:rgba(255, 255, 255, 0.089);
 }

@@ -1,0 +1,106 @@
+<div class="mt-2">
+    <div class="title-bar">
+        <div>
+            <h4 style="margin-left: 20px;">
+                <i class="fa-solid fa-circle-info me-2"></i>&nbsp;&nbsp;
+                <span class="titres-emprunts">À Propos</span>
+            </h4>
+        </div>
+    </div>
+    <div class="info-div row" [ngClass]="
+    {
+       'info-div' : theme == '',
+       'info-div-dark' : theme == 'dark',
+    }">
+        <div class="div-infos-importantes">
+            <div class="div-infos-titre" [ngClass]="
+            {
+               'div-infos-titre' : theme == '',
+               'div-infos-titre-dark' : theme == 'dark',
+            }">Adresses</div>
+            <div class="div-contact-info" [ngClass]="
+            {
+               'div-contact-info' : theme == '',
+               'div-contact-info-dark' : theme == 'dark',
+            }">
+                <span>
+                    455, rue Fournier Saint-Jérôme (Québec) J7Y 4V2
+                </span>
+                <br>
+                <span>
+                    +1 450-436-1580
+                </span>
+                <br>
+                <span>
+                    electrolibsupport@outlook.ca
+                </span>
+                <hr style="margin-top: 30px; margin-bottom: 30px;">
+                <span>
+                    Vous pouvez nous écrire un commentaire, une suggestion ou une plainte sur l'onglet:
+                    <a [routerLink]="['../share']">
+                        Communiquez votre expérience
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="div-infos-importantes">
+            <div class="div-infos-titre" [ngClass]="
+            {
+               'div-infos-titre' : theme == '',
+               'div-infos-titre-dark' : theme == 'dark',
+            }">Notre pincipal intérêt</div>
+            <div class="div-contact-info" [ngClass]="
+            {
+               'div-contact-info' : theme == '',
+               'div-contact-info-dark' : theme == 'dark',
+            }">
+                <span>
+                    Eléctrolib vous permet de visualiser clairement l'inventaire de nos livres
+                    ainsi que la liste de vos emprunts et de vos réservations.
+                    <br><br>
+                    Une page profile vous permet de voir et de mettre à jour les informations de votre profile.
+                    <br><br>
+                    Vous avez aussi la possibilité d'emprunter, de réserver ou de retourner les livres.
+                    
+                </span>
+            </div>
+        </div>
+        <div class="div-infos-importantes">
+            <div class="div-infos-titre" [ngClass]="
+            {
+               'div-infos-titres' : theme == '',
+               'div-infos-titre-dark' : theme == 'dark',
+            }">Informations Importantes</div>
+            <div class="div-contact-info" [ngClass]="
+            {
+               'div-contact-info' : theme == '',
+               'div-contact-info-dark' : theme == 'dark',
+            }">
+                <span>
+                    455, rue Fournier Saint-Jérôme (Québec) J7Y 4V2
+                </span>
+                <br>
+                <span>
+                    +1 450-436-1580
+                </span>
+                <br>
+                <span>
+                    electrolibsupport@outlook.ca
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <br>
+    <div class="location-map">
+        <span class="row" style="justify-content: center; margin-bottom: 10px;">Venez nous rendre visite</span>
+        <iframe class="shadow-lg row" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2782.605157084539!2d-74.00255968416035!3d45.77910272039621!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccf2ca45e889b7f%3A0x23b59b4c40094d27!2zQ8OpZ2VwIGRlIFNhaW50LUrDqXLDtG1l!5e0!3m2!1sfr!2sca!4v1672853973967!5m2!1sfr!2sca" aria-hidden="false" tabindex="0" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+    <hr>
+    <div class="d-flex logo">
+        <i class="fas fa-book-bookmark mt-1 fs-1"></i>
+        <h1>Electrolib</h1>
+    </div>
+</div>

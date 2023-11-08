@@ -1,0 +1,57 @@
+<div class="mt-2">
+    <div class="title-bar">
+        <div>
+            <h4 style="margin-left: 20px;">
+                <i class="fa-solid fa-money-check-dollar" style="color: #20bc63;"></i>&nbsp;&nbsp;
+                <span class="titres-emprunts">Paiement des frais</span>
+            </h4>
+        </div>
+    </div>
+    <div class="div-icon">
+        <i class="fa-brands fa-paypal" style="color: #2a5aac; font-size: 40px;"></i>
+    </div>
+    <div class="div-payment" 
+    [ngClass]="
+    {
+       'div-payment' : theme == '',
+       'div-payment-dark' : theme == 'dark',
+    }">
+        <h5 class="titres-emprunts" style="font-weight: 600; text-decoration: underline;">Paiement des frais liés à votre compte <br>
+        (par carte)
+        </h5>
+        <br>
+        <span class="label-emprunts-bold" style="color:rgb(64, 123, 201); font-size: 18px;">{{user?.firstName}}</span>
+        <br>
+        <span class="label-emprunts-bold" style="color:green; text-decoration: underline; font-size: 18px;">{{user?.fees}}$ de frais</span>
+        <br><br>
+        <span class="label-emprunts">Cliquez pour payer</span>
+        <div #paymentRef class="paypal"></div>
+    </div>
+</div>
+
+<!-- Modal pour confirmer le paiement des frais -->
+<ng-template #confirmModal let-modal>
+    <div class="modal-header modal-lg" style="text-align: center; align-items: center; display: flex; justify-content: center;">
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Paiement des frais</h4>
+    </div>
+  
+    <!-- infos sur le paiement -->
+    <div class="modal-body" style="text-align: center; padding: 40px;" 
+    [ngClass]="
+    {
+       'modal-body-light' : theme == '',
+       'modal-body-dark' : theme == 'dark',
+    }">
+        <h4 class="titres-emprunts" style="font-weight: 600; color: green; text-decoration: underline;">Paiement des frais réussi!</h4>
+        <br><br>
+        <span class="label-emprunts" style="font-size: 18px;">Les frais de votre comptes ont été mis à 0</span>
+        <br><br>
+        <span class="label-emprunts" style="font-size: 18px;">Noubliez pas de remettre vos emprunts avant la date limite pour ne plus avoir à payer de frais</span>
+        <br><br>
+        <span class="label-emprunts" style="font-size: 18px; text-decoration: underline;">Merci de votre coopération! Bonne lecture!</span>
+    </div>
+    <!-- Bouton pour confirmer et fermer la modal -->
+    <div class="modal-footer" style="text-align: center; justify-content: center;">
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Fermer</button>
+    </div>
+</ng-template>

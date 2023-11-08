@@ -1,0 +1,115 @@
+.title-bar
+{
+    background-color: rgb(53, 53, 53);
+    color: white;
+    margin-top: 9px;
+    padding: 20px;
+    padding-bottom: 10px;
+    border-left: 3px solid rgb(148, 148, 148);
+    border-bottom: 3px solid rgb(148, 148, 148);
+    border-bottom-left-radius: 10px;
+}
+
+.div-icon
+{
+    margin: auto;
+    text-align: center;
+    width: fit-content;
+    padding: 15px;
+    padding-bottom: 7px;
+    margin-top: 40px;
+    border-bottom: 5px solid black;
+    border-radius: 15px;
+}
+
+.div-icon-dark
+{
+    margin: auto;
+    text-align: center;
+    width: fit-content;
+    padding: 15px;
+    padding-bottom: 7px;
+    margin-top: 40px;
+    border-bottom: 5px solid rgb(209, 209, 209);
+    border-radius: 15px;
+}
+
+.div-message
+{
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 40px;
+    padding: 40px;
+    background-color: lightgray;
+    border: 2px solid gray;
+}
+
+.div-message-dark
+{
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 40px;
+    padding: 40px;
+    background-color: rgb(40,44,47);
+    border: 2px solid lightgray;
+}
+
+
+.div-cat
+{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+a
+{
+    cursor: pointer;
+    text-decoration: underline;
+    color:rgb(35, 36, 71)
+}
+
+label
+{
+    font-weight: 600;
+}
+
+select
+{
+    width: fit-content;
+    height: auto;
+}
+
+input
+{
+    width: fit-content;
+    height: fit-content;
+}
+
+button
+{
+    width: 150px;
+    border: 2px solid rgba(0, 0, 0, 0.247);
+    margin: auto;
+}
+
+.logo
+{
+    margin-top: 50px;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+option
+{
+    font-size: 16px;
+    width: 40px;
+}
+
+.div-content-modal
+{
+    font-size: 18px;
+    margin-bottom: 20px;
+    background-color: rgb(233, 233, 233);
+    border: 2px solid lightgray;
+    padding: 10px;
+}

@@ -18,6 +18,7 @@ export class User {
   roles: string = '["ROLE_USER"]';
   asObservable: any;
   next: any;
+  fees:number = 0;
 
   // Pour l'affichage des users dans admin
   totalPenalities: number = 0;

@@ -1,63 +1,114 @@
-<div class="col-11 master-div">
-    <!-- Titre de la page -->
-    <h4 style="margin-left: 20px;">Mes Emprunts</h4>
-    <hr>
 
-    <div class="shadow-sm rounded border border-2" style="padding:30px">
-        
-    <!-- Div contenant le select pour trier la table -->
-    <div style="float: right; ">
-        <label>Trier par: </label>
-        <select class="select-style" (change)="orderBySelect($event)">
-            <option value="borrowedDate" selected>Id / Date d'emprunt</option>
-            <option value="title">Titre du livre</option>
-            <option value="dueDate" >Date retour / Status / Frais</option>
-        </select>
-        <select class="select-style" (change)="orderWayBySelect($event)" style="width: 100px;">
-            <option value="ASC" selected>Croissant</option>
-            <option value="DESC">Décroissant</option>
-        </select>
+<div style="background-color: rgba(0, 0, 0, 0.068); min-height: 850px;">
+    <!-- Titre de la page -->
+    <div class="title-bar">
+        <div>
+            <h4 style="margin-left: 20px;">
+                <i class="fa-solid fa-book" style="color: rgb(114, 114, 250);"></i>&nbsp;&nbsp;
+                <span class="titres-emprunts">Mes Emprunts</span>
+            </h4>
+        </div>
+    </div>
+    
+
+    <!-- Localisation sur la page -->
+    <div class="location-bar" style="overflow: hidden;">
+        <div class="col-5" style="overflow: hidden; float:left; margin-left: 20px;">
+            <i class="fa-regular fa-circle-dot fa-fade" style="color: #198754; margin-right: 10px;"></i>
+            <span class="location-page-link sous-titres-emprunts">emprunts</span>
+            {{window}}
+        </div>
+        <div *ngIf="user && user.fees != 0" 
+        style="border: 2px solid rgb(202, 201, 201); background-color: lightgray; border-radius: 5px; font-size: 17px; width: fit-content; color:red; text-decoration: underline; float:left; margin-left: 2%; padding-left: 5px; padding-right: 5px;" 
+        class="col-1 label-emprunts-bold overflow: hidden;">
+            <span>Frais de compte: {{user.fees}}$</span>
+        </div>
     </div>
 
-    <!-- Tableau contenant les emprunts -->
-    <table class="table table-bordered shadow-lg table-emprunts">
+    <!-- Boutons pour transitionner à l'historique des réservations -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button [routerLink]="['../history']" data-toggle="modal" type="button" class="btn btn-warning border-btn label-emprunts">
+            <i class="fa-solid fa-clock-rotate-left"></i>&nbsp;
+            Historique d'emprunts 
+        </button>
+    </div>
 
-        <!-- Titre des colonnes de la table -->
-        <thead class="table-secondary text-center">
-            <tr>
-                <th><i class="fa-regular fa-clock"></i></th>
-                <th (click)="sortBy('idBorrow')">Id
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('title')">Titre du livre
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('borrowedDate')">Date de l'emprunt
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('dueDate')">Date limite de retour
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('dueDate')">Status
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th (click)="sortBy('dueDate')">Frais de retard
-                    <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
-                    <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
-                </th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+    <!-- Séparateur -->
+    <div
+        style="height: 0; border-bottom: 8px double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;" [ngClass]="
+        {
+           'hr-light' : theme == '',
+           'hr-dark' : theme == 'dark',
+        }">
+    </div>
 
-        <!-- Chaque rangée de la table correspond à 1 emprunt -->
-        <tbody class="table-light text-center">
-            <tr *ngFor="let borrow of borrows" 
-             [ngClass]="
+    <div class="table-div" [ngClass]="
+    {
+       'table-div' : theme == '',
+       'table-div-dark' : theme == 'dark',
+    }">
+
+        <!-- Div contenant le select pour trier la table -->
+        <div class="row" style="margin-bottom: -25px;">
+            <div *ngIf="user" class="col-6 label-emprunts">
+                <i class="fa-regular fa-user"></i>&nbsp; 
+                Emprunts de 
+                <span [routerLink]="['../profile']" style="text-decoration: underline; font-weight: 600; cursor: pointer;" class="label-emprunts">{{user.firstName}}</span>
+            </div>
+            <div style="float: right; text-align:right" class="col-6">
+                <label class="label-emprunts">Trier par: </label>
+                <select class="select-style label-emprunts" (change)="orderBySelect($event)" style="width: 220px; text-align: center;">
+                    <option value="borrowedDate" selected>Id / Date d'emprunt</option>
+                    <option value="title">Titre du livre</option>
+                    <option value="dueDate">Date retour / Status / Frais</option>
+                </select>
+                &nbsp;&nbsp;
+                <label class="label-emprunts">Ordre: </label>
+                <select class="select-style label-emprunts" (change)="orderWayBySelect($event)" style="width: 130px; text-align: center;">
+                    <option value="ASC" selected>Croissant</option>
+                    <option value="DESC">Décroissant</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tableau contenant les emprunts -->
+        <table class="table table-bordered shadow-lg table-emprunts">
+
+            <!-- Titre des colonnes de la table -->
+            <thead class="table-secondary text-center">
+                <tr>
+                    <th><i class="fa-regular fa-clock"></i></th>
+                    <th (click)="sortBy('idBorrow')">Id
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('title')">Titre du livre
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('borrowedDate')">Date d'emprunt
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('dueDate')">Limite de retour
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('dueDate')">Status
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th (click)="sortBy('dueDate')">Frais de retard
+                        <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
+                        <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <!-- Chaque rangée de la table correspond à 1 emprunt -->
+            <tbody class="table-light text-center">
+                <tr *ngFor="let borrow of borrows" [ngClass]="
              {
                 'status-not-urgent' : borrow.determineStatus() == 'En cours',
                 'status-semi-urgent' : borrow.determineStatus() == 'Semi-urgent',
@@ -65,145 +116,226 @@
                 'status-late' : borrow.determineStatus() == 'En retard'
              }">
 
-                <!-- Icône du status au début de a rangée -->
-                <td>
-                    <div placement="top">
-                        <i class="fa-solid fa-thumbs-up icone" style="color: #01a214;" *ngIf="borrow.determineStatus() == 'En cours'" ngbTooltip="En cours"></i>
-                        <i class="fa-solid fa-exclamation icone" style="color: #b98904;" *ngIf="borrow.determineStatus() == 'Semi-urgent'" ngbTooltip="Semi-urgent"></i>
-                        <i class="fa-solid fa-exclamation icone" style="color: #f14b04;" *ngIf="borrow.determineStatus() == 'Urgent'" ngbTooltip="Urgent"></i>
-                        <i class="fa-solid fa-triangle-exclamation icone" style="color: #bd0000;" *ngIf="borrow.determineStatus() == 'En retard'" ngbTooltip="En retard"></i>
-                    </div>
-                </td>
+                    <!-- Icône du status au début de a rangée -->
+                    <td>
+                        <div placement="top">
+                            <i class="fa-solid fa-thumbs-up icone" style="color: #01a214;"
+                                *ngIf="borrow.determineStatus() == 'En cours'" ngbTooltip="En cours"></i>
+                            <i class="fa-solid fa-exclamation icone" style="color: #b98904;"
+                                *ngIf="borrow.determineStatus() == 'Semi-urgent'" ngbTooltip="Semi-urgent"></i>
+                            <i class="fa-solid fa-exclamation icone" style="color: #f14b04;"
+                                *ngIf="borrow.determineStatus() == 'Urgent'" ngbTooltip="Urgent"></i>
+                            <i class="fa-solid fa-triangle-exclamation icone" style="color: #bd0000;"
+                                *ngIf="borrow.determineStatus() == 'En retard'" ngbTooltip="En retard"></i>
+                        </div>
+                    </td>
 
-                <!-- Reste des informations -->
-                <td scope="row" class="td-thick">{{borrow.idBorrow}}</td>
-                <td>{{borrow.book.title}}</td>
-                <td>{{borrow.borrowedDate}}</td>
-                <td>{{borrow.formattedDueDate()}}</td>
-                <td class="td-thick">{{borrow.determineStatus()}}</td>
+                    <!-- Reste des informations -->
+                    <td scope="row" class="td-thick">{{borrow.idBorrow}}</td>
+                    <td>{{borrow.book.title}}</td>
+                    <td>{{borrow.borrowedDate}}</td>
+                    <td>{{borrow.formattedDueDate()}}</td>
+                    <td class="td-thick">{{borrow.determineStatus()}}</td>
 
-                <td *ngIf="borrow.calculateFee() == null" class="td-thick">{{borrow.calculateFee()}}</td>
-                <td *ngIf="borrow.calculateFee() != null" class="td-thick">{{borrow.calculateFee()}}$</td>
+                    <td *ngIf="borrow.calculateFee() == null" class="td-thick">{{borrow.calculateFee()}}</td>
+                    <td *ngIf="borrow.calculateFee() != null" class="td-thick">{{borrow.calculateFee()}}$</td>
 
-                <!-- Boutons renouvellement et détails de l'emprunt-->
-                <td>
-                    <a [routerLink]="['../borrowDetails', borrow.idBorrow]"><i class="fa-regular fa-file-lines col-6 icone-petite i-active" ngbTooltip="Plus de détails"></i></a>
-                    
-                    <a *ngIf="borrow.verifyRenew()" (click)="openRenewModal(renewModal, borrow)"><i class="fa-solid fa-repeat col-6 icone-petite i-active" ngbTooltip="Renouveler l'emprunt"></i></a>
-                    <a *ngIf="borrow.verifyRenew() == false"><i class="fa-solid fa-repeat col-6 icone-petite desactivated" ngbTooltip="Renouvelement indisponible"></i></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <!-- Boutons renouvellement et détails de l'emprunt-->
+                    <td>
+                        <a [routerLink]="['../borrowDetails', borrow.idBorrow]"><i
+                                class="fa-regular fa-file-lines col-6 icone-petite i-active" style="color:#1f3151; font-size: 22px;"
+                                ngbTooltip="Plus de détails"></i></a>
 
-    <!-- Boutons en bas de la page -->
-    <div style="justify-content: space-between; display: flex;">
-        <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary">À propos des emprunts</button>
-        <button [routerLink]="['../history']" data-toggle="modal" type="button" class="btn btn-warning" >Historique d'emprunts</button>
-        <button [routerLink]="['../inventory']" type="button" class="btn btn-secondary">Retourner à l'inventaire</button>
+                        <a *ngIf="borrow.verifyRenew()" (click)="openRenewModal(renewModal, borrow)"><i
+                                class="fa-solid fa-repeat col-6 icone-petite i-active"
+                                ngbTooltip="Renouveler l'emprunt"></i></a>
+                        <a *ngIf="borrow.verifyRenew() == false"><i
+                                class="fa-solid fa-repeat col-6 icone-petite desactivated"
+                                ngbTooltip="{{borrow.renewReason()}}"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Bouton en bas de la page -->
+        <div class="div-btns" style="justify-content: space-between; display: flex;">
+            <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary border-btn label-emprunts">À propos des
+                emprunts
+            </button>
+            <button class="btn btn-success border-btn label-emprunts" (click)="openFeesModal(feesModal)" *ngIf="user && user.fees != 0">
+                <i class="fa-solid fa-money-check-dollar me-2"></i>
+                Payer les frais
+            </button>
+            <button class="btn btn-success border-btn label-emprunts" *ngIf="user && user.fees == 0" disabled>
+                Aucun frais
+            </button>
+            <button [routerLink]="['../inventory']" type="button" class="btn btn-secondary border-btn label-emprunts">Retourner à
+                l'inventaire</button>
+        </div>
     </div>
-</div>
+    <div class="d-flex logo">
+        <i class="fas fa-book-bookmark mt-1 fs-1"></i>
+        <h1>Electrolib</h1>
+    </div>
 </div>
 
 <!-- Modal pour la confirmation de renouvellement -->
 <ng-template #renewModal let-modal>
     <div class="modal-header modal-lg" style="text-align: center; align-items: center; display: flex;">
-      <h4 class="modal-title" id="modal-basic-title">Renouveler l'emprunt</h4>
+        <h4 *ngIf="selectedBorrowModal.getRenewsLeft() > 1" class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Renouveler l'emprunt ({{selectedBorrowModal.getRenewsLeft()}} restants)</h4>
+        <h4 *ngIf="selectedBorrowModal.getRenewsLeft() == 1" class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Renouveler l'emprunt ({{selectedBorrowModal.getRenewsLeft()}} restant)</h4>
     </div>
-  
-    <!-- Info importantes sur le fonctionnement des emprunts etc. -->
+
+    <!-- Info sur l'emprunt à renouveller -->
     <div class="modal-body" style="text-align: center;">
-      <label>Êtes vous sûr de vouloir renouveler :</label> 
-      <br>
-      <span class="td-thick">{{selectedBorrowModal.book.title}}</span>
-      <br>
-      <img class="image-livre" src="../assets/images/books/1.png">
+        <label style="margin-bottom: 15px;" class="label-emprunts">Êtes vous sûr de vouloir renouveler :</label>
+        
+        <div class="div-info-renew">
+            <span class="td-thick label-emprunts" style="margin-bottom: 10px;">{{selectedBorrowModal.book.title}}</span>
+            <br> 
+            <img class="image-livre" src="../assets/images/books/1.png" style="margin-top: 10px;">
+        </div>
+
+        <label style="margin-top: 15px; font-weight: 600; text-decoration: underline;" class="label-emprunts-bold">Une durée d'un mois sera ajouté à votre emprunt</label>
+        <br>
+        <label *ngIf="selectedBorrowModal.getRenewsLeft() > 1" style="margin-top: 5px; font-weight: 600; color: rgb(5, 131, 5);" class="label-emprunts">{{selectedBorrowModal.getRenewsLeft()}} renouvellements restants</label>
+        <label *ngIf="selectedBorrowModal.getRenewsLeft() == 1" style="margin-top: 5px; font-weight: 600; color: rgb(5, 131, 5);" class="label-emprunts">{{selectedBorrowModal.getRenewsLeft()}} renouvellements restant</label>
     </div>
+    <!-- Boutons pour fermer la modal ou confirmer le renouvellement -->
+    <div class="modal-footer">
+        <button class="btn btn-primary label-emprunts" type="submit" name="submit" value="Submit" (click)="save()">Confirmer</button>
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
+    </div>
+</ng-template>
+
+<!-- Modal pour confirmer le à propos -->
+<ng-template #about let-modal>
+    <div class="modal-header modal-lg">
+        <h4 class="modal-title" id="modal-basic-title">À Propos</h4>
+    </div>
+
+    <!-- Info importantes sur le fonctionnement des emprunts etc. -->
+    <div class="modal-body">
+        <h5>Informations sur vos emprunts</h5>
+        <hr>
+        <!-- Div pour les modalités -->
+        <div class="divAbout" ngbAutoFocus>
+            <label class="sous-titre" 
+            [ngClass]="
+            {
+               'sous-titre' : theme == '',
+               'sous-titre-dark' : theme == 'dark',
+            }">Modalités:</label>
+            <br>
+            <label style="font-weight: 600;">Durée d'un emprunt:</label>
+            <span>
+                La durée d'un emprunt est de <span style="text-decoration: underline;">14 jours</span>, la couleur
+                affichée pour l'emprunt ainsi que le petit Icône au début de sa rangée,
+                indique le nombre de temps restant à l'emprunt
+            </span>
+            <br>
+            <label class="mt-2" style="font-weight: 600;">Renouvellement:</label>
+            <span>
+                Vous avez droit à <span style="text-decoration: underline;">2 renouvellements</span> par emprunt. Vous
+                pouvez seulement renouveler un emprunt, s'il n'y a <span style="text-decoration: underline;">aucune
+                    autre
+                    réservation pour le livre emprunté</span>. Si un autre client réserve votre livre, le renouvelement
+                sera indisponible. Le renouvelement
+                est aussi desactivé si vous devez payer des <span style="text-decoration: underline;">frais de
+                    retard</span>.
+            </span>
+            <hr>
+            <label class="mt-2" style="font-weight: 600;">Retard:</label>
+            <span>
+                Lorsque l'un de vos emprunts est en retard, vous ne pouvez ni emprunter de livre ni renouveler de livre.
+                Nous vous redonnerons accès à ces
+                droits lorsque vous aurez <span style="text-decoration: underline;">retourné le livre et payé les
+                    frais</span>. Avoir plusieurs emprunts en retard et non payés pourrait vous faire perdre votre
+                carte de membre.
+            </span>
+            <br>
+            <label class="mt-2" style="font-weight: 600;">Frais de retard:</label>
+            <span>
+                Vous serez chargé <span style="text-decoration: underline; color:green;">2$</span> pour chaque semaine
+                de retard sur la date limite de retour de votre emprunt. 2 semaines de retard équivaut donc
+                à <span style="text-decoration: underline; color:green;">4$</span> de frais et ainsi de suite. Ateindre
+                le seuil de <span style="text-decoration: underline; color:green;">20$</span> de frais vous limitera sur
+                vos emprunts à l'avenir
+            </span>
+            <br>
+        </div>
+        <br>
+
+        <!-- Informations pour le code couleur -->
+        <div class="divAbout">
+            <label class="sous-titre" 
+            [ngClass]="
+            {
+               'sous-titre' : theme == '',
+               'sous-titre-dark' : theme == 'dark',
+            }">Code de couleur:</label>
+            <br>
+            <label class="mt-2" style="color: #01a214; font-weight: 600;">Vert:</label>
+            <span> Lorsque votre emprunt est récent celui-ci apparait
+                <span style="color: #01a214;"> vert</span>. Celui-ci reste donc vert jusqu'à ce
+                qu'il vous reste 1 semaine de temps avant de devoir remettre votre livre.
+            </span>
+            <br>
+            <label class="mt-2" style="color: #b98904; font-weight: 600;">Jaune:</label>
+            <span>
+                Lorsqu'il reste 1 semaine de temps restant à l'emprunt, celui-ci apparait
+                <span style="color: #b98904;">jaune</span>
+            </span>
+            <br>
+            <label class="mt-2" style="color: #f14b04; font-weight: 600;">Orange:</label>
+            <span>
+                Lorsqu'il reste seulement 24 heures de temps restant à votre emprunt, celui ci apparait
+                <span style="color: #f14b04;">orange</span>, il vous reste donc très peu de temps avant
+                de recevoir des frais de retard
+            </span>
+            <br>
+            <label class="mt-2" style="color: #bd0000; font-weight: 600;">Rouge:</label>
+            <span>
+                Lorsqu'il reste vous avez dépassé la date limite de retour, votre emprunt est échue et apprait
+                <span style="color: #bd0000;">rouge</span>. Des frais s'appliquent et s'accumulent à chaque semaine
+                de recevoir des frais de retard
+            </span>
+        </div>
+    </div>
+
     <!-- Bouton pour fermer la modal -->
     <div class="modal-footer">
-    <button class="btn btn-primary" type="submit" name="submit" value="Submit" (click)="save()">Confirmer</button>
-      <button type="button" class="btn btn-secondary" (click)="modal.close()">Annuler</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
     </div>
 </ng-template>
-   
-<!-- Modal pour confirmer le à propos -->
-<ng-template #about let-modal >
-  <div class="modal-header modal-lg">
-    <h4 class="modal-title" id="modal-basic-title">À Propos</h4>
-  </div>
 
-  <!-- Info importantes sur le fonctionnement des emprunts etc. -->
-  <div class="modal-body">
-    <h5>Informations sur vos emprunts</h5>
-    <hr>
-    <!-- Div pour les modalités -->
-    <div class="divAbout" ngbAutoFocus>
-        <label class="sous-titre">Modalités:</label>
-        <br>
-        <label style="font-weight: 600;">Durée d'un emprunt:</label>
-        <span> 
-            La durée d'un emprunt est de <span style="text-decoration: underline;">14 jours</span>, la couleur affichée pour l'emprunt ainsi que le petit Icône au début de sa rangée,
-            indique le nombre de temps restant à l'emprunt
-        </span>
-        <br>
-        <label class="mt-2" style="font-weight: 600;">Renouvellement:</label>
-        <span> 
-            Vous avez droit à <span style="text-decoration: underline;">2 renouvellements</span> par emprunt. Vous pouvez seulement renouveler un emprunt, s'il n'y a <span style="text-decoration: underline;">aucune autre
-            réservation pour le livre emprunté</span>. Si un autre client réserve votre livre, le renouvelement sera indisponible. Le renouvelement
-            est aussi desactivé si vous devez payer des <span style="text-decoration: underline;">frais de retard</span>.
-        </span>
-        <hr>
-        <label class="mt-2" style="font-weight: 600;">Retard:</label>
-        <span> 
-            Lorsque l'un de vos emprunts est en retard, vous ne pouvez ni emprunter de livre ni renouveler de livre. Nous vous redonnerons accès à ces
-            droits lorsque vous aurez <span style="text-decoration: underline;">retourné le livre et payé les frais</span>. Avoir plusieurs emprunts en retard et non payés pourrait vous faire perdre votre
-            carte de membre.
-        </span>
-        <br>
-        <label class="mt-2" style="font-weight: 600;">Frais de retard:</label>
-        <span> 
-            Vous serez chargé <span style="text-decoration: underline; color:green;">2$</span> pour chaque semaine de retard sur la date limite de retour de votre emprunt. 2 semaines de retard équivaut donc
-            à <span style="text-decoration: underline; color:green;">4$</span> de frais et ainsi de suite. Ateindre le seuil de <span style="text-decoration: underline; color:green;">20$</span> de frais vous limitera sur vos emprunts à l'avenir
-        </span>
-        <br>
+<!-- Modal pour confirmer le paiement des frais -->
+<ng-template #feesModal let-modal>
+    <div class="modal-header modal-lg" style="text-align: center; align-items: center; display: flex;">
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Payer les frais</h4>
     </div>
-    <br>
-
-    <!-- Informations pour le code couleur -->
-    <div class="divAbout" >
-        <label class="sous-titre">Code de couleur:</label>
-        <br>
-        <label class="mt-2" style="color: #01a214; font-weight: 600;" >Vert:</label>
-        <span> Lorsque votre emprunt est récent celui-ci apparait
-               <span style="color: #01a214;"> vert</span>. Celui-ci reste donc vert jusqu'à ce 
-               qu'il vous reste 1 semaine de temps avant de devoir remettre votre livre.
-        </span>
-        <br>
-        <label class="mt-2" style="color: #b98904; font-weight: 600;">Jaune:</label>
-        <span> 
-               Lorsqu'il reste 1 semaine de temps restant à l'emprunt, celui-ci apparait 
-               <span style="color: #b98904;">jaune</span>
-        </span>
-        <br>
-        <label class="mt-2" style="color: #f14b04; font-weight: 600;">Orange:</label>
-        <span> 
-               Lorsqu'il reste seulement 24 heures de temps restant à votre emprunt, celui ci apparait 
-               <span style="color: #f14b04;">orange</span>, il vous reste donc très peu de temps avant 
-               de recevoir des frais de retard
-        </span>
-        <br>
-        <label class="mt-2" style="color: #bd0000; font-weight: 600;">Rouge:</label>
-        <span> 
-               Lorsqu'il reste vous avez dépassé la date limite de retour, votre emprunt est échue et apprait
-               <span style="color: #bd0000;">rouge</span>. Des frais s'appliquent et s'accumulent à chaque semaine
-               de recevoir des frais de retard
-        </span>
+  
+    <!-- infos sur le paiement -->
+    <div class="modal-body" style="text-align: center;">
+        <span class="label-emprunts-bold" style="margin-bottom: 15px;">Vous avez <span style="color:darkgreen">(0)$</span> de frais dû au retard de remise de vos emprunts.</span>
+        <br><br>
+        <span class="label-emprunts-bold" style="margin-bottom: 15px; color:darkred; text-decoration: underline;">Vous ne pourrez plus faire d'emprunts tant et aussi longtemps que 
+          <br> les frais ne seront pas payés.</span>
+        <br><br>
+        <span class="label-emprunts-bold" style="margin-bottom: 10px;">Vous pouvez payer à la <span style="color: rgb(75, 75, 252)">bibliothèque</span>
+        ou <span style="color:darkgreen ">en ligne</span>, par carte</span>
+        <br><br>
+        <span class="label-emprunts-bold" style="margin-bottom: 10px; text-decoration: underline; color:darkgreen">Si vous cliquez sur confirmer, pour payer en ligne, 
+          <br>vous serez redirigé vers le formulaire de paiement</span>
     </div>
-  </div>
+    <!-- Bouton pour confirmer et fermer la modal -->
+    <div class="modal-footer">
+        <button class="btn btn-success label-emprunts" type="submit" name="submit" value="Submit" [routerLink]="['../payment']" (click)="dismissModal()">Confirmer</button>
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
+    </div>
+  </ng-template>
 
-  <!-- Bouton pour fermer la modal -->
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
-  </div>
-</ng-template>
+ 
 
+  

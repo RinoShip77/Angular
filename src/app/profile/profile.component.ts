@@ -60,6 +60,7 @@ export class ProfileComponent implements OnInit {
     } else {
       this.role = 'Membre';
     }
+    window.theme = 'dark';
 
     if (localStorage.getItem('theme') != 'light') {
       this.colorSwitch = true;
@@ -93,8 +94,10 @@ export class ProfileComponent implements OnInit {
   switchTheme() {
     if (this.colorSwitch) {
       localStorage.setItem('theme', 'dark')
+      window.theme = 'dark';
     } else {
       localStorage.setItem('theme', 'light')
+      window.theme = 'light';
     }
   }
 
@@ -380,5 +383,15 @@ export class ProfileComponent implements OnInit {
     } else {
       this.validations["phoneNumber"] = false;
     }
+  }
+
+  openFeesModal(content:any)
+  {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+  }
+
+  dismissModal()
+  {
+    this.modalService.dismissAll();
   }
 }
