@@ -1,0 +1,75 @@
+.title-bar
+{
+    background-color: rgb(53, 53, 53);
+    color: white;
+    margin-top: 9px;
+    padding: 20px;
+    padding-bottom: 10px;
+    border-left: 3px solid rgb(148, 148, 148);
+    border-bottom: 3px solid rgb(148, 148, 148);
+    border-bottom-left-radius: 10px;
+}
+
+.div-payment
+{
+    width: 900px;
+    margin: auto; 
+    margin-top: 10px;
+    background-color: lightgray;
+    border: 2px solid gray;
+    padding: 50px;
+    text-align: center;
+}
+
+.div-payment-dark
+{
+    width: 900px;
+    margin: auto; 
+    margin-top: 10px;
+    background-color: rgb(48,52,55);
+    border: 3px solid white;
+    padding: 50px;
+    text-align: center;
+}
+
+.paypal
+{
+    width: 500px;
+    margin: auto;
+    display: block; 
+    float: none; 
+    margin-bottom: -20px;
+    margin-top: 10px;
+}
+
+.div-icon
+{
+    margin: auto;
+    text-align: center;
+    width: fit-content;
+    padding: 15px;
+    padding-bottom: 7px;
+    margin-top: 70px;
+    border-bottom: 5px solid #2a5aac;;
+    border-radius: 15px;
+}
+
+.modal-body-light
+{
+    background-color: rgb(231, 231, 231);
+    border: 2px solid gray;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.modal-body-dark
+{
+    background-color: rgb(48,52,55);
+    border: 2px solid lightgray;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 100px;
+    margin-right: 100px;
+}

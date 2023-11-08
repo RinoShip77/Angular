@@ -24,12 +24,28 @@ export class ReservationComponent implements OnInit {
   desc = false;
   sortBefore = "";
 
+  theme = "";
+
   selectedReservation:Reservation = new Reservation();
+
+  //Fenêtre dans laquelle on se trouve
+  window:string = "";
 
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
     this.retrieveReservations();
+    this.window = "";
+
+    if(localStorage.getItem('theme') != "light")
+    {
+      this.theme = "dark";
+    }
+    else
+    {
+      this.theme = "";
+    }
+    
   }
 
   getBookCover(idBook: number) 
@@ -54,16 +70,76 @@ export class ReservationComponent implements OnInit {
     } 
   }
 
+  async cancelReservation(reservation: Reservation)
+  {
+    await this.electrolibService.cancelReservationUser(reservation).subscribe();
+    await this.retrieveReservations();
+  }
+
+  async reactivateReservation(reservation: Reservation)
+  {
+    await this.electrolibService.reactivateReservationUser(reservation).subscribe();
+    await this.retrieveReservations();
+  }
+
   openAbout(content:any) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+    
+    this.window = "> à propos";
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
   }
 
   //Ouvrir la modal pour les infos du livre
   openReservationModal(content:any, selectedReservation:Reservation) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
     this.selectedReservation = selectedReservation;
+    this.window = "> détails de la réservation";
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
+  }
+
+  //Ouvrir la modal [Confirmer le renouvelement], qui confirme si le user veut vraiment renouveler
+  openCancelModal(content:any, selectedReservation:Reservation) 
+  {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', animation:true, });
+    this.selectedReservation = selectedReservation;
+
+    if(selectedReservation.isActive)
+    {
+      this.window = "> annuler la réservation (" + selectedReservation.book.title + ")";
+    }
+    else
+    {
+      this.window = "> réactiver la réservation (" + selectedReservation.book.title + ")";
+    }
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
+  }
+
+  save()
+  {
+    if(this.selectedReservation.isActive)
+    {
+      this.cancelReservation(this.selectedReservation);
+    }
+    else
+    {
+      this.reactivateReservation(this.selectedReservation);
+    }
+
+    this.modalService.dismissAll();
   }
 
   //Tri par la valeur

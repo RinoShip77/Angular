@@ -1,65 +1,54 @@
-.logo
+.dark.logo
 {
     margin-top: 50px;
     justify-content: center;
 }
 
-.title-bar
+.dark.title-bar
 {
     background-color: rgb(53, 53, 53);
     color: white;
     margin-top: 9px;
     padding: 20px;
     padding-bottom: 10px;
-    border-left: 3px solid rgb(148, 148, 148);
+    border-left: 3px solid rgb(209, 209, 209);
 }
 
-.location-bar
+.dark.location-bar
 {
-    background-color: rgb(223, 223, 223);
-    color: rgb(53, 53, 53);
+    background-color: rgb(148, 148, 148);
+    color: rgb(255, 255, 255);
     padding: 5px;
-    border-bottom: 3px solid rgb(148, 148, 148);
-    border-left: 3px solid rgb(148, 148, 148);
+    border-bottom: 3px solid rgb(209, 209, 209);
+    border-left: 3px solid rgb(209, 209, 209);
     border-bottom-left-radius: 10px;
 }
 
-.table-div
+.dark.table-div
 {
     margin-top: 20px;
     padding: 15px; 
-    background-color: rgb(255, 255, 255);
-    border: 2px solid rgba(78, 92, 131, 0.596);
+    background-color: rgb(87, 87, 87);
+    border: 2px solid rgb(209, 209, 209);
     margin-bottom: -15px;
     border-right: 0;
     border-top-left-radius: 10px;
 }
 
-.table-div-dark
-{
-    margin-top: 20px;
-    padding: 15px; 
-    border: 2px solid rgba(94, 112, 161, 0.596);
-    background-color: rgb(40,44,47);
-    margin-bottom: -15px;
-    border-right: 0;
-    border-top-left-radius: 10px;
-}
-
-.border-btn
+.dark.border-btn
 {
     border: 2px solid rgba(0, 0, 0, 0.247);
 }
 
-.div-btns
+.dark.div-btns
 {
     margin-top: 20px;
     padding: 20px;
     border-top: 3px solid;
     border-bottom: 3px solid;
-    background-color: rgba(126, 126, 126, 0.247);
+    background-color: rgba(126, 126, 126, 0.651);
     border-radius: 4px;
-    border-color: rgba(109, 109, 109, 0.322);
+    border-color: rgba(255, 255, 255, 0.548);
 }
 
 .master-div
@@ -70,7 +59,7 @@
 
 .status-not-urgent > td
 {
-    background-color: rgb(184,255,187);
+    background-color: rgba(115, 255, 120, 0.50);
     border: 1px;
     border-color: rgba(0, 102, 24, 0.5);
     border-style: solid;
@@ -78,7 +67,7 @@
 
 .status-semi-urgent > td
 {
-    background-color: rgb(241,231,153);
+    background-color: rgba(219, 194, 0, 0.40);
     border: 1px;
     border-color: rgba(181, 160, 0, 0.73);
     border-style: solid;
@@ -86,7 +75,7 @@
 
 .status-urgent > td
 {
-    background-color: rgb(235,193,127);
+    background-color: rgba(215, 132, 1, 0.50);
     border: 1px;
     border-color: rgb(215, 132, 1);
     border-style: solid;
@@ -101,7 +90,7 @@
 
 .status-late > td
 {
-    background-color: rgb(227,156,156);
+    background-color: rgba(183, 0, 0, 0.39);
     border:1px;
     border-color: rgba(139, 0, 0, 0.73);
     border-style: solid;
@@ -138,15 +127,6 @@ a
     font-weight: 500;
     font-size: 18px;
     color:rgb(87, 87, 87);
-    text-decoration: underline;
-    margin-bottom: 7px;
-}
-
-.sous-titre-dark
-{
-    font-weight: 500;
-    font-size: 18px;
-    color:rgb(184, 184, 184);
     text-decoration: underline;
     margin-bottom: 7px;
 }
@@ -227,19 +207,4 @@ select:hover
     border-radius: 10px;
     margin: 0 auto;
     width: fit-content;
-}
-
-.hr-light
-{
-    color:rgba(0, 0, 0, 0.089);
-}
-
-.hr-dark
-{
-    color:rgba(255, 255, 255, 0.089);
-}
-
-option
-{
-    color: rgb(40,44,47);
 }

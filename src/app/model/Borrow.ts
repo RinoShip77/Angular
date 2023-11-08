@@ -102,6 +102,14 @@ export class Borrow
         }
     }
 
+    //Calcul le nombre de renouvellement fait, chaque mois de plus que le premier,
+    //équivaut à 1 renouvellement
+    getRenewsLeft()
+    {
+        return 2 - this.getRenewTimes();
+    }
+
+
     //Vérifie le nombre de renouvellement de l'emprunt
     verifyRenew()
     {
@@ -138,5 +146,20 @@ export class Borrow
     formattedDueDate()
     {
         return (moment(this.dueDate)).format('yyyy-MM-DD HH:mm:ss')
+    }
+
+    renewReason()
+    {
+        if(this.calculateFee() != null)
+        {
+            return "Des frais doivent être payés";
+        }
+
+        if(this.getRenewTimes() >= 2)
+        {
+            return "Le maximum de renouvellement a été atteint";
+        }
+
+        return "";
     }
 }

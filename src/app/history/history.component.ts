@@ -25,11 +25,23 @@ export class HistoryComponent implements OnInit{
   desc = false;
   sortBefore = "";
 
+  window:string = "";
+
+  theme = "";
+
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
     this.retrieveBorrows();
-    console.log("test");
+    
+    if(localStorage.getItem('theme') != "light")
+    {
+      this.theme = "dark";
+    }
+    else
+    {
+      this.theme = "";
+    }
   }
 
   getBookCover(idBook: number) 
@@ -55,8 +67,28 @@ export class HistoryComponent implements OnInit{
   //Ouvrir la modal pour les infos du livre
   openBorrowModal(content:any, selectedBorrow:Borrow) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
     this.selectedBorrow = selectedBorrow;
+
+    this.window = "> détails de l'emprunt (" + selectedBorrow.book.title + ")";
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
+  }
+
+  //Ouvrir la modal [à propos], qui explique tout ce qu'il faut savoir sur le système d'emprunts
+  openAbout(content:any) 
+  {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+
+    this.window = "> à propos";
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
   }
 
   //Tri par la valeur

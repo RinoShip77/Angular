@@ -4,11 +4,12 @@ import { User } from '../model/User';
 import { Borrow } from '../model/Borrow';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-borrows',
   templateUrl: './borrows.component.html',
-  styleUrls: ['./borrows.component.css']
+  styleUrls: [`./borrows.component.css`]
 })
 export class BorrowsComponent implements OnInit {
   
@@ -20,34 +21,60 @@ export class BorrowsComponent implements OnInit {
   desc = false;
   sortBefore = "";
 
+  window:string = "";
+
+  test:string = "light";
+
+  theme = "";
+
+  styleUrl : string = './app.component.css';
+  changeCSSStyle() {
+    this.styleUrl = (this.styleUrl === './borrows.component.css') ? './borrows.component.dark.css' : './borrows.component.dark.css';
+  }
+
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
+    this.reloadUser();
     this.retrieveBorrows();
+    
+
+    if(localStorage.getItem('theme') != "light")
+    {
+      this.theme = "dark";
+    }
+    else
+    {
+      this.theme = "";
+    }
+    
   }
 
   aboutModal:any;
 
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService, private dataService: DataService) {
+
+    
+  }
 
   //Lorsqu'on appele et ouvre le component
   onBorrows(user: User) 
   {
 
     //TODO
+    //Priority of reservation
+    //
 
     //Changer le nom des status en retard... etc
     //Livre perdu???
     //Livre abimé???
 
-    
 
     //TODO COTÉ INVENTAIRE (PAS MOI)
     //Si le user a des frais, il ne peut plus emprunter jusqu'à ce qu'il paie
     //Le user peut avoir un maximum de 5 emprunts
 
-    //TODO
-    //Check si membre pour bd et symfony
+
   }
 
   //Cherche tous les emprunts en bd
@@ -73,7 +100,7 @@ export class BorrowsComponent implements OnInit {
       selectedBorrow.renew();
 
       //update la date dans la bd
-      this.electrolibService.renewDueDate(selectedBorrow).subscribe();
+      await this.electrolibService.renewDueDate(selectedBorrow).subscribe();
 
       //Retourne chercher les emprunts updatés
       await this.retrieveBorrows();
@@ -83,7 +110,14 @@ export class BorrowsComponent implements OnInit {
   //Ouvrir la modal [à propos], qui explique tout ce qu'il faut savoir sur le système d'emprunts
   openAbout(content:any) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true});
+
+    this.window = "> à propos";
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
   }
 
   selectedBorrowModal: Borrow = new Borrow;
@@ -91,8 +125,15 @@ export class BorrowsComponent implements OnInit {
   //Ouvrir la modal [Confirmer le renouvelement], qui confirme si le user veut vraiment renouveler
   openRenewModal(content:any, selectedBorrowModal:Borrow) 
   {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', animation:true, });
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', animation:true, });
     this.selectedBorrowModal = selectedBorrowModal;
+
+    this.window = "> renouveler l'emprunt (" + selectedBorrowModal.book.title + ")";
+
+    modalRef.result.finally(() =>
+    {
+      this.window = "";
+    });
   }
 
   save()
@@ -207,6 +248,36 @@ export class BorrowsComponent implements OnInit {
           }
         }
       }
+    }
+  }
+
+  openFeesModal(content:any)
+  {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+  }
+
+  dismissModal()
+  {
+    this.reloadUser();
+    this.modalService.dismissAll();
+  }
+
+  reloadUser()
+  {
+    if(this.user)
+    {
+      this.electrolibService.connection(this.user).subscribe(
+        connectedUser => 
+        {
+          
+          if(this.user)
+          {
+            
+            this.user = connectedUser;
+            this.datasrv.updateUser(this.user);
+          }
+        }
+      )
     }
   }
 }

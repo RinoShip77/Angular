@@ -1,3 +1,68 @@
+.logo
+{
+    margin-top: 50px;
+    justify-content: center;
+}
+
+.title-bar
+{
+    background-color: rgb(53, 53, 53);
+    color: white;
+    margin-top: 9px;
+    padding: 20px;
+    padding-bottom: 10px;
+    border-left: 3px solid rgb(148, 148, 148);
+}
+
+.location-bar
+{
+    background-color: rgb(223, 223, 223);
+    color: rgb(53, 53, 53);
+    padding: 5px;
+    border-bottom: 3px solid rgb(148, 148, 148);
+    border-left: 3px solid rgb(148, 148, 148);
+    border-bottom-left-radius: 10px;
+}
+
+.table-div
+{
+    margin-top: 20px;
+    padding: 15px; 
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgba(78, 92, 131, 0.596);
+    margin-bottom: -15px;
+    border-right: 0;
+    border-top-left-radius: 10px;
+}
+
+.table-div-dark
+{
+    margin-top: 20px;
+    padding: 15px; 
+    border: 2px solid rgba(94, 112, 161, 0.596);
+    background-color: rgb(40,44,47);
+    margin-bottom: -15px;
+    border-right: 0;
+    border-top-left-radius: 10px;
+}
+
+
+.border-btn
+{
+    border: 2px solid rgba(0, 0, 0, 0.247);
+}
+
+.div-btns
+{
+    margin-top: 20px;
+    padding: 20px;
+    border-top: 3px solid;
+    border-bottom: 3px solid;
+    background-color: rgba(126, 126, 126, 0.247);
+    border-radius: 4px;
+    border-color: rgba(109, 109, 109, 0.322);
+}
+
 .master-div
 {
     margin: 0 auto;
@@ -51,30 +116,11 @@ select:hover
     transition: color 0.5s, background-color 1s;
 }
 
-th:first-child
-{
-    border-top-left-radius: 10px;
-}
-
-tr:first-child
-{
-    border: 0;
-}
-
-th:last-child
-{
-    border-top-right-radius: 10px;
-}
-
-tr:last-child
-{
-    border-bottom-right-radius: 10px;
-}
-
 th
 {
     background-color: rgb(48, 48, 48);
     color: white;
+    border: 2px solid rgba(68, 81, 152, 0.685);
 }
 
 tr > td
@@ -99,7 +145,7 @@ tr > td
 
 .status-lost, .status-lost > td
 {
-    background-color: rgba(39, 49, 107, 0.137);
+    background-color: rgb(199,201,218);
     border: 2px solid rgba(68, 81, 152, 0.685);
 }
 
@@ -126,7 +172,16 @@ a > span
 
 .div-img
 {
-    border-right: 3px solid rgba(39, 39, 39, 0.397); 
+    border-right: 4px solid rgba(39, 39, 39, 0.397); 
+    margin-right: 25px; 
+    width: fit-content;
+    border-radius: 20px;
+
+}
+
+.div-img-dark
+{
+    border-right: 4px solid rgba(255, 255, 255, 0.397); 
     margin-right: 25px; 
     width: fit-content;
     border-radius: 20px;
@@ -163,9 +218,63 @@ a > span
 
 .divStolen
 {
-    background-color: rgba(39, 49, 107, 0.137);
+    background-color: rgb(213, 215, 236);
     border: 2px solid rgba(100, 100, 100, 0.699);
     padding: 15px;
     border-radius: 15px;
     width: 65%;
+}
+
+.divModal
+{
+    color:black;
+}
+
+.divModal-dark
+{
+    color:black;
+}
+
+.sous-titre
+{
+    font-weight: 500;
+    font-size: 18px;
+    color:rgb(87, 87, 87);
+    text-decoration: underline;
+    margin-bottom: 7px;
+}
+
+.sous-titre-dark
+{
+    font-weight: 500;
+    font-size: 18px;
+    color:rgb(184, 184, 184);
+    text-decoration: underline;
+    margin-bottom: 7px;
+}
+
+.divAbout
+{
+    max-width: 650px;
+    border: 2px;
+    border-style: solid;
+    border-color: rgba(100, 100, 100, 0.87);
+    background-color: rgba(69, 110, 177, 0.089);
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.hr-light
+{
+    color:rgba(0, 0, 0, 0.089);
+}
+
+.hr-dark
+{
+    color:rgba(255, 255, 255, 0.089);
+}
+
+option
+{
+    color: rgb(40,44,47);
 }

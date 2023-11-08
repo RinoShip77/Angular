@@ -23,11 +23,11 @@
         </a>
       </div>
     </div>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav animate side-nav bg-secondary-subtle">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['profile']">
-            Bonjour <span class=" fw-bold">{{user?.firstName}}</span>
+    <div class="collapse navbar-collapse bg-dark" id="navbarText">
+      <ul class="navbar-nav animate side-nav bg-dark">
+        <li class="nav-item bg-dark">
+          <a class="nav-link" [routerLink]="['profile']"  style="color: white;">
+            Bonjour <span class=" fw-bold"  style="color: rgb(124, 124, 250);">{{user?.firstName}}</span>
           <!--   <span type="button" class="link-secondary" (click)="disconnect()">Se déconnecter</span> -->
             <span class="shortmenu animate">
               <img src="https://ui-avatars.com/api/?name={{user?.firstName}}+{{user?.lastName}}&rounded=true">
@@ -39,32 +39,46 @@
             </span>
           </a>
         </li>
-        <li class="nav-item border-top border-dark" placement="bottom" ngbTooltip="Voir tout l'inventaire">
-          <a class="nav-link" [routerLink]="['inventory']">
+        <li class="nav-item border-top border-light bg-dark" placement="bottom" ngbTooltip="Voir tout l'inventaire">
+          <a class="nav-link" [routerLink]="['inventory']" style="color: white;">
             <i class="fas fa-boxes-stacked me-2"></i>
             Inventaire
             <i class="fas fa-boxes-stacked m-3 text-secondary fs-3 shortmenu animate"></i>
           </a>
         </li>
-        <li class="nav-item border-top border-dark" placement="bottom" ngbTooltip="Voir mon compte">
-          <a class="nav-link" [routerLink]="['profile', user]">
+        <li class="nav-item border-top border-light bg-dark" placement="bottom" ngbTooltip="Voir mon compte">
+          <a class="nav-link" [routerLink]="['profile', user]" style="color: white;">
             <i class="fas fa-circle-user me-2"></i>
             Profil
             <i class="fas fa-circle-user m-3 text-info fs-3 shortmenu animate"></i>
           </a>
         </li>
-        <li class="nav-item border-top border-dark" placement="bottom" ngbTooltip="Voir mes emprunts">
-          <a class="nav-link" [routerLink]="['borrows']">
+        <li class="nav-item border-top border-light bg-dark" placement="bottom" ngbTooltip="Voir mes emprunts">
+          <a class="nav-link" [routerLink]="['borrows']" style="color: white;">
             <i class="fas fa-hand-holding-dollar me-2"></i>
             Emprunts
             <i class="fas fa-hand-holding-dollar m-3 text-warning-emphasis fs-3 shortmenu animate"></i>
           </a>
         </li>
-        <li class="nav-item border-top border-dark" placement="bottom" ngbTooltip="Voir mes réservations">
-          <a class="nav-link" [routerLink]="['reservations']">
+        <li class="nav-item border-top border-light bg-dark" placement="bottom" ngbTooltip="Voir mes réservations">
+          <a class="nav-link" [routerLink]="['reservations']" style="color: white;">
             <i class="fas fa-solid fa-hand-holding me-2"></i>
             Réservations
             <i class="fas fa-hand-holding m-3 fs-3 shortmenu animate" style="color: #d1901f"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-light bg-dark" placement="bottom" ngbTooltip="Voir mes réservations">
+          <a class="nav-link" [routerLink]="['about']" style="color: white;">
+            <i class="fa-solid fa-circle-info me-2"></i>
+            About
+            <i class="fa-solid fa-circle-info m-3 fs-3 shortmenu animate"></i>
+          </a>
+        </li>
+        <li class="nav-item border-top border-light bg-dark" placement="bottom" ngbTooltip="Voir mes réservations">
+          <a class="nav-link" [routerLink]="['share']" style="color: white;">
+            <i class="fa-solid fa-envelope-open-text"></i>
+            Communiquez <br>votre expérience
+            <i class="fa-solid fa-envelope-open-text m-3 fs-3 shortmenu animate"></i>
           </a>
         </li>
         <!-- <li class="nav-item border-top border-bottom border-dark" placement="bottom"

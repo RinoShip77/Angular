@@ -10,6 +10,7 @@ import { Status } from './model/Status';
 import { Reservation } from './model/Reservation';
 import { Evaluation } from './model/Evaluation';
 import { Favorite } from './model/Favorite';
+import { Comment } from './model/Comment';
 
 @Injectable({
   providedIn: 'root'
@@ -193,11 +194,16 @@ export class ElectrolibService {
 
   cancelReservationUser(reservation: Reservation)
   {
-    let idReservation = reservation.idReservation;
-    let url = urlServer + 'borrows';
-    url = urlServer + "reservations/cancel/" + idReservation;
+    let url = urlServer + "reservations-cancel/" + reservation.idReservation;
 
-    return this.http.get<Reservation>(url);
+    return this.http.get<any>(url);
+  }
+
+  reactivateReservationUser(reservation: Reservation)
+  {
+    let url = urlServer + "reservations-reactivate/" + reservation.idReservation;
+
+    return this.http.get<any>(url);
   }
 
   getBorrowFromBook(idBook:Number)
@@ -306,6 +312,17 @@ export class ElectrolibService {
     formData.append('password', user.password);
 
     return this.http.post<User>(url, formData);
+  }
+
+  createComment(comment:Comment, user:User){
+    const url = `${urlServer}create-comment`;
+    const formData = new FormData();
+
+    formData.append('reason', comment.reason);
+    formData.append('content', comment.content);
+    formData.append('idUser', user.idUser.toString());
+
+    return this.http.post<Comment>(url, formData);
   }
 
   //-------------------------------------------------------
@@ -468,5 +485,25 @@ export class ElectrolibService {
     formData.append('idUser',user.idUser.toString());
 
     return this.http.post<Favorite>(url,formData);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  payFees(idUser: number | null) {
+
+    let url = `${urlServer}payFees/${idUser}`;
+
+    return this.http.get<any>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getComments() {
+
+    let url = `${urlServer}comments`;
+
+    return this.http.get<Comment[]>(url);
   }
 }

@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ProfileComponent } from './profile/profile.component';
-import { BorrowComponent } from './borrow/borrow.component';
 import { FavoriteComponent } from './favorite/favorite.component';
 import { ChatComponent } from './chat/chat.component';
 import { DetailsBorrowComponent } from './details-borrow/details-borrow.component';
@@ -32,6 +31,11 @@ import { ToastComponent } from './toast/toast.component';
 import { EncryptionService } from './encryption.service';
 import { CreateBorrowComponent } from './create-borrow/create-borrow.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { AboutComponent } from './about/about.component';
+import { ShareComponent } from './share/share.component';
+import { PaymentComponent } from './payment/payment.component';
+import { AdminShareComponent } from './admin-share/admin-share.component';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +44,6 @@ import { CreateUserComponent } from './create-user/create-user.component';
     NavbarComponent,
     InventoryComponent,
     ProfileComponent,
-    BorrowComponent,
     FavoriteComponent,
     ChatComponent,
     DetailsBorrowComponent,
@@ -60,6 +63,10 @@ import { CreateUserComponent } from './create-user/create-user.component';
     ReservationComponent,
     CreateBorrowComponent,
     CreateUserComponent
+    AboutComponent,
+    ShareComponent,
+    PaymentComponent,
+    AdminShareComponent
   ],
   imports: [
     AppRoutingModule,
@@ -67,7 +74,8 @@ import { CreateUserComponent } from './create-user/create-user.component';
     NgbModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+
   ],
   providers: [EncryptionService],
   bootstrap: [AppComponent]

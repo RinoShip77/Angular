@@ -1,0 +1,75 @@
+<section class="admin-container">
+    <section style="min-width: fit-content;">
+
+        <!-- Section de la barre de navigation de la page -->
+        <article class="section-navbar">
+            <article class="row section-row">
+
+                <!-- La barre de recherche -->
+                <div class="col-lg-5">
+                    <form class="search-form" style="display: flex;" role="search" >
+                        <input name="searchField" class="form-control" type="search"
+                            placeholder="Rechercher..." aria-label="Search" style="border-top-right-radius: 0;
+                            border-bottom-right-radius: 0;">
+                        <button class="btn btn-search" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Les listes déroulantes -->
+                <div class="col-lg-4">
+                    <div style="display: flex;justify-content: space-evenly; ">
+                        <div class="dropdown">
+                            <label for="sort-by" class="fit-label">Ordre</label>
+                            <select class="form-control combobox" #sortBy name="sort-by">
+                                <option value="ascending">Croissant</option>
+                                <option value="descending">Décroissant</option>
+                            </select>
+                        </div>
+                        <div class="dropdown">
+                            <label for="search-by" class="fit-label">Trier par</label>
+                            <select class="form-control combobox" #searchBy name="search-by">
+                                <option value="title">Nom/Numero membre</option>
+                                <option value="borrowedDate">Raison</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </article>
+
+        <!-- Section de la table des données -->
+        <section>
+            <table class="table table-striped" style="text-align: center;">
+                <thead>
+                    <tr>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Nom Utilisateur</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">N°
+                            membre</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'borrowedDate' ? '#31359C' : ''}">Raison</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'dueDate' ? '#31359C' : ''}">Message</th>
+                        <th style="width: 10em;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>t</td>
+                        <td>t</td>
+                        <td>t</td>
+                        <td>t</td>
+                        <td>
+                            <article style="display: flex;">
+                                <button style="margin: auto;"
+                                    class="btn btn-success btn-action">
+                                    <i class="fa-solid fa-check"></i>
+                                    <span class="info-tooltip">Corrigé</span>
+                                </button>
+                            </article>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </section>
+</section>
