@@ -27,11 +27,21 @@ export class HistoryComponent implements OnInit{
 
   window:string = "";
 
+  theme = "";
+
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
     this.retrieveBorrows();
-    console.log("test");
+    
+    if(localStorage.getItem('theme') != "light")
+    {
+      this.theme = "dark";
+    }
+    else
+    {
+      this.theme = "";
+    }
   }
 
   getBookCover(idBook: number) 

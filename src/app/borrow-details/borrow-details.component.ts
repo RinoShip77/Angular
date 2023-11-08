@@ -24,6 +24,8 @@ export class BorrowDetailsComponent implements OnInit {
   window:string = "";
   url:string = "";
 
+  theme = "";
+
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
@@ -32,6 +34,15 @@ export class BorrowDetailsComponent implements OnInit {
     this.retrieveBorrow(idBorrow);
 
     this.url = getURLProfilePicture(this.user?.idUser);
+
+    if(localStorage.getItem('theme') != "light")
+    {
+      this.theme = "dark";
+    }
+    else
+    {
+      this.theme = "";
+    }
   }
 
   retrieveBorrow(idBorrow:Number)

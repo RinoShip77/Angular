@@ -19,13 +19,25 @@
 
     <!-- Séparateur -->
     <div
-        style="height: 0; border-bottom: 8px rgba(0, 0, 0, 0.089) double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;">
+        style="height: 0; border-bottom: 8px double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;" [ngClass]="
+        {
+           'hr-light' : theme == '',
+           'hr-dark' : theme == 'dark',
+        }">
     </div>
 
-    <div class="borrow-div">
+    <div class="borrow-div" [ngClass]="
+    {
+       'borrow-div' : theme == '',
+       'borrow-div-dark' : theme == 'dark',
+    }">
         <div class="shadow-lg row div-details"  style="justify-content: space-evenly;">
             <!-- titre de l'emprunt -->
-            <h5 style="margin-left: 20px; margin-bottom: 20px; border-bottom: 3px rgba(0, 0, 0, 0.185) solid; border-bottom-left-radius:10px; padding-bottom: 10px;">
+            <h5 [ngClass]="
+            {
+               'titre-div' : theme == '',
+               'titre-div-dark' : theme == 'dark',
+            }">
                 <i class="fa-solid fa-book"></i>&nbsp;
                 <span class="label-emprunts-bold" style="font-size: 19px;">Emprunt #{{borrow.idBorrow}} de </span>
                 <span *ngIf="user" [routerLink]="['../../profile']" style="text-decoration: underline; font-weight: 600; cursor: pointer;" class="label-emprunts">{{user.firstName}}</span>
@@ -34,13 +46,21 @@
             <!-- Petits icones en haut des infos-->
             <div class="row" style="margin-left: 1px;">
                 <div class="col-6">
-                    <div class="div-icones">
+                    <div class="div-icones" [ngClass]="
+                    {
+                       'div-icones' : theme == '',
+                       'div-icones-dark' : theme == 'dark',
+                    }">
                         <i class="fa-solid fa-book-open" style="color: rgb(114, 114, 250);"></i>&nbsp;
                         <span style="color: rgb(80, 80, 180);">Informations livre</span>
                     </div>
                 </div>
                 <div class="col-5" style=" margin-left: 70px;">
-                    <div class="div-icones">
+                    <div class="div-icones" [ngClass]="
+                    {
+                       'div-icones' : theme == '',
+                       'div-icones-dark' : theme == 'dark',
+                    }">
                         <i class="fa-solid fa-hand-holding-dollar" style="color: rgb(114, 114, 250);"></i>&nbsp;
                         <span style="color: rgb(80, 80, 180);">Informations emprunt</span>
                     </div>

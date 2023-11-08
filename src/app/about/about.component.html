@@ -7,10 +7,22 @@
             </h4>
         </div>
     </div>
-    <div class="info-div row">
+    <div class="info-div row" [ngClass]="
+    {
+       'info-div' : theme == '',
+       'info-div-dark' : theme == 'dark',
+    }">
         <div class="div-infos-importantes">
-            <div class="div-infos-titre">Adresses</div>
-            <div class="div-contact-info">
+            <div class="div-infos-titre" [ngClass]="
+            {
+               'div-infos-titre' : theme == '',
+               'div-infos-titre-dark' : theme == 'dark',
+            }">Adresses</div>
+            <div class="div-contact-info" [ngClass]="
+            {
+               'div-contact-info' : theme == '',
+               'div-contact-info-dark' : theme == 'dark',
+            }">
                 <span>
                     455, rue Fournier Saint-Jérôme (Québec) J7Y 4V2
                 </span>
@@ -24,16 +36,24 @@
                 </span>
                 <hr style="margin-top: 30px; margin-bottom: 30px;">
                 <span>
-                    Vous pouvez nos écrire un commentaire, une suggestion ou une plainte sur l'onglet:
-                    <a href="/">
+                    Vous pouvez nous écrire un commentaire, une suggestion ou une plainte sur l'onglet:
+                    <a [routerLink]="['../share']">
                         Communiquez votre expérience
                     </a>
                 </span>
             </div>
         </div>
         <div class="div-infos-importantes">
-            <div class="div-infos-titre">Notre pincipal intérêt</div>
-            <div class="div-contact-info">
+            <div class="div-infos-titre" [ngClass]="
+            {
+               'div-infos-titre' : theme == '',
+               'div-infos-titre-dark' : theme == 'dark',
+            }">Notre pincipal intérêt</div>
+            <div class="div-contact-info" [ngClass]="
+            {
+               'div-contact-info' : theme == '',
+               'div-contact-info-dark' : theme == 'dark',
+            }">
                 <span>
                     Eléctrolib vous permet de visualiser clairement l'inventaire de nos livres
                     ainsi que la liste de vos emprunts et de vos réservations.
@@ -46,8 +66,16 @@
             </div>
         </div>
         <div class="div-infos-importantes">
-            <div class="div-infos-titre">Informations Importantes</div>
-            <div class="div-contact-info">
+            <div class="div-infos-titre" [ngClass]="
+            {
+               'div-infos-titres' : theme == '',
+               'div-infos-titre-dark' : theme == 'dark',
+            }">Informations Importantes</div>
+            <div class="div-contact-info" [ngClass]="
+            {
+               'div-contact-info' : theme == '',
+               'div-contact-info-dark' : theme == 'dark',
+            }">
                 <span>
                     455, rue Fournier Saint-Jérôme (Québec) J7Y 4V2
                 </span>

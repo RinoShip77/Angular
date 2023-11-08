@@ -46,8 +46,8 @@ export class ConnectionComponent {
           break;
           
           case 'cheatAdmin':
-        this.temporaryUser.memberNumber = "98631907";
-        this.temporaryUser.password = "password";
+        this.temporaryUser.memberNumber = "admin";
+        this.temporaryUser.password = "admin";
         this.retrieveAccount();
         break;
     }

@@ -31,6 +31,9 @@ import { ToastComponent } from './toast/toast.component';
 import { EncryptionService } from './encryption.service';
 import { AboutComponent } from './about/about.component';
 import { ShareComponent } from './share/share.component';
+import { PaymentComponent } from './payment/payment.component';
+import { AdminShareComponent } from './admin-share/admin-share.component';
+
 
 @NgModule({
   declarations: [
@@ -57,7 +60,9 @@ import { ShareComponent } from './share/share.component';
     HistoryComponent,
     ReservationComponent,
     AboutComponent,
-    ShareComponent
+    ShareComponent,
+    PaymentComponent,
+    AdminShareComponent
   ],
   imports: [
     AppRoutingModule,
@@ -65,7 +70,8 @@ import { ShareComponent } from './share/share.component';
     NgbModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+
   ],
   providers: [EncryptionService],
   bootstrap: [AppComponent]

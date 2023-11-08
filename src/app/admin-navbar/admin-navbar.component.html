@@ -38,6 +38,13 @@
                 </button>
             </a>
 
+            <a [routerLink]="['adminShare']">
+                <button class="btn-nav" (click)="changeTab('share')"
+                    [ngStyle]="(tab === 'share') ? getStyles() : {}">
+                    Commentaires
+                </button>
+            </a>
+
         </section>
 
 

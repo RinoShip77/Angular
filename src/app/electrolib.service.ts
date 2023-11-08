@@ -10,6 +10,7 @@ import { Status } from './model/Status';
 import { Reservation } from './model/Reservation';
 import { Evaluation } from './model/Evaluation';
 import { Favorite } from './model/Favorite';
+import { Comment } from './model/Comment';
 
 @Injectable({
   providedIn: 'root'
@@ -289,6 +290,17 @@ export class ElectrolibService {
     return this.http.post<Borrow>(url,formData);
   }
 
+  createComment(comment:Comment, user:User){
+    const url = `${urlServer}create-comment`;
+    const formData = new FormData();
+
+    formData.append('reason', comment.reason);
+    formData.append('content', comment.content);
+    formData.append('idUser', user.idUser.toString());
+
+    return this.http.post<Comment>(url, formData);
+  }
+
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
@@ -415,5 +427,25 @@ export class ElectrolibService {
     const formData = new FormData();
 
     return this.http.post<Borrow>(url, formData);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  payFees(idUser: number | null) {
+
+    let url = `${urlServer}payFees/${idUser}`;
+
+    return this.http.get<any>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getComments() {
+
+    let url = `${urlServer}comments`;
+
+    return this.http.get<Comment[]>(url);
   }
 }

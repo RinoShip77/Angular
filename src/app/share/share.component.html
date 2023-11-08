@@ -8,10 +8,18 @@
         </div>
     </div>
 
-    <div class="col-5 div-icon">
+    <div class="col-5 div-icon" [ngClass]="
+    {
+       'div-icon' : theme == '',
+       'div-icon-dark' : theme == 'dark',
+    }">
         <i class="fa-solid fa-envelope-open-text" style="font-size: 40px;"></i>
     </div>
-    <div class="col-5 div-message" *ngIf="user">
+    <div class="col-5 div-message" *ngIf="user" [ngClass]="
+    {
+       'div-message' : theme == '',
+       'div-message-dark' : theme == 'dark',
+    }">
         <div class="div-cat">
             <label class="label-emprunts-bold">Envoyé à</label><br>
             <input value="support@electrolib.ca" class="form-control" disabled>
@@ -85,6 +93,6 @@
 
     <!-- Boutons pour fermer la modal -->
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Fermer</button>
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()" (click)="closedModal()">Fermer</button>
     </div>
 </ng-template>

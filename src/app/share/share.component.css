@@ -22,6 +22,18 @@
     border-radius: 15px;
 }
 
+.div-icon-dark
+{
+    margin: auto;
+    text-align: center;
+    width: fit-content;
+    padding: 15px;
+    padding-bottom: 7px;
+    margin-top: 40px;
+    border-bottom: 5px solid rgb(209, 209, 209);
+    border-radius: 15px;
+}
+
 .div-message
 {
     margin: auto;
@@ -31,6 +43,17 @@
     background-color: lightgray;
     border: 2px solid gray;
 }
+
+.div-message-dark
+{
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 40px;
+    padding: 40px;
+    background-color: rgb(40,44,47);
+    border: 2px solid lightgray;
+}
+
 
 .div-cat
 {
@@ -52,7 +75,7 @@ label
 
 select
 {
-    width: auto;
+    width: fit-content;
     height: auto;
 }
 

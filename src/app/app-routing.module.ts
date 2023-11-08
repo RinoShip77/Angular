@@ -19,6 +19,8 @@ import { ReservationComponent } from './reservation/reservation.component';
 import { RecommendedComponent } from './recommended/recommended.component';
 import { AboutComponent } from './about/about.component';
 import { ShareComponent } from './share/share.component';
+import { PaymentComponent } from './payment/payment.component';
+import { AdminShareComponent } from './admin-share/admin-share.component';
 
 // Create a routes Array
 const routes: Routes = [
@@ -40,7 +42,9 @@ const routes: Routes = [
   { path: "adminUsers", component: AdminUsersComponent },
   { path:"recommended",component:RecommendedComponent},
   { path:"about",component:AboutComponent},
-  { path:"share",component:ShareComponent}
+  { path:"share",component:ShareComponent},
+  { path:"payment",component:PaymentComponent},
+  { path:"adminShare",component:AdminShareComponent}
 
 ];
 

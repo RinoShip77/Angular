@@ -29,11 +29,16 @@
             <i class="fas fa-vault me-2"></i>
             Mettre à jour mon mot de passe
           </button>
-          <button class="btn btn-success mt-5 p-3 fs-4 fw-bold" (click)="openFeesModal(feesModal)">
+          <div 
+          style="font-size: 18px; color:red; text-decoration: underline;" 
+          class="label-emprunts-bold mt-5">
+              <span *ngIf="user">Frais de compte: {{user.fees}}$</span>
+          </div>
+          <button class="btn btn-success p-3 fs-4 fw-bold" (click)="openFeesModal(feesModal)" *ngIf="user && user.fees != 0">
             <i class="fa-solid fa-money-check-dollar me-2"></i>
             Payer les frais
           </button>
-          <button class="btn btn-success mt-5 p-3 fs-4 fw-bold" *ngIf="user && user.firstName == 'toopi'">
+          <button class="btn btn-success p-3 fs-4 fw-bold" *ngIf="user && user.fees == 0" disabled>
             Aucun frais
           </button>
         </div>
@@ -311,7 +316,7 @@
   </div>
   <!-- Bouton pour confirmer et fermer la modal -->
   <div class="modal-footer">
-      <button class="btn btn-success label-emprunts" type="submit" name="submit" value="Submit" (click)="payFees()">Confirmer</button>
+      <button class="btn btn-success label-emprunts" type="submit" name="submit" value="Submit" [routerLink]="['../payment']" (click)='dismissModal()'>Confirmer</button>
       <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
   </div>
 </ng-template>

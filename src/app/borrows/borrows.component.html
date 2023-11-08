@@ -1,3 +1,4 @@
+
 <div style="background-color: rgba(0, 0, 0, 0.068); min-height: 850px;">
     <!-- Titre de la page -->
     <div class="title-bar">
@@ -8,28 +9,44 @@
             </h4>
         </div>
     </div>
+    
 
     <!-- Localisation sur la page -->
-    <div class="location-bar">
-        <i class="fa-regular fa-circle-dot fa-fade" style="color: #198754; margin-right: 10px;"></i>
-        <span class="location-page-link sous-titres-emprunts">emprunts</span>
-        {{window}}
+    <div class="location-bar" style="overflow: hidden;">
+        <div class="col-5" style="overflow: hidden; float:left; margin-left: 20px;">
+            <i class="fa-regular fa-circle-dot fa-fade" style="color: #198754; margin-right: 10px;"></i>
+            <span class="location-page-link sous-titres-emprunts">emprunts</span>
+            {{window}}
+        </div>
+        <div *ngIf="user && user.fees != 0" 
+        style="border: 2px solid rgb(202, 201, 201); background-color: lightgray; border-radius: 5px; font-size: 17px; width: fit-content; color:red; text-decoration: underline; float:left; margin-left: 2%; padding-left: 5px; padding-right: 5px;" 
+        class="col-1 label-emprunts-bold overflow: hidden;">
+            <span>Frais de compte: {{user.fees}}$</span>
+        </div>
     </div>
 
     <!-- Boutons pour transitionner à l'historique des réservations -->
     <div style="text-align: center; margin-top: 20px;">
         <button [routerLink]="['../history']" data-toggle="modal" type="button" class="btn btn-warning border-btn label-emprunts">
             <i class="fa-solid fa-clock-rotate-left"></i>&nbsp;
-            Historique d'emprunts
+            Historique d'emprunts 
         </button>
     </div>
 
     <!-- Séparateur -->
     <div
-        style="height: 0; border-bottom: 8px rgba(0, 0, 0, 0.089) double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;">
+        style="height: 0; border-bottom: 8px double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;" [ngClass]="
+        {
+           'hr-light' : theme == '',
+           'hr-dark' : theme == 'dark',
+        }">
     </div>
 
-    <div class="table-div">
+    <div class="table-div" [ngClass]="
+    {
+       'table-div' : theme == '',
+       'table-div-dark' : theme == 'dark',
+    }">
 
         <!-- Div contenant le select pour trier la table -->
         <div class="row" style="margin-bottom: -25px;">
@@ -126,7 +143,7 @@
                     <!-- Boutons renouvellement et détails de l'emprunt-->
                     <td>
                         <a [routerLink]="['../borrowDetails', borrow.idBorrow]"><i
-                                class="fa-regular fa-file-lines col-6 icone-petite i-active"
+                                class="fa-regular fa-file-lines col-6 icone-petite i-active" style="color:#1f3151; font-size: 22px;"
                                 ngbTooltip="Plus de détails"></i></a>
 
                         <a *ngIf="borrow.verifyRenew()" (click)="openRenewModal(renewModal, borrow)"><i
@@ -146,11 +163,11 @@
             <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary border-btn label-emprunts">À propos des
                 emprunts
             </button>
-            <button class="btn btn-success border-btn label-emprunts" (click)="openFeesModal(feesModal)">
+            <button class="btn btn-success border-btn label-emprunts" (click)="openFeesModal(feesModal)" *ngIf="user && user.fees != 0">
                 <i class="fa-solid fa-money-check-dollar me-2"></i>
                 Payer les frais
             </button>
-            <button class="btn btn-success border-btn label-emprunts" *ngIf="user && user.firstName == 'toopi'">
+            <button class="btn btn-success border-btn label-emprunts" *ngIf="user && user.fees == 0" disabled>
                 Aucun frais
             </button>
             <button [routerLink]="['../inventory']" type="button" class="btn btn-secondary border-btn label-emprunts">Retourner à
@@ -204,7 +221,12 @@
         <hr>
         <!-- Div pour les modalités -->
         <div class="divAbout" ngbAutoFocus>
-            <label class="sous-titre">Modalités:</label>
+            <label class="sous-titre" 
+            [ngClass]="
+            {
+               'sous-titre' : theme == '',
+               'sous-titre-dark' : theme == 'dark',
+            }">Modalités:</label>
             <br>
             <label style="font-weight: 600;">Durée d'un emprunt:</label>
             <span>
@@ -247,7 +269,12 @@
 
         <!-- Informations pour le code couleur -->
         <div class="divAbout">
-            <label class="sous-titre">Code de couleur:</label>
+            <label class="sous-titre" 
+            [ngClass]="
+            {
+               'sous-titre' : theme == '',
+               'sous-titre-dark' : theme == 'dark',
+            }">Code de couleur:</label>
             <br>
             <label class="mt-2" style="color: #01a214; font-weight: 600;">Vert:</label>
             <span> Lorsque votre emprunt est récent celui-ci apparait
@@ -304,7 +331,11 @@
     </div>
     <!-- Bouton pour confirmer et fermer la modal -->
     <div class="modal-footer">
-        <button class="btn btn-success label-emprunts" type="submit" name="submit" value="Submit" (click)="payFees()">Confirmer</button>
+        <button class="btn btn-success label-emprunts" type="submit" name="submit" value="Submit" [routerLink]="['../payment']" (click)="dismissModal()">Confirmer</button>
         <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
     </div>
   </ng-template>
+
+ 
+
+  

@@ -2,6 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@300&family=Quicksand:wght@500&family=Roboto:wght@300&display=swap');
 
+.dark-theme
+{
+  background-color: #333;
+  color:white;
+  border-color: darkgray;
+}
+
 body {
   font-family: 'Ubuntu', sans-serif;
 }

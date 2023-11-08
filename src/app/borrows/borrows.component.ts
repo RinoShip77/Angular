@@ -4,17 +4,15 @@ import { User } from '../model/User';
 import { Borrow } from '../model/Borrow';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-borrows',
   templateUrl: './borrows.component.html',
-  styleUrls: ['./borrows.component.css']
-  //styleUrls: ['./borrows-' + this.themes + '.component.css']
+  styleUrls: [`./borrows.component.css`]
 })
 export class BorrowsComponent implements OnInit {
   
-  themes:string = "dark";
-
   user: User | undefined = new User();
   borrows: Borrow[] = new Array();
 
@@ -25,15 +23,39 @@ export class BorrowsComponent implements OnInit {
 
   window:string = "";
 
+  test:string = "light";
+
+  theme = "";
+
+  styleUrl : string = './app.component.css';
+  changeCSSStyle() {
+    this.styleUrl = (this.styleUrl === './borrows.component.css') ? './borrows.component.dark.css' : './borrows.component.dark.css';
+  }
+
   ngOnInit(): void 
   {
     this.user = this.datasrv.getUser();
+    this.reloadUser();
     this.retrieveBorrows();
+    
+
+    if(localStorage.getItem('theme') != "light")
+    {
+      this.theme = "dark";
+    }
+    else
+    {
+      this.theme = "";
+    }
+    
   }
 
   aboutModal:any;
 
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService, private dataService: DataService) {
+
+    
+  }
 
   //Lorsqu'on appele et ouvre le component
   onBorrows(user: User) 
@@ -234,8 +256,28 @@ export class BorrowsComponent implements OnInit {
     const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
   }
 
-  payFees()
+  dismissModal()
   {
-    
+    this.reloadUser();
+    this.modalService.dismissAll();
+  }
+
+  reloadUser()
+  {
+    if(this.user)
+    {
+      this.electrolibService.connection(this.user).subscribe(
+        connectedUser => 
+        {
+          
+          if(this.user)
+          {
+            
+            this.user = connectedUser;
+            this.datasrv.updateUser(this.user);
+          }
+        }
+      )
+    }
   }
 }

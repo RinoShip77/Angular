@@ -35,6 +35,17 @@
     border-top-left-radius: 10px;
 }
 
+.table-div-dark
+{
+    margin-top: 20px;
+    padding: 15px; 
+    border: 2px solid rgba(94, 112, 161, 0.596);
+    background-color: rgb(40,44,47);
+    margin-bottom: -15px;
+    border-right: 0;
+    border-top-left-radius: 10px;
+}
+
 .border-btn
 {
     border: 2px solid rgba(0, 0, 0, 0.247);
@@ -151,9 +162,18 @@ tr > td
     margin-bottom: 7px;
 }
 
+.sous-titre-dark
+{
+    font-weight: 500;
+    font-size: 18px;
+    color:rgb(184, 184, 184);
+    text-decoration: underline;
+    margin-bottom: 7px;
+}
+
 .status-borrowed > td
 {
-    background-color: rgba(0, 29, 161, 0.418);
+    background-color: rgb(148,160,215);
     border: 1px;
     border-color: rgba(30, 42, 97, 0.808);
     border-style: solid;
@@ -161,7 +181,7 @@ tr > td
 
 .status-ordered > td
 {
-    background-color: rgba(215, 132, 1, 0.50);
+    background-color: rgb(227,156,156);
     border: 1px;
     border-color: rgb(215, 132, 1);
     border-style: solid;
@@ -176,7 +196,7 @@ tr > td
 
 .status-cancelled > td
 {
-    background-color: rgba(183, 0, 0, 0.39);
+    background-color: rgb(227,156,156);
     border:1px;
     border-color: rgba(139, 0, 0, 0.73);
     border-style: solid;
@@ -221,7 +241,16 @@ tr > td
 
 .div-img
 {
-    border-right: 3px solid rgba(39, 39, 39, 0.397); 
+    border-right: 4px solid rgba(39, 39, 39, 0.397); 
+    margin-right: 25px; 
+    width: fit-content;
+    border-radius: 20px;
+
+}
+
+.div-img-dark
+{
+    border-right: 4px solid rgba(255, 255, 255, 0.397); 
     margin-right: 25px; 
     width: fit-content;
     border-radius: 20px;
@@ -250,7 +279,7 @@ tr > td
     border: 2px;
     border-style: solid;
     border-color: rgba(100, 100, 100, 0.699);
-    background-color: rgba(128, 0, 0, 0.233);
+    background-color: rgb(226,196,196);
     padding: 15px;
     border-radius: 15px;
     width: 65%;
@@ -261,7 +290,7 @@ tr > td
     border: 2px;
     border-style: solid;
     border-color: rgba(100, 100, 100, 0.699);
-    background-color: rgba(0, 128, 0, 0.233);
+    background-color: rgb(196,226,196);
     padding: 15px;
     border-radius: 15px;
     width: 65%;
@@ -278,4 +307,29 @@ tr > td
     border-radius: 10px;
     margin: 0 auto;
     width: fit-content;
+}
+
+.hr-light
+{
+    color:rgba(0, 0, 0, 0.089);
+}
+
+.hr-dark
+{
+    color:rgba(255, 255, 255, 0.089);
+}
+
+.span-light
+{
+    color:white;
+}
+
+.span-dark
+{
+    color:rgb(30, 30, 37);
+}
+
+option
+{
+    color: rgb(40,44,47);
 }

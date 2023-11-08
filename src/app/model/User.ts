@@ -18,6 +18,7 @@ export class User {
   roles: string = '';
   asObservable: any;
   next: any;
+  fees:number = 0;
 
   constructor() {
     /*if (this.roles == '["ROLES_USER"]') {

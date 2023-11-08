@@ -39,6 +39,19 @@
     border-top-left-radius: 10px;
 }
 
+.borrow-div-dark
+{
+    margin-top: 20px;
+    padding: 12px; 
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: rgb(40,44,47);
+    border: 2px solid rgba(78, 92, 131, 0.596);
+    margin-bottom: -15px;
+    border-right: 0;
+    border-top-left-radius: 10px;
+}
+
 .div-icones
 {
     font-size: 24px;
@@ -50,6 +63,37 @@
     margin-bottom: 15px;
     border-bottom: 4px solid rgba(34, 34, 78, 0.548);
     border-radius: 10px;
+}
+
+.div-icones-dark
+{
+    font-size: 24px;
+    width:max-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    border-bottom: 4px solid rgb(76, 76, 161);
+    border-radius: 10px;
+}
+
+.titre-div
+{
+    margin-left: 20px; 
+    margin-bottom: 20px; 
+    border-bottom: 3px rgba(0, 0, 0, 0.185) solid; 
+    border-bottom-left-radius:10px; 
+    padding-bottom: 10px;
+}
+
+.titre-div-dark
+{
+    margin-left: 20px; 
+    margin-bottom: 20px; 
+    border-bottom: 3px rgba(255, 255, 255, 0.322) solid; 
+    border-bottom-left-radius:10px; 
+    padding-bottom: 10px;
 }
 
 .btn-div
@@ -223,4 +267,14 @@ a > span
 .icon-modal-return
 {
     font-size: 30px;
+}
+
+.hr-light
+{
+    color:rgba(0, 0, 0, 0.089);
+}
+
+.hr-dark
+{
+    color:rgba(255, 255, 255, 0.089);
 }

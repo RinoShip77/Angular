@@ -28,10 +28,18 @@
 
     <!-- Séparateur -->
     <div
-        style="height: 0; border-bottom: 8px rgba(0, 0, 0, 0.089) double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;">
+        style="height: 0; border-bottom: 8px double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;" [ngClass]="
+        {
+           'hr-light' : theme == '',
+           'hr-dark' : theme == 'dark',
+        }">
     </div>
 
-    <div class="table-div">
+    <div class="table-div" [ngClass]="
+    {
+       'table-div' : theme == '',
+       'table-div-dark' : theme == 'dark',
+    }">
 
         <!-- Div contenant le select pour trier la table -->
         <div class="row" style="margin-bottom: -25px;">
@@ -95,10 +103,10 @@
             }">
 
                     <!-- Reste des informations -->
-                    <td scope="row" class="td-thick" style="font-weight: 700;">{{borrow.idBorrow}}</td>
-                    <td>{{borrow.book.title}}</td>
-                    <td>{{borrow.borrowedDate}}</td>
-                    <td>{{borrow.returnedDate}}</td>
+                    <td scope="row" class="td-thick" style="font-weight: 700;" style="color: black;">{{borrow.idBorrow}}</td>
+                    <td style="color: black;">{{borrow.book.title}}</td>
+                    <td style="color: black;">{{borrow.borrowedDate}}</td>
+                    <td style="color: black;">{{borrow.returnedDate}}</td>
                     <td *ngIf="borrow.determineStatus() != 'En retard'" class="td-thick" style="font-weight: 700;">Remis
                     </td>
                     <td *ngIf="borrow.determineStatus() == 'En retard'" class="td-thick"
@@ -107,7 +115,7 @@
 
                     <!-- Bouton Détails -->
                     <td>
-                        <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active"
+                        <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active" style="color:#1f3151; font-size: 22px;"
                             (click)="openBorrowModal(infoReservationModal, borrow)" ngbTooltip="Plus de détails"></i></a>
                     </td>
                 </tr>
@@ -143,7 +151,12 @@
       <hr>
       <!-- Div pour les modalités -->
       <div class="divAbout" ngbAutoFocus>
-          <label class="sous-titre">Modalités:</label>
+          <label class="sous-titre" 
+          [ngClass]="
+          {
+             'sous-titre' : theme == '',
+             'sous-titre-dark' : theme == 'dark',
+          }">Modalités:</label>
           <br>
           <label style="font-weight: 600;">Historique:</label>
           <span> 
@@ -159,7 +172,12 @@
   
       <!-- Informations pour le code couleur -->
       <div class="divAbout" >
-          <label class="sous-titre">Code de couleur:</label>
+          <label class="sous-titre" 
+          [ngClass]="
+          {
+             'sous-titre' : theme == '',
+             'sous-titre-dark' : theme == 'dark',
+          }">Code de couleur:</label>
           <br>
           <label class="mt-2" style="font-weight: 600;">Blanc:</label>
           <span> lorsque votre emprunt a été remis, celui-ci apparait en
@@ -190,7 +208,11 @@
   
     <!--  -->
     <div class="modal-body row">
-      <div class="col-4 div-img">
+      <div class="col-4 div-img" [ngClass]="
+      {
+         'div-img' : theme == '',
+         'div-img-dark' : theme == 'dark',
+      }">
         <img class="image-livre" src="{{getBookCover(selectedBorrow.book.idBook)}}" default="../assets/images/books/1.png" style="margin-top:20px">
       </div>
       <div class="col-8" 
@@ -198,6 +220,8 @@
       {
          'divHanded' : selectedBorrow.determineStatus() != 'En retard',
          'divStolen' : selectedBorrow.determineStatus() == 'En retard',
+         'divModal' : theme == '',
+         'divModal-dark' : theme == 'dark',
       }">
         <label class="thick">Titre:&nbsp;</label>
         <span>{{selectedBorrow.book.title}}</span>

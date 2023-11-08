@@ -24,6 +24,8 @@ export class ReservationComponent implements OnInit {
   desc = false;
   sortBefore = "";
 
+  theme = "";
+
   selectedReservation:Reservation = new Reservation();
 
   //Fenêtre dans laquelle on se trouve
@@ -34,6 +36,16 @@ export class ReservationComponent implements OnInit {
     this.user = this.datasrv.getUser();
     this.retrieveReservations();
     this.window = "";
+
+    if(localStorage.getItem('theme') != "light")
+    {
+      this.theme = "dark";
+    }
+    else
+    {
+      this.theme = "";
+    }
+    
   }
 
   getBookCover(idBook: number) 

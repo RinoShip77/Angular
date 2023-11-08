@@ -35,6 +35,18 @@
     border-top-left-radius: 10px;
 }
 
+.table-div-dark
+{
+    margin-top: 20px;
+    padding: 15px; 
+    border: 2px solid rgba(94, 112, 161, 0.596);
+    background-color: rgb(40,44,47);
+    margin-bottom: -15px;
+    border-right: 0;
+    border-top-left-radius: 10px;
+}
+
+
 .border-btn
 {
     border: 2px solid rgba(0, 0, 0, 0.247);
@@ -133,7 +145,7 @@ tr > td
 
 .status-lost, .status-lost > td
 {
-    background-color: rgba(39, 49, 107, 0.137);
+    background-color: rgb(199,201,218);
     border: 2px solid rgba(68, 81, 152, 0.685);
 }
 
@@ -161,6 +173,15 @@ a > span
 .div-img
 {
     border-right: 4px solid rgba(39, 39, 39, 0.397); 
+    margin-right: 25px; 
+    width: fit-content;
+    border-radius: 20px;
+
+}
+
+.div-img-dark
+{
+    border-right: 4px solid rgba(255, 255, 255, 0.397); 
     margin-right: 25px; 
     width: fit-content;
     border-radius: 20px;
@@ -197,11 +218,21 @@ a > span
 
 .divStolen
 {
-    background-color: rgba(39, 49, 107, 0.137);
+    background-color: rgb(213, 215, 236);
     border: 2px solid rgba(100, 100, 100, 0.699);
     padding: 15px;
     border-radius: 15px;
     width: 65%;
+}
+
+.divModal
+{
+    color:black;
+}
+
+.divModal-dark
+{
+    color:black;
 }
 
 .sous-titre
@@ -209,6 +240,15 @@ a > span
     font-weight: 500;
     font-size: 18px;
     color:rgb(87, 87, 87);
+    text-decoration: underline;
+    margin-bottom: 7px;
+}
+
+.sous-titre-dark
+{
+    font-weight: 500;
+    font-size: 18px;
+    color:rgb(184, 184, 184);
     text-decoration: underline;
     margin-bottom: 7px;
 }
@@ -222,4 +262,19 @@ a > span
     background-color: rgba(69, 110, 177, 0.089);
     padding: 15px;
     border-radius: 15px;
+}
+
+.hr-light
+{
+    color:rgba(0, 0, 0, 0.089);
+}
+
+.hr-dark
+{
+    color:rgba(255, 255, 255, 0.089);
+}
+
+option
+{
+    color: rgb(40,44,47);
 }

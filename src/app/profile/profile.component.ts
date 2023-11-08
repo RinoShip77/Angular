@@ -31,6 +31,7 @@ export class ProfileComponent implements OnInit {
     if (this.dataService.getUser() != undefined) {
       this.user = this.dataService.getUser();
     }
+    window.theme = 'dark';
 
     if (localStorage.getItem('theme') != 'light') {
       this.colorSwitch = true;
@@ -47,8 +48,10 @@ export class ProfileComponent implements OnInit {
   switchTheme() {
     if (this.colorSwitch) {
       localStorage.setItem('theme', 'dark')
+      window.theme = 'dark';
     } else {
       localStorage.setItem('theme', 'light')
+      window.theme = 'light';
     }
   }
 
@@ -202,8 +205,8 @@ export class ProfileComponent implements OnInit {
     const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
   }
 
-  payFees()
+  dismissModal()
   {
-    
+    this.modalService.dismissAll();
   }
 }
