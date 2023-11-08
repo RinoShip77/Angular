@@ -44,7 +44,7 @@ const routes: Routes = [
   { path: "adminUsers", component: AdminUsersComponent },
   { path:"recommended",component:RecommendedComponent},
   { path: "create-borrow", component:CreateBorrowComponent},
-  { path: "create-user", component:CreateUserComponent}
+  { path: "create-user", component:CreateUserComponent},
   { path:"about",component:AboutComponent},
   { path:"share",component:ShareComponent},
   { path:"payment",component:PaymentComponent},

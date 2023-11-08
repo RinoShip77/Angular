@@ -62,7 +62,7 @@ import { AdminShareComponent } from './admin-share/admin-share.component';
     HistoryComponent,
     ReservationComponent,
     CreateBorrowComponent,
-    CreateUserComponent
+    CreateUserComponent,
     AboutComponent,
     ShareComponent,
     PaymentComponent,
