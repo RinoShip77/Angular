@@ -291,6 +291,7 @@ export class ElectrolibService {
     formData.append('idAuthor', book.idAuthor.toString());
     formData.append('idGenre', book.idGenre.toString());
     formData.append('idStatus', book.idStatus.toString());
+    formData.append('isRecommended',"0");
 
     return this.http.post<Book>(url, formData);
   }
