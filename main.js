@@ -1,25 +1,32 @@
 const { app, BrowserWindow, Notification } = require('electron');
 const url = require('url');
 const path = require('path');
+const appTitle = 'Electrolib';
 const appIcon = path.join(__dirname, '/src/assets/images/logos/ApplicationIcon6.png');
 
-function showNotification () {
-  let body = localStorage.getItem('name');
-  console.log(body);
+// function showNotification () {
+//   while (BrowserWindow.getAllWindows().length !== 0) {
+//     //if(localStorage.getItem('notification')) {
+//       //console.log('present')
+//       let body = localStorage.getItem('notification');
+//       console.log(body);
 
-  new Notification({
-    title: 'Electrolib',
-    body: body,
-    icon: appIcon
-  }).show()
-}
+//       new Notification({
+//         title: appTitle,
+//         body: 'Test',
+//         icon: appIcon
+//       }).show()
+//       //}
+//       localStorage.removeItem('notification');
+//     }
+// }
 
 function onReady() {
   win = new BrowserWindow({
     icon: appIcon, // TODO: Change the application icon
     width: 1500,
     height: 800,
-    resizable: false,
+    // resizable: false,
     hasShadow: true,
     autoHideMenuBar: true,
     roundedCorners: true,
@@ -34,6 +41,5 @@ function onReady() {
   }))
 }
 
-//app.on('ready', onReady);
-app.setAppUserModelId
-app.whenReady().then(onReady).then(showNotification)
+app.setAppUserModelId(appTitle);
+app.on('ready', onReady);

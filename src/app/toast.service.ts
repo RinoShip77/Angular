@@ -4,10 +4,11 @@ import { Injectable, TemplateRef } from '@angular/core';
 export class ToastService {
 	toasts: any[] = [];
 
-	show(text: string, options: any = {}) {
-		this.toasts.push({ text, ...options });
+	show(textOrTpl: string | TemplateRef<any>, options: any = {}) {
+		this.toasts.push({ textOrTpl, ...options });
+
 		localStorage.removeItem('notification');
-		localStorage.setItem('notification', text);
+		localStorage.setItem('notification', textOrTpl.toString());
 	}
 
 	remove(toast: any) {
