@@ -50,7 +50,9 @@
                         </td>
                         <td>
                             <article style="display: flex;">
-                                <a [routerLink]="['/profile']">
+                                <!-- Olivier Bourgault : 2023-11-05 13:45 -->
+                                <!-- I add the user id in the router link -->
+                                <a [routerLink]="['/profile/' + user.idUser]">
                                 <button class="btn btn-outline-dark btn-action">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                     <span class="info-tooltip">Détails</span>
