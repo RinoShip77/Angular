@@ -53,6 +53,8 @@ export class InventoryComponent {
     
     //Get all the books
     this.retrieveBooks();
+
+    this.sortInventory();
   }
   
   //---------------------------------
@@ -128,16 +130,16 @@ export class InventoryComponent {
         break;
       case 'title':
         if (this.sortOrder === 'descending') {
-          this.displayedBooks.sort((a, b) => (a.title < b.title ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1));
         } else {
-          this.displayedBooks.sort((a, b) => (a.title > b.title ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
         }
         break;
       case 'author':
         if (this.sortOrder === 'descending') {
-          this.displayedBooks.sort((a, b) => (a.author.lastName < b.author.lastName ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.author.lastName.toLowerCase() < b.author.lastName.toLowerCase() ? 1 : -1));
         } else {
-          this.displayedBooks.sort((a, b) => (a.author.lastName > b.author.lastName ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.author.lastName.toLowerCase() > b.author.lastName.toLowerCase() ? 1 : -1));
         }
         break;
     }
@@ -166,7 +168,7 @@ export class InventoryComponent {
   //---------------------------------
   // Function to filter the books by the criteria given
   //---------------------------------
-  filterBooks(filter: string, id: number, isFilter: boolean) {
+  filterBooks(filter: string, id: number, isFilter?: boolean) {
     if (!isFilter || isFilter == undefined) {
       let nbFilter = 1;
 
@@ -178,7 +180,7 @@ export class InventoryComponent {
             }
           }
 
-          if (nbFilter == 1) {
+          if (nbFilter < 2) {
             this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
           }
 
@@ -193,7 +195,7 @@ export class InventoryComponent {
             }
           }
 
-          if (nbFilter == 1) {
+          if (nbFilter < 2) {
             this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
           }
 
@@ -208,7 +210,7 @@ export class InventoryComponent {
             }
           }
 
-          if (nbFilter == 1) {
+          if (nbFilter < 2) {
             this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
           }
 
@@ -216,6 +218,9 @@ export class InventoryComponent {
           this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
           break;
       }
+    } else {
+      this.displayedBooks = this.books;
+      this.sortInventory();
     }
   }
 
