@@ -8,6 +8,7 @@ import { Author } from '../model/Author';
 import { Router } from '@angular/router';
 import { getURLBookCover } from '../util';
 import { Status } from '../model/Status';
+import { Favorite } from '../model/Favorite';
 
 @Component({
   selector: 'app-inventory',
@@ -19,6 +20,7 @@ export class InventoryComponent {
   genres: Genre[] = new Array();
   authors: Author[] = new Array();
   status: Status[] = new Array();
+  favorites: Favorite[] = new Array();
   books: Book[] = new Array();
   displayedBooks: Book[] = new Array();
   previousBooks: Book[] = new Array();
@@ -39,17 +41,22 @@ export class InventoryComponent {
   ngOnInit() {
     //Get all the genres
     this.retrieveGenres();
-
+    
     //Get all the authors
     this.retrieveAuthors();
-
+    
     //Get all the statuses
     this.retrieveStatus();
-
+    
+    //Get all the favorites
+    this.retrieveFavorites();
+    
     //Get all the books
     this.retrieveBooks();
-  }
 
+    this.sortInventory();
+  }
+  
   //---------------------------------
   // Function to retrieve the genres from the database
   //---------------------------------
@@ -84,6 +91,17 @@ export class InventoryComponent {
   }
 
   //---------------------------------
+  // Function to retrieve the favorites from the database
+  //---------------------------------
+  retrieveFavorites() {
+    this.electrolibSrv.getFavorites().subscribe(
+      favorites => {
+        this.favorites = favorites;
+      }
+    );
+  }
+
+  //---------------------------------
   // Function to retrieve the books from the database
   //---------------------------------
   retrieveBooks() {
@@ -112,16 +130,16 @@ export class InventoryComponent {
         break;
       case 'title':
         if (this.sortOrder === 'descending') {
-          this.displayedBooks.sort((a, b) => (a.title < b.title ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1));
         } else {
-          this.displayedBooks.sort((a, b) => (a.title > b.title ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
         }
         break;
       case 'author':
         if (this.sortOrder === 'descending') {
-          this.displayedBooks.sort((a, b) => (a.author.lastName < b.author.lastName ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.author.lastName.toLowerCase() < b.author.lastName.toLowerCase() ? 1 : -1));
         } else {
-          this.displayedBooks.sort((a, b) => (a.author.lastName > b.author.lastName ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.author.lastName.toLowerCase() > b.author.lastName.toLowerCase() ? 1 : -1));
         }
         break;
     }
@@ -150,7 +168,7 @@ export class InventoryComponent {
   //---------------------------------
   // Function to filter the books by the criteria given
   //---------------------------------
-  filterBooks(filter: string, id: number, isFilter: boolean) {
+  filterBooks(filter: string, id: number, isFilter?: boolean) {
     if (!isFilter || isFilter == undefined) {
       let nbFilter = 1;
 
@@ -162,7 +180,7 @@ export class InventoryComponent {
             }
           }
 
-          if (nbFilter == 1) {
+          if (nbFilter < 2) {
             this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
           }
 
@@ -177,7 +195,7 @@ export class InventoryComponent {
             }
           }
 
-          if (nbFilter == 1) {
+          if (nbFilter < 2) {
             this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
           }
 
@@ -192,7 +210,7 @@ export class InventoryComponent {
             }
           }
 
-          if (nbFilter == 1) {
+          if (nbFilter < 2) {
             this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
           }
 
@@ -201,28 +219,8 @@ export class InventoryComponent {
           break;
       }
     } else {
-      // if(nbFilter > 0) {
-      //   this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
-      // }
-
-      // console.log(this.previousBooks)
-      // this.displayedBooks.concat(this.previousBooks);
-
-      switch (filter) {
-        case 'genre':
-          // this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
-          // this.displayedBooks.concat(this.previousBooks);
-          this.displayedBooks = this.books.filter((book) => book.genre.idGenre === id);
-          break;
-
-        case 'author':
-          this.displayedBooks = this.books.filter((book) => book.author.idAuthor === id);
-          break;
-
-        case 'status':
-          this.displayedBooks = this.books.filter((book) => book.status.idStatus === id);
-          break;
-      }
+      this.displayedBooks = this.books;
+      this.sortInventory();
     }
   }
 
@@ -297,17 +295,16 @@ export class InventoryComponent {
   //---------------------------------
   // Function to mark the book as favorite
   //---------------------------------
-  addFavorite(idBook: number) {
-    console.log(idBook)
+  isFavorite(idBook: number) {
+    for (let index = 0; index < this.favorites.length; index++) {
+      if (this.favorites[index].book.idBook === idBook) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
-  //---------------------------------
-  // Function to disconnect a user
-  //---------------------------------
-  onDisconnect(user: User) {
-    //cette fnct fesait visible.false, on grade la fcnt au cas ou
-  }
-  
   //---------------------------------
   // Function to retrieve the image of a book
   //---------------------------------

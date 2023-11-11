@@ -158,9 +158,11 @@
                       </p>
                       <span class="card-text"><small>{{book.description}}</small></span>
                       <div class="d-flex justify-content-between mt-3">
-                        <div class="d-flex align-items-center">
-                          <i class="text-danger fs-2"
-                            [ngClass]="(book.isFavorite) ? 'fas fa-heart' : 'far fa-heart'"></i>
+                        <div class="text-danger fs-2">
+                          <i class="fas fa-heart" *ngIf="isFavorite(book.idBook); else notFavoriteBlock"></i>
+                          <ng-template #notFavoriteBlock>
+                            <i class="far fa-heart"></i>
+                          </ng-template>
                         </div>
                         <div [ngSwitch]="book.status.status">
                           <div *ngSwitchCase="'Disponible'" class="border border-2 bg-info rounded-3 p-2 text-center">
@@ -262,36 +264,18 @@
 
 <!-- Informations content modal -->
 <ng-template #informationsContent let-modal>
-  <div class="modal-body">
-    <div class="d-flex justify-content-between">
+  <div class="modal-body d-flex flex-column align-items-center">
+    <div class="d-flex align-items-center">
       <div class="border border-2 bg-info rounded-3 p-2 text-center">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </div>
-      <p>Est <span class="h5 fw-bold">disponible</span></p>
+      <span class="ms-2">Est <span class="h5 fw-bold">disponible</span></span>
     </div>
-    <div class="d-flex justify-content-between">
+    <div class="d-flex align-items-center">
       <div class="border border-2 bg-light rounded-3 p-2 text-center">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </div>
-      <p>Est <span class="h5 fw-bold">emprunté</span></p>
-    </div>
-    <div class="d-flex justify-content-between">
-      <div class="border border-2 bg-warning rounded-3 p-2 text-center">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      </div>
-      <p>Est <span class="h5 fw-bold">réservé</span></p>
-    </div>
-    <div class="d-flex justify-content-between">
-      <div class="border border-2 bg-secondary rounded-3 p-2 text-center">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      </div>
-      <p>Est <span class="h5 fw-bold">perdu</span></p>
-    </div>
-    <div class="d-flex justify-content-between">
-      <div class="border border-2 bg-danger rounded-3 p-2 text-center">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      </div>
-      <p>Est <span class="h5 fw-bold">supprimé</span></p>
+      <span class="ms-2">Est <span class="h5 fw-bold">emprunté</span></span>
     </div>
   </div>
 </ng-template>

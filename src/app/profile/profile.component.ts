@@ -105,7 +105,7 @@ export class ProfileComponent implements OnInit {
   // Function to upload a new profile picture to the user
   //---------------------------------
   updatePicture(idUser: number | undefined, pictureNumber: number) {
-    this.electrolibService.updateProfile('updatePicture', idUser, { pictureNumber: pictureNumber }).subscribe(
+    this.electrolibService.updateUser('updatePicture', idUser, { pictureNumber: pictureNumber }).subscribe(
       user => {
         this.toastService.show('Votre profil a été mis à jour.', {
           classname: 'bg-success',
@@ -163,8 +163,8 @@ export class ProfileComponent implements OnInit {
             //let encrypted = this.Encryption.set(ENCRYPTION_KEY, passwords.newPassword);
 
             // * De-comment this line to encrypte and erase the next line
-            //this.electrolibService.updateProfile('updatePassword', idUser, { newPassword: encrypted }).subscribe(
-            this.electrolibService.updateProfile('updatePassword', idUser, passwords).subscribe(
+            //this.electrolibService.updateUser('updatePassword', idUser, { newPassword: encrypted }).subscribe(
+            this.electrolibService.updateUser('updatePassword', idUser, passwords).subscribe(
               user => {
                 this.toastService.show('Votre mot de passe a été mis à jour.', {
                   classname: 'bg-success',
@@ -190,7 +190,7 @@ export class ProfileComponent implements OnInit {
     if (this.user?.password === password) {
       switch (action) {
         case 'open':
-          this.electrolibService.updateProfile('activateAccount', idUser).subscribe(
+          this.electrolibService.updateUser('activateAccount', idUser).subscribe(
             user => {
               this.toastService.show('Votre profil est maintenent ouvert.', {
                 classname: 'bg-success',
@@ -206,7 +206,7 @@ export class ProfileComponent implements OnInit {
           break;
 
         case 'close':
-          this.electrolibService.updateProfile('deactivateAccount', idUser).subscribe(
+          this.electrolibService.updateUser('deactivateAccount', idUser).subscribe(
             user => {
               this.toastService.show('Votre profil a été fermé.', {
                 classname: 'bg-success',
@@ -258,7 +258,7 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to update the information of a user
   //---------------------------------
-  updateProfile(idUser: number | undefined, user: User) {
+  updateUser(idUser: number | undefined, user: User) {
     this.tempUser = user;
 
     if (!this.validateForm()) {
@@ -269,7 +269,7 @@ export class ProfileComponent implements OnInit {
       user.postalCode = user.postalCode.split(' ')[0] + user.postalCode.split(' ')[1];
       user.phoneNumber = user.phoneNumber.split('-')[0] + user.phoneNumber.split('-')[1] + user.phoneNumber.split('-')[2];
 
-      this.electrolibService.updateProfile('updateInformations', idUser, user).subscribe(
+      this.electrolibService.updateUser('updateInformations', idUser, user).subscribe(
         user => {
           this.toastService.show('Votre profil a été mis à jour.', {
             classname: 'bg-success',
