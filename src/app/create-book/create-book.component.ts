@@ -20,7 +20,7 @@ export class CreateBookComponent {
   genres: Genre[] = [];
   foundAuthors: Author[] = [];
   authorSearchField: string = "";
-  selectedAuthor: string = "Sélectionner";
+  selectedAuthor: string = "Fournir auteur";
 
   selectedImage: any;
   formData = new FormData();

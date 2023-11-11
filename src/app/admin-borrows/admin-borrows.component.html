@@ -77,13 +77,34 @@
                 <thead>
                     <tr>
                         <th>Id livre</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Titre</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">N°
-                            membre</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'borrowedDate' ? '#31359C' : ''}">Date
-                            emprunt</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'dueDate' ? '#31359C' : ''}">Date retour
-                            prévue</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('title')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Titre
+                        </th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('memberNumber')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            N° membre
+                        </th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'borrowedDate' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('borrowedDate')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Date emprunt
+                        </th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'dueDate' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('dueDate')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Date retour prévue
+                        </th>
                         <th *ngIf="!isChecked">Date retourné</th>
                         <th>Retard</th>
                         <th style="width: 10em;">Actions</th>

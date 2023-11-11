@@ -24,6 +24,7 @@ export class AdminReservationsComponent {
   searchField: string = "";
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
+  desc: boolean = true;
 
   isChecked = true;
 
@@ -32,6 +33,23 @@ export class AdminReservationsComponent {
   ngOnInit() {
 
     this.retrieveReservationsData();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  sortColumnBy(sortBy: string) {
+    this.selectedSearchBy = sortBy;
+    if (this.desc) {
+      this.desc = false;
+      this.selectedSortBy = "descending";
+    }
+    else {
+      this.desc = true;
+      this.selectedSortBy = "ascending";
+    }
+      
+    this.sortReservations();
   }
 
   //-------------------------------------------------------

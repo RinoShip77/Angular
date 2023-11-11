@@ -21,6 +21,7 @@ export class AdminInventoryComponent {
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
   book: Book = new Book();
+  desc: boolean = true;
 
   isChecked = false;
 
@@ -45,6 +46,23 @@ export class AdminInventoryComponent {
   }
 
   //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  sortColumnBy(sortBy: string) {
+    this.selectedSearchBy = sortBy;
+    if (this.desc) {
+      this.desc = false;
+      this.selectedSortBy = "descending";
+    }
+    else {
+      this.desc = true;
+      this.selectedSortBy = "ascending";
+    }
+      
+    this.sortBooks();
+  }
+
+  //-------------------------------------------------------
   // Tri les livres
   //-------------------------------------------------------
   sortBooks() {
@@ -59,6 +77,9 @@ export class AdminInventoryComponent {
         case "author":
           this.displayedBooks.sort((a, b) => (a.author.lastName > b.author.lastName ? 1 : -1));
           break;
+        case "status":
+          this.displayedBooks.sort((a, b) => (a.status.status > b.status.status ? 1 : -1));
+          break;
       }
     } 
     else {
@@ -72,6 +93,9 @@ export class AdminInventoryComponent {
         case "author":
           this.displayedBooks.sort((a, b) => (a.author.lastName < b.author.lastName ? 1 : -1));
           break;
+        case "status":
+          this.displayedBooks.sort((a, b) => (a.status.status < b.status.status ? 1 : -1));
+           break;
       }
     }
   }
@@ -84,11 +108,7 @@ export class AdminInventoryComponent {
       this.displayedBooks = [];
       this.books.forEach(book => {
         switch (this.selectedSearchBy) {
-          case "title":
-            if (book.title.toUpperCase().includes(this.searchField.toUpperCase())) {
-              this.displayedBooks.push(book);
-            }
-            break;
+          
           case "isbn":
             if (book.isbn.toUpperCase().includes(this.searchField.toUpperCase())) {
               this.displayedBooks.push(book);
@@ -97,6 +117,11 @@ export class AdminInventoryComponent {
           case "author":
             if (book.author.firstName.toUpperCase().includes(this.searchField.toUpperCase()) || 
                 book.author.lastName.toUpperCase().includes(this.searchField.toUpperCase())) {
+              this.displayedBooks.push(book);
+            }
+            break;
+          default:
+            if (book.title.toUpperCase().includes(this.searchField.toUpperCase())) {
               this.displayedBooks.push(book);
             }
             break;
