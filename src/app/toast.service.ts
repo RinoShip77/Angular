@@ -7,8 +7,8 @@ export class ToastService {
 	show(textOrTpl: string | TemplateRef<any>, options: any = {}) {
 		this.toasts.push({ textOrTpl, ...options });
 
-		// localStorage.removeItem('notification');
-		// localStorage.setItem('notification', textOrTpl.toString());
+		const notification = new Notification(textOrTpl.toString(),	{	icon: 'assets/images/logos/ApplicationIcon6.png'});
+		setTimeout(() => { notification.close() }, 5000);
 	}
 
 	remove(toast: any) {
