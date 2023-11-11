@@ -60,12 +60,28 @@
                 <thead>
                     <tr>
                         <th>Id livre</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Titre</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('title')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Titre
+                        </th>
                         <th>N° membre emprunteur</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">N°
-                            membre réserveur</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'reservationDate' ? '#31359C' : ''}">Date
-                            réservation</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('memberNumber')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            N° membre réserveur
+                        </th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'reservationDate' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('reservationDate')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Date réservation
+                        </th>
                         <th>Date retour prévue</th>
                         <th>Retard</th>
                         <th style="width: 10em;">Actions</th>

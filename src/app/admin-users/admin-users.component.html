@@ -7,10 +7,36 @@
                 
                 <!-- La barre de recherche -->
                 <div class="col-lg-5">
+                    <form class="search-form" style="display: flex;" role="search" (ngSubmit)="search()">
+                        <input name="searchField" [(ngModel)]="searchField" class="form-control" type="search"
+                            placeholder="Rechercher..." aria-label="Search" style="border-top-right-radius: 0;
+                            border-bottom-right-radius: 0;">
+                        <button class="btn btn-search" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
                 </div>
 
                 <!-- Les listes déroulantes -->
                 <div class="col-lg-4">
+                    <div style="display: flex;justify-content: space-evenly; ">
+                        <div class="dropdown">
+                            <label for="sort-by" class="fit-label">Ordre</label>
+                            <select class="form-control combobox" #sortBy name="sort-by"
+                                (change)="changeSortBy(sortBy.value); sortUsers()">
+                                <option value="ascending">Croissant</option>
+                                <option value="descending">Décroissant</option>
+                            </select>
+                        </div>
+                        <div class="dropdown">
+                            <label for="search-by" class="fit-label">Trier par</label>
+                            <select class="form-control combobox" #searchBy name="search-by"
+                                (change)="changeResearchBy(searchBy.value); sortUsers()">
+                                <option value="memberNumber" selected>Numéro membre</option>
+                                <option value="name">Nom</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Les contrôles de la page -->
@@ -31,19 +57,41 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Numéro membre</th>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>Rôle</th>
-                        <th>Pénalités en cours</th>
+                        <th>
+                            <button (click)="sortColumnBy('memberNumber')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Numéro membre
+                        </th>
+                        <th>
+                            <button (click)="sortColumnBy('name')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Nom
+                        </th>
+                        <th>
+                            <button (click)="sortColumnBy('roles')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Rôle
+                        </th>
+                        <th>
+                            <button (click)="sortColumnBy('totalPenalities')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Pénalités en cours
+                        </th>
                         <th style="width: 10em;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let user of displayedUsers">
                         <td>{{user.memberNumber}}</td>
-                        <td>{{user.firstName}}</td>
-                        <td>{{user.lastName}}</td>
+                        <td>{{user.firstName}} {{user.lastName}}</td>
                         <td>{{parseRole(user)}}</td>
                         <td>
                             <span class="penalty" *ngIf="user.totalPenalities > 0">{{user.totalPenalities}}$</span>

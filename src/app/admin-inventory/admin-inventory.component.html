@@ -35,6 +35,7 @@
                                 <option value="title">Titre</option>
                                 <option value="isbn">ISBN</option>
                                 <option value="author">Auteur</option>
+                                <option value="status">Statut</option>
                             </select>
                         </div>
                     </div>
@@ -71,17 +72,41 @@
                     <tr>
                         <th>Id</th>
                         <th></th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Titre</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'isbn' ? '#31359C' : ''}">ISBN</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'author' ? '#31359C' : ''}">Auteur</th>
-                        <th>Statut</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('title')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Titre
+                        </th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'isbn' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('isbn')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            ISBN
+                        </th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'author' ? '#31359C' : ''}">
+                            <button (click)="sortColumnBy('author')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Auteur
+                        </th>
+                        <th>
+                            <button (click)="sortColumnBy('status')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Statut
+                        </th>
                         <th style="width: 10em;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let book of displayedBooks">
                         <td>{{book.idBook}}</td>
-                        <td><i class="fa-solid fa-heart" style="color: crimson;" *ngIf="book.isRecommended"></i></td>
+                        <td><i class="fa-solid fa-star" style="color: goldenrod;" *ngIf="book.isRecommended"></i></td>
                         <td>{{book.title}}</td>
                         <td>{{book.isbn}}</td>
                         <td>{{book.author.firstName}} {{book.author.lastName}}</td>
