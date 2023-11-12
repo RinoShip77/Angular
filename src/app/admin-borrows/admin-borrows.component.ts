@@ -164,7 +164,7 @@ export class AdminBorrowsComponent {
     if (this.selectedSortBy == "ascending") {
       switch (this.selectedSearchBy) {
         case "title":
-          this.displayedBorrows.sort((a, b) => (a.book.title > b.book.title ? 1 : -1));
+          this.displayedBorrows.sort((a, b) => (a.book.title.toUpperCase() > b.book.title.toUpperCase() ? 1 : -1));
           break;
         case "memberNumber":
           this.displayedBorrows.sort((a, b) => (a.user.memberNumber > b.user.memberNumber ? 1 : -1));
@@ -180,7 +180,7 @@ export class AdminBorrowsComponent {
     else {
       switch (this.selectedSearchBy) {
         case "title":
-          this.displayedBorrows.sort((a, b) => (a.book.title < b.book.title ? 1 : -1));
+          this.displayedBorrows.sort((a, b) => (a.book.title.toUpperCase() < b.book.title.toUpperCase() ? 1 : -1));
           break;
         case "memberNumber":
           this.displayedBorrows.sort((a, b) => (a.user.memberNumber < b.user.memberNumber ? 1 : -1));

@@ -69,32 +69,32 @@ export class AdminInventoryComponent {
     if (this.selectedSortBy == "ascending") {
       switch (this.selectedSearchBy) {
         case "title":
-          this.displayedBooks.sort((a, b) => (a.title > b.title ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.title.toUpperCase() > b.title.toUpperCase() ? 1 : -1));
           break;
         case "isbn":
           this.displayedBooks.sort((a, b) => (a.isbn > b.isbn ? 1 : -1));
           break;
         case "author":
-          this.displayedBooks.sort((a, b) => (a.author.lastName > b.author.lastName ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.author.lastName.toUpperCase() > b.author.lastName.toUpperCase() ? 1 : -1));
           break;
         case "status":
-          this.displayedBooks.sort((a, b) => (a.status.status > b.status.status ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.status.status.toUpperCase() > b.status.status.toUpperCase() ? 1 : -1));
           break;
       }
     } 
     else {
       switch (this.selectedSearchBy) {
         case "title":
-          this.displayedBooks.sort((a, b) => (a.title < b.title ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.title.toUpperCase() < b.title.toUpperCase() ? 1 : -1));
           break;
         case "isbn":
           this.displayedBooks.sort((a, b) => (a.isbn < b.isbn ? 1 : -1));
           break;
         case "author":
-          this.displayedBooks.sort((a, b) => (a.author.lastName < b.author.lastName ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.author.lastName.toUpperCase() < b.author.lastName.toUpperCase() ? 1 : -1));
           break;
         case "status":
-          this.displayedBooks.sort((a, b) => (a.status.status < b.status.status ? 1 : -1));
+          this.displayedBooks.sort((a, b) => (a.status.status.toUpperCase() < b.status.status.toUpperCase() ? 1 : -1));
            break;
       }
     }
