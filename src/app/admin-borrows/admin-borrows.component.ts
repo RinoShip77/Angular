@@ -27,12 +27,30 @@ export class AdminBorrowsComponent {
 
   isChecked: Boolean = true;
   isCheckedLates: Boolean = false;
+  desc: boolean = true;
 
   constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService) { }
 
   ngOnInit() {
 
     this.retrieveBorrows();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  sortColumnBy(sortBy: string) {
+    this.selectedSearchBy = sortBy;
+    if (this.desc) {
+      this.desc = false;
+      this.selectedSortBy = "descending";
+    }
+    else {
+      this.desc = true;
+      this.selectedSortBy = "ascending";
+    }
+      
+    this.sortBorrows();
   }
 
   //-------------------------------------------------------

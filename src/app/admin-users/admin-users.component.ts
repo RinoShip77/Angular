@@ -14,10 +14,112 @@ export class AdminUsersComponent {
   users: User[] = [];
   displayedUsers: User[] = [];
 
+  searchField: string = "";
+  selectedSearchBy: String = "memberNumber";
+  selectedSortBy: String = "ascending";
+  desc: boolean = true;
+
   constructor(private electrolibService: ElectrolibService, private dataService: DataService) { }
 
   ngOnInit() {
     this.retrieveUsers();
+  }
+
+  //-------------------------------------------------------
+  // Change l'ordre de tri
+  //-------------------------------------------------------
+  changeSortBy(type: String) {
+    this.selectedSortBy = type;
+  }
+
+  //-------------------------------------------------------
+  // Change le type de recherche
+  //-------------------------------------------------------
+  changeResearchBy(type: String) {
+    this.selectedSearchBy = type;
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  sortColumnBy(sortBy: string) {
+    this.selectedSearchBy = sortBy;
+    if (this.desc) {
+      this.desc = false;
+      this.selectedSortBy = "descending";
+    }
+    else {
+      this.desc = true;
+      this.selectedSortBy = "ascending";
+    }
+      
+    this.sortUsers();
+  }
+
+  //-------------------------------------------------------
+  // Tri les livres
+  //-------------------------------------------------------
+  sortUsers() {
+    if (this.selectedSortBy == "ascending") {
+      switch (this.selectedSearchBy) {
+        case "memberNumber":
+          this.displayedUsers.sort((a, b) => (a.memberNumber > b.memberNumber ? 1 : -1));
+          break;
+        case "name":
+          this.displayedUsers.sort((a, b) => (a.lastName.toUpperCase() > b.lastName.toUpperCase() ? 1 : -1));
+          break;
+        case "roles":
+          this.displayedUsers.sort((a, b) => (this.parseRole(a) > this.parseRole(b) ? 1 : -1));
+          break;
+        case "totalPenalities":
+          this.displayedUsers.sort((a, b) => (a.totalPenalities > b.totalPenalities ? 1 : -1));
+          break;
+      }
+    }
+    else {
+      switch (this.selectedSearchBy) {
+        case "memberNumber":
+          this.displayedUsers.sort((a, b) => (a.memberNumber < b.memberNumber ? 1 : -1));
+          break;
+        case "name":
+          this.displayedUsers.sort((a, b) => (a.lastName.toUpperCase() < b.lastName.toUpperCase() ? 1 : -1));
+          break;
+        case "roles":
+          this.displayedUsers.sort((a, b) => (this.parseRole(a) < this.parseRole(b) ? 1 : -1));
+          break;
+        case "totalPenalities":
+          this.displayedUsers.sort((a, b) => (a.totalPenalities < b.totalPenalities ? 1 : -1));
+          break;
+      }
+    }
+  }
+
+  //-------------------------------------------------------
+  // Recherche par nom de livre
+  //-------------------------------------------------------
+  search() {
+    if (this.searchField.trim().length > 0) {
+      this.displayedUsers = [];
+      this.users.forEach(user => {
+        switch (this.selectedSearchBy) {
+
+          case "memberNumber":
+            if (user.memberNumber.includes(this.searchField)) {
+              this.displayedUsers.push(user);
+            }
+            break;
+          case "name":
+            if (user.firstName.toUpperCase().includes(this.searchField.toUpperCase()) ||
+              user.lastName.toUpperCase().includes(this.searchField.toUpperCase())) {
+              this.displayedUsers.push(user);
+            }
+            break;
+        }
+      });
+    } else {
+      this.displayedUsers = this.users;
+    }
+    this.sortUsers();
   }
 
   //-------------------------------------------------------
@@ -69,7 +171,7 @@ export class AdminUsersComponent {
     else
       return 0;
   }
-  
+
   //-------------------------------------------------------
   //
   //-------------------------------------------------------

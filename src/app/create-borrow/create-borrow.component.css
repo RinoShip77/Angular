@@ -25,6 +25,24 @@ label {
   font-weight: bold;
 }
 
+.btn-save {
+  display: block;
+  width: 100%;
+  max-width: 20em;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  margin: auto;
+}
+
+.btn-save:hover {
+  background-color: #0056b3;
+}
+
 .form-control {
   width: 100%;
   padding: 10px;

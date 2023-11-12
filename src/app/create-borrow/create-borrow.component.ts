@@ -6,6 +6,7 @@ import { Borrow } from '../model/Borrow';
 import { HttpResponse } from '@angular/common/http';
 import { Book } from '../model/Book';
 import { User } from '../model/User';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-borrow',
@@ -26,7 +27,7 @@ export class CreateBorrowComponent {
   bookSearchField: string = "";
   userSearchField: string = "";
 
-  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService) { }
+  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.retrieveBooks();
@@ -136,6 +137,15 @@ export class CreateBorrowComponent {
   //-------------------------------------------------------
   changeTab(tab: string) {
     this.dataService.changeTab(tab);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  openConfirmCreateBorrow(content: any) {
+    if (this.selectedUser.idUser != 0 && this.selectedBooks.length > 0) {
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
+    }
   }
 
 }
