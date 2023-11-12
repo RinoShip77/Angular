@@ -11,6 +11,7 @@ import { Reservation } from './model/Reservation';
 import { Evaluation } from './model/Evaluation';
 import { Favorite } from './model/Favorite';
 import { Comment } from './model/Comment';
+import { Recommendations } from './model/Recommendations'
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,7 @@ export class ElectrolibService {
   getRecommended(idUser:number) {
     let url = urlServer + 'recommandation/'+idUser;
 
-    return this.http.get<Book[]>(url);
+    return this.http.get<Recommendations>(url);
   }
   
   //--------------------------------
@@ -422,8 +423,8 @@ export class ElectrolibService {
   //--------------------------------
   // Update the profile informations
   //--------------------------------
-  updateProfile(action: string, idUser: number | undefined, object?: any) {
-    let url = urlServer + 'users/' + idUser;
+  updateUser(action: string, idUser: number | undefined, object?: any) {
+    let url = urlServer + 'users/modify/' + idUser;
     
     const params = new HttpParams({
       fromObject: {
@@ -439,7 +440,7 @@ export class ElectrolibService {
       }
     });
 
-    return this.http.post<User>(url, params);
+    return this.http.post(url, params);
   }
   
   //-------------------------------------------------------
@@ -469,6 +470,13 @@ export class ElectrolibService {
     return this.http.get<Favorite[]>(url);
   }
 
+  getFavoriteNbr(idBook:number){
+    console.log("idBook: "+idBook);
+    let url = `${urlServer}getNbrFav/${idBook}`;
+
+    return this.http.get<number>(url)
+  }
+
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
@@ -486,6 +494,22 @@ export class ElectrolibService {
     const formData = new FormData();
 
     return this.http.post<Borrow>(url, formData);
+  }
+
+  getIfFavorited(book:Book,user:User){
+    const url = `${urlServer}getIfFav`;
+    const formData = new FormData();
+    formData.append('idBook',book.idBook.toString());
+    formData.append('idUser',user.idUser.toString());
+    return this.http.post<Number>(url,formData);
+  }
+
+  deleteFavorite(book:Book,user:User){
+    const url = `${urlServer}delFav`;
+    const formData = new FormData();
+    formData.append('idBook',book.idBook.toString());
+    formData.append('idUser',user.idUser.toString());
+    return this.http.post<Number>(url,formData);
   }
 
   createFavorite(book:Book,user:User){

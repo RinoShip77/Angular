@@ -141,7 +141,7 @@
             <!-- Boutons situés en bas de la page -->
             <div class="div-btns">
                 <button class="btn-details btn btn-success border-btn label-emprunts" *ngIf="borrow.calculateFee() == null"
-                (click)="openReturnModal(returnModal)">
+                (click)="returnBorrow()">
                     Remettre l'emprunt
                 </button>
                 <button class="btn-details btn btn-warning border-btn label-emprunts" *ngIf="borrow.calculateFee() != null" 

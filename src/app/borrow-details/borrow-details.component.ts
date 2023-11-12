@@ -4,7 +4,7 @@ import { Borrow } from '../model/Borrow';
 import { User } from '../model/User';
 import { Book } from '../model/Book';
 import { DataService } from '../data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { getURLBookCover, getURLProfilePicture } from '../util';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -77,7 +77,7 @@ export class BorrowDetailsComponent implements OnInit {
     return getURLBookCover(idBook);
   }
 
-  constructor(private electrolibService: ElectrolibService, private datasrv: DataService, private route: ActivatedRoute, private modalService: NgbModal)
+  constructor(private electrolibService: ElectrolibService, private datasrv: DataService, private route: ActivatedRoute, private modalService: NgbModal,private router:Router)
   {
 
   }
@@ -102,6 +102,15 @@ export class BorrowDetailsComponent implements OnInit {
     modalRef.result.finally(() =>
     {
       this.window = "";
+    });
+  }
+
+  returnBorrow(){
+    this.electrolibService.returnBorrow(this.borrow).subscribe(receivedMessage => {
+      console.log(receivedMessage);
+      if(receivedMessage){
+       this.router.navigate(['borrows'])
+      }
     });
   }
 }
