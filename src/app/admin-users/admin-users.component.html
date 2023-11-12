@@ -91,7 +91,7 @@
                 <tbody>
                     <tr *ngFor="let user of displayedUsers">
                         <td>{{user.memberNumber}}</td>
-                        <td>{{user.firstName}} {{user.lastName}}</td>
+                        <td>{{user.lastName}}, {{user.firstName}}</td>
                         <td>{{parseRole(user)}}</td>
                         <td>
                             <span class="penalty" *ngIf="user.totalPenalities > 0">{{user.totalPenalities}}$</span>
