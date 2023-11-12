@@ -37,6 +37,7 @@ export class ShareComponent implements OnInit {
   send() {
     this.comment.reason = this.reason;
     this.comment.content = this.description;
+    this.comment.isFixed = 0;
 
     if(this.user)
     {

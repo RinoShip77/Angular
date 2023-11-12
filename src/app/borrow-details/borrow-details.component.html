@@ -68,13 +68,13 @@
             </div>
 
             <!-- Informations concernant le livre -->
-            <div class="col-5 row div-livre shadow-sm">
+            <div class="col-5 row div-livre shadow-sm d-flex">
                 <!-- Image du livre -->
-                <div class="col-4 shadow-sm">
+                <div class="col-4 shadow-sm div-image-livre" style="float:left">
                     <img class="image-livre" src="{{getBookCover(borrow.book.idBook)}}" onerror="this.src='assets/images/books/1.png'">
                 </div>
                 <!-- Infos du livre -->
-                <div class="col-8 div-info-emprunt shadow-sm">
+                <div class="col-7 div-info-emprunt shadow-sm" style="float:right">
                     <label class="label-emprunts">Titre:&nbsp;</label>
                     <span class="label-emprunts">{{borrow.book.title}}</span>
                     <br>
@@ -91,12 +91,12 @@
                     <span class="label-emprunts">{{book.originalLanguage}}</span>
                     <br>
                     <label class="label-emprunts">Année de publication:&nbsp;</label>
-                    <span class="label-emprunts">{{book.publishedDate}}</span>
+                    <span class="label-emprunts">{{book.formatedPublishedDate()}}</span>
                 </div>
             </div>
 
             <!-- Information concernant l'emprunt -->
-            <div class="col-5 div-info-commande row shadow-sm">
+            <div class="col-5 div-info-commande row shadow-sm d-flex">
                 <div class="col-7 div-txt-cmd">
                     <label class="label-emprunts-bold">Date d'emprunt:&nbsp;</label>
                     <span class="label-emprunts">{{borrow.borrowedDate}}</span>
@@ -112,7 +112,7 @@
                     <label class="label-emprunts-bold">Renouvellements fait:&nbsp;</label>
                     <span class="label-emprunts">{{borrow.getRenewTimes()}}</span>
                     <br>
-                    <label class="label-emprunts-bold">Status:&nbsp;</label>
+                    <label class="label-emprunts-bold">Statut:&nbsp;</label>
                     <span class="label-emprunts" [ngClass]="
                 {
                    'status-not-urgent' : borrow.determineStatus() == 'En cours',
@@ -128,8 +128,8 @@
                 </div>
 
                 
-                <div class="col-4 div-image shadow-sm" style="width:auto; padding: 13px;">
-                    <img src="{{url}}" class="img-details"
+                <div class="col-4 div-image shadow-sm" style="padding: 13px;">
+                    <img src="{{url}}" class="img-details d-flex"
                     alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}"
                     onerror="this.src='assets/images/users/default-user.png'">
                 </div>
