@@ -37,7 +37,9 @@ export class DetailLivreComponent {
     if(id){
      this.electrolibSrv.getBook(id).subscribe(receivedBook =>{
       this.book=receivedBook;
-     // console.log(receivedBook);
+      if(this.book.idStatus==1){
+        this.isAvailable=true;
+      }
 
       //je mets le code pour aller chercher le genre ici, je pense que subsrcibe fait un bug sinon
       this.electrolibSrv.getGenre(this.book.idGenre).subscribe(receivedGenre=>{
@@ -50,44 +52,34 @@ export class DetailLivreComponent {
      });
 
      this.electrolibSrv.getFavoriteNbr(this.book.idBook).subscribe(receivedNbr=>{
-      //console.log(receivedNbr);
       this.nbrLike=receivedNbr;
      });
 
      if(this.user){
       this.electrolibSrv.getIfFavorited(this.book,this.user).subscribe(receivedValue=>{
-        console.log("value :"+receivedValue)
         if(receivedValue==1){
           this.isLiked=true;
         }
       }); 
      }   
      });
-
-     
-
-     this.checkBookStatus();
     }
+    
+    
+
   }
 
-  checkBookStatus(){
-    if(this.book){
-      if(this.book.status.idStatus==1){
-        this.isAvailable=true;
-      }
-    }
-  }
 
   createBorrow(){
     if(this.user){
       this.electrolibSrv.createBorrow(this.user.idUser,this.book.idBook).subscribe(
         receivedBorrow=>{
-         console.log(receivedBorrow);
-           if(receivedBorrow.book==null){
+          console.log(receivedBorrow);
+           if(receivedBorrow==null){
            this.failureBorrow();
           }
           else{
-             this.succesBorrow();
+             this.router.navigate(["borrowDetails",receivedBorrow])
            }
          }
        )};
@@ -113,9 +105,9 @@ export class DetailLivreComponent {
 
   AjoutFav(){
     if(this.user){
+      console.log(this.book);
       this.electrolibSrv.createFavorite(this.book,this.user).subscribe(
         receivedFavorite=>{
-          console.log(receivedFavorite);
         }
       )};
       this.nbrLike=this.nbrLike+1;
@@ -124,9 +116,13 @@ export class DetailLivreComponent {
 
   deleteFav(){
     if(this.user){
-
+      this.electrolibSrv.deleteFavorite(this.book,this.user).subscribe(receivedValue =>{if(receivedValue==1){
+        this.nbrLike=this.nbrLike-1;
+        this.isLiked=false;
+      }
+    });
     }
-    this.nbrLike=this.nbrLike-1;
+    
   }
 
 }

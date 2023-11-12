@@ -504,6 +504,14 @@ export class ElectrolibService {
     return this.http.post<Number>(url,formData);
   }
 
+  deleteFavorite(book:Book,user:User){
+    const url = `${urlServer}delFav`;
+    const formData = new FormData();
+    formData.append('idBook',book.idBook.toString());
+    formData.append('idUser',user.idUser.toString());
+    return this.http.post<Number>(url,formData);
+  }
+
   createFavorite(book:Book,user:User){
     const url = `${urlServer}create-favorite`;
     const formData = new FormData();
