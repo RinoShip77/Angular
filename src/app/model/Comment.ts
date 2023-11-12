@@ -7,4 +7,6 @@ export class Comment
     content: string = '';
     user: User = new User();
     idUser:number = 0;
+    
+    isFixed:number = 0;
 }

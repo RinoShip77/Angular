@@ -540,4 +540,14 @@ export class ElectrolibService {
 
     return this.http.get<Comment[]>(url);
   }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  commentsFixed(comment: Comment) {
+
+    let url = `${urlServer}comment-fixed/` + comment.idComment;
+
+    return this.http.get<Comment>(url);
+  }
 }

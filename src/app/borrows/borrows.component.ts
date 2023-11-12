@@ -52,7 +52,7 @@ export class BorrowsComponent implements OnInit {
 
   aboutModal:any;
 
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService, private dataService: DataService) {
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private datasrv: DataService) {
 
     
   }

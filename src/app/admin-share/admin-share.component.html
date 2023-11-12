@@ -30,7 +30,8 @@
                         <div class="dropdown">
                             <label for="search-by" class="fit-label">Trier par</label>
                             <select class="form-control combobox" #searchBy name="search-by">
-                                <option value="title">Nom/Numero membre</option>
+                                <option value="title">Courriel</option>
+                                <option value="title">Numero membre</option>
                                 <option value="borrowedDate">Raison</option>
                             </select>
                         </div>
@@ -44,7 +45,7 @@
             <table class="table table-striped" style="text-align: center;">
                 <thead>
                     <tr>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Nom Utilisateur</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Courriel</th>
                         <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">N°
                             membre</th>
                         <th [ngStyle]="{'background-color': searchBy.value == 'borrowedDate' ? '#31359C' : ''}">Raison</th>
@@ -53,17 +54,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>t</td>
-                        <td>t</td>
-                        <td>t</td>
-                        <td>t</td>
+                    <tr *ngFor="let comment of comments" [ngClass]="{'isFixed' : comment.isFixed == 1}">
+                        <td>{{comment.user.email}}</td>
+                        <td>{{comment.user.memberNumber}}</td>
+                        <td>{{comment.reason}}</td>
+                        <td>{{comment.content}}</td>
                         <td>
                             <article style="display: flex;">
-                                <button style="margin: auto;"
+                                <button style="margin: auto;" (click)="declareFixed(comment)" *ngIf="comment.isFixed == 0" 
                                     class="btn btn-success btn-action">
-                                    <i class="fa-solid fa-check"></i>
-                                    <span class="info-tooltip">Corrigé</span>
+                                    <i class="fa-solid fa-check" style="width: 60px;"></i>
+                                    <span class="info-tooltip">Corriger</span>
+                                </button>
+                                <button style="margin: auto;" *ngIf="comment.isFixed == 1"
+                                    class="btn btn-success btn-action desactivated">
+                                    <i class="fa-solid fa-check" style="width: 60px"></i>
+                                    <span class="info-tooltip">réglé/lu</span>
                                 </button>
                             </article>
                         </td>

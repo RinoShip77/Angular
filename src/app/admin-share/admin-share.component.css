@@ -43,9 +43,6 @@
     color: white;
 }
 
-/* ----------------------------------------------------------- */
-/* Section pour le style de la table de données */
-/* ----------------------------------------------------------- */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -87,10 +84,6 @@ td, th {
     overflow-x: auto;
 }
 
-.fa {
-    font-size: 18px;
-}
-
 th
 {
     border:2px solid rgb(48, 48, 48);
@@ -98,5 +91,16 @@ th
 
 td
 {
-    border:2px solid lightgray;
+    border:2px solid darkgray;
+}
+
+.desactivated
+{
+    opacity: 30%;
+    cursor: not-allowed;
+}
+
+.isFixed > td
+{
+    background-color: rgba(0, 128, 0, 0.26);
 }
