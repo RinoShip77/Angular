@@ -6,42 +6,59 @@
                 alt="imageDuLivre">
         </section>
         <section class="infoLivre col-6 offset-1 ">
-            <h2>{{book.title}}</h2>
-            <p>
+            <h1>{{book.title}}</h1>
+            <div class="row">
+                <p class="col-2">Auteur :</p>
+                <p class="col-6">{{author.firstName}} {{author.lastName}}</p>
+            </div>
+            <p style="font-size: 25px;">
                 {{book.description}}
             </p>
 
-            <div class="row">
-                <p class="col-6">Genre :</p>
-                <p class="col-6">{{genre.name}}</p>
-            </div>
-            <div class="row">
-                <p class="col-6">Auteur :</p>
-                <p class="col-6">{{author.firstName}} {{author.lastName}}</p>
-            </div>
-            <div class="row">
-                <p class="col-6">Langue :</p>
-                <p class="col-6">{{book.originalLanguage}}</p>
-            </div>
-            <div class="row">
-                <p class="col-6">Date de publication :</p>
-                <p class=" col-6">{{book.publishedDate | date : 'yyyy-MM-dd'}}</p>
-
-            </div>
-            <div class="row">
-                <p class="col-6">Isbn :</p>
-                <p class="col-6">{{book.isbn}}</p>
-            </div>
+            
+           
+           
 
             <div>
-                <div>
+                <div class="d-flex">
                     <button *ngIf="btnVisible" class="btn btn-outline-info m-1" (click)="createBorrow()">Emprunter</button>
                     <p *ngIf="Succes">emprunt crée avec succes</p>
                     <p *ngIf="failure">impossible d'emprunter {{book.title}}</p>
                     <button *ngIf="Succes || failure" class="btn btn-outline-info m-1" (click)="Acceuil()">retour a l'acceuil</button>
+                    <button *ngIf="isLiked==false" class="btn btn-outline-danger m-1" (click)="AjoutFav()">ajouter au favoris</button>
+                    <button *ngIf="isLiked==true" class="btn btn-danger m-1">retirer des favoris</button>
                 </div>
             </div>
-            <button class="btn btn-outline-info m-1" (click)="AjoutFav()">ajouter au favoris</button>
         </section>
     </div>
+
+    <table style="width: 40%; margin: 0 auto;" class="table">
+       <tbody>
+        <tr>
+            <td>genre :</td>
+            <td>{{genre.name}}</td>
+        </tr>
+        <tr>
+            <td>nombre de favoris :</td>
+            <td>{{nbrLike}}</td>
+        </tr>
+        <tr>
+            <td>isbn :</td>
+            <td>{{book.isbn}}</td>
+        </tr>
+        <tr>
+            <td>date de publication :</td>
+            <td>{{book.publishedDate | date: 'MMM dd, yyyy'}}</td>
+        </tr>
+        <tr>
+            <td>Langue original :</td>
+            <td>{{book.originalLanguage}}</td>
+        </tr>
+        <tr *ngIf="book.isRecommended">
+            <td>ce livre est recommendé par nos administrateurs</td>
+            <td></td>
+        </tr>
+        
+        </tbody> 
+    </table>
 </main>

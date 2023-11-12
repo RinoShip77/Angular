@@ -1,5 +1,20 @@
 <div *ngIf="recommendedBooks.length>0">
-  <h2>Recommendations</h2>
+  <div class="d-flex">
+    <h2>Recommendations</h2>
+  <div style="margin-left: 50%;" class="dropdown show">
+  <a (click)="displayMenuFn()" class="btn btn-secondary dropdown-toggle"  role="button" id="dropdownMenuLink">
+   Changer l'affichage par:
+  </a>
+
+  <ul *ngIf="displayMenu" >
+    <li  class="dropdown-item" href="#"><button (click)="setAll()" style="width: 200px;" class="btn btn-secondary">Tout</button></li>
+    <li  class="dropdown-item" href="#"><button (click)="setFav()" style="width: 200px;" class="btn btn-secondary">Favoris</button></li>
+    <li class="dropdown-item" href="#"> <button (click)="setBorrow()" style="width: 200px;" class="btn btn-secondary">statisque</button> </li>
+    <li class="dropdown-item" href="#"> <button (click)="setAdmin()" style="width: 200px;" class="btn btn-secondary">coup de coeur</button> </li>
+  </ul>
+</div>
+  </div>
+  
   <!-- Slideshow container -->
   <div class="slideshow-container" style="width: 70vw; height: 25vh; display: flex; flex-direction: row;">
   
@@ -13,7 +28,7 @@
       </div>
     </div>
    -->
-   <div type="button" class="col mySlides" id="mySlides" *ngFor="let book of recommendedBooks" (click)="displayBook(book.idBook)">
+   <div type="button" class="col mySlides" id="mySlides" *ngFor="let book of displayedBooks" (click)="displayBook(book.idBook)">
       <div class="card h-100 mb-3">
         <div class="row g-0">
           <div class="col-4">

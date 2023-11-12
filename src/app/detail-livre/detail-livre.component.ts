@@ -22,9 +22,11 @@ export class DetailLivreComponent {
   book: Book = new Book();
   genre: Genre = new Genre();
   author:Author = new Author();
+  nbrLike=0;
   btnVisible=true;
   Succes=false;
   failure=false;
+  isLiked=false;
 
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
   ngOnInit() {
@@ -46,7 +48,23 @@ export class DetailLivreComponent {
      this.electrolibSrv.getAuthor(this.book.idAuthor).subscribe(receivedAuthor=>{
           this.author=receivedAuthor;
      });
+
+     this.electrolibSrv.getFavoriteNbr(this.book.idBook).subscribe(receivedNbr=>{
+      //console.log(receivedNbr);
+      this.nbrLike=receivedNbr;
      });
+
+     if(this.user){
+      this.electrolibSrv.getIfFavorited(this.book,this.user).subscribe(receivedValue=>{
+        console.log("value :"+receivedValue)
+        if(receivedValue==1){
+          this.isLiked=true;
+        }
+      }); 
+     }   
+     });
+
+     
 
      this.checkBookStatus();
     }
@@ -98,14 +116,17 @@ export class DetailLivreComponent {
       this.electrolibSrv.createFavorite(this.book,this.user).subscribe(
         receivedFavorite=>{
           console.log(receivedFavorite);
-          /* if(receivedBorrow.book==null){
-           this.failureBorrow();
-          }
-          else{
-            this.succesBorrow();
-          } */
         }
       )};
+      this.nbrLike=this.nbrLike+1;
+      this.isLiked=true;
+  }
+
+  deleteFav(){
+    if(this.user){
+
+    }
+    this.nbrLike=this.nbrLike-1;
   }
 
 }
