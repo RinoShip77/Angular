@@ -22,9 +22,11 @@ export class DetailLivreComponent {
   book: Book = new Book();
   genre: Genre = new Genre();
   author:Author = new Author();
+  nbrLike=0;
   btnVisible=true;
   Succes=false;
   failure=false;
+  isLiked=false;
 
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
   ngOnInit() {
@@ -35,7 +37,9 @@ export class DetailLivreComponent {
     if(id){
      this.electrolibSrv.getBook(id).subscribe(receivedBook =>{
       this.book=receivedBook;
-     // console.log(receivedBook);
+      if(this.book.idStatus==1){
+        this.isAvailable=true;
+      }
 
       //je mets le code pour aller chercher le genre ici, je pense que subsrcibe fait un bug sinon
       this.electrolibSrv.getGenre(this.book.idGenre).subscribe(receivedGenre=>{
@@ -46,30 +50,36 @@ export class DetailLivreComponent {
      this.electrolibSrv.getAuthor(this.book.idAuthor).subscribe(receivedAuthor=>{
           this.author=receivedAuthor;
      });
+
+     this.electrolibSrv.getFavoriteNbr(this.book.idBook).subscribe(receivedNbr=>{
+      this.nbrLike=receivedNbr;
      });
 
-     this.checkBookStatus();
+     if(this.user){
+      this.electrolibSrv.getIfFavorited(this.book,this.user).subscribe(receivedValue=>{
+        if(receivedValue==1){
+          this.isLiked=true;
+        }
+      }); 
+     }   
+     });
     }
+    
+    
+
   }
 
-  checkBookStatus(){
-    if(this.book){
-      if(this.book.status.idStatus==1){
-        this.isAvailable=true;
-      }
-    }
-  }
 
   createBorrow(){
     if(this.user){
       this.electrolibSrv.createBorrow(this.user.idUser,this.book.idBook).subscribe(
         receivedBorrow=>{
-         console.log(receivedBorrow);
-           if(receivedBorrow.book==null){
+          console.log(receivedBorrow);
+           if(receivedBorrow==null){
            this.failureBorrow();
           }
           else{
-             this.succesBorrow();
+             this.router.navigate(["borrowDetails",receivedBorrow])
            }
          }
        )};
@@ -95,17 +105,24 @@ export class DetailLivreComponent {
 
   AjoutFav(){
     if(this.user){
+      console.log(this.book);
       this.electrolibSrv.createFavorite(this.book,this.user).subscribe(
         receivedFavorite=>{
-          console.log(receivedFavorite);
-          /* if(receivedBorrow.book==null){
-           this.failureBorrow();
-          }
-          else{
-            this.succesBorrow();
-          } */
         }
       )};
+      this.nbrLike=this.nbrLike+1;
+      this.isLiked=true;
+  }
+
+  deleteFav(){
+    if(this.user){
+      this.electrolibSrv.deleteFavorite(this.book,this.user).subscribe(receivedValue =>{if(receivedValue==1){
+        this.nbrLike=this.nbrLike-1;
+        this.isLiked=false;
+      }
+    });
+    }
+    
   }
 
 }
