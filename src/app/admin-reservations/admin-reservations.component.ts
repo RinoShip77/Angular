@@ -187,7 +187,7 @@ export class AdminReservationsComponent {
     if (this.selectedSortBy == "ascending") {
       switch (this.selectedSearchBy) {
         case "title":
-          this.displayedReservations.sort((a, b) => (a.book.title > b.book.title ? 1 : -1));
+          this.displayedReservations.sort((a, b) => (a.book.title.toUpperCase() > b.book.title.toUpperCase() ? 1 : -1));
           break;
         case "memberNumber":
           this.displayedReservations.sort((a, b) => (a.user.memberNumber > b.user.memberNumber ? 1 : -1));
@@ -200,7 +200,7 @@ export class AdminReservationsComponent {
     else {
       switch (this.selectedSearchBy) {
         case "title":
-          this.displayedReservations.sort((a, b) => (a.book.title < b.book.title ? 1 : -1));
+          this.displayedReservations.sort((a, b) => (a.book.title.toUpperCase() < b.book.title.toUpperCase() ? 1 : -1));
           break;
         case "memberNumber":
           this.displayedReservations.sort((a, b) => (a.user.memberNumber < b.user.memberNumber ? 1 : -1));
