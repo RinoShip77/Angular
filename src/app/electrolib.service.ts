@@ -425,7 +425,7 @@ export class ElectrolibService {
   //--------------------------------
   uploadProfilePicture(idUser: number | undefined, imageData: string) {
     const formData = new FormData();
-    formData.append('action', 'updateProfilePicture');
+    formData.append('action', 'updatePicture');
     formData.append('profilePicture', imageData);
     
     let url = urlServer + 'users/modify/' + idUser;

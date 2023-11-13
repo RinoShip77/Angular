@@ -108,10 +108,11 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to upload a new profile picture to the user
   //---------------------------------
-  updatePicture(idUser: number | undefined, pictureNumber?: number) {
+  updatePicture(idUser: number | undefined, event: any, pictureNumber?: number) {
+    this.onFileSelected(event);
+
     this.electrolibService.uploadProfilePicture(idUser, this.file_data).subscribe(
       response => {
-        console.log(this.file_data);
         this.toastService.show('Votre profil a été mis à jour.', {
           classname: 'bg-success',
         });
@@ -123,7 +124,7 @@ export class ProfileComponent implements OnInit {
         });
       }
     );
-    
+
     // this.electrolibService.updateUser('updatePicture', idUser, { pictureNumber: pictureNumber }).subscribe(
     //   user => {
     //     this.toastService.show('Votre profil a été mis à jour.', {
@@ -155,10 +156,10 @@ export class ProfileComponent implements OnInit {
   }
 
   //-------------------------------------------------------
-  // Retourne l'extension de l'image
+  // Return the extension of the image
   //-------------------------------------------------------
-  extractExtension(nomFichier: string) {
-    let extension = nomFichier.split('.').pop();
+  extractExtension(fileName: string) {
+    let extension = fileName.split('.').pop();
     return extension;
   }
 
@@ -167,19 +168,21 @@ export class ProfileComponent implements OnInit {
   //-------------------------------------------------------
   validateFile() {
     let fileSupported = false;
+
     if (this.selectedImage.size <= MAX_FILE_SIZE) {
       let extension = this.extractExtension(this.selectedImage.name);
-      if (extension?.toLowerCase() === 'png') {
+
+      if (extension?.toLowerCase() === 'png' || extension?.toLowerCase() === 'jpg' || extension?.toLowerCase() === 'jpeg') {
         fileSupported = true;
-      }
-      if (!fileSupported)
+      } else {
         this.toastService.show("L'extension du fichier n'est pas supportée.", {
           classname: 'bg-danger',
         });
+      }
     }
     else {
       fileSupported = false;
-      this.toastService.show('Le fichier est trop volumineux.', {
+      this.toastService.show('Le fichier est trop volumineux. Maximum de 500 kB.', {
         classname: 'bg-danger',
       });
     }
@@ -452,13 +455,11 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  openFeesModal(content:any)
-  {
-    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+  openFeesModal(content: any) {
+    const modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true, });
   }
 
-  dismissModal()
-  {
+  dismissModal() {
     this.modalService.dismissAll();
   }
 }
