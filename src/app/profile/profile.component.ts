@@ -21,8 +21,6 @@ export class ProfileComponent implements OnInit {
   colorSwitch: boolean = false;
   background: string = '';
   selectedImage: any;
-  formData = new FormData();
-  file: any;
   file_data: any = "";
   url: string = '';
   disconnected: boolean = false;

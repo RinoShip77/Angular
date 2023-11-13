@@ -6,14 +6,14 @@
         <a type="button" class="d-flex justify-content-end" (click)="openModal(preferenceContent)">
           <i class="fas fa-toolbox text-secondary" style="font-size: 5em"></i>
         </a>
-        <div class="my-5">
-          <img class="img-fluid img-thumbnail border-3 border-dark rounded-circle w-50" src="{{user?.profilePicture}}"
-            alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}"
+        <div class="d-flex flex-column justify-content-center my-5">
+          <img src="{{url}}" alt="{{user?.firstName + ' ' + user?.lastName}}"
+            title="{{user?.firstName + ' ' + user?.lastName}}"
+            class="img-fluid img-thumbnail border-3 border-dark rounded-circle w-75"
             onerror="this.src='assets/images/users/default-user.png'">
           <!-- TODO: Set the source at {{user.profilePicture}} -->
-          <div class="d-flex justify-content-end"
-            style="margin-right: 10em; margin-top: -5em">
-            <label for="file-upload" class="btn btn-secondary rounded-circle text-dark p-5 display-1">
+          <div class="d-flex justify-content-end" style="margin-right: 10em; margin-top: -5em">
+            <label for="file-upload" class="btn btn-secondary rounded-circle text-dark py-1 fs-1">
               <i class="fas fa-plus"></i>
             </label>
             <input name="profilePicture" class="d-none" id="file-upload" type="file" accept="image/*"
