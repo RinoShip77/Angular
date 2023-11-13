@@ -412,12 +412,25 @@ export class ElectrolibService {
   }
 
   //--------------------------------
-  // Route to get all the genre
+  // Route to get one user
   //--------------------------------
   getUser(idUser: number) {
     let url = urlServer + 'users/' + idUser;
 
     return this.http.get<User>(url);
+  }
+
+  //--------------------------------
+  // Update the profile picture
+  //--------------------------------
+  uploadProfilePicture(idUser: number | undefined, imageData: string) {
+    const formData = new FormData();
+    formData.append('action', 'updateProfilePicture');
+    formData.append('profilePicture', imageData);
+    
+    let url = urlServer + 'users/modify/' + idUser;
+    
+    return this.http.post(url, formData);
   }
   
   //--------------------------------

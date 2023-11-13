@@ -4,7 +4,7 @@ import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ENCRYPTION_KEY, getURLProfilePicture } from '../util';
+import { ENCRYPTION_KEY, MAX_FILE_SIZE, getURLProfilePicture } from '../util';
 import { ToastService } from '../toast.service';
 import { EncryptionService } from '../encryption.service';
 
@@ -17,11 +17,15 @@ export class ProfileComponent implements OnInit {
   user: User | undefined = new User();
   role: string = '';
   tempUser: any;
-  disconnected: boolean = false;
+  margin: string = '';
   colorSwitch: boolean = false;
   background: string = '';
+  selectedImage: any;
+  formData = new FormData();
+  file: any;
+  file_data: any = "";
   url: string = '';
-  margin: string = '';
+  disconnected: boolean = false;
   validations: { [key: string]: boolean | null | undefined } = {
     email: null,
     firstName: null,
@@ -104,13 +108,14 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to upload a new profile picture to the user
   //---------------------------------
-  updatePicture(idUser: number | undefined, pictureNumber: number) {
-    this.electrolibService.updateUser('updatePicture', idUser, { pictureNumber: pictureNumber }).subscribe(
-      user => {
+  updatePicture(idUser: number | undefined, pictureNumber?: number) {
+    this.electrolibService.uploadProfilePicture(idUser, this.file_data).subscribe(
+      response => {
+        console.log(this.file_data);
         this.toastService.show('Votre profil a été mis à jour.', {
           classname: 'bg-success',
         });
-        this.url = 'assets/images/users/profilePictures/Picture' + pictureNumber + '.png';
+        this.url = getURLProfilePicture(idUser);
       },
       (error) => {
         this.toastService.show('La mise à jour a échoué.', {
@@ -118,6 +123,68 @@ export class ProfileComponent implements OnInit {
         });
       }
     );
+    
+    // this.electrolibService.updateUser('updatePicture', idUser, { pictureNumber: pictureNumber }).subscribe(
+    //   user => {
+    //     this.toastService.show('Votre profil a été mis à jour.', {
+    //       classname: 'bg-success',
+    //     });
+    //     this.url = 'assets/images/users/profilePictures/Picture' + pictureNumber + '.png';
+    //   },
+    //   (error) => {
+    //     this.toastService.show('La mise à jour a échoué.', {
+    //       classname: 'bg-danger',
+    //     });
+    //   }
+    // );
+  }
+
+  //-------------------------------------------------------
+  // Upload an image
+  //-------------------------------------------------------
+  onFileSelected(event: any) {
+    const fileList: FileList = event.target.files;
+
+    if (fileList.length > 0) {
+      this.selectedImage = fileList[0];
+
+      if (this.validateFile()) {
+        this.file_data = new Blob([this.selectedImage], { type: this.selectedImage.type });;
+      }
+    }
+  }
+
+  //-------------------------------------------------------
+  // Retourne l'extension de l'image
+  //-------------------------------------------------------
+  extractExtension(nomFichier: string) {
+    let extension = nomFichier.split('.').pop();
+    return extension;
+  }
+
+  //-------------------------------------------------------
+  // Validate the image before sending it to the DB
+  //-------------------------------------------------------
+  validateFile() {
+    let fileSupported = false;
+    if (this.selectedImage.size <= MAX_FILE_SIZE) {
+      let extension = this.extractExtension(this.selectedImage.name);
+      if (extension?.toLowerCase() === 'png') {
+        fileSupported = true;
+      }
+      if (!fileSupported)
+        this.toastService.show("L'extension du fichier n'est pas supportée.", {
+          classname: 'bg-danger',
+        });
+    }
+    else {
+      fileSupported = false;
+      this.toastService.show('Le fichier est trop volumineux.', {
+        classname: 'bg-danger',
+      });
+    }
+
+    return fileSupported;
   }
 
   //---------------------------------

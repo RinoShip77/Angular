@@ -6,8 +6,23 @@
         <a type="button" class="d-flex justify-content-end" (click)="openModal(preferenceContent)">
           <i class="fas fa-toolbox text-secondary" style="font-size: 5em"></i>
         </a>
-        <div class="my-3">
-          <div class="text-center">
+        <div class="my-5">
+          <img class="img-fluid img-thumbnail border-3 border-dark rounded-circle w-75" src="{{user?.profilePicture}}"
+            alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}"
+            onerror="this.src='assets/images/users/default-user.png'">
+          <!-- TODO: Set the source at {{user.profilePicture}} -->
+          <form (ngSubmit)="updatePicture(user?.idUser)" class="d-flex justify-content-end"
+            style="margin-right: 10em; margin-top: -5em">
+            <label for="file-upload" class="btn btn-secondary rounded-circle text-dark fs-2">
+              <i class="fas fa-plus"></i>
+            </label>
+            <input name="profilePicture" class="d-none" id="file-upload" type="file" accept="image/*"
+              (change)="onFileSelected($event)">
+            <button type="submit" class="bg-transparent">
+            </button>
+          </form>
+
+          <!-- <div class="text-center">
             <img src="{{url}}" class="img-fluid img-thumbnail w-50 border-3 border-dark rounded-circle"
               alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}"
               onerror="this.src='assets/images/users/default-user.png'">
@@ -15,7 +30,7 @@
               (click)="openModal(profilePictureContent)">
               <i class="fas fa-plus text-dark fs-2"></i>
             </button>
-          </div>
+          </div> -->
         </div>
         <div>
           <h1>{{user?.firstName + ' ' + user?.lastName}}</h1>
