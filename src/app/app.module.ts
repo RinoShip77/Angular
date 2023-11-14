@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; 
 import { HttpClientModule } from '@angular/common/http';
 
-
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
 import { ConnectionComponent } from './connection/connection.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -35,7 +35,6 @@ import { AboutComponent } from './about/about.component';
 import { ShareComponent } from './share/share.component';
 import { PaymentComponent } from './payment/payment.component';
 import { AdminShareComponent } from './admin-share/admin-share.component';
-
 
 @NgModule({
   declarations: [
@@ -74,10 +73,12 @@ import { AdminShareComponent } from './admin-share/admin-share.component';
     NgbModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule,
-
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
-  providers: [EncryptionService],
+  providers: [
+    EncryptionService,
+    provideNgxMask()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

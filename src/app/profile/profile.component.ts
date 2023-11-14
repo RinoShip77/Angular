@@ -47,6 +47,7 @@ export class ProfileComponent implements OnInit {
     if (!id) {
       if (this.dataService.getUser() != undefined) {
         this.user = this.dataService.getUser();
+        console.log(this.user);
       }
     } else {
       this.electrolibService.getUser(id).subscribe(

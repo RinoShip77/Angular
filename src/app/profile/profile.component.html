@@ -59,7 +59,7 @@
         </div>
       </div>
     </div>
-    <div class="col-6 ms-2 p-1">
+    <div class="col-7 ms-2 p-1">
       <h1 class="mt-5 text-center">Vos informations</h1>
       <form #profileForm="ngForm" (ngSubmit)="updateUser(user?.idUser, profileForm.value)" class="m-5">
         <div class="mb-3">
@@ -78,8 +78,8 @@
         <div class="row">
           <div class="col mb-3">
             <label class="form-label">Prénom</label>
-            <input name="firstName" [ngModel]="user?.firstName" type="text" class="form-control"
-              placeholder="user.firstName" pattern="[a-zA-Z]+">
+            <input name="firstName" [ngModel]="user?.firstName | titlecase" type="text" class="form-control"
+              placeholder="user.firstName" pattern="[a-zA-Z]+" mask="S*">
             <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['firstName'] === true">
               <i class="fas fa-check"></i>
               Le prénom est valide.
@@ -91,8 +91,8 @@
           </div>
           <div class="col mb-3">
             <label class="form-label">Nom</label>
-            <input name="lastName" [ngModel]="user?.lastName" type="text" class="form-control"
-              placeholder="user.lastName" pattern="[a-zA-Z]+">
+            <input name="lastName" [ngModel]="user?.lastName | titlecase" type="text" class="form-control"
+              placeholder="user.lastName" pattern="[a-zA-Z]+" mask="S*">
             <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['lastName'] === true">
               <i class="fas fa-check"></i>
               Le nom est valide.
@@ -118,8 +118,9 @@
           </div>
           <div class="col mb-3">
             <label class="form-label">Code postal</label>
-            <input name="postalCode" [ngModel]="user?.postalCode" type="text" class="form-control" placeholder="___ ___"
-              pattern="[a-zA-Z]\d[a-zA-Z] \d[a-zA-Z]\d" (ngModelChange)="formatPostalCode($event)">
+            <input name="postalCode" [ngModel]="user?.postalCode | uppercase" type="text" class="form-control"
+              pattern="[A-Z]\d[A-Z] \d[A-Z]\d" placeholder="___ ___" mask="S0S 0S0"
+              oninput="this.value = this.value.toUpperCase()">
             <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['postalCode'] === true">
               <i class="fas fa-check"></i>
               Le code postal est valide.
@@ -132,7 +133,7 @@
           <div class="col mb-3">
             <label class="form-label">Téléphone</label>
             <input name="phoneNumber" [ngModel]="user?.phoneNumber" type="tel" class="form-control"
-              placeholder="(___) ___-____" pattern="(\d{3}-){2}\d{4}" (ngModelChange)="formatPhoneNumber()">
+              pattern="(\d{3}) \d{3}-\d{4}" placeholder="(___) ___-____" mask="(000) 000-0000">
             <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['phoneNumber'] === true">
               <i class="fas fa-check"></i>
               Le numéro de téléphone est valide.
@@ -159,22 +160,11 @@
               <div class="card-img-top p-2">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid" alt="...">
+                  class="img-fluid">
               </div>
-              <div class="card-body">
-                <h6 class="card-title">Titre du livre</h6>
-              </div>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="card text-center">
-              <div class="card-img-top p-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid" alt="...">
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Titre du livre</h6>
+              <span class="card-title">Titre du livre</span>
+              <div class="card-footer">
+                <small class="text-body-secondary">Date</small>
               </div>
             </div>
           </div>
@@ -183,22 +173,11 @@
               <div class="card-img-top p-2">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid" alt="...">
+                  class="img-fluid">
               </div>
-              <div class="card-body">
-                <h6 class="card-title">Titre du livre</h6>
-              </div>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="card text-center">
-              <div class="card-img-top p-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid" alt="...">
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Titre du livre</h6>
+              <span class="card-title">Titre du livre</span>
+              <div class="card-footer">
+                <small class="text-body-secondary">Date</small>
               </div>
             </div>
           </div>
@@ -207,10 +186,11 @@
               <div class="card-img-top p-2">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid" alt="...">
+                  class="img-fluid">
               </div>
-              <div class="card-body">
-                <h6 class="card-title">Titre du livre</h6>
+              <span class="card-title">Titre du livre</span>
+              <div class="card-footer">
+                <small class="text-body-secondary">Date</small>
               </div>
             </div>
           </div>
@@ -219,10 +199,37 @@
               <div class="card-img-top p-2">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid" alt="...">
+                  class="img-fluid">
               </div>
-              <div class="card-body">
-                <h6 class="card-title">Titre du livre</h6>
+              <span class="card-title">Titre du livre</span>
+              <div class="card-footer">
+                <small class="text-body-secondary">Date</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="card text-center">
+              <div class="card-img-top p-2">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                  class="img-fluid">
+              </div>
+              <span class="card-title">Titre du livre</span>
+              <div class="card-footer">
+                <small class="text-body-secondary">Date</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="card text-center">
+              <div class="card-img-top p-2">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
+                  class="img-fluid">
+              </div>
+              <span class="card-title">Titre du livre</span>
+              <div class="card-footer">
+                <small class="text-body-secondary">Date</small>
               </div>
             </div>
           </div>
