@@ -300,9 +300,9 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to format the postal code in real time
   //---------------------------------
-  formatPostalCode() {
+  formatPostalCode(event: any) {
     console.log('format postal code');
-
+    this.tempUser.postalCode = event.toString();
     // if (this.user.postalCode.length >= 3) {
     //   this.user.postalCode = this.user.postalCode.slice(0, 3) + ' ' + this.user.postalCode.slice(3);
     // }
@@ -431,7 +431,7 @@ export class ProfileComponent implements OnInit {
   // Function to validate the postal code
   //-------------------------------------------------------
   validatePostalCode() {
-    let pattern = /[a-zA-Z]\d[a-zA-Z] \d[a-zA-Z]\d/;
+    let pattern = /[A-Z]\d[A-Z] \d[A-Z]\d/;
 
     if (pattern.test(this.tempUser.postalCode)) {
       this.validations["postalCode"] = true;
@@ -453,10 +453,9 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  openFeesModal(content: any) {
-    const modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true, });
-  }
-
+  //---------------------------------
+  // Function to close all the modal that where previously open
+  //---------------------------------
   dismissModal() {
     this.modalService.dismissAll();
   }
