@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require('electron');
 const url = require('url');
 const path = require('path');
 const appTitle = 'Electrolib';
-const appIcon = path.join(__dirname, '/src/assets/images/logos/ApplicationIcon6.png');
+const appIcon = path.join(__dirname, '/src/assets/images/logos/applicationIcon.png');
 
 function onReady() {
   win = new BrowserWindow({

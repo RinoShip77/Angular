@@ -7,7 +7,7 @@ export class ToastService {
 	show(textOrTpl: string | TemplateRef<any>, options: any = {}) {
 		this.toasts.push({ textOrTpl, ...options });
 
-		const notification = new Notification(textOrTpl.toString(),	{	icon: 'assets/images/logos/ApplicationIcon6.png'});
+		const notification = new Notification(textOrTpl.toString(), { icon: 'assets/images/logos/applicationIcon.png' });
 		setTimeout(() => { notification.close() }, 5000);
 	}
 
