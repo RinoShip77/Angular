@@ -3,12 +3,13 @@
     <article style="width: 13em; float: left;"></article>
 
     <section class="main-section">
-        <article>
-            <div class="electrolib">
-                <i class="fas fa-book-bookmark"></i>
-                <span style="margin-left: 8px;">Electrolib</span>
+        <a class="m-2" [routerLink]="['inventory']">
+            <div class="d-flex align-items-center">
+                <img src="assets/images/logos/applicationIcon.png" class="img-fluid ms-2" alt="Logo d'Electrolib"
+                    title="Electrolib" width="50">
+                <h3 class="ms-3">Electrolib</h3>
             </div>
-        </article>
+        </a>
 
 
 
@@ -39,8 +40,7 @@
             </a>
 
             <a [routerLink]="['adminShare']">
-                <button class="btn-nav" (click)="changeTab('share')"
-                    [ngStyle]="(tab === 'share') ? getStyles() : {}">
+                <button class="btn-nav" (click)="changeTab('share')" [ngStyle]="(tab === 'share') ? getStyles() : {}">
                     Commentaires
                 </button>
             </a>

@@ -2,33 +2,24 @@ main {
     height: 100%;
     width: 100%;
     display: table;
-
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: transparent;
-
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
 }
 
-input::placeholder {
-    color: rgb(175, 175, 175);
-}
-
 input {
     margin-bottom: 1em;
     border-radius: 4px;
-    border: 1px solid rgb(181, 181, 181);
 }
 
 .subtitle {
     width: 100%;
     margin-top: 20px;
     margin-bottom: 2px;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,7 +52,6 @@ input {
 .connection-frame {
     max-width: 28em;
     padding-top: 2em;
-    background-color: #daf2ff;
     border-radius: 1em;
 }
 
@@ -78,7 +68,6 @@ input {
 }
 
 .login-frame {
-    background-color: white;
     padding: 1em 2em 1em 2em;
     margin-left: 2em;
     margin-right: 2em;

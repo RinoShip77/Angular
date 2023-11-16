@@ -65,7 +65,7 @@
         <div class="mb-3">
           <label class="form-label">Adresse courriel</label>
           <input name="email" [ngModel]="user?.email" type="email" class="form-control" placeholder="user.email"
-            pattern="(\w|\d)+@[a-zA-Z]+\.[a-zA-Z]{2,}">
+            pattern='(([^<>()\[\]\\.,;:\s@"]{3,}(\.[^<>()\[\]\\.,;:\s@"]{3,})*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))'>
           <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['email'] === true">
             <i class="fas fa-check"></i>
             L'adresse courriel est valide.
@@ -119,7 +119,7 @@
           <div class="col mb-3">
             <label class="form-label">Code postal</label>
             <input name="postalCode" [ngModel]="user?.postalCode | uppercase" type="text" class="form-control"
-              pattern="[A-Z]\d[A-Z] \d[A-Z]\d" placeholder="___ ___" mask="S0S 0S0"
+              pattern="[A-GHJ-NPR-TVXY][0-9][A-Z] ?[0-9][A-Z][0-9]" placeholder="___ ___" mask="S0S 0S0"
               oninput="this.value = this.value.toUpperCase()">
             <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['postalCode'] === true">
               <i class="fas fa-check"></i>
@@ -133,7 +133,7 @@
           <div class="col mb-3">
             <label class="form-label">Téléphone</label>
             <input name="phoneNumber" [ngModel]="user?.phoneNumber" type="tel" class="form-control"
-              pattern="(\d{3}) \d{3}-\d{4}" placeholder="(___) ___-____" mask="(000) 000-0000">
+              pattern="\d{3}[-\s]?\d{3}[-\s]?\d{4}" placeholder="___-___-____" mask="000-000-0000">
             <p class="mt-2 mb-3 text-success fw-bold" *ngIf="validations['phoneNumber'] === true">
               <i class="fas fa-check"></i>
               Le numéro de téléphone est valide.

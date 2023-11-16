@@ -1,32 +1,27 @@
 <main style="height: 100%; background-image: url('assets/images/login-library.jpg');" class="mx-auto text-center font">
   <section class="main-frame">
-    <div *ngIf="connectionVisible" class="connection-frame">
-
-      <h1 class="title"><i class="fas fa-book-bookmark mt-1 fs-1" style="margin-right: 4px;"></i>Electrolib</h1>
-
+    <div *ngIf="connectionVisible" class="connection-frame bg-body-tertiary">
+      <h1 class="title">
+        <img src="assets/images/logos/applicationIcon.png" class="img-fluid" alt="Logo d'Electrolib"
+            title="Electrolib" width="100">
+        Electrolib
+      </h1>
       <div class="subtitle">
         <div class="title-line element"></div>
         <label class="element" style="width: 13em;">Votre bibliothèque en ligne</label>
         <div class="title-line element"></div>
       </div>
-
-      <section class="login-frame">
-
+      <section class="login-frame bg-body-secondary">
         <label class="login-title">Connexion</label>
-
         <article style="width: 80%; margin: auto; margin-bottom: 30px;">
           <label class="form-label fw-bold">Numéro de membre</label>
           <input [(ngModel)]="temporaryUser.memberNumber" name="memberNumber" placeholder="Votre numéro de membre"
             type="text" class="form-control">
-
           <label class="form-label fw-bold">Mot de passe</label>
           <input [(ngModel)]="temporaryUser.password" name="pwd" placeholder="Votre mot de passe" type="password"
             class="form-control">
-
         </article>
-
-        <a href="#">Mot de passe oublié</a>
-
+        <!-- <a href="#">Mot de passe oublié</a> -->
         <div style="display: flex;
         align-items: center;
         justify-content: center;
@@ -38,7 +33,6 @@
             </button>
           </form>
         </div>
-
         <!-- Les boutons pour tricher la connexion -->
         <article style="display: flex; justify-content: space-evenly; margin-top: 10px;">
           <form (ngSubmit)="connect('cheatUser')">
@@ -46,7 +40,6 @@
               Tricher (membre)
             </button>
           </form>
-
           <form (ngSubmit)="connect('cheatAdmin')">
             <button class="btn btn-warning" type="submit">
               Tricher (admin)
@@ -59,13 +52,11 @@
             Se créer un compte
           </button>
           -->
-
         <div class="subtitle" style="margin-top: 2em;">
           <div class="logo-title-line element"></div>
           <label class="element" style="width: 8em;">Suivez-nous sur</label>
           <div class="logo-title-line element"></div>
         </div>
-
         <div style="margin-top: 1em;" class="social-logos">
           <div class="social-logo">
             <img src="assets/images/logos/facebook-logo.png" class="logo" alt="">
@@ -77,7 +68,6 @@
             <img src="assets/images/logos/instagram-logo.png" class="logo" alt="">
           </div>
         </div>
-
       </section>
     </div>
     <!--

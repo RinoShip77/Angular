@@ -4,7 +4,7 @@ import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ENCRYPTION_KEY, MAX_FILE_SIZE, getURLProfilePicture } from '../util';
+import { EMAIL_REGEX, ENCRYPTION_KEY, MAX_FILE_SIZE, PHONE_NUMBER_REGEX, POSTAL_CODE_REGEX, getURLProfilePicture } from '../util';
 import { ToastService } from '../toast.service';
 import { EncryptionService } from '../encryption.service';
 
@@ -47,7 +47,6 @@ export class ProfileComponent implements OnInit {
     if (!id) {
       if (this.dataService.getUser() != undefined) {
         this.user = this.dataService.getUser();
-        console.log(this.user);
       }
     } else {
       this.electrolibService.getUser(id).subscribe(
@@ -299,32 +298,6 @@ export class ProfileComponent implements OnInit {
   }
 
   //---------------------------------
-  // Function to format the postal code in real time
-  //---------------------------------
-  formatPostalCode(event: any) {
-    console.log('format postal code');
-    this.tempUser.postalCode = event.toString();
-    // if (this.user.postalCode.length >= 3) {
-    //   this.user.postalCode = this.user.postalCode.slice(0, 3) + ' ' + this.user.postalCode.slice(3);
-    // }
-  }
-
-  //---------------------------------
-  // Function to format the phone number in real time
-  //---------------------------------
-  formatPhoneNumber() {
-    console.log('format phone number');
-
-    // if(this.user.phoneNumber.length == 3) {
-    //   this.user.phoneNumber = this.user.phoneNumber.slice(0, 3) + '-' + this.user.phoneNumber.slice(3);
-    // }
-
-    // if(this.user.phoneNumber.length == 7) {
-    //   this.user.phoneNumber = this.user.phoneNumber.slice(3, 7) + '-' + this.user.phoneNumber.slice(7);
-    // }
-  }
-
-  //---------------------------------
   // Function to update the information of a user
   //---------------------------------
   updateUser(idUser: number | undefined, user: User) {
@@ -382,9 +355,7 @@ export class ProfileComponent implements OnInit {
   // Function to validate the email
   //-------------------------------------------------------
   validateEmail() {
-    let pattern = /(\w|\d)+@[a-zA-Z]+\.[a-zA-Z]{2,}/;
-
-    if (pattern.test(this.tempUser.email)) {
+    if (EMAIL_REGEX.test(this.tempUser.email)) {
       this.validations["email"] = true;
     } else {
       this.validations["email"] = false;
@@ -432,9 +403,7 @@ export class ProfileComponent implements OnInit {
   // Function to validate the postal code
   //-------------------------------------------------------
   validatePostalCode() {
-    let pattern = /[A-Z]\d[A-Z] \d[A-Z]\d/;
-
-    if (pattern.test(this.tempUser.postalCode)) {
+    if (POSTAL_CODE_REGEX.test(this.tempUser.postalCode)) {
       this.validations["postalCode"] = true;
     } else {
       this.validations["postalCode"] = false;
@@ -445,9 +414,7 @@ export class ProfileComponent implements OnInit {
   // Function to validate the phone number
   //-------------------------------------------------------
   validatePhoneNumber() {
-    let pattern = /(\d{3}-){2}\d{4}/;
-
-    if (pattern.test(this.tempUser.phoneNumber)) {
+    if (PHONE_NUMBER_REGEX.test(this.tempUser.phoneNumber)) {
       this.validations["phoneNumber"] = true;
     } else {
       this.validations["phoneNumber"] = false;
