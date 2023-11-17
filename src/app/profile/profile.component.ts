@@ -70,7 +70,7 @@ export class ProfileComponent implements OnInit {
       this.colorSwitch = false;
     }
 
-    this.url = getURLProfilePicture(this.user?.idUser);
+    this.url = getURLProfilePicture(this.user?.idUser, this.user?.profilePicture);
   }
 
   //---------------------------------
@@ -111,14 +111,14 @@ export class ProfileComponent implements OnInit {
 
     if (this.file_data != '') {
       let timestamp = Date.now();
-      console.log(timestamp);
+
       this.electrolibService.uploadProfilePicture(idUser, timestamp, this.file_data).subscribe(
         response => {
           console.log(response);
           this.toastService.show('Votre profil a été mis à jour.', {
             classname: 'bg-success',
           });
-          this.url = getURLProfilePicture(idUser, timestamp);
+          this.url = getURLProfilePicture(idUser, '', timestamp);
         },
         (error) => {
           this.toastService.show('La mise à jour a échoué.', {
