@@ -9,7 +9,6 @@ function onReady() {
     icon: appIcon, // TODO: Change the application icon
     width: 1500,
     height: 800,
-    resizable: false,
     hasShadow: true,
     autoHideMenuBar: true,
     roundedCorners: true,

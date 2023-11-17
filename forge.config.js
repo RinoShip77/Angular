@@ -6,7 +6,10 @@ module.exports = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        authors: 'Electrolabs',
+        description: 'Electrolib est un logiciel pour vous aidez dans la gestion d\'une bibliothèque.'
+      },
     },
     {
       name: '@electron-forge/maker-zip',
