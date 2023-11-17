@@ -12,12 +12,12 @@ export function getURLBookCover(idBook: number)
   return urltmp;
 }
 
-export function getURLProfilePicture(idUser: number | undefined)
+export function getURLProfilePicture(idUser: number | undefined, timestamp?: number)
 {
   let url = '';
   
   if(idUser) {
-    url = urlServer + '../images/users/' + idUser + ".png";
+    url = urlServer + '../images/users/' + idUser + "_" + timestamp + ".png";
   }
 
   return url;

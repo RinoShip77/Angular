@@ -69,6 +69,8 @@ export class ProfileComponent implements OnInit {
     } else {
       this.colorSwitch = false;
     }
+
+    this.url = getURLProfilePicture(this.user?.idUser);
   }
 
   //---------------------------------
@@ -101,22 +103,22 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  getPicture() {
-    return getURLProfilePicture(this.user?.idUser);
-  }
-
   //---------------------------------
   // Function to upload a new profile picture to the user
   //---------------------------------
   updatePicture(idUser: number | undefined, event: any, pictureNumber?: number) {
     this.onFileSelected(event);
 
-    if (this.file_data === null) {
-      this.electrolibService.uploadProfilePicture(idUser, this.file_data).subscribe(
+    if (this.file_data != '') {
+      let timestamp = Date.now();
+      console.log(timestamp);
+      this.electrolibService.uploadProfilePicture(idUser, timestamp, this.file_data).subscribe(
         response => {
+          console.log(response);
           this.toastService.show('Votre profil a été mis à jour.', {
             classname: 'bg-success',
           });
+          this.url = getURLProfilePicture(idUser, timestamp);
         },
         (error) => {
           this.toastService.show('La mise à jour a échoué.', {
@@ -168,27 +170,24 @@ export class ProfileComponent implements OnInit {
   // Validate the image before sending it to the DB
   //-------------------------------------------------------
   validateFile() {
-    let fileSupported = false;
-
     if (this.selectedImage.size <= MAX_FILE_SIZE) {
       let extension = this.extractExtension(this.selectedImage.name);
 
-      if (extension?.toLowerCase() === 'png') {
-        fileSupported = true;
-      } else {
+      if (extension?.toLowerCase() !== 'png') {
         this.toastService.show("L'extension du fichier n'est pas supportée.", {
           classname: 'bg-danger',
         });
+        return false;
       }
     }
     else {
-      fileSupported = false;
       this.toastService.show('Le fichier est trop volumineux. Maximum de 500 kB.', {
         classname: 'bg-danger',
       });
+      return false;
     }
 
-    return fileSupported;
+    return true;
   }
 
   //---------------------------------

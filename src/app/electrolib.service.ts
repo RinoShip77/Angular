@@ -423,9 +423,10 @@ export class ElectrolibService {
   //--------------------------------
   // Update the profile picture
   //--------------------------------
-  uploadProfilePicture(idUser: number | undefined, imageData: string) {
+  uploadProfilePicture(idUser: number | undefined, timestamp: number, imageData: string) {
     const formData = new FormData();
     formData.append('action', 'updatePicture');
+    formData.append('timestamp', timestamp.toString());
     formData.append('profilePicture', imageData);
     
     let url = urlServer + 'users/modify/' + idUser;
