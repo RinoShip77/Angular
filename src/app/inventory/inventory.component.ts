@@ -19,9 +19,10 @@ export class InventoryComponent {
   user: User = new User();
   genres: Genre[] = new Array();
   authors: Author[] = new Array();
-  status: Status[] = new Array();
+  statuses: Status[] = new Array();
   favorites: Favorite[] = new Array();
   books: Book[] = new Array();
+  favoriteFilter: boolean = false;
   displayedBooks: Book[] = new Array();
   previousBooks: Book[] = new Array();
   loading: boolean = true;
@@ -41,22 +42,22 @@ export class InventoryComponent {
   ngOnInit() {
     //Get all the genres
     this.retrieveGenres();
-    
+
     //Get all the authors
     this.retrieveAuthors();
-    
+
     //Get all the statuses
     this.retrieveStatus();
-    
+
     //Get all the favorites
     this.retrieveFavorites();
-    
+
     //Get all the books
-    this.retrieveBooks();
+    this.retrieveBooks(true);
 
     this.sortInventory();
   }
-  
+
   //---------------------------------
   // Function to retrieve the genres from the database
   //---------------------------------
@@ -85,7 +86,7 @@ export class InventoryComponent {
   retrieveStatus() {
     this.electrolibSrv.getAllStatus().subscribe(
       status => {
-        this.status = status;
+        this.statuses = status;
       }
     );
   }
@@ -104,14 +105,19 @@ export class InventoryComponent {
   //---------------------------------
   // Function to retrieve the books from the database
   //---------------------------------
-  retrieveBooks() {
+  retrieveBooks(loadingSVG?: boolean) {
     this.electrolibSrv.getBooks().subscribe(
       books => {
-        setTimeout(() => {
-          this.loading = false;
+        if (loadingSVG) {
+          setTimeout(() => {
+            this.loading = false;
+            this.books = books;
+            this.displayedBooks = books;
+          }, 1000);
+        } else {
           this.books = books;
           this.displayedBooks = books;
-        }, 1000);
+        }
       }
     );
   }
@@ -128,6 +134,7 @@ export class InventoryComponent {
           this.displayedBooks.sort((a, b) => (a.publishedDate > b.publishedDate ? 1 : -1));
         }
         break;
+
       case 'title':
         if (this.sortOrder === 'descending') {
           this.displayedBooks.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1));
@@ -135,6 +142,7 @@ export class InventoryComponent {
           this.displayedBooks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
         }
         break;
+
       case 'author':
         if (this.sortOrder === 'descending') {
           this.displayedBooks.sort((a, b) => (a.author.lastName.toLowerCase() < b.author.lastName.toLowerCase() ? 1 : -1));
@@ -168,60 +176,70 @@ export class InventoryComponent {
   //---------------------------------
   // Function to filter the books by the criteria given
   //---------------------------------
-  filterBooks(filter: string, id: number, isFilter?: boolean) {
-    if (!isFilter || isFilter == undefined) {
-      let nbFilter = 1;
+  filterBooks(filter: string, id?: number, isFilter?: boolean) {
+    switch (filter) {
+      case 'genre':
+        if (!isFilter) {
+          if (this.genres.filter((genre) => genre.isFilter === true).length >= 1) {
+            this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
+            this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
+          } else {
+            this.displayedBooks = this.books.filter((book) => book.genre.idGenre === id);
+          }
+        } else {
+          this.displayedBooks = this.displayedBooks.filter((book) => !(book.genre.idGenre === id));
+        }
+        break;
 
-      switch (filter) {
-        case 'genre':
-          for (let i = 0; i < this.genres.length; i++) {
-            if (this.genres[i].isFilter || this.genres[i].isFilter != undefined) {
-              nbFilter++;
+      case 'author':
+        if (!isFilter) {
+          if (this.authors.filter((author) => author.isFilter === true).length >= 1) {
+            this.previousBooks = this.books.filter((book) => book.author.idAuthor === id);
+            this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
+          } else {
+            this.displayedBooks = this.books.filter((book) => book.author.idAuthor === id);
+          }
+        } else {
+          this.displayedBooks = this.displayedBooks.filter((book) => !(book.author.idAuthor === id));
+        }
+        this.displayedBooks = this.books.filter((book) => book.author.idAuthor === id);
+        break;
+
+      case 'status':
+        if (!isFilter) {
+          if (this.statuses.filter((status) => status.isFilter === true).length >= 1) {
+            this.previousBooks = this.books.filter((book) => book.status.idStatus === id);
+            this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
+          } else {
+            this.displayedBooks = this.books.filter((book) => book.status.idStatus === id);
+          }
+        } else {
+          this.displayedBooks = this.displayedBooks.filter((book) => !(book.status.idStatus === id));
+        }
+        break;
+
+      case 'favorites':
+        if (!this.favoriteFilter) {
+          let tmp = new Array();
+
+          for (let index = 0; index < this.books.length; index++) {
+            if (this.isFavorite(this.books[index].idBook)) {
+              tmp.push(this.books[index]);
             }
           }
 
-          if (nbFilter < 2) {
-            this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
-          }
-
-          this.displayedBooks = this.books.filter((book) => book.genre.idGenre === id);
-          this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
-          break;
-
-        case 'author':
-          for (let i = 0; i < this.genres.length; i++) {
-            if (this.genres[i].isFilter || this.genres[i].isFilter != undefined) {
-              nbFilter++;
-            }
-          }
-
-          if (nbFilter < 2) {
-            this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
-          }
-
-          this.displayedBooks = this.books.filter((book) => book.author.idAuthor === id);
-          this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
-          break;
-
-        case 'status':
-          for (let i = 0; i < this.genres.length; i++) {
-            if (this.genres[i].isFilter || this.genres[i].isFilter != undefined) {
-              nbFilter++;
-            }
-          }
-
-          if (nbFilter < 2) {
-            this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
-          }
-
-          this.displayedBooks = this.books.filter((book) => book.status.idStatus === id);
-          this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
-          break;
-      }
-    } else {
-      this.displayedBooks = this.books;
-      this.sortInventory();
+          this.displayedBooks = tmp;
+        } else {
+          this.displayedBooks = this.books;
+        }
+        break;
     }
+
+    if (this.displayedBooks.length == 0) {
+      this.displayedBooks = this.books;
+    }
+
+    this.sortInventory()
   }
 
   //---------------------------------
@@ -240,13 +258,14 @@ export class InventoryComponent {
       }
     }
 
-    for (let i = 0; i < this.status.length; i++) {
-      if (this.status[i].isFilter) {
-        this.status[i].isFilter = false;
+    for (let i = 0; i < this.statuses.length; i++) {
+      if (this.statuses[i].isFilter) {
+        this.statuses[i].isFilter = false;
       }
     }
 
-    this.retrieveBooks();
+    this.favoriteFilter = false;
+    this.displayedBooks = this.books;
   }
 
   //---------------------------------
