@@ -13,11 +13,11 @@
         <li ngbNavItem>
           <button ngbNavLink>Par genre</button>
           <ng-template ngbNavContent class="my-4">
-            <div *ngFor="let genre of genres" class="my-2">
+            <div *ngFor="let genre of genres; index as i" class="my-2">
               <div class="form-check form-switch" (click)="filterBooks('genre', genre.idGenre, genre.isFilter)">
                 <input [(ngModel)]="genre.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
                 <label class="form-check-label">
-                  {{genre.name | titlecase}}
+                  {{genre.name | titlecase}} [{{numberOfBooksByGenres[i]}}]
                 </label>
               </div>
             </div>
@@ -26,11 +26,11 @@
         <li ngbNavItem>
           <button ngbNavLink>Par auteur</button>
           <ng-template ngbNavContent>
-            <div *ngFor="let author of authors" class="my-2">
-              <div class="form-check" (click)="filterBooks('author', author.idAuthor, author.isFilter)">
-                <input [(ngModel)]="author.isFilter" class="form-check-input me-2" type="checkbox">
+            <div *ngFor="let author of authors; index as i" class="my-2">
+              <div class="form-check form-switch" (click)="filterBooks('author', author.idAuthor, author.isFilter)">
+                <input [(ngModel)]="author.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
                 <label class="form-check-label">
-                  {{(author.firstName | titlecase) + ' ' + (author.lastName | titlecase)}}
+                  {{(author.firstName | titlecase) + ' ' + (author.lastName | titlecase)}} [{{numberOfBooksByAuthors[i]}}]
                 </label>
               </div>
             </div>
@@ -39,24 +39,13 @@
         <li ngbNavItem>
           <button ngbNavLink>Par statut</button>
           <ng-template ngbNavContent>
-            <div *ngFor="let status of statuses" class="my-2">
-              <div class="form-check form-switch" (click)="filterBooks('status', status.idStatus, status.isFilter)">
-                <input [(ngModel)]="status.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
+            <div *ngFor="let status of (statuses | slice:0:2); index as i" class="my-2">
+              <div class="form-check" (click)="filterBooks('status', status.idStatus, status.isFilter)">
+                <input [(ngModel)]="status.isFilter" class="form-check-input me-2" type="checkbox">
                 <label class="form-check-label">
-                  {{status.status}}
+                  {{status.status | titlecase}} [{{numberOfBooksByStatus[i]}}]
                 </label>
               </div>
-            </div>
-          </ng-template>
-        </li>
-        <li ngbNavItem>
-          <button ngbNavLink>Par favoris</button>
-          <ng-template ngbNavContent>
-            <div class="form-check my-2" (click)="filterBooks('favorites')">
-              <input [(ngModel)]="favoriteFilter" class="form-check-input me-2" type="checkbox">
-              <label class="form-check-label">
-                J'aime
-              </label>
             </div>
           </ng-template>
         </li>
@@ -148,7 +137,7 @@
         [ngSwitch]="inventoryDisplay">
         <div *ngSwitchCase="'table'">
           <div class="row row-cols-2 g-3">
-            <a type="button" class="col" *ngFor="let book of displayedBooks"
+            <a type="button" class="col" *ngFor="let book of displayedBooks; index as i"
               [routerLink]="['/detailLivre', book.idBook]">
               <div class="card h-100 mb-3">
                 <div class="row g-0">
@@ -175,6 +164,7 @@
                           <ng-template #notFavoriteBlock>
                             <i class="far fa-heart"></i>
                           </ng-template>
+                          ({{numberOfLike[i]}})
                         </div>
                         <div [ngSwitch]="book.status.status">
                           <div *ngSwitchCase="'Disponible'" class="border border-2 bg-info rounded-3 p-2 text-center">

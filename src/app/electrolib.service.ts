@@ -485,7 +485,6 @@ export class ElectrolibService {
   }
 
   getFavoriteNbr(idBook:number){
-    console.log("idBook: "+idBook);
     let url = `${urlServer}getNbrFav/${idBook}`;
 
     return this.http.get<number>(url)
