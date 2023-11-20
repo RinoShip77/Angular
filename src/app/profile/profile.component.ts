@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
     phoneNumber: null
   };
 
-  @Output() switchTheme = new EventEmitter<string>();
+  @Output() switchTheme = new EventEmitter<any>();
 
   //---------------------------------
   // Function to build the component
@@ -64,7 +64,6 @@ export class ProfileComponent implements OnInit {
     } else {
       this.role = 'Membre';
     }
-    window.theme = 'dark';
 
     if (localStorage.getItem('theme') != 'light') {
       this.colorSwitch = true;

@@ -1,5 +1,6 @@
 <!-- Profile page -->
-  <div class="d-flex rounded-5 m-5 bg-body-secondary shadow-lg p-4 {{background}} {{margin}}">
+<section class="bg-body text-body-secondary p-3 pt-4">
+  <div class="d-flex rounded-5 m-5 bg-body text-body-secondary shadow-lg p-4 {{background}} {{margin}}">
     <div class="col-4 mx-5 p-1 border-end border-3 border-secondary">
       <div class="mx-5">
         <a type="button" class="d-flex justify-content-end" (click)="openModal(preferenceContent)">
@@ -20,13 +21,13 @@
 
           <!-- <div class="text-center">
             <img src="{{url}}" class="img-fluid img-thumbnail w-50 border-3 border-dark rounded-circle"
-              alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}"
-              onerror="this.src='assets/images/users/default-user.png'">
+            alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}"
+            onerror="this.src='assets/images/users/default-user.png'">
             <button class="btn btn-secondary rounded-circle p-3" style="margin-left: -60px; margin-top: 200px"
-              (click)="openModal(profilePictureContent)">
-              <i class="fas fa-plus text-dark fs-2"></i>
-            </button>
-          </div> -->
+            (click)="openModal(profilePictureContent)">
+            <i class="fas fa-plus text-dark fs-2"></i>
+          </button>
+        </div> -->
         </div>
         <div>
           <h1>{{user?.firstName + ' ' + user?.lastName}}</h1>
@@ -235,6 +236,7 @@
       </div>
     </div>
   </div>
+</section>
 
 <!-- Update profile picture modal -->
 <ng-template #profilePictureContent let-modal>
