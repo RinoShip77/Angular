@@ -19,7 +19,7 @@ export class ProfileComponent implements OnInit {
   tempUser: any;
   margin: string = '';
   colorSwitch: boolean = false;
-  background: string = '';
+  background: string | null = '';
   selectedImage: any;
   file_data: any = "";
   url: string = '';
@@ -71,6 +71,7 @@ export class ProfileComponent implements OnInit {
       this.colorSwitch = false;
     }
 
+    this.background = localStorage.getItem('background');
     this.url = getURLProfilePicture(this.user?.idUser, this.user?.profilePicture);
   }
 
@@ -87,14 +88,16 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to change the background of the page
   //---------------------------------
-  switchBackground() {
-    localStorage.setItem('background', this.background);
+  changeBackground() {
+    if (this.background != null) {
+      localStorage.setItem('background', this.background);
+    }
   }
 
   //---------------------------------
   // Function to change the theme for all the application
   //---------------------------------
-  theme() {
+  changeTheme() {
     if (this.colorSwitch) {
       localStorage.setItem('theme', 'dark');
       this.switchTheme.emit('dark');
@@ -194,12 +197,16 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Open a modal with the given content
   //---------------------------------
-  openModal(content: any) {
+  openModal(content: any, size?: string) {
+    if (!size) {
+      size = 'lg';
+    }
+
     this.modalService.open(content, {
       animation: true,
       centered: true,
       keyboard: true,
-      size: 'lg'
+      size: size
     });
   }
 

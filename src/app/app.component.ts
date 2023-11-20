@@ -11,6 +11,7 @@ import { ToastService } from './toast.service';
 })
 export class AppComponent {
   theme: string | null = 'light';
+  background: string | null = '';
 
   //---------------------------------
   // Function to disconnect the current user
@@ -22,6 +23,7 @@ export class AppComponent {
   //---------------------------------
   ngOnInit() {
     this.theme = localStorage.getItem('theme');
+    this.background = localStorage.getItem('background');
   }
 
   //---------------------------------
@@ -58,7 +60,7 @@ export class AppComponent {
     };
   }
 
-  subscribeToChildEmitter(componentRef: any) {
+  switchTheme(componentRef: any) {
     componentRef.switchTheme.subscribe((theme: any) => {
       this.theme = theme;
     });

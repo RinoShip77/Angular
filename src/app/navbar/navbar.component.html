@@ -24,11 +24,11 @@
         </a>
       </div>
     </div>
-    <div class="collapse navbar-collapse bg-body-secondary text-body-secondary" id="navbarText">
+    <div class="collapse navbar-collapse text-body-secondary" id="navbarText">
       <ul class="navbar-nav animate side-nav bg-body-secondary">
         <li class="nav-item bg-body-secondary">
-          <a class="nav-link" [routerLink]="['profile']" style="color: white;">
-            Bonjour <span class=" fw-bold" style="color: rgb(124, 124, 250);">{{user?.firstName}}</span>
+          <a class="nav-link" [routerLink]="['profile']">
+            Bonjour <span class="text-primary fw-bold">{{user?.firstName}}</span>
             <!--   <span type="button" class="link-secondary" (click)="disconnect()">Se déconnecter</span> -->
             <span class="shortmenu animate">
               <img src="https://ui-avatars.com/api/?name={{user?.firstName}}+{{user?.lastName}}&rounded=true">
