@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '../model/User';
 import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -32,6 +32,8 @@ export class ProfileComponent implements OnInit {
     postalCode: null,
     phoneNumber: null
   };
+
+  @Output() switchTheme = new EventEmitter<string>();
 
   //---------------------------------
   // Function to build the component
@@ -93,13 +95,13 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to change the theme for all the application
   //---------------------------------
-  switchTheme() {
+  theme() {
     if (this.colorSwitch) {
-      localStorage.setItem('theme', 'dark')
-      window.theme = 'dark';
+      localStorage.setItem('theme', 'dark');
+      this.switchTheme.emit('dark');
     } else {
-      localStorage.setItem('theme', 'light')
-      window.theme = 'light';
+      localStorage.setItem('theme', 'light');
+      this.switchTheme.emit('light');
     }
   }
 

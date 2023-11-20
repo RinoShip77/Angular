@@ -11,7 +11,7 @@
     <app-toast [ngClass]="!checkUser() ? 'd-none' : ''"></app-toast>
 
     <!-- Le router -->
-    <router-outlet></router-outlet>
+    <router-outlet (switchTheme)="onSwitchTheme($event)"></router-outlet>
 
     <div *ngIf="checkUser()" class="chat-box">
       <div class="d-flex justify-content-end" id="chat">

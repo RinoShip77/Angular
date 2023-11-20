@@ -57,4 +57,9 @@ export class AppComponent {
       'margin-left': '5em'
     };
   }
+
+  onSwitchTheme(theme: any) {
+    // this.theme = theme;
+    console.log(theme);
+  }
 }
