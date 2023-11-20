@@ -23,7 +23,7 @@ export class ElectrolibService {
   //--------------------------------
   constructor(private http: HttpClient) { }
 
-  
+
   //--------------------------------
   // Route to get all the books
   //--------------------------------
@@ -51,12 +51,12 @@ export class ElectrolibService {
     return this.http.get<User[]>(url);
   }
 
-  getRecommended(idUser:number) {
-    let url = urlServer + 'recommandation/'+idUser;
+  getRecommended(idUser: number) {
+    let url = urlServer + 'recommandation/' + idUser;
 
     return this.http.get<Recommendations>(url);
   }
-  
+
   //--------------------------------
   //
   //--------------------------------
@@ -74,7 +74,16 @@ export class ElectrolibService {
 
     return this.http.get<Status[]>(url);
   }
-  
+
+  //--------------------------------
+  // Route to get the number of books in a status
+  //--------------------------------
+  getStatusNumber(idStatus: number){
+    let url = `${urlServer}genre/books/${idStatus}`;
+
+    return this.http.get<number>(url)
+  }
+
   //--------------------------------
   // Route to get all the genre
   //--------------------------------
@@ -83,7 +92,16 @@ export class ElectrolibService {
 
     return this.http.get<Genre>(url);
   }
-  
+
+  //--------------------------------
+  // Route to get the number of books in a genre
+  //--------------------------------
+  getGenreNumber(idGenre: number) {
+    let url = `${urlServer}genre/books/${idGenre}`;
+
+    return this.http.get<number>(url)
+  }
+
   //--------------------------------
   // Route to get all the genre
   //--------------------------------
@@ -92,7 +110,7 @@ export class ElectrolibService {
 
     return this.http.get<Author[]>(url);
   }
-  
+
   //--------------------------------
   // Route to get all the genre
   //--------------------------------
@@ -102,6 +120,14 @@ export class ElectrolibService {
     return this.http.get<Author>(url);
   }
 
+  //--------------------------------
+  // Route to get the number of books by an author
+  //--------------------------------
+  getAuthorNumber(idAuthor: number) {
+    let url = `${urlServer}author/books/${idAuthor}`;
+
+    return this.http.get<number>(url)
+  }
 
   //--------------------------------
   // Route to get all the genre
@@ -131,61 +157,53 @@ export class ElectrolibService {
     return this.http.post<Borrow>(url, new FormData());
   }
 
-  getBorrow(idBorrow:Number)
-  {
+  getBorrow(idBorrow: Number) {
     let url = urlServer + "borrows/borrow/" + idBorrow;
     return this.http.get<Borrow>(url);
   }
 
-  getBorrowsFromUser(user: User)
-  {
+  getBorrowsFromUser(user: User) {
     let idUser = user.idUser;
     let url = urlServer + 'borrows/' + idUser;
 
     return this.http.get<Borrow[]>(url);
   }
 
-  getBorrowsHistoryFromUser(user: User)
-  {
+  getBorrowsHistoryFromUser(user: User) {
     let idUser = user.idUser;
     let url = urlServer + "borrows/history/" + idUser;
 
     return this.http.get<Borrow[]>(url);
   }
 
-  getBorrowsOrderedBy(user: User, order:any)
-  {
+  getBorrowsOrderedBy(user: User, order: any) {
     let idUser = user.idUser;
     let url = urlServer + "borrows/" + idUser + "/" + order;
 
     return this.http.get<Borrow[]>(url);
   }
 
-  getBorrowsHistoryOrderedBy(user: User, order:any)
-  {
+  getBorrowsHistoryOrderedBy(user: User, order: any) {
     let idUser = user.idUser;
     let url = urlServer + "borrows/history/" + idUser + "/" + order;
 
     return this.http.get<Borrow[]>(url);
   }
 
-  renewDueDate(borrow: Borrow)
-  {
+  renewDueDate(borrow: Borrow) {
     let idBorrow = borrow.idBorrow;
     let url = urlServer + "renew/" + idBorrow;
 
     return this.http.get<any>(url);
   }
 
-  getReservationsFromUser(user:User)
-  {
+  getReservationsFromUser(user: User) {
     let idUser = user.idUser;
-    let url = urlServer + 'reservations/'+ idUser;
+    let url = urlServer + 'reservations/' + idUser;
     return this.http.get<Reservation[]>(url);
   }
 
-  getReservationsOrderedBy(user: User, order:any)
-  {
+  getReservationsOrderedBy(user: User, order: any) {
     let idUser = user.idUser;
     let url = urlServer + 'borrows';
     url = urlServer + "reservations/" + idUser + "/" + order;
@@ -193,23 +211,20 @@ export class ElectrolibService {
     return this.http.get<Reservation[]>(url);
   }
 
-  cancelReservationUser(reservation: Reservation)
-  {
+  cancelReservationUser(reservation: Reservation) {
     let url = urlServer + "reservations-cancel/" + reservation.idReservation;
 
     return this.http.get<any>(url);
   }
 
-  reactivateReservationUser(reservation: Reservation)
-  {
+  reactivateReservationUser(reservation: Reservation) {
     let url = urlServer + "reservations-reactivate/" + reservation.idReservation;
 
     return this.http.get<any>(url);
   }
 
-  getBorrowFromBook(idBook:Number)
-  {
-    let url = urlServer + 'borrows/book/'+ idBook;
+  getBorrowFromBook(idBook: Number) {
+    let url = urlServer + 'borrows/book/' + idBook;
     return this.http.get<Borrow>(url);
   }
 
@@ -218,7 +233,7 @@ export class ElectrolibService {
   //--------------------------------
   connection(user: User) {
     let url = urlServer + 'users/connection';
-    
+
     const params = new HttpParams({
       fromObject: {
         memberNumber: user.memberNumber,
@@ -228,17 +243,17 @@ export class ElectrolibService {
 
     return this.http.post<User>(url, params);
   }
-  
+
   //route qui va chercher un livre
-  getBook(id:number){
-    let url = urlServer + 'get-book/'+id;
+  getBook(id: number) {
+    let url = urlServer + 'get-book/' + id;
 
     return this.http.get<Book>(url);
   }
 
   //route qui va chercher un livre
-  getBookBorrowed(id:number){
-    let url = urlServer + 'getBookBorrowed/'+id;
+  getBookBorrowed(id: number) {
+    let url = urlServer + 'getBookBorrowed/' + id;
 
     return this.http.get<Book>(url);
   }
@@ -292,7 +307,7 @@ export class ElectrolibService {
     formData.append('idAuthor', book.idAuthor.toString());
     formData.append('idGenre', book.idGenre.toString());
     formData.append('idStatus', book.idStatus.toString());
-    formData.append('isRecommended',"0");
+    formData.append('isRecommended', "0");
 
     return this.http.post<Book>(url, formData);
   }
@@ -316,7 +331,7 @@ export class ElectrolibService {
     return this.http.post<User>(url, formData);
   }
 
-  createComment(comment:Comment, user:User){
+  createComment(comment: Comment, user: User) {
     const url = `${urlServer}create-comment`;
     const formData = new FormData();
 
@@ -330,10 +345,10 @@ export class ElectrolibService {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
-  createBorrow(idUser: number, idBook: number){
+  createBorrow(idUser: number, idBook: number) {
     const url = `${urlServer}create-borrow`;
     const formData = new FormData();
-    
+
     formData.append('idUser', idUser.toString());
     formData.append('idBook', idBook.toString());
 
@@ -346,7 +361,7 @@ export class ElectrolibService {
   createAuthor(author: Author) {
     const url = `${urlServer}create-author`;
     const formData = new FormData();
-    
+
     formData.append('firstName', author.firstName);
     formData.append('lastName', author.lastName);
 
@@ -359,7 +374,7 @@ export class ElectrolibService {
   createGenre(genre: Genre) {
     const url = `${urlServer}create-genre`;
     const formData = new FormData();
-    
+
     formData.append('name', genre.name);
 
     return this.http.post<Genre>(url, formData);
@@ -428,18 +443,18 @@ export class ElectrolibService {
     formData.append('action', 'updatePicture');
     formData.append('timestamp', timestamp.toString());
     formData.append('profilePicture', imageData);
-    
+
     let url = urlServer + 'users/modify/' + idUser;
-    
+
     return this.http.post(url, formData);
   }
-  
+
   //--------------------------------
   // Update the profile informations
   //--------------------------------
   updateUser(action: string, idUser: number | undefined, object?: any) {
     let url = urlServer + 'users/modify/' + idUser;
-    
+
     const params = new HttpParams({
       fromObject: {
         action: action,
@@ -456,7 +471,7 @@ export class ElectrolibService {
 
     return this.http.post(url, params);
   }
-  
+
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
@@ -484,7 +499,7 @@ export class ElectrolibService {
     return this.http.get<Favorite[]>(url);
   }
 
-  getFavoriteNbr(idBook:number){
+  getFavoriteNbr(idBook: number) {
     let url = `${urlServer}getNbrFav/${idBook}`;
 
     return this.http.get<number>(url)
@@ -509,29 +524,29 @@ export class ElectrolibService {
     return this.http.post<Borrow>(url, formData);
   }
 
-  getIfFavorited(book:Book,user:User){
+  getIfFavorited(book: Book, user: User) {
     const url = `${urlServer}getIfFav`;
     const formData = new FormData();
-    formData.append('idBook',book.idBook.toString());
-    formData.append('idUser',user.idUser.toString());
-    return this.http.post<Number>(url,formData);
+    formData.append('idBook', book.idBook.toString());
+    formData.append('idUser', user.idUser.toString());
+    return this.http.post<Number>(url, formData);
   }
 
-  deleteFavorite(book:Book,user:User){
+  deleteFavorite(book: Book, user: User) {
     const url = `${urlServer}delFav`;
     const formData = new FormData();
-    formData.append('idBook',book.idBook.toString());
-    formData.append('idUser',user.idUser.toString());
-    return this.http.post<Number>(url,formData);
+    formData.append('idBook', book.idBook.toString());
+    formData.append('idUser', user.idUser.toString());
+    return this.http.post<Number>(url, formData);
   }
 
-  createFavorite(book:Book,user:User){
+  createFavorite(book: Book, user: User) {
     const url = `${urlServer}create-favorite`;
     const formData = new FormData();
-    formData.append('idBook',book.idBook.toString());
-    formData.append('idUser',user.idUser.toString());
+    formData.append('idBook', book.idBook.toString());
+    formData.append('idUser', user.idUser.toString());
 
-    return this.http.post<Favorite>(url,formData);
+    return this.http.post<Favorite>(url, formData);
   }
 
   //-------------------------------------------------------

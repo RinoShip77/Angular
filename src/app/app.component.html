@@ -15,7 +15,7 @@
 
     <div *ngIf="checkUser()" class="chat-box">
       <div class="d-flex justify-content-end" id="chat">
-        <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()">
+        <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()" placement="top" ngbTooltip="Entrer en contact avec un administrateur">
           <i class="far fa-comment-dots p-2 fs-1"></i>
         </button>
       </div>

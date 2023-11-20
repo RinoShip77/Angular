@@ -1,6 +1,6 @@
 <div class="d-flex flex-rows mt-3">
   <div>
-    <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary rounded-5">
+    <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary rounded-5 pb-3">
       <span class="fs-4 mx-3">Affiner votre recherche</span>
       <hr>
       <button class="btn btn-outline-success mx-3 p-1 fs-5 fw-bold" (click)="openModal(ordersContent, 'lg')">
@@ -30,7 +30,8 @@
               <div class="form-check form-switch" (click)="filterBooks('author', author.idAuthor, author.isFilter)">
                 <input [(ngModel)]="author.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
                 <label class="form-check-label">
-                  {{(author.firstName | titlecase) + ' ' + (author.lastName | titlecase)}} [{{numberOfBooksByAuthors[i]}}]
+                  {{(author.firstName | titlecase) + ' ' + (author.lastName | titlecase)}}
+                  [{{numberOfBooksByAuthors[i]}}]
                 </label>
               </div>
             </div>
@@ -56,7 +57,7 @@
         <i class="fa-solid fa-filter-circle-xmark me-2"></i>
         Retirer les filtres
       </button>
-      <button class="btn bg-info mx-3 mx-auto mt-5 fs-4" (click)="openModal(informationsContent, 'sm')">
+      <button class="btn bg-info mx-3 mx-auto mt-5 fs-4" (click)="openModal(informationsContent, 'xl')">
         <i class="fas fa-circle-question me-2"></i>
         Informations
       </button>
@@ -160,7 +161,7 @@
                       <span class="card-text"><small>{{book.description}}</small></span>
                       <div class="d-flex justify-content-between mt-3">
                         <div class="text-danger fs-2">
-                          <i class="fas fa-heart" *ngIf="isFavorite(book.idBook); else notFavoriteBlock"></i>
+                          <i class="fas fa-heart" *ngIf="numberOfLike[i] >= 1; else notFavoriteBlock"></i>
                           <ng-template #notFavoriteBlock>
                             <i class="far fa-heart"></i>
                           </ng-template>
@@ -266,18 +267,91 @@
 
 <!-- Informations content modal -->
 <ng-template #informationsContent let-modal>
-  <div class="modal-body d-flex flex-column align-items-center">
-    <div class="d-flex align-items-center">
-      <div class="border border-2 bg-info rounded-3 p-2 text-center">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      </div>
-      <span class="ms-2">Est <span class="h5 fw-bold">disponible</span></span>
+  <div class="modal-body d-flex flex-column">
+    <div class="d-flex flex-column align-items-center border-5 border-bottom border-secondary rounded-bottom-5 m-2 p-3">
+      <h2>Ordre :</h2>
+      <p>Vous pouvez modifier l'ordre des livres dans l'affichage en appuyant sur le bouton :
+      </p>
+      <span class="fw-bold text-success">Trier l'affichage<i class="fas fa-sort ms-1"></i></span>
     </div>
-    <div class="d-flex align-items-center">
-      <div class="border border-2 bg-light rounded-3 p-2 text-center">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="d-flex flex-column align-items-center border-5 border-bottom border-secondary rounded-bottom-5 m-2 p-3">
+      <h2>Filtres :</h2>
+      <p>Vous pouvez affiner l'affichage des livres en sélectionnant un (ou plusieurs) filtre en filtrant :
+      </p>
+      <span><span class="fw-bold text-info">Par genre</span>, <span class="fw-bold text-info">Par auteur</span> ou <span
+          class="fw-bold text-info">Par statut</span></span>
+    </div>
+    <div class="d-flex flex-column align-items-center border-5 border-bottom border-secondary rounded-bottom-5 m-2 p-3">
+      <h2>Modifier l'affichage :</h2>
+      <p>Vous pouvez personnaliser l'affichage des livres en sélectionnant le mode voulu dans la liste déroulante :
+      </p>
+      <div class="d-flex align-items-center">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img class="placeholder col-12" height="175">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Titre</h5>
+                <p class="card-text">Description du livre... Description du livre... Description du livre... Description
+                  du livre... Description du livre...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="mx-3">ou</span>
+        <div class="border border-3 border-dark-subtle rounded-2 p-1">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Titre</th>
+                <th scope="col">Description</th>
+                <th scope="col">...</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Blablabla</td>
+                <td>blablabla</td>
+                <td>...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <span class="ms-2">Est <span class="h5 fw-bold">emprunté</span></span>
+    </div>
+    <div class="d-flex flex-column align-items-center border-5 border-bottom border-secondary rounded-bottom-5 m-2 p-3">
+      <h2>Recherche :</h2>
+      <p>Vous pouvez accélérer votre recherche en entrant le titre du livre souhaité dans la barre de recherche.</p>
+    </div>
+    <div class="d-flex flex-column align-items-center border-5 border-bottom border-secondary rounded-bottom-5 m-2 p-3">
+      <h2>Recommendation :</h2>
+      <p>Vous pouvez retrouver des suggestions de livres selon vos intérêts.</p>
+    </div>
+    <div class="d-flex flex-column align-items-center border-5 border-bottom border-secondary rounded-bottom-5 m-2 p-3">
+      <h2>Inventaire :</h2>
+      <p>Vous pouvez appuyer sur un livre pour voir plus de détail sur celui-ci.</p>
+    </div>
+    <div class="d-flex flex-column align-items-center border-5 border-bottom border-secondary rounded-bottom-5 m-2 p-3">
+      <h2>Statut :</h2>
+      <p>Un livre en inventaire est un des deux statuts ci-dessous :</p>
+      <div class="d-flex">
+        <div class="d-flex flex-column align-items-center">
+          <div class="border border-2 bg-info rounded-3 p-2 text-center">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <span class="ms-2">(Est <span class="h5 fw-bold">disponible</span>)</span>
+        </div>
+        <div class="d-flex flex-column align-items-center ms-3">
+          <div class="border border-2 bg-light rounded-3 p-2 text-center">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <span class="ms-2">(Est <span class="h5 fw-bold">emprunté</span>)</span>
+        </div>
+      </div>
     </div>
   </div>
 </ng-template>

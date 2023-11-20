@@ -71,7 +71,7 @@ export class InventoryComponent {
         this.genres = genres;
 
         for (let index = 0; index < genres.length; index++) {
-          this.electrolibSrv.getFavoriteNbr(genres[index].idGenre).subscribe(
+          this.electrolibSrv.getGenreNumber(genres[index].idGenre).subscribe(
             number => {
               this.numberOfBooksByGenres.push(number);
             }
@@ -90,7 +90,7 @@ export class InventoryComponent {
         this.authors = authors;
 
         for (let index = 0; index < authors.length; index++) {
-          this.electrolibSrv.getFavoriteNbr(authors[index].idAuthor).subscribe(
+          this.electrolibSrv.getAuthorNumber(authors[index].idAuthor).subscribe(
             number => {
               this.numberOfBooksByAuthors.push(number);
             }
@@ -109,7 +109,7 @@ export class InventoryComponent {
         this.statuses = statuses;
 
         for (let index = 0; index < statuses.length; index++) {
-          this.electrolibSrv.getFavoriteNbr(statuses[index].idStatus).subscribe(
+          this.electrolibSrv.getStatusNumber(statuses[index].idStatus).subscribe(
             number => {
               this.numberOfBooksByStatus.push(number);
             }
