@@ -1,4 +1,4 @@
-<section class="main-section">
+<section class="main-section" [attr.data-bs-theme]="theme">
   <header>
     <!-- La barre de navigation des membres -->
     <app-navbar></app-navbar>
@@ -11,11 +11,11 @@
     <app-toast [ngClass]="!checkUser() ? 'd-none' : ''"></app-toast>
 
     <!-- Le router -->
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="subscribeToChildEmitter($event)"></router-outlet>
 
     <div *ngIf="checkUser()" class="chat-box">
       <div class="d-flex justify-content-end" id="chat">
-        <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()">
+        <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()" placement="top" ngbTooltip="Entrer en contact avec un administrateur">
           <i class="far fa-comment-dots p-2 fs-1"></i>
         </button>
       </div>

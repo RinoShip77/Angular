@@ -17,18 +17,22 @@ import { Favorite } from '../model/Favorite';
 })
 export class InventoryComponent {
   user: User = new User();
-  genres: Genre[] = new Array();
-  authors: Author[] = new Array();
-  status: Status[] = new Array();
-  favorites: Favorite[] = new Array();
+  loading: boolean = true;
   books: Book[] = new Array();
   displayedBooks: Book[] = new Array();
-  previousBooks: Book[] = new Array();
-  loading: boolean = true;
-  inventoryDisplay: string = 'table';
+  genres: Genre[] = new Array();
+  authors: Author[] = new Array();
+  statuses: Status[] = new Array();
+  favorites: Favorite[] = new Array();
+  favoriteFilter: boolean = false;
   searchInp = '';
   sortOrder: string = 'ascending';
   sortProperty: string = 'date';
+  inventoryDisplay: string = 'table';
+  numberOfLike: number[] = new Array();
+  numberOfBooksByGenres: number[] = new Array();
+  numberOfBooksByAuthors: number[] = new Array();
+  numberOfBooksByStatus: number[] = new Array();
 
   //---------------------------------
   // Function to build the component
@@ -41,22 +45,23 @@ export class InventoryComponent {
   ngOnInit() {
     //Get all the genres
     this.retrieveGenres();
-    
+
     //Get all the authors
     this.retrieveAuthors();
-    
+
     //Get all the statuses
     this.retrieveStatus();
-    
+
     //Get all the favorites
     this.retrieveFavorites();
-    
-    //Get all the books
-    this.retrieveBooks();
 
+    //Get all the books
+    this.retrieveBooks(true);
+
+    //Sort the inventory with is default values
     this.sortInventory();
   }
-  
+
   //---------------------------------
   // Function to retrieve the genres from the database
   //---------------------------------
@@ -64,6 +69,14 @@ export class InventoryComponent {
     this.electrolibSrv.getGenres().subscribe(
       genres => {
         this.genres = genres;
+
+        for (let index = 0; index < genres.length; index++) {
+          this.electrolibSrv.getGenreNumber(genres[index].idGenre).subscribe(
+            number => {
+              this.numberOfBooksByGenres.push(number);
+            }
+          );
+        }
       }
     );
   }
@@ -75,6 +88,14 @@ export class InventoryComponent {
     this.electrolibSrv.getAuthors().subscribe(
       authors => {
         this.authors = authors;
+
+        for (let index = 0; index < authors.length; index++) {
+          this.electrolibSrv.getAuthorNumber(authors[index].idAuthor).subscribe(
+            number => {
+              this.numberOfBooksByAuthors.push(number);
+            }
+          );
+        }
       }
     );
   }
@@ -84,8 +105,16 @@ export class InventoryComponent {
   //---------------------------------
   retrieveStatus() {
     this.electrolibSrv.getAllStatus().subscribe(
-      status => {
-        this.status = status;
+      statuses => {
+        this.statuses = statuses;
+
+        for (let index = 0; index < statuses.length; index++) {
+          this.electrolibSrv.getStatusNumber(statuses[index].idStatus).subscribe(
+            number => {
+              this.numberOfBooksByStatus.push(number);
+            }
+          );
+        }
       }
     );
   }
@@ -104,14 +133,27 @@ export class InventoryComponent {
   //---------------------------------
   // Function to retrieve the books from the database
   //---------------------------------
-  retrieveBooks() {
+  retrieveBooks(loadingSVG?: boolean) {
     this.electrolibSrv.getBooks().subscribe(
       books => {
-        setTimeout(() => {
-          this.loading = false;
+        if (loadingSVG) {
+          setTimeout(() => {
+            this.loading = false;
+            this.books = books;
+            this.displayedBooks = books;
+          }, 1000);
+
+          for (let index = 0; index < books.length; index++) {
+            this.electrolibSrv.getFavoriteNbr(books[index].idBook).subscribe(
+              number => {
+                this.numberOfLike.push(number);
+              }
+            );
+          }
+        } else {
           this.books = books;
           this.displayedBooks = books;
-        }, 1000);
+        }
       }
     );
   }
@@ -128,6 +170,7 @@ export class InventoryComponent {
           this.displayedBooks.sort((a, b) => (a.publishedDate > b.publishedDate ? 1 : -1));
         }
         break;
+
       case 'title':
         if (this.sortOrder === 'descending') {
           this.displayedBooks.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1));
@@ -135,6 +178,7 @@ export class InventoryComponent {
           this.displayedBooks.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1));
         }
         break;
+
       case 'author':
         if (this.sortOrder === 'descending') {
           this.displayedBooks.sort((a, b) => (a.author.lastName.toLowerCase() < b.author.lastName.toLowerCase() ? 1 : -1));
@@ -168,60 +212,50 @@ export class InventoryComponent {
   //---------------------------------
   // Function to filter the books by the criteria given
   //---------------------------------
-  filterBooks(filter: string, id: number, isFilter?: boolean) {
-    if (!isFilter || isFilter == undefined) {
-      let nbFilter = 1;
-
-      switch (filter) {
-        case 'genre':
-          for (let i = 0; i < this.genres.length; i++) {
-            if (this.genres[i].isFilter || this.genres[i].isFilter != undefined) {
-              nbFilter++;
-            }
+  filterBooks(filter: string, id?: number, isFilter?: boolean) {
+    switch (filter) {
+      case 'genre':
+        if (!isFilter) {
+          if (this.genres.filter((genre) => genre.isFilter === true).length >= 1) {
+            this.displayedBooks = this.displayedBooks.concat(this.books.filter((book) => book.genre.idGenre === id));
+          } else {
+            this.displayedBooks = this.books.filter((book) => book.genre.idGenre === id);
           }
+        } else {
+          this.displayedBooks = this.displayedBooks.filter((book) => !(book.genre.idGenre === id));
+        }
+        break;
 
-          if (nbFilter < 2) {
-            this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
+      case 'author':
+        if (!isFilter) {
+          if (this.authors.filter((author) => author.isFilter === true).length >= 1) {
+            this.displayedBooks = this.displayedBooks.concat(this.books.filter((book) => book.author.idAuthor === id));
+          } else {
+            this.displayedBooks = this.books.filter((book) => book.author.idAuthor === id);
           }
+        } else {
+          this.displayedBooks = this.displayedBooks.filter((book) => !(book.author.idAuthor === id));
+        }
+        break;
 
-          this.displayedBooks = this.books.filter((book) => book.genre.idGenre === id);
-          this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
-          break;
-
-        case 'author':
-          for (let i = 0; i < this.genres.length; i++) {
-            if (this.genres[i].isFilter || this.genres[i].isFilter != undefined) {
-              nbFilter++;
-            }
+      case 'status':
+        if (!isFilter) {
+          if (this.statuses.filter((status) => status.isFilter === true).length >= 1) {
+            this.displayedBooks = this.displayedBooks.concat(this.books.filter((book) => book.status.idStatus === id));
+          } else {
+            this.displayedBooks = this.books.filter((book) => book.status.idStatus === id);
           }
-
-          if (nbFilter < 2) {
-            this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
-          }
-
-          this.displayedBooks = this.books.filter((book) => book.author.idAuthor === id);
-          this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
-          break;
-
-        case 'status':
-          for (let i = 0; i < this.genres.length; i++) {
-            if (this.genres[i].isFilter || this.genres[i].isFilter != undefined) {
-              nbFilter++;
-            }
-          }
-
-          if (nbFilter < 2) {
-            this.previousBooks = this.books.filter((book) => book.genre.idGenre === id);
-          }
-
-          this.displayedBooks = this.books.filter((book) => book.status.idStatus === id);
-          this.displayedBooks = this.displayedBooks.concat(this.previousBooks);
-          break;
-      }
-    } else {
-      this.displayedBooks = this.books;
-      this.sortInventory();
+        } else {
+          this.displayedBooks = this.displayedBooks.filter((book) => !(book.status.idStatus === id));
+        }
+        break;
     }
+
+    if (this.displayedBooks.length == 0) {
+      this.displayedBooks = this.books;
+    }
+
+    this.sortInventory();
   }
 
   //---------------------------------
@@ -240,13 +274,14 @@ export class InventoryComponent {
       }
     }
 
-    for (let i = 0; i < this.status.length; i++) {
-      if (this.status[i].isFilter) {
-        this.status[i].isFilter = false;
+    for (let i = 0; i < this.statuses.length; i++) {
+      if (this.statuses[i].isFilter) {
+        this.statuses[i].isFilter = false;
       }
     }
 
-    this.retrieveBooks();
+    this.favoriteFilter = false;
+    this.displayedBooks = this.books;
   }
 
   //---------------------------------

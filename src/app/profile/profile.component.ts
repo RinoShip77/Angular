@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '../model/User';
 import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -33,6 +33,8 @@ export class ProfileComponent implements OnInit {
     phoneNumber: null
   };
 
+  @Output() switchTheme = new EventEmitter<any>();
+
   //---------------------------------
   // Function to build the component
   //---------------------------------
@@ -62,7 +64,6 @@ export class ProfileComponent implements OnInit {
     } else {
       this.role = 'Membre';
     }
-    window.theme = 'dark';
 
     if (localStorage.getItem('theme') != 'light') {
       this.colorSwitch = true;
@@ -70,7 +71,7 @@ export class ProfileComponent implements OnInit {
       this.colorSwitch = false;
     }
 
-    this.url = getURLProfilePicture(this.user?.idUser);
+    this.url = getURLProfilePicture(this.user?.idUser, this.user?.profilePicture);
   }
 
   //---------------------------------
@@ -93,13 +94,13 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to change the theme for all the application
   //---------------------------------
-  switchTheme() {
+  theme() {
     if (this.colorSwitch) {
-      localStorage.setItem('theme', 'dark')
-      window.theme = 'dark';
+      localStorage.setItem('theme', 'dark');
+      this.switchTheme.emit('dark');
     } else {
-      localStorage.setItem('theme', 'light')
-      window.theme = 'light';
+      localStorage.setItem('theme', 'light');
+      this.switchTheme.emit('light');
     }
   }
 
@@ -109,19 +110,24 @@ export class ProfileComponent implements OnInit {
   updatePicture(idUser: number | undefined, event: any, pictureNumber?: number) {
     this.onFileSelected(event);
 
-    this.electrolibService.uploadProfilePicture(idUser, this.file_data).subscribe(
-      response => {
-        this.toastService.show('Votre profil a été mis à jour.', {
-          classname: 'bg-success',
-        });
-        this.url = getURLProfilePicture(idUser);
-      },
-      (error) => {
-        this.toastService.show('La mise à jour a échoué.', {
-          classname: 'bg-danger',
-        });
-      }
-    );
+    if (this.file_data != '') {
+      let timestamp = Date.now();
+
+      this.electrolibService.uploadProfilePicture(idUser, timestamp, this.file_data).subscribe(
+        response => {
+          console.log(response);
+          this.toastService.show('Votre profil a été mis à jour.', {
+            classname: 'bg-success',
+          });
+          this.url = getURLProfilePicture(idUser, '', timestamp);
+        },
+        (error) => {
+          this.toastService.show('La mise à jour a échoué.', {
+            classname: 'bg-danger',
+          });
+        }
+      );
+    }
 
     // this.electrolibService.updateUser('updatePicture', idUser, { pictureNumber: pictureNumber }).subscribe(
     //   user => {
@@ -148,7 +154,7 @@ export class ProfileComponent implements OnInit {
       this.selectedImage = fileList[0];
 
       if (this.validateFile()) {
-        this.file_data = new Blob([this.selectedImage], { type: this.selectedImage.type });;
+        this.file_data = new Blob([this.selectedImage], { type: this.selectedImage.type });
       }
     }
   }
@@ -165,27 +171,24 @@ export class ProfileComponent implements OnInit {
   // Validate the image before sending it to the DB
   //-------------------------------------------------------
   validateFile() {
-    let fileSupported = false;
-
     if (this.selectedImage.size <= MAX_FILE_SIZE) {
       let extension = this.extractExtension(this.selectedImage.name);
 
-      if (extension?.toLowerCase() === 'png' || extension?.toLowerCase() === 'jpg' || extension?.toLowerCase() === 'jpeg') {
-        fileSupported = true;
-      } else {
+      if (extension?.toLowerCase() !== 'png') {
         this.toastService.show("L'extension du fichier n'est pas supportée.", {
           classname: 'bg-danger',
         });
+        return false;
       }
     }
     else {
-      fileSupported = false;
       this.toastService.show('Le fichier est trop volumineux. Maximum de 500 kB.', {
         classname: 'bg-danger',
       });
+      return false;
     }
 
-    return fileSupported;
+    return true;
   }
 
   //---------------------------------
@@ -303,11 +306,7 @@ export class ProfileComponent implements OnInit {
   updateUser(idUser: number | undefined, user: User) {
     this.tempUser = user;
 
-    if (!this.validateForm()) {
-      console.log('invalide')
-      this.validateFields();
-    } else {
-      console.log('valide')
+    if (this.validateForm()) {
       user.postalCode = user.postalCode.split(' ')[0] + user.postalCode.split(' ')[1];
       user.phoneNumber = user.phoneNumber.split('-')[0] + user.phoneNumber.split('-')[1] + user.phoneNumber.split('-')[2];
 
@@ -330,9 +329,10 @@ export class ProfileComponent implements OnInit {
   // Function to validate the form to update the profile
   //---------------------------------
   validateForm() {
+    this.validateFields();
+
     for (const key in this.validations) {
       if (this.validations[key] === null || this.validations[key] === false) {
-        console.log(key);
         return false;
       }
     }

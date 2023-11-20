@@ -53,8 +53,14 @@ export class AppComponent {
 
   getStyles() {
     return {
-      'margin-top': '5em',
-      'margin-left': '5em'
+      'margin-top': '4.55em',
+      'margin-left': '4.65em'
     };
+  }
+
+  subscribeToChildEmitter(componentRef: any) {
+    componentRef.switchTheme.subscribe((theme: any) => {
+      this.theme = theme;
+    });
   }
 }
