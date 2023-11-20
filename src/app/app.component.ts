@@ -10,8 +10,7 @@ import { ToastService } from './toast.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  theme: string | null = 'light';
-  background: string | null = '';
+  theme: string | null = '';
 
   //---------------------------------
   // Function to disconnect the current user
@@ -22,8 +21,11 @@ export class AppComponent {
   // Function to display every book in the database
   //---------------------------------
   ngOnInit() {
-    this.theme = localStorage.getItem('theme');
-    this.background = localStorage.getItem('background');
+    if(localStorage.getItem('theme') !== null) {
+      this.theme = localStorage.getItem('theme');
+    } else {
+      localStorage.setItem('theme', 'light');
+    };
   }
 
   //---------------------------------

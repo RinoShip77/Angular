@@ -71,7 +71,7 @@ export class ProfileComponent implements OnInit {
       this.colorSwitch = false;
     }
 
-    this.background = localStorage.getItem('background');
+    this.background = sessionStorage.getItem('background');
     this.url = getURLProfilePicture(this.user?.idUser, this.user?.profilePicture);
   }
 
@@ -90,7 +90,7 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   changeBackground() {
     if (this.background != null) {
-      localStorage.setItem('background', this.background);
+      sessionStorage.setItem('background', this.background);
     }
   }
 
