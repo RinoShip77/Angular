@@ -4,9 +4,10 @@ import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMAIL_REGEX, ENCRYPTION_KEY, MAX_FILE_SIZE, PHONE_NUMBER_REGEX, POSTAL_CODE_REGEX, getURLProfilePicture } from '../util';
+import { EMAIL_REGEX, ENCRYPTION_KEY, MAX_FILE_SIZE, PHONE_NUMBER_REGEX, POSTAL_CODE_REGEX, getURLBookCover, getURLProfilePicture } from '../util';
 import { ToastService } from '../toast.service';
 import { EncryptionService } from '../encryption.service';
+import { Borrow } from '../model/Borrow';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,7 @@ import { EncryptionService } from '../encryption.service';
 })
 export class ProfileComponent implements OnInit {
   user: User | undefined = new User();
+  borrows: Borrow[] = new Array();
   role: string = '';
   tempUser: any;
   margin: string = '';
@@ -71,8 +73,22 @@ export class ProfileComponent implements OnInit {
       this.colorSwitch = false;
     }
 
+    this.retrieveBorrows();
     this.background = sessionStorage.getItem('background');
     this.url = getURLProfilePicture(this.user?.idUser, this.user?.profilePicture);
+  }
+
+  //---------------------------------
+  // Function to get the recent borrows of the user
+  //---------------------------------
+  retrieveBorrows() {
+    if (this.user != null) {
+      this.electrolibService.getBorrowsFromUser(this.user).subscribe(
+        borrows => {
+          this.borrows = borrows;
+        }
+      );
+    }
   }
 
   //---------------------------------
@@ -433,5 +449,12 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   dismissModal() {
     this.modalService.dismissAll();
+  }
+
+  //---------------------------------
+  // Function to retrieve the image of a book
+  //---------------------------------
+  getBookCover(idBook: number) {
+    return getURLBookCover(idBook);
   }
 }

@@ -1,4 +1,4 @@
-<div class="d-flex flex-rows bg-body text-body-secondary p-3 pt-4">
+<div class="d-flex flex-rows bg-body text-body-secondary p-3">
   <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary rounded-5 me-2 py-3">
     <span class="fs-4 text-center">Affiner votre recherche</span>
     <hr>
@@ -40,8 +40,8 @@
         <button ngbNavLink>Par statut</button>
         <ng-template ngbNavContent>
           <div *ngFor="let status of (statuses | slice:0:2); index as i" class="my-2">
-            <div class="form-check" (click)="filterBooks('status', status.idStatus, status.isFilter)">
-              <input [(ngModel)]="status.isFilter" class="form-check-input me-2" type="checkbox">
+            <div class="form-check form-switch" (click)="filterBooks('status', status.idStatus, status.isFilter)">
+              <input [(ngModel)]="status.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
               <label class="form-check-label">
                 {{status.status | titlecase}} [{{numberOfBooksByStatus[i]}}]
               </label>

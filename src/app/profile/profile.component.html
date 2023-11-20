@@ -1,5 +1,5 @@
 <!-- Profile page -->
-<section class="bg-body text-body-secondary p-3 pt-4">
+<section class="bg-body text-body-secondary p-3">
   <div class="d-flex rounded-5 m-5 bg-body text-body-secondary shadow-lg p-4 {{background}} {{margin}}">
     <div class="col-4 mx-5 p-1 border-end border-3 border-secondary">
       <div class="mx-5">
@@ -35,7 +35,7 @@
           <h5>{{role}} depuis le {{user?.registrationDate | date:'yyyy-MM-dd'}}</h5>
           <!-- TODO: Change the date format to AAAA-MM-JJ -->
           <h3 class="d-flex justify-content-around align-items-center bg-danger-subtle mt-3 py-2 rounded-4">
-            {{user?.fees | currency:'CAD'}}
+            {{user?.fees}}$
             <i class="fas fa-file-invoice-dollar text-danger fs-1"></i>
           </h3>
         </div>
@@ -151,84 +151,17 @@
         </div>
       </form>
       <hr>
-      <div class="w-75 mx-auto mt-5">
-        <h2 class="mb-3 text-center">Mes plus récents emprunts</h2>
-        <div class="row row-cols-3 g-3">
-          <div class="col-2">
+      <div class="mx-auto mt-5">
+        <h2 class="mb-3 text-center">Mes emprunts à venir</h2>
+        <div class="row g-3">
+          <div class="col-3" *ngFor="let borrow of borrows">
             <div class="card text-center">
               <div class="card-img-top p-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid">
+                <img src={{getBookCover(borrow.book.idBook)}} class="img-fluid">
               </div>
-              <span class="card-title">Titre du livre</span>
+              <span class="card-title">{{borrow.book.title | titlecase}}</span>
               <div class="card-footer">
-                <small class="text-body-secondary">Date</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="card text-center">
-              <div class="card-img-top p-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid">
-              </div>
-              <span class="card-title">Titre du livre</span>
-              <div class="card-footer">
-                <small class="text-body-secondary">Date</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="card text-center">
-              <div class="card-img-top p-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid">
-              </div>
-              <span class="card-title">Titre du livre</span>
-              <div class="card-footer">
-                <small class="text-body-secondary">Date</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="card text-center">
-              <div class="card-img-top p-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid">
-              </div>
-              <span class="card-title">Titre du livre</span>
-              <div class="card-footer">
-                <small class="text-body-secondary">Date</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="card text-center">
-              <div class="card-img-top p-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid">
-              </div>
-              <span class="card-title">Titre du livre</span>
-              <div class="card-footer">
-                <small class="text-body-secondary">Date</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="card text-center">
-              <div class="card-img-top p-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs5sYmr7AJBSdWVbVO-LYyaytvMfPCuNXymg&usqp=CAU"
-                  class="img-fluid">
-              </div>
-              <span class="card-title">Titre du livre</span>
-              <div class="card-footer">
-                <small class="text-body-secondary">Date</small>
+                <small class="text-body-secondary text-nowrap">{{borrow.dueDate | date:'yyyy-MM-dd'}}</small>
               </div>
             </div>
           </div>
@@ -352,7 +285,8 @@
     <div class="d-flex justify-content-around">
       <div class="d-flex flex-column align-items-center my-2">
         <h4>Arrière plan de la page du profil :</h4>
-        <select class="form-select form-select-lg w-75 ms-3" [(ngModel)]="background" (ngModelChange)="changeBackground()">
+        <select class="form-select form-select-lg w-75 ms-3" [(ngModel)]="background"
+          (ngModelChange)="changeBackground()">
           <option value="bg-transparent" selected>Aucun</option>
           <option value="bg-primary-subtle">Bleu foncé</option>
           <option value="bg-secondary-subtle">Gris</option>
