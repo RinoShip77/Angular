@@ -1,5 +1,5 @@
 <div class="d-flex flex-rows bg-body text-body-secondary p-3">
-  <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary rounded-5 me-2 py-3">
+  <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary rounded-5 me-2 p-3">
     <span class="fs-4 text-center">Affiner votre recherche</span>
     <hr>
     <button class="btn btn-outline-success mx-3 p-1 fs-5 fw-bold" (click)="openModal(ordersContent, 'lg')">
@@ -7,16 +7,15 @@
       <i class="fas fa-sort ms-2"></i>
     </button>
     <hr>
-    <!-- TODO: Replace every checkbox/switch with a radio button -->
     <ul ngbNav #nav="ngbNav" class="nav-tabs mx-auto">
       <li ngbNavItem>
         <button ngbNavLink>Par genre</button>
         <ng-template ngbNavContent class="my-4">
-          <div *ngFor="let genre of genres; index as i" class="my-2">
+          <div *ngFor="let genre of genres" class="my-2">
             <div class="form-check form-switch" (click)="filterBooks('genre', genre.idGenre, genre.isFilter)">
               <input [(ngModel)]="genre.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
               <label class="form-check-label">
-                {{genre.name | titlecase}} [{{numberOfBooksByGenres[i]}}]
+                {{genre.name | titlecase}} | {{getNumberOfBooks('genre', genre.idGenre)}}
               </label>
             </div>
           </div>
@@ -25,12 +24,12 @@
       <li ngbNavItem>
         <button ngbNavLink>Par auteur</button>
         <ng-template ngbNavContent>
-          <div *ngFor="let author of authors; index as i" class="my-2">
+          <div *ngFor="let author of authors" class="my-2">
             <div class="form-check form-switch" (click)="filterBooks('author', author.idAuthor, author.isFilter)">
               <input [(ngModel)]="author.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
               <label class="form-check-label">
-                {{(author.firstName | titlecase) + ' ' + (author.lastName | titlecase)}}
-                [{{numberOfBooksByAuthors[i]}}]
+                {{(author.firstName | titlecase) + ' ' + (author.lastName | titlecase)}} |
+                {{getNumberOfBooks('author', author.idAuthor)}}
               </label>
             </div>
           </div>
@@ -39,13 +38,24 @@
       <li ngbNavItem>
         <button ngbNavLink>Par statut</button>
         <ng-template ngbNavContent>
-          <div *ngFor="let status of (statuses | slice:0:2); index as i" class="my-2">
+          <div *ngFor="let status of (statuses | slice:0:2)" class="my-2">
             <div class="form-check form-switch" (click)="filterBooks('status', status.idStatus, status.isFilter)">
               <input [(ngModel)]="status.isFilter" class="form-check-input me-2" type="checkbox" role="switch">
               <label class="form-check-label">
-                {{status.status | titlecase}} [{{numberOfBooksByStatus[i]}}]
+                {{status.status | titlecase}} | {{getNumberOfBooks('status', status.idStatus)}}
               </label>
             </div>
+          </div>
+        </ng-template>
+      </li>
+      <li ngbNavItem>
+        <button ngbNavLink>Par favoris</button>
+        <ng-template ngbNavContent>
+          <div class="form-check form-switch my-2" (click)="filterBooks('favorite')">
+            <input [(ngModel)]="favoriteFilter" class="form-check-input me-2" type="checkbox" role="switch">
+            <label class="form-check-label">
+              J'aime
+            </label>
           </div>
         </ng-template>
       </li>
@@ -159,11 +169,11 @@
                       <span class="card-text"><small>{{book.description}}</small></span>
                       <div class="d-flex justify-content-between mt-3">
                         <div class="text-danger fs-2">
-                          <i class="fas fa-heart" *ngIf="numberOfLike[i] >= 1; else notFavoriteBlock"></i>
+                          <i class="fas fa-heart" *ngIf="isFavorite(book.idBook); else notFavoriteBlock"></i>
                           <ng-template #notFavoriteBlock>
                             <i class="far fa-heart"></i>
                           </ng-template>
-                          ({{numberOfLike[i]}})
+                          - {{getNumberOfFavorites(book.idBook)}}
                         </div>
                         <div [ngSwitch]="book.status.status">
                           <div *ngSwitchCase="'Disponible'" class="border border-2 bg-info rounded-3 p-2 text-center">
@@ -247,6 +257,7 @@
           <option value="date">Date</option>
           <option value="title">Titre</option>
           <option value="author">Nom d'auteur</option>
+          <option value="favorite">Nombre de favoris</option>
         </select>
       </div>
       <button class="btn p-3 fs-3" (click)="modal.dismiss()">

@@ -4,8 +4,7 @@ import { ToastService } from '../toast.service';
 @Component({
 	selector: 'app-toast',
 	template: `
-	<div class="mt-5">
-		<ngb-toast
+	<ngb-toast
 		*ngFor="let toast of toastService.toasts"
 		class="w-75 mx-auto my-3 px-3 text-white text-nowrap text-center fs-3"
 		[class]="toast.classname"
@@ -14,13 +13,12 @@ import { ToastService } from '../toast.service';
 		[animation]="true"
 		(hidden)="toastService.remove(toast)"
 		>
-			<ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
-				<ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
-			</ng-template>
+		<ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
+			<ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
+		</ng-template>
 			
-			<ng-template #text>{{ toast.textOrTpl }}</ng-template>
-		</ngb-toast>
-	</div>`
+		<ng-template #text>{{ toast.textOrTpl }}</ng-template>
+	</ngb-toast>`
 })
 export class ToastComponent {
 	constructor(public toastService: ToastService) { }

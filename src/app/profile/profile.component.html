@@ -18,24 +18,13 @@
             <input name="profilePicture" class="d-none" id="file-upload" type="file" accept="image/*"
               (change)="updatePicture(user?.idUser, $event)">
           </div>
-
-          <!-- <div class="text-center">
-            <img src="{{url}}" class="img-fluid img-thumbnail w-50 border-3 border-dark rounded-circle"
-            alt="{{user?.firstName + ' ' + user?.lastName}}" title="{{user?.firstName + ' ' + user?.lastName}}"
-            onerror="this.src='assets/images/users/default-user.png'">
-            <button class="btn btn-secondary rounded-circle p-3" style="margin-left: -60px; margin-top: 200px"
-            (click)="openModal(profilePictureContent)">
-            <i class="fas fa-plus text-dark fs-2"></i>
-          </button>
-        </div> -->
         </div>
         <div>
           <h1>{{user?.firstName + ' ' + user?.lastName}}</h1>
           <h6>#{{user?.memberNumber}}</h6>
           <h5>{{role}} depuis le {{user?.registrationDate | date:'yyyy-MM-dd'}}</h5>
-          <!-- TODO: Change the date format to AAAA-MM-JJ -->
           <h3 class="d-flex justify-content-around align-items-center bg-danger-subtle mt-3 py-2 rounded-4">
-            {{user?.fees}}$
+            {{user?.fees}} $
             <i class="fas fa-file-invoice-dollar text-danger fs-1"></i>
           </h3>
         </div>
@@ -153,93 +142,26 @@
       <hr>
       <div class="mx-auto mt-5">
         <h2 class="mb-3 text-center">Mes emprunts à venir</h2>
-        <div class="row g-3">
+        <div class="row g-3" *ngIf="borrows.length > 0; else emptyBlock">
           <div class="col-3" *ngFor="let borrow of borrows">
             <div class="card text-center">
               <div class="card-img-top p-2">
                 <img src={{getBookCover(borrow.book.idBook)}} class="img-fluid">
               </div>
-              <span class="card-title">{{borrow.book.title | titlecase}}</span>
+              <span class="card-title fs-5 fw-bold">{{borrow.book.title | titlecase}}</span>
               <div class="card-footer">
                 <small class="text-body-secondary text-nowrap">{{borrow.dueDate | date:'yyyy-MM-dd'}}</small>
               </div>
             </div>
           </div>
         </div>
+        <ng-template #emptyBlock>
+          <h1 class="mt-5 text-center fst-italic fw-bolder">Aucun résultat.</h1>
+        </ng-template>
       </div>
     </div>
   </div>
 </section>
-
-<!-- Update profile picture modal -->
-<ng-template #profilePictureContent let-modal>
-  <div class="modal-body">
-    <h2>Mise à jour de la poto de profil</h2>
-    <hr>
-    <ngb-carousel class="p-5 bg-dark bg-gradient shadow-lg rounded-5" [animation]="true" [interval]="10000">
-      <ng-template ngbSlide>
-        <div class="d-flex justify-content-between mx-5">
-          <img src="assets/images/users/profilePictures/Picture1.png" alt="Picture 1" type="button"
-            (click)="updatePicture(user?.idUser, 1)">
-          <img src="assets/images/users/profilePictures/Picture2.png" alt="Picture 2" type="button"
-            (click)="updatePicture(user?.idUser, 2)">
-          <img src="assets/images/users/profilePictures/Picture3.png" alt="Picture 3" type="button"
-            (click)="updatePicture(user?.idUser, 3)">
-          <img src="assets/images/users/profilePictures/Picture4.png" alt="Picture 4" type="button"
-            (click)="updatePicture(user?.idUser, 4)">
-        </div>
-      </ng-template>
-      <ng-template ngbSlide>
-        <div class="d-flex justify-content-between mx-5">
-          <img src="assets/images/users/profilePictures/Picture5.png" alt="Picture 5" type="button"
-            (click)="updatePicture(user?.idUser, 5)">
-          <img src="assets/images/users/profilePictures/Picture6.png" alt="Picture 6" type="button"
-            (click)="updatePicture(user?.idUser, 6)">
-          <img src="assets/images/users/profilePictures/Picture7.png" alt="Picture 7" type="button"
-            (click)="updatePicture(user?.idUser, 7)">
-          <img src="assets/images/users/profilePictures/Picture8.png" alt="Picture 8" type="button"
-            (click)="updatePicture(user?.idUser, 8)">
-        </div>
-      </ng-template>
-      <ng-template ngbSlide>
-        <div class="d-flex justify-content-between mx-5">
-          <img src="assets/images/users/profilePictures/Picture9.png" alt="Picture 9" type="button"
-            (click)="updatePicture(user?.idUser, 9)">
-          <img src="assets/images/users/profilePictures/Picture10.png" alt="Picture 10" type="button"
-            (click)="updatePicture(user?.idUser, 10)">
-          <img src="assets/images/users/profilePictures/Picture11.png" alt="Picture 11" type="button"
-            (click)="updatePicture(user?.idUser, 11)">
-          <img src="assets/images/users/profilePictures/Picture12.png" alt="Picture 12" type="button"
-            (click)="updatePicture(user?.idUser, 12)">
-        </div>
-      </ng-template>
-      <ng-template ngbSlide>
-        <div class="d-flex justify-content-between mx-5">
-          <img src="assets/images/users/profilePictures/Picture13.png" alt="Picture 13" type="button"
-            (click)="updatePicture(user?.idUser, 13)">
-          <img src="assets/images/users/profilePictures/Picture14.png" alt="Picture 14" type="button"
-            (click)="updatePicture(user?.idUser, 14)">
-          <img src="assets/images/users/profilePictures/Picture15.png" alt="Picture 15" type="button"
-            (click)="updatePicture(user?.idUser, 15)">
-          <img src="assets/images/users/profilePictures/Picture16.png" alt="Picture 16" type="button"
-            (click)="updatePicture(user?.idUser, 16)">
-        </div>
-      </ng-template>
-      <ng-template ngbSlide>
-        <div class="d-flex justify-content-between mx-5">
-          <img src="assets/images/users/profilePictures/Picture17.png" alt="Picture 17" type="button"
-            (click)="updatePicture(user?.idUser, 17)">
-          <img src="assets/images/users/profilePictures/Picture18.png" alt="Picture 18" type="button"
-            (click)="updatePicture(user?.idUser, 18)">
-          <img src="assets/images/users/profilePictures/Picture19.png" alt="Picture 19" type="button"
-            (click)="updatePicture(user?.idUser, 19)">
-          <img src="assets/images/users/profilePictures/Picture20.png" alt="Picture 20" type="button"
-            (click)="updatePicture(user?.idUser, 20)">
-        </div>
-      </ng-template>
-    </ngb-carousel>
-  </div>
-</ng-template>
 
 <!-- Update password modal -->
 <ng-template #passwordContent let-modal>
