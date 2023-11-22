@@ -4,9 +4,10 @@ import { ElectrolibService } from '../electrolib.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMAIL_REGEX, ENCRYPTION_KEY, MAX_FILE_SIZE, PHONE_NUMBER_REGEX, POSTAL_CODE_REGEX, getURLProfilePicture } from '../util';
+import { EMAIL_REGEX, ENCRYPTION_KEY, MAX_FILE_SIZE, PHONE_NUMBER_REGEX, POSTAL_CODE_REGEX, getURLBookCover, getURLProfilePicture } from '../util';
 import { ToastService } from '../toast.service';
 import { EncryptionService } from '../encryption.service';
+import { Borrow } from '../model/Borrow';
 
 @Component({
   selector: 'app-profile',
@@ -15,11 +16,12 @@ import { EncryptionService } from '../encryption.service';
 })
 export class ProfileComponent implements OnInit {
   user: User | undefined = new User();
+  borrows: Borrow[] = new Array();
   role: string = '';
   tempUser: any;
   margin: string = '';
   colorSwitch: boolean = false;
-  background: string = '';
+  background: string | null = '';
   selectedImage: any;
   file_data: any = "";
   url: string = '';
@@ -71,7 +73,22 @@ export class ProfileComponent implements OnInit {
       this.colorSwitch = false;
     }
 
+    this.retrieveBorrows();
+    this.background = sessionStorage.getItem('background');
     this.url = getURLProfilePicture(this.user?.idUser, this.user?.profilePicture);
+  }
+
+  //---------------------------------
+  // Function to get the recent borrows of the user
+  //---------------------------------
+  retrieveBorrows() {
+    if (this.user != null) {
+      this.electrolibService.getBorrowsFromUser(this.user).subscribe(
+        borrows => {
+          this.borrows = borrows;
+        }
+      );
+    }
   }
 
   //---------------------------------
@@ -87,14 +104,16 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Function to change the background of the page
   //---------------------------------
-  switchBackground() {
-    localStorage.setItem('background', this.background);
+  changeBackground() {
+    if (this.background != null) {
+      sessionStorage.setItem('background', this.background);
+    }
   }
 
   //---------------------------------
   // Function to change the theme for all the application
   //---------------------------------
-  theme() {
+  changeTheme() {
     if (this.colorSwitch) {
       localStorage.setItem('theme', 'dark');
       this.switchTheme.emit('dark');
@@ -194,12 +213,16 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   // Open a modal with the given content
   //---------------------------------
-  openModal(content: any) {
+  openModal(content: any, size?: string) {
+    if (!size) {
+      size = 'lg';
+    }
+
     this.modalService.open(content, {
       animation: true,
       centered: true,
       keyboard: true,
-      size: 'lg'
+      size: size
     });
   }
 
@@ -426,5 +449,12 @@ export class ProfileComponent implements OnInit {
   //---------------------------------
   dismissModal() {
     this.modalService.dismissAll();
+  }
+
+  //---------------------------------
+  // Function to retrieve the image of a book
+  //---------------------------------
+  getBookCover(idBook: number) {
+    return getURLBookCover(idBook);
   }
 }
