@@ -1,9 +1,9 @@
-<div style="background-color: rgba(0, 0, 0, 0.068); min-height: 850px;">
+<div class="bg-body" style="background-color: rgba(0, 0, 0, 0.068); min-height: 850px;">
     <!-- Titre de la page -->
     <div class="title-bar">
         <div>
             <h4 style="margin-left: 20px;">
-                <i class="fa-solid fa-book-open" style="color: #947ad1;"></i>&nbsp;&nbsp; 
+                <i class="fa-solid fa-book-open" style="color: #947ad1;"></i>&nbsp;&nbsp;
                 <span class="titres-emprunts">Historique de mes Emprunts</span>
             </h4>
         </div>
@@ -27,8 +27,8 @@
     </div>
 
     <!-- Séparateur -->
-    <div
-        style="height: 0; border-bottom: 8px double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;" [ngClass]="
+    <div style="height: 0; border-bottom: 8px double; margin-top: 15px; margin-bottom: -5px; margin-left: 10px;"
+        [ngClass]="
         {
            'hr-light' : theme == '',
            'hr-dark' : theme == 'dark',
@@ -44,20 +44,24 @@
         <!-- Div contenant le select pour trier la table -->
         <div class="row" style="margin-bottom: -25px;">
             <div *ngIf="user" class="col-6 label-emprunts">
-                <i class="fa-regular fa-user"></i>&nbsp; 
-                Historique de 
-                <span [routerLink]="['../profile']" style="text-decoration: underline; font-weight: 600; cursor: pointer;" class="label-emprunts">{{user.firstName}}</span>
+                <i class="fa-regular fa-user"></i>&nbsp;
+                Historique de
+                <span [routerLink]="['../profile']"
+                    style="text-decoration: underline; font-weight: 600; cursor: pointer;"
+                    class="label-emprunts">{{user.firstName}}</span>
             </div>
             <div style="float: right; text-align: right;" class="col-6">
                 <label class="label-emprunts">Trier par: </label>
-                <select class="select-style label-emprunts" (change)="orderBySelect($event)" style="width: 220px; text-align: center;">
+                <select class="select-style label-emprunts" (change)="orderBySelect($event)"
+                    style="width: 220px; text-align: center;">
                     <option value="borrowedDate" selected>Id / Date d'emprunt</option>
                     <option value="title">Titre du livre</option>
                     <option value="dueDate">Date retour / Statut / Frais</option>
                 </select>
                 &nbsp;&nbsp;
                 <label class="label-emprunts">Ordre: </label>
-                <select class="select-style label-emprunts" (change)="orderWayBySelect($event)" style="width: 130px; text-align: center;">
+                <select class="select-style label-emprunts" (change)="orderWayBySelect($event)"
+                    style="width: 130px; text-align: center;">
                     <option value="ASC" selected>Croissant</option>
                     <option value="DESC">Décroissant</option>
                 </select>
@@ -103,7 +107,8 @@
             }">
 
                     <!-- Reste des informations -->
-                    <td scope="row" class="td-thick" style="font-weight: 700;" style="color: black;">{{borrow.idBorrow}}</td>
+                    <td scope="row" class="td-thick" style="font-weight: 700;" style="color: black;">{{borrow.idBorrow}}
+                    </td>
                     <td style="color: black;">{{borrow.book.title}}</td>
                     <td style="color: black;">{{borrow.borrowedDate}}</td>
                     <td style="color: black;">{{borrow.returnedDate}}</td>
@@ -115,8 +120,10 @@
 
                     <!-- Bouton Détails -->
                     <td>
-                        <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active" style="color:#1f3151; font-size: 22px;"
-                            (click)="openBorrowModal(infoReservationModal, borrow)" ngbTooltip="Plus de détails"></i></a>
+                        <a><i class="fa-regular fa-file-lines col-6 icone-petite i-active"
+                                style="color:#1f3151; font-size: 22px;"
+                                (click)="openBorrowModal(infoReservationModal, borrow)"
+                                ngbTooltip="Plus de détails"></i></a>
                     </td>
                 </tr>
             </tbody>
@@ -124,10 +131,12 @@
 
         <!-- Bouton en bas de la page -->
         <div class="div-btns" style="justify-content:space-between; display: flex;">
-            <button (click)="openAbout(about)" data-toggle="modal" type="button" class="btn btn-primary border-btn label-emprunts">À propos des
+            <button (click)="openAbout(about)" data-toggle="modal" type="button"
+                class="btn btn-primary border-btn label-emprunts">À propos des
                 emprunts passés
             </button>
-            <button [routerLink]="['../borrows']" type="button" class="btn btn-secondary border-btn label-emprunts" style="float:right;">
+            <button [routerLink]="['../borrows']" type="button" class="btn btn-secondary border-btn label-emprunts"
+                style="float:right;">
                 Retourner aux emprunts
             </button>
         </div>
@@ -142,104 +151,102 @@
 <!-- Modal pour le à propos -->
 <ng-template #about let-modal>
     <div class="modal-header modal-lg">
-      <h4 class="modal-title" id="modal-basic-title">À Propos</h4>
+        <h4 class="modal-title" id="modal-basic-title">À Propos</h4>
     </div>
-  
+
     <!-- Info importantes sur le fonctionnement des reservations etc. -->
     <div class="modal-body">
-      <h5>Informations sur vos emprunts passés</h5>
-      <hr>
-      <!-- Div pour les modalités -->
-      <div class="divAbout" ngbAutoFocus>
-          <label class="sous-titre" 
-          [ngClass]="
+        <h5>Informations sur vos emprunts passés</h5>
+        <hr>
+        <!-- Div pour les modalités -->
+        <div class="divAbout" ngbAutoFocus>
+            <label class="sous-titre" [ngClass]="
           {
              'sous-titre' : theme == '',
              'sous-titre-dark' : theme == 'dark',
           }">Modalités:</label>
-          <br>
-          <label style="font-weight: 600;">Historique:</label>
-          <span> 
-              Cette liste affiche vos emprunts passés, ils sont inactifs, mais vous pouvez tout de même les revisiter
-          </span>
-          <br>
-          <label class="mt-2" style="font-weight: 600;">Détails:</label>
-          <span> 
-              Vous pouvez afficher les détails du livre correspondant à votre emprunt
-          </span>
-      </div>
-      <br>
-  
-      <!-- Informations pour le code couleur -->
-      <div class="divAbout" >
-          <label class="sous-titre" 
-          [ngClass]="
+            <br>
+            <label style="font-weight: 600;">Historique:</label>
+            <span>
+                Cette liste affiche vos emprunts passés, ils sont inactifs, mais vous pouvez tout de même les revisiter
+            </span>
+            <br>
+            <label class="mt-2" style="font-weight: 600;">Détails:</label>
+            <span>
+                Vous pouvez afficher les détails du livre correspondant à votre emprunt
+            </span>
+        </div>
+        <br>
+
+        <!-- Informations pour le code couleur -->
+        <div class="divAbout">
+            <label class="sous-titre" [ngClass]="
           {
              'sous-titre' : theme == '',
              'sous-titre-dark' : theme == 'dark',
           }">Code de couleur:</label>
-          <br>
-          <label class="mt-2" style="font-weight: 600;">Blanc:</label>
-          <span> lorsque votre emprunt a été remis, celui-ci apparait en
-                 <span style="color: #3052c2;"> blanc</span>.
-          </span>
-          <br>
-          <label class="mt-2" style="color: rgba(68, 81, 152, 0.685); font-weight: 600;">Mauve:</label>
-          <span> 
-                 Lorsque vous avez perdu le livre, l'emprunt apparait en
-                 <span style="color: rgba(68, 81, 152, 0.685);">mauve</span>.
-          </span>
-      </div>
+            <br>
+            <label class="mt-2" style="font-weight: 600;">Blanc:</label>
+            <span> lorsque votre emprunt a été remis, celui-ci apparait en
+                <span style="color: #3052c2;"> blanc</span>.
+            </span>
+            <br>
+            <label class="mt-2" style="color: rgba(68, 81, 152, 0.685); font-weight: 600;">Mauve:</label>
+            <span>
+                Lorsque vous avez perdu le livre, l'emprunt apparait en
+                <span style="color: rgba(68, 81, 152, 0.685);">mauve</span>.
+            </span>
+        </div>
     </div>
-  
+
     <!-- Bouton pour fermer la modal -->
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
     </div>
 </ng-template>
 
 <!-- Modal pour les infos du livre d'un emprunt -->
 <ng-template #infoReservationModal let-modal>
-    <div class="modal-header modal-lg" >
-      <h4 class="modal-title" id="modal-basic-title">Informations du livre</h4> 
-      <span *ngIf="selectedBorrow.determineStatus() != 'En retard'" class="thick handed">(Remis)</span>
-      <span *ngIf="selectedBorrow.determineStatus() == 'En retard'" class="thick stolen">(Perdu)</span>
+    <div class="modal-header modal-lg">
+        <h4 class="modal-title" id="modal-basic-title">Informations du livre</h4>
+        <span *ngIf="selectedBorrow.determineStatus() != 'En retard'" class="thick handed">(Remis)</span>
+        <span *ngIf="selectedBorrow.determineStatus() == 'En retard'" class="thick stolen">(Perdu)</span>
     </div>
-  
+
     <!--  -->
     <div class="modal-body row">
-      <div class="col-4 div-img" [ngClass]="
+        <div class="col-4 div-img" [ngClass]="
       {
          'div-img' : theme == '',
          'div-img-dark' : theme == 'dark',
       }">
-        <img class="image-livre" src="{{getBookCover(selectedBorrow.book.idBook)}}" default="../assets/images/books/1.png" style="margin-top:20px">
-      </div>
-      <div class="col-8" 
-      [ngClass]="
+            <img class="image-livre" src="{{getBookCover(selectedBorrow.book.idBook)}}"
+                default="../assets/images/books/1.png" style="margin-top:20px">
+        </div>
+        <div class="col-8" [ngClass]="
       {
          'divHanded' : selectedBorrow.determineStatus() != 'En retard',
          'divStolen' : selectedBorrow.determineStatus() == 'En retard',
          'divModal' : theme == '',
          'divModal-dark' : theme == 'dark',
       }">
-        <label class="thick">Titre:&nbsp;</label>
-        <span>{{selectedBorrow.book.title}}</span>
-        <br>
-        <label class="thick">Langue d'origine:&nbsp;</label>
-        <span>{{selectedBorrow.book.originalLanguage}}</span>
-        <br>
-        <label class="thick">Date de publication:&nbsp;</label>
-        <span>{{selectedBorrow.book.publishedDate}}</span>
-        <br>
-        <label class="thick">isbn:&nbsp;</label>
-        <span>{{selectedBorrow.book.isbn}}</span>
-        <br>
-        <label class="thick">Description:&nbsp;</label>
-        <span style="display:block; word-break: break-all;">
-            {{selectedBorrow.book.description}}
-        </span>
-      </div>
+            <label class="thick">Titre:&nbsp;</label>
+            <span>{{selectedBorrow.book.title}}</span>
+            <br>
+            <label class="thick">Langue d'origine:&nbsp;</label>
+            <span>{{selectedBorrow.book.originalLanguage}}</span>
+            <br>
+            <label class="thick">Date de publication:&nbsp;</label>
+            <span>{{selectedBorrow.book.publishedDate}}</span>
+            <br>
+            <label class="thick">isbn:&nbsp;</label>
+            <span>{{selectedBorrow.book.isbn}}</span>
+            <br>
+            <label class="thick">Description:&nbsp;</label>
+            <span style="display:block; word-break: break-all;">
+                {{selectedBorrow.book.description}}
+            </span>
+        </div>
     </div>
 
     <!-- Bouton pour fermer la modal -->

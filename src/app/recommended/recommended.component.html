@@ -1,25 +1,29 @@
-<div *ngIf="recommendedBooks.length>0">
+<div class="bg-body" *ngIf="recommendedBooks.length>0">
   <div class="d-flex">
     <h2>Recommendations</h2>
-  <div style="margin-left: 50%;" class="dropdown show">
-  <a (click)="displayMenuFn()" class="btn btn-secondary dropdown-toggle"  role="button" id="dropdownMenuLink">
-   Changer l'affichage par:
-  </a>
+    <div style="margin-left: 50%;" class="dropdown show">
+      <a (click)="displayMenuFn()" class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink">
+        Changer l'affichage par:
+      </a>
 
-  <ul *ngIf="displayMenu" >
-    <li  class="dropdown-item" href="#"><button (click)="setAll()" style="width: 200px;" class="btn btn-secondary">Tout</button></li>
-    <li  class="dropdown-item" href="#"><button (click)="setFav()" style="width: 200px;" class="btn btn-secondary">Favoris</button></li>
-    <li class="dropdown-item" href="#"> <button (click)="setBorrow()" style="width: 200px;" class="btn btn-secondary">statisque</button> </li>
-    <li class="dropdown-item" href="#"> <button (click)="setAdmin()" style="width: 200px;" class="btn btn-secondary">coup de coeur</button> </li>
-  </ul>
-</div>
+      <ul *ngIf="displayMenu">
+        <li class="dropdown-item" href="#"><button (click)="setAll()" style="width: 200px;"
+            class="btn btn-secondary">Tout</button></li>
+        <li class="dropdown-item" href="#"><button (click)="setFav()" style="width: 200px;"
+            class="btn btn-secondary">Favoris</button></li>
+        <li class="dropdown-item" href="#"> <button (click)="setBorrow()" style="width: 200px;"
+            class="btn btn-secondary">statisque</button> </li>
+        <li class="dropdown-item" href="#"> <button (click)="setAdmin()" style="width: 200px;"
+            class="btn btn-secondary">coup de coeur</button> </li>
+      </ul>
+    </div>
   </div>
-  
+
   <!-- Slideshow container -->
   <div class="slideshow-container" style="width: 70vw; height: 25vh; display: flex; flex-direction: row;">
-  
+
     <!-- Full-width images with number and caption text -->
-   <!--  <div *ngFor="let book of recommendedBooks" class="mySlides" id="mySlides" style="display: flex; flex-direction: row; margin: 5%;" hidden>
+    <!--  <div *ngFor="let book of recommendedBooks" class="mySlides" id="mySlides" style="display: flex; flex-direction: row; margin: 5%;" hidden>
       <div class="numbertext">1 / 3</div>
       <img src="assets/images/books/default-book.png" style="width:15vh;">
       <div style="width: 50vw;">
@@ -28,12 +32,13 @@
       </div>
     </div>
    -->
-   <div type="button" class="col mySlides" id="mySlides" *ngFor="let book of displayedBooks" (click)="displayBook(book.idBook)">
+    <div type="button" class="col mySlides" id="mySlides" *ngFor="let book of displayedBooks"
+      (click)="displayBook(book.idBook)">
       <div class="card h-100 mb-3">
         <div class="row g-0">
           <div class="col-4">
-            <img src={{getBookCover(book.idBook)}} style="height: 20vh;" class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
-              title="{{book.title}}">
+            <img src={{getBookCover(book.idBook)}} style="height: 20vh;" class="img-fluid img-thumbnail m-1"
+              alt="{{book.title}}" title="{{book.title}}">
           </div>
           <div class="col-8">
             <div class="card-body">
@@ -43,7 +48,8 @@
               <p class="mb-3">{{book.description}}</p>
               <div class="d-flex justify-content-between mt-3">
                 <div class="d-flex align-items-center">
-                  <i title="une étoile veut dire que le livre vous est recommendé par les administrateurs.les barres veulent dire que le livre est recommendé selon votre historique" class="text-danger fs-2"
+                  <i title="une étoile veut dire que le livre vous est recommendé par les administrateurs.les barres veulent dire que le livre est recommendé selon votre historique"
+                    class="text-danger fs-2"
                     [ngClass]="(book.isRecommended) ? 'fa-regular fa-star' : 'fa-regular fa-chart-bar'"></i>
                 </div>
               </div>
@@ -52,12 +58,11 @@
         </div>
       </div>
     </div>
-  
-  
-  
+
+
+
     <!-- Next and previous buttons -->
     <a *ngIf="recommendedBooks.length!=1" class="prev" (click)="plusSlides(-1)">&#10094;prev</a>
     <a *ngIf="recommendedBooks.length!=1" class="next" (click)="plusSlides(1)">&#10095;next</a>
   </div>
 </div>
-

@@ -28,13 +28,13 @@ input {
 
 .title-line {
     height: 0.5px;
-    background-color: black;
+    background-color: gray;
     width: calc(50% - 10em);
 }
 
 .logo-title-line {
     height: 0.5px;
-    background-color: black;
+    background-color: grey;
     width: calc(50% - 6em);
 }
 

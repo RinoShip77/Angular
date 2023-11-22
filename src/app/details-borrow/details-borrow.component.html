@@ -1,14 +1,13 @@
-<section  style="margin: 10vh;padding-bottom: 20vh; border: solid 1px gray; border-radius: 10px / 30px;" class="EncadrerLivre">
+<section style="margin: 10vh;padding-bottom: 20vh; border: solid 1px gray; border-radius: 10px / 30px;"
+    class="bg-body EncadrerLivre">
     <div class="container row mx-auto p-5">
         <section class="imageLivre col-5">
-            <img class="img-fluid"
-                src={{getBookCover(book.idBook)}}
-                alt="imageDuLivre">
+            <img class="img-fluid" src={{getBookCover(book.idBook)}} alt="imageDuLivre">
         </section>
         <section class="infoLivre col-6 offset-1 ">
             <h1>Votre emprunt</h1>
             <h2>{{book.title}}</h2>
-            <p>{{book.description}}</p> 
+            <p>{{book.description}}</p>
             <p>date d'emprunt : {{currentDate}}</p>
             <p>date de retour : {{returnDate}}</p>
             <p>frais de retards : 2$ par jour</p>
@@ -16,7 +15,8 @@
                 <button *ngIf="btnVisible" class="btn btn-outline-info m-1" (click)="createBorrow()">Emprunter</button>
                 <p *ngIf="Succes">emprunt crée avec succes</p>
                 <p *ngIf="failure">impossible d'emprunter {{book.title}}</p>
-                <button *ngIf="Succes || failure" class="btn btn-outline-info m-1" (click)="Acceuil()">retour a l'acceuil</button>
+                <button *ngIf="Succes || failure" class="btn btn-outline-info m-1" (click)="Acceuil()">retour a
+                    l'acceuil</button>
             </div>
         </section>
     </div>

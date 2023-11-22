@@ -1,4 +1,4 @@
-<section class="admin-container">
+<section class="admin-container bg-body">
     <section style="min-width: fit-content;">
 
         <!-- Section de la barre de navigation de la page -->
@@ -7,9 +7,9 @@
 
                 <!-- La barre de recherche -->
                 <div class="col-lg-5">
-                    <form class="search-form" style="display: flex;" role="search" >
-                        <input name="searchField" class="form-control" type="search"
-                            placeholder="Rechercher..." aria-label="Search" style="border-top-right-radius: 0;
+                    <form class="search-form" style="display: flex;" role="search">
+                        <input name="searchField" class="form-control" type="search" placeholder="Rechercher..."
+                            aria-label="Search" style="border-top-right-radius: 0;
                             border-bottom-right-radius: 0;">
                         <button class="btn btn-search" type="submit">
                             <i class="fa-solid fa-magnifying-glass"></i>
@@ -48,7 +48,8 @@
                         <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Courriel</th>
                         <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">N°
                             membre</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'borrowedDate' ? '#31359C' : ''}">Raison</th>
+                        <th [ngStyle]="{'background-color': searchBy.value == 'borrowedDate' ? '#31359C' : ''}">Raison
+                        </th>
                         <th [ngStyle]="{'background-color': searchBy.value == 'dueDate' ? '#31359C' : ''}">Message</th>
                         <th style="width: 10em;">Actions</th>
                     </tr>
@@ -61,8 +62,8 @@
                         <td>{{comment.content}}</td>
                         <td>
                             <article style="display: flex;">
-                                <button style="margin: auto;" (click)="declareFixed(comment)" *ngIf="comment.isFixed == 0" 
-                                    class="btn btn-success btn-action">
+                                <button style="margin: auto;" (click)="declareFixed(comment)"
+                                    *ngIf="comment.isFixed == 0" class="btn btn-success btn-action">
                                     <i class="fa-solid fa-check" style="width: 60px;"></i>
                                     <span class="info-tooltip">Corriger</span>
                                 </button>

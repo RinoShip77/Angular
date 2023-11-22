@@ -3,7 +3,6 @@
   justify-content: center;
   align-items: center;
   padding: 1em;
-  background-color: #f5f5f5;
   height: 100%;
 }
 
@@ -12,7 +11,6 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #fff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -31,7 +29,6 @@ label {
   max-width: 20em;
   padding: 10px;
   background-color: #007bff;
-  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -57,7 +54,6 @@ button[type="submit"] {
   max-width: 20em;
   padding: 10px;
   background-color: #007bff;
-  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -72,7 +68,6 @@ button[type="submit"]:hover {
 .resultsBox {
   overflow-y: auto;
   max-height: 14em;
-  background-color: #f5f5f5;
 }
 
 .result-button:hover {
@@ -97,7 +92,6 @@ button[type="submit"]:hover {
   max-width: 20em;
   padding: 10px;
   background-color: #ffb300;
-  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;

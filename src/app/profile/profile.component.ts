@@ -49,13 +49,15 @@ export class ProfileComponent implements OnInit {
     let id = Number(this.route.snapshot.paramMap.get('id'));
 
     if (!id) {
-      if (this.dataService.getUser() != undefined) {
         this.user = this.dataService.getUser();
-      }
     } else {
       this.electrolibService.getUser(id).subscribe(
         user => {
-          this.user = user;
+          this.electrolibService.getBorrowsFromUser(user).subscribe(
+            borrows => {
+              this.borrows = borrows;
+            }
+          );
         }
       );
       this.margin = 'admin';
@@ -82,7 +84,7 @@ export class ProfileComponent implements OnInit {
   // Function to get the recent borrows of the user
   //---------------------------------
   retrieveBorrows() {
-    if (this.user != null) {
+    if (this.user != undefined) {
       this.electrolibService.getBorrowsFromUser(this.user).subscribe(
         borrows => {
           this.borrows = borrows;

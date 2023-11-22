@@ -1,4 +1,4 @@
-<div class=" mt-2">
+<div class="bg-body mt-2">
     <div class="title-bar">
         <div>
             <h4 style="margin-left: 20px;">
@@ -43,14 +43,15 @@
                 <option class="label-emprunts">Problème avec un paiement</option>
             </select>
         </div>
-        
+
         <div class="div-cat">
             <label class="label-emprunts-bold">Commentaire</label><br>
             <textarea [(ngModel)]="description" class="form-control label-emprunts" rows="5"></textarea>
         </div>
 
         <div style="text-align: center; margin-top: 40px;">
-            <button (click)="openSendModal(sendModal)" class="btn btn-primary label-emprunts border-btn">Envoyer</button>
+            <button (click)="openSendModal(sendModal)"
+                class="btn btn-primary label-emprunts border-btn">Envoyer</button>
         </div>
     </div>
 
@@ -65,14 +66,16 @@
 <!-- Modal pour confirmer l'envoie ou refuser l'envoie -->
 <ng-template #sendModal let-modal>
     <div class="modal-header modal-lg" style="justify-content: center;">
-        <h4 *ngIf="validateContent()" class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Votre message a été envoyé!</h4>
-        <h4 *ngIf="!validateContent()" class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Envoie du message impossible!</h4>
+        <h4 *ngIf="validateContent()" class="modal-title titres-emprunts" style="font-weight: 600;"
+            id="modal-basic-title">Votre message a été envoyé!</h4>
+        <h4 *ngIf="!validateContent()" class="modal-title titres-emprunts" style="font-weight: 600;"
+            id="modal-basic-title">Envoie du message impossible!</h4>
     </div>
 
     <!-- Message indiquant que le message du user a été envoyé -->
     <div *ngIf="validateContent()" class="modal-body " style="text-align: center;">
         <div class="div-content-modal" style="color: forestgreen;">
-            
+
             <span class="label-emprunts-bold">Votre message a été envoyé avec succès!</span>
             <br><br>
             <span class="label-emprunts-bold">Nous vous remercions pour votre commentaire et vontre temps</span>
@@ -85,7 +88,7 @@
         <div *ngIf="reason == ''" class="div-content-modal" style="color: darkred;">
             <span class="label-emprunts-bold">Vous devez sélectionner une raison pour votre message</span>
         </div>
-        
+
         <div *ngIf="description == ''" class="div-content-modal" style="color: darkred;">
             <span class="label-emprunts-bold">Vous devez ajouter un commentaire à votre message</span>
         </div>
@@ -94,6 +97,7 @@
 
     <!-- Boutons pour fermer la modal -->
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()" (click)="closedModal()">Fermer</button>
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()"
+            (click)="closedModal()">Fermer</button>
     </div>
 </ng-template>

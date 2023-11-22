@@ -1,4 +1,4 @@
-<section class="admin-container">
+<section class="admin-container bg-body">
 
   <section class="section">
     <article class="article">
@@ -41,16 +41,15 @@
 
         <div class="form-group">
           <label for="cover">Couverture:</label>
-          <input class="form-control" type="file" name="cover" (change)="onFileSelected($event)"
-            accept="image/*" />
+          <input class="form-control" type="file" name="cover" (change)="onFileSelected($event)" accept="image/*" />
           <p class="error" *ngIf="errors['cover'] != null">{{errors['cover']}}</p>
         </div>
 
         <div class="form-group">
           <label for="idAuthor">Auteur:</label>
           <div style="display: flex;">
-            <button class="form-control btn-selection" type="button" (click)="openModal(authorTemplate)"
-              data-toggle="modal" [ngStyle]="{'text-align': book.idAuthor != 0 ? 'left' : ''}">
+            <button class="form-control btn" type="button" (click)="openModal(authorTemplate)" data-toggle="modal"
+              [ngStyle]="{'text-align': book.idAuthor != 0 ? 'left' : ''}">
               {{selectedAuthor}}
             </button>
           </div>
@@ -65,8 +64,8 @@
                 {{ genre.name }}
               </option>
             </select>
-            <button class="btn btn-outline-dark" type="button" (click)="openModal(genreTemplate)"
-              data-toggle="modal" style="margin-left: 1em;">Ajouter</button>
+            <button class="btn" type="button" (click)="openModal(genreTemplate)" data-toggle="modal"
+              style="margin-left: 1em;">Ajouter</button>
           </div>
           <p class="error" *ngIf="errors['idGenre'] != null">{{errors['idGenre']}}</p>
         </div>

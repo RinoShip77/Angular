@@ -1,4 +1,4 @@
-<div class="d-flex flex-rows bg-body text-body-secondary p-3">
+<div class="d-flex flex-rows bg-body p-3">
   <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary rounded-5 me-2 p-3">
     <span class="fs-4 text-center">Affiner votre recherche</span>
     <hr>
@@ -152,7 +152,7 @@
                 <div class="row g-0">
                   <div class="col-4">
                     <img src={{getBookCover(book.idBook)}} class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
-                      title="{{book.title}}" onerror="this.src='assets/images/users/default-user.png'">
+                      title="{{book.title}}" onerror="this.src='assets/images/default-book.png'">
                     <div class="d-flex justify-content-center align-items-center mt-3">
                       <h5>{{book.publishedDate | date:'yyyy-MM-dd'}}</h5>
                     </div>

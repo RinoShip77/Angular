@@ -1,4 +1,4 @@
-<section class="admin-container">
+<section class="admin-container bg-body">
     <section style="min-width: fit-content;">
 
         <!-- Section de la barre de navigation de la page -->
@@ -54,8 +54,8 @@
                 <!-- Les contrôles de la page -->
                 <div class="col-lg-12">
                     <div class="checkbox" style="display: flex; align-items: center;">
-                        <input type="checkbox" class="check-box" name="checkbox"
-                            (change)="changeCheckBoxState($event)" style="min-height: 26px; min-width: 26px;">
+                        <input type="checkbox" class="check-box" name="checkbox" (change)="changeCheckBoxState($event)"
+                            style="min-height: 26px; min-width: 26px;">
                         <label for="checkbox" style="margin-left: 1em; color: white;">
                             Afficher uniquement les livres recommandés
                         </label>
@@ -113,7 +113,7 @@
                         <td>{{book.status.status}}</td>
                         <td>
                             <article style="display: flex;">
-                                <button class="btn btn-outline-dark btn-action" (click)="openAbout(about, book.idBook)">
+                                <button class="btn btn-action" (click)="openAbout(about, book.idBook)">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                     <span class="info-tooltip">Détails</span>
                                 </button>

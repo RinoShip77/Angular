@@ -1,4 +1,4 @@
-<section class="main-section" [attr.data-bs-theme]="theme">
+<section class="d-flex flex-column bg-body text-body-emphasis main-section" [attr.data-bs-theme]="theme">
   <header>
     <!-- La barre de navigation des membres -->
     <app-navbar></app-navbar>
@@ -15,7 +15,8 @@
 
     <div *ngIf="checkUser()" class="chat-box">
       <div class="d-flex justify-content-end" id="chat">
-        <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()" placement="top" ngbTooltip="Entrer en contact avec un administrateur">
+        <button class="btn btn-primary rounded-5 chat-button" (click)="openChat()" placement="top"
+          ngbTooltip="Entrer en contact avec un administrateur">
           <i class="far fa-comment-dots p-2 fs-1"></i>
         </button>
       </div>

@@ -1,11 +1,8 @@
-<main class="EncadrerLivre" style="margin: 10vh;padding-bottom: 20vh; border: solid 1px gray; border-radius: 10px / 30px;">
-    <div class="container row mx-auto p-5">
-        <section class="imageLivre col-5">
-            <img class="img-fluid"
-                src={{getBookCover(book.idBook)}}
-                alt="imageDuLivre">
-        </section>
-        <section class="infoLivre col-6 offset-1 ">
+<main class="bg-body border border-1 border-secondary rounded-3 m-5">
+    <div class="d-flex justify-content-center align-items-center">
+        <img src={{getBookCover(book.idBook)}} class="img-fluidH" alt="{{book.title | titlecase}}"
+            title="{{book.title | titlecase}}" onerror="this.src='assets/images/default-book.png'">
+        <section>
             <h1>{{book.title}}</h1>
             <div class="row">
                 <p class="col-2">Auteur :</p>
@@ -14,50 +11,49 @@
             <p style="font-size: 25px;">
                 {{book.description}}
             </p>
-
-            
-           
-           
-
             <div>
                 <div class="d-flex">
-                    <button *ngIf="isAvailable==true" class="btn btn-outline-info m-1" (click)="createBorrow()">Emprunter</button>
+                    <button *ngIf="isAvailable==true" class="btn btn-outline-info m-1"
+                        (click)="createBorrow()">Emprunter</button>
                     <p *ngIf="isAvailable==false">ce livre n'est pas disponible</p>
-                    <button *ngIf="Succes || failure" class="btn btn-outline-info m-1" (click)="Acceuil()">retour a l'acceuil</button>
-                    <button *ngIf="isLiked==false" class="btn btn-outline-danger m-1" (click)="AjoutFav()">ajouter au favoris</button>
-                    <button *ngIf="isLiked==true" class="btn btn-danger m-1" (click)="deleteFav()">retirer des favoris</button>
+                    <button *ngIf="Succes || failure" class="btn btn-outline-info m-1" (click)="Acceuil()">retour a
+                        l'acceuil</button>
+                    <button *ngIf="isLiked==false" class="btn btn-outline-danger m-1" (click)="AjoutFav()">ajouter
+                        au favoris</button>
+                    <button *ngIf="isLiked==true" class="btn btn-danger m-1" (click)="deleteFav()">retirer des
+                        favoris</button>
                 </div>
             </div>
         </section>
     </div>
 
     <table style="width: 40%; margin: 0 auto;" class="table">
-       <tbody>
-        <tr>
-            <td>genre :</td>
-            <td>{{genre.name}}</td>
-        </tr>
-        <tr>
-            <td>nombre de favoris :</td>
-            <td>{{nbrLike}}</td>
-        </tr>
-        <tr>
-            <td>isbn :</td>
-            <td>{{book.isbn}}</td>
-        </tr>
-        <tr>
-            <td>date de publication :</td>
-            <td>{{book.publishedDate | date: 'MMM dd, yyyy'}}</td>
-        </tr>
-        <tr>
-            <td>Langue original :</td>
-            <td>{{book.originalLanguage}}</td>
-        </tr>
-        <tr *ngIf="book.isRecommended">
-            <td>ce livre est recommendé par nos administrateurs</td>
-            <td></td>
-        </tr>
-        
-        </tbody> 
+        <tbody>
+            <tr>
+                <td>genre :</td>
+                <td>{{genre.name}}</td>
+            </tr>
+            <tr>
+                <td>nombre de favoris :</td>
+                <td>{{nbrLike}}</td>
+            </tr>
+            <tr>
+                <td>isbn :</td>
+                <td>{{book.isbn}}</td>
+            </tr>
+            <tr>
+                <td>date de publication :</td>
+                <td>{{book.publishedDate | date: 'MMM dd, yyyy'}}</td>
+            </tr>
+            <tr>
+                <td>Langue original :</td>
+                <td>{{book.originalLanguage}}</td>
+            </tr>
+            <tr *ngIf="book.isRecommended">
+                <td>ce livre est recommendé par nos administrateurs</td>
+                <td></td>
+            </tr>
+
+        </tbody>
     </table>
 </main>
