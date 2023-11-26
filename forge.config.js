@@ -1,15 +1,13 @@
 module.exports = {
   packagerConfig: {
     asar: true,
+    icon: 'applicationIcon'
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {
-        authors: 'Electrolabs',
-        description: 'Electrolib est un logiciel pour vous aidez dans la gestion d\'une bibliothèque.'
-      },
+      config: {},
     },
     {
       name: '@electron-forge/maker-zip',
