@@ -5,6 +5,9 @@
   "version": "1.0.0",
   "author": "Electrolabs",
   "description": "Electrolib est un logiciel pour vous aidez dans la gestion d'une bibliothèque.",
+  "build": {
+    "appId": "Electrolib"
+  },
   "scripts": {
     "electron": "electron .",
     "electron-build": "ng build && electron .",

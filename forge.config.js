@@ -1,7 +1,7 @@
 module.exports = {
   packagerConfig: {
     asar: true,
-    icon: 'applicationIcon'
+    icon: 'dist/electrolib/assets/images/logos/applicationIcon'
   },
   rebuildConfig: {},
   makers: [
