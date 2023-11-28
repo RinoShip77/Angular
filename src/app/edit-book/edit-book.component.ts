@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from '../model/Book';
@@ -36,6 +36,10 @@ export class EditBookComponent {
     cover: null
   };
 
+  colorSwitch: boolean = false;
+
+  @Output() switchTheme = new EventEmitter<any>();
+
   constructor(
     private electrolibService: ElectrolibService, 
     private route: ActivatedRoute, 
@@ -43,6 +47,12 @@ export class EditBookComponent {
     private dataService: DataService) {}
 
   ngOnInit() {
+    if (localStorage.getItem('theme') != 'light') {
+      this.colorSwitch = true;
+    } else {
+      this.colorSwitch = false;
+    }
+
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     if(id) {
@@ -56,6 +66,19 @@ export class EditBookComponent {
     this.retrieveAuthors();
     this.retrieveGenres();
     this.retrieveAllStatus();
+  }
+
+  //---------------------------------
+  // Function to change the theme for all the application
+  //---------------------------------
+  changeTheme() {
+    if (this.colorSwitch) {
+      localStorage.setItem('theme', 'dark');
+      this.switchTheme.emit('dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+      this.switchTheme.emit('light');
+    }
   }
 
   //-------------------------------------------------------
