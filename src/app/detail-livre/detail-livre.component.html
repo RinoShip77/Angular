@@ -22,6 +22,12 @@
                         au favoris</button>
                     <button *ngIf="isLiked==true" class="btn btn-danger m-1" (click)="deleteFav()">retirer des
                         favoris</button>
+                    <button *ngIf="!isBookReservedByCurrentUser && !isBookBorrowedByCurrentUser"
+                        class="btn btn-primary m-1" (click)="openConfirmReservation(modalConfirmReservation)">
+                        Réserver le livre
+                    </button>
+                    <button *ngIf="isBookReservedByCurrentUser && !isBookBorrowedByCurrentUser"
+                        class="btn btn-secondary m-1" [disabled]="true">Réservé</button>
                 </div>
             </div>
         </section>
@@ -56,4 +62,39 @@
 
         </tbody>
     </table>
+
+    <!-- Modal pour confirmation de création d'une réservation -->
+    <ng-template #modalConfirmReservation let-modal>
+
+        <div class="container row mx-auto p-5">
+            <h4 style="text-align: center; margin-bottom: 1em;">Voulez-vous emprunter le livre?</h4>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Date de publication</th>
+                        <th>Genre</th>
+                        <th>Auteur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{book.title}}</td>
+                        <td>{{book.publishedDate | date : 'yyyy-MM-dd'}}</td>
+                        <td>{{genre.name}}</td>
+                        <td>{{author.firstName}} {{author.lastName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="display: flex; justify-content: space-evenly;">
+                <button class="btn btn-warning" style="width: 100%; max-width: 10em;"
+                    (click)="reserveBook() + modal.close()">Confirmer</button>
+                <button class="btn btn-primary" style="width: 100%; max-width: 10em;"
+                    (click)="modal.close()">Annuler</button>
+            </div>
+
+        </div>
+    </ng-template>
 </main>
