@@ -493,6 +493,22 @@ export class ElectrolibService {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
+  findOneReservationFromUser(idUser: Number | undefined, idBook: Number) {
+    let url = `${urlServer}reservation/${idUser}/${idBook}`;
+    return this.http.get<Boolean>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  findOneBorrowFromUser(idUser: Number | undefined, idBook: Number) {
+    let url = `${urlServer}borrow/${idUser}/${idBook}`;
+    return this.http.get<Boolean>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   createReservation(idUser: number, idBook: number) {
     const url = `${urlServer}create-reservation`;
     const formData = new FormData();

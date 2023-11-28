@@ -27,6 +27,7 @@ export class Book {
   idStatus: number = 1;
   status: Status = new Status();
   isRecommended: Boolean = false;
+  addedDate: string = '';
 
   formatedPublishedDate()
   {
