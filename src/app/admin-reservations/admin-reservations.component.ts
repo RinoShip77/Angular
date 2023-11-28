@@ -5,6 +5,7 @@ import { Borrow } from '../model/Borrow';
 import { Book } from '../model/Book';
 import { getURLBookCover } from '../util';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-admin-reservations',
@@ -16,7 +17,6 @@ export class AdminReservationsComponent {
   reservations: Reservation[] = [];
   displayedReservations: Reservation[] = [];
   activeBorrows: Borrow[] = [];
-  ReservationsData: any;
   book: Book = new Book();
   BorrowReturnedMessage: string = "Retourné";
   reservation: Reservation = new Reservation();
@@ -28,11 +28,30 @@ export class AdminReservationsComponent {
 
   isChecked = true;
 
-  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal) { }
+  constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService) { }
 
   ngOnInit() {
+    this.retrieveReservations();
+  }
 
-    this.retrieveReservationsData();
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getBorrowMemberNumber(reservation: Reservation) {
+    if (reservation.borrowMemberNumber && reservation.borrow.returnedDate == null) {
+      return reservation.borrowMemberNumber;
+    }
+    return this.BorrowReturnedMessage;
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getBorrowDueDate(reservation: Reservation) {
+    if (reservation.borrowDueDate && reservation.borrow.returnedDate == null) {
+      return reservation.borrowDueDate;
+    }
+    return this.BorrowReturnedMessage;
   }
 
   //-------------------------------------------------------
@@ -55,49 +74,13 @@ export class AdminReservationsComponent {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
-  retrieveReservationsData() {
-    this.electrolibService.getReservationsData().subscribe(
-      data => {
-        this.ReservationsData = data;
-        this.retrieveReservations();
-      }
-    );
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
   retrieveReservations() {
-    this.electrolibService.getReservations().subscribe(
+    this.electrolibService.getAdminReservations().subscribe(
       reservations => {
         this.reservations = reservations;
-        this.setReservationsWithBorrows()
         this.showReservationsCriteria();
       }
     );
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  setReservationsWithBorrows() {
-    this.reservations.forEach(reservation => {
-      try {
-        const borrowMemberNumberData = this.ReservationsData.find(
-          (res: { idReservation: number; }) => res.idReservation === reservation.idReservation
-        );
-
-        const borrowDueDateData = this.ReservationsData.find(
-          (res: { idReservation: number; }) => res.idReservation === reservation.idReservation
-        );
-
-        reservation.borrowMemberNumber = borrowMemberNumberData.borrowMemberNumber;
-        reservation.borrowDueDate = borrowDueDateData.dueDate;
-      } catch (error) {
-        reservation.borrowMemberNumber = this.BorrowReturnedMessage;
-        reservation.borrowDueDate = this.BorrowReturnedMessage;
-      }
-    });
   }
 
   //-------------------------------------------------------
@@ -234,12 +217,13 @@ export class AdminReservationsComponent {
   //-------------------------------------------------------
   checkIfLate(reservation: Reservation) {
 
-    const nowDate: Date = new Date();
-    const dueDate: Date = new Date(reservation.borrowDueDate);
+    if (reservation.borrowDueDate && reservation.borrow.returnedDate == null) {
+      const nowDate: Date = new Date();
+      const dueDate: Date = new Date(reservation.borrowDueDate);
 
-
-    if (nowDate >= dueDate) {
-      return "En retard";
+      if (dueDate && nowDate >= dueDate) {
+        return "En retard";
+      }
     }
 
     return "";
@@ -254,7 +238,6 @@ export class AdminReservationsComponent {
       (response) => {
         console.log('Reservation canceled successfully!', response);
         this.retrieveReservations();
-        this.retrieveReservationsData();
         this.showReservationsCriteria();
       },
       (error) => {
@@ -296,7 +279,7 @@ export class AdminReservationsComponent {
   //
   //-------------------------------------------------------
   canBeBorrowed(reservation: Reservation) {
-    if (reservation.isActive && reservation.borrowDueDate == this.BorrowReturnedMessage) {
+    if (reservation.isActive && (reservation.borrow.returnedDate != null || !reservation.borrowMemberNumber)) {
       return true;
     }
     return false;
@@ -312,9 +295,8 @@ export class AdminReservationsComponent {
 
           this.electrolibService.cancelReservation(reservation).subscribe(
             (response) => {
-              console.log('Reservation canceled successfully!', response);
+              console.log('Reservation cancelled successfully!', response);
               this.retrieveReservations();
-              this.retrieveReservationsData();
               this.showReservationsCriteria();
             },
             (error) => {
@@ -326,5 +308,12 @@ export class AdminReservationsComponent {
         console.error('Creation failed:', error);
       }
     );
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  changeTab(tab: string) {
+    this.dataService.changeTab(tab);
   }
 }

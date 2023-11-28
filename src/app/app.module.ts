@@ -35,6 +35,7 @@ import { AboutComponent } from './about/about.component';
 import { ShareComponent } from './share/share.component';
 import { PaymentComponent } from './payment/payment.component';
 import { AdminShareComponent } from './admin-share/admin-share.component';
+import { CreateReservationComponent } from './create-reservation/create-reservation.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { AdminShareComponent } from './admin-share/admin-share.component';
     AboutComponent,
     ShareComponent,
     PaymentComponent,
-    AdminShareComponent
+    AdminShareComponent,
+    CreateReservationComponent
   ],
   imports: [
     AppRoutingModule,

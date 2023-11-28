@@ -41,6 +41,16 @@
                 </div>
 
                 <!-- Les contrôles de la page -->
+                <div class="col-lg-3">
+                    <a [routerLink]="['/create-reservation']">
+                        <button class="btn btn-add-borrow" (click)="changeTab('null')">
+                            <i class="fa-solid fa-bookmark"></i>
+                            <span>Ajouter une réservation</span>
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Les contrôles de la page -->
                 <div class="col-lg-12">
                     <div class="checkbox" style="display: flex; align-items: center;">
                         <input type="checkbox" checked class="check-box" name="checkbox"
@@ -91,10 +101,10 @@
                     <tr *ngFor="let reservation of displayedReservations">
                         <td>{{reservation.book.idBook}}</td>
                         <td>{{reservation.book.title}}</td>
-                        <td>{{reservation.borrowMemberNumber}}</td>
-                        <td>{{reservation.user.memberNumber}}</td>
+                        <td>{{getBorrowMemberNumber(reservation)}}</td>
+                        <td>{{reservation.user.memberNumber}} {{reservation.idUser}}</td>
                         <td>{{reservation.reservationDate}}</td>
-                        <td>{{reservation.borrowDueDate}}</td>
+                        <td>{{getBorrowDueDate(reservation)}}</td>
                         <td style="font-weight: bold; color: crimson;">{{checkIfLate(reservation)}}</td>
                         <td>
                             <article style="display: flex;">

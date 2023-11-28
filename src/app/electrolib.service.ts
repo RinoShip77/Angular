@@ -484,6 +484,28 @@ export class ElectrolibService {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
+  getAdminReservations() {
+    let url = urlServer + 'admin-reservations';
+
+    return this.http.get<Reservation[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  createReservation(idUser: number, idBook: number) {
+    const url = `${urlServer}create-reservation`;
+    const formData = new FormData();
+
+    formData.append('idUser', idUser.toString());
+    formData.append('idBook', idBook.toString());
+
+    return this.http.post<Reservation>(url, formData);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   getEvaluations() {
     let url = urlServer + 'evaluations';
 
@@ -503,15 +525,6 @@ export class ElectrolibService {
     let url = `${urlServer}getNbrFav/${idBook}`;
 
     return this.http.get<number>(url)
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  getReservationsData() {
-    let url = urlServer + 'reservations-data';
-
-    return this.http.get(url);
   }
 
   //-------------------------------------------------------
