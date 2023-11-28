@@ -223,7 +223,7 @@ export class InventoryComponent {
           if (this.genres.filter((genre) => genre.isFilter === true).length >= 1) {
             this.displayedBooks = this.displayedBooks.concat(this.books.filter((book) => book.genre.idGenre === id));
           } else {
-            this.displayedBooks = this.books.filter((book) => book.genre.idGenre === id);
+            this.displayedBooks = this.displayedBooks.filter((book) => book.genre.idGenre === id);
           }
         } else {
           this.displayedBooks = this.displayedBooks.filter((book) => !(book.genre.idGenre === id));
@@ -235,7 +235,7 @@ export class InventoryComponent {
           if (this.authors.filter((author) => author.isFilter === true).length >= 1) {
             this.displayedBooks = this.displayedBooks.concat(this.books.filter((book) => book.author.idAuthor === id));
           } else {
-            this.displayedBooks = this.books.filter((book) => book.author.idAuthor === id);
+            this.displayedBooks = this.displayedBooks.filter((book) => book.author.idAuthor === id);
           }
         } else {
           this.displayedBooks = this.displayedBooks.filter((book) => !(book.author.idAuthor === id));
@@ -247,7 +247,7 @@ export class InventoryComponent {
           if (this.statuses.filter((status) => status.isFilter === true).length >= 1) {
             this.displayedBooks = this.displayedBooks.concat(this.books.filter((book) => book.status.idStatus === id));
           } else {
-            this.displayedBooks = this.books.filter((book) => book.status.idStatus === id);
+            this.displayedBooks = this.displayedBooks.filter((book) => book.status.idStatus === id);
           }
         } else {
           this.displayedBooks = this.displayedBooks.filter((book) => !(book.status.idStatus === id));
@@ -258,9 +258,9 @@ export class InventoryComponent {
         if (!this.favoriteFilter) {
           let tmp = new Array();
 
-          for (let index = 0; index < this.books.length; index++) {
-            if (this.isFavorite(this.books[index].idBook)) {
-              tmp.push(this.books[index]);
+          for (let index = 0; index < this.displayedBooks.length; index++) {
+            if (this.isFavorite(this.displayedBooks[index].idBook)) {
+              tmp.push(this.displayedBooks[index]);
             }
           }
 
@@ -270,6 +270,30 @@ export class InventoryComponent {
         }
         break;
     }
+
+    // if (this.genres.filter((genre) => genre.isFilter === true).length >= 1) {
+    //   this.genres.filter((genre) => genre.isFilter === true).forEach(genre => {
+    //     if (genre.isFilter) {
+    //       this.filterBooks('genre', genre.idGenre);
+    //     }
+    //   });
+    // }
+
+    // if (this.authors.filter((author) => author.isFilter === true).length >= 1) {
+    //   this.authors.filter((author) => author.isFilter === true).forEach(author => {
+    //     if (author.isFilter) {
+    //       this.filterBooks('author', author.idAuthor);
+    //     }
+    //   });
+    // }
+
+    // if (this.statuses.filter((status) => status.isFilter === true).length >= 1) {
+    //   this.statuses.filter((status) => status.isFilter === true).forEach(status => {
+    //     if (status.isFilter) {
+    //       this.filterBooks('status', status.idStatus);
+    //     }
+    //   });
+    // }
 
     if (this.displayedBooks.length == 0) {
       this.displayedBooks = this.books;

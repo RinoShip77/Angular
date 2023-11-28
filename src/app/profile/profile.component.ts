@@ -53,6 +53,7 @@ export class ProfileComponent implements OnInit {
     } else {
       this.electrolibService.getUser(id).subscribe(
         user => {
+          this.user = user;
           this.electrolibService.getBorrowsFromUser(user).subscribe(
             borrows => {
               this.borrows = borrows;
