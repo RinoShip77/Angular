@@ -1,4 +1,4 @@
-<section class="d-flex flex-column bg-body text-body-emphasis main-section" [attr.data-bs-theme]="theme">
+<section class="d-flex flex-column bg-body text-body-emphasis main-section" [ngStyle]="checkUser() ? { 'height': '100%' } : {}" [attr.data-bs-theme]="theme">
   <header>
     <!-- La barre de navigation des membres -->
     <app-navbar></app-navbar>
