@@ -1,105 +1,121 @@
 <section class="admin-container bg-body">
 
-    <section class="section">
-      <article class="article">
-        <form>
-  
-          <h5 style="text-align: center;">Créer une réservation</h5>
-  
-          <section class="row" style="padding: 1em;">
-            <article class="col-lg-6">
-              <input name="bookSearchField" [(ngModel)]="bookSearchField" class="form-control" type="search"
-                placeholder="Titre du livre" autocomplete="off" aria-label="Search" (ngModelChange)="searchBooks()">
-              <div class="resultsBox">
-                <div *ngFor="let book of foundBooks" class="result">
-                  <button type="button" class="result-button" (click)="selectBook(book)">{{book.title}}</button>
-                </div>
+  <section class="section">
+    <article class="article">
+      <form>
+
+        <h5 style="text-align: center;">Créer une réservation</h5>
+
+        <section class="row" style="padding: 1em;">
+          <article class="col-lg-6">
+            <input name="bookSearchField" [(ngModel)]="bookSearchField" class="form-control" type="search"
+              placeholder="Titre du livre" autocomplete="off" aria-label="Search" (ngModelChange)="searchBooks()">
+            <div class="resultsBox">
+              <div *ngFor="let book of foundBooks" class="result">
+                <button type="button" class="result-button" (click)="selectBook(book)">{{book.title}}</button>
               </div>
-  
-              <div style="margin-top: 1em;">
-                <span>Livre sélectionné:</span>
-                <div *ngFor="let book of selectedBooks" style="display: flex;">
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <button class="btn btn-danger" style="height: min-content;"
-                            (click)="removeSelectedBook(book)">x</button>
-                        </td>
-                        <td>
-                          <label>{{book.title}}</label>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-  
+            </div>
+
+            <div style="margin-top: 1em;">
+              <span>Livre sélectionné:</span>
+              <div *ngFor="let book of selectedBooks" style="display: flex;">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <button class="btn btn-danger" style="height: min-content;"
+                          (click)="removeSelectedBook(book)">x</button>
+                      </td>
+                      <td>
+                        <label>{{book.title}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            </article>
-  
-            <article class="col-lg-6">
-              <input name="userSearchField" [(ngModel)]="userSearchField" class="form-control" type="search"
-                placeholder="Numéro de membre" autocomplete="off" aria-label="Search" (ngModelChange)="searchUsers()">
-              <div class="resultsBox">
-                <div *ngFor="let user of foundUsers" class="result">
-                  <button type="button" class="result-button" (click)="selectUser(user)">
-                    {{user.memberNumber}} {{user.firstName}} {{user.lastName}}
-                  </button>
-                </div>
+
+            </div>
+          </article>
+
+          <article class="col-lg-6">
+            <input name="userSearchField" [(ngModel)]="userSearchField" class="form-control" type="search"
+              placeholder="Numéro de membre" autocomplete="off" aria-label="Search" (ngModelChange)="searchUsers()">
+            <div class="resultsBox">
+              <div *ngFor="let user of foundUsers" class="result">
+                <button type="button" class="result-button" (click)="selectUser(user)">
+                  {{user.memberNumber}} {{user.firstName}} {{user.lastName}}
+                </button>
               </div>
-  
-              <div style="margin-top: 1em;">
-                <span>membre sélectionné:</span>
-                <label>{{selectedUser.memberNumber}} {{selectedUser.firstName}} {{selectedUser.lastName}}</label>
-              </div>
-            </article>
-          </section>
-  
-  
-          <button class="btn-save" (click)="openConfirmCreateBorrow(modalConfirmCreateBorrow)">
-            Enregistrer
-          </button>
-          <!-- <button type="submit">Enregistrer</button> -->
-          <br>
-          <a [routerLink]="['/adminReservations']">
-            <button class="button-cancel" (click)="changeTab('reservations')">Annuler</button>
-          </a>
-        </form>
-      </article>
-  
-  
-      <!-- Modal pour confirmation de retour d'un emprunt -->
-      <ng-template #modalConfirmCreateBorrow let-modal>
-  
-        <div class="container row mx-auto p-5">
-          <h4 style="text-align: center; margin-bottom: 1em;">Voulez-vous créer la réservation?</h4>
-  
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Id livre</th>
-                <th>Titre</th>
-                <th>N° membre</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let book of selectedBooks">
-                <td>{{book.idBook}}</td>
-                <td>{{book.title}}</td>
-                <td>{{selectedUser.memberNumber}}</td>
-              </tr>
-            </tbody>
-          </table>
-  
-  
-          <div style="display: flex; justify-content: space-evenly;">
-            <button class="btn btn-warning" style="width: 100%; max-width: 10em;"
-              (click)="onSubmit() + modal.close()">Confirmer</button>
-            <button class="btn btn-primary" style="width: 100%; max-width: 10em;" (click)="modal.close()">Annuler</button>
-          </div>
-  
+            </div>
+
+            <div style="margin-top: 1em;">
+              <span>membre sélectionné:</span>
+              <label>{{selectedUser.memberNumber}} {{selectedUser.firstName}} {{selectedUser.lastName}}</label>
+            </div>
+          </article>
+        </section>
+
+
+        <button class="btn-save" (click)="openConfirmCreateBorrow(modalConfirmCreateBorrow)">
+          Enregistrer
+        </button>
+        <!-- <button type="submit">Enregistrer</button> -->
+        <br>
+        <a [routerLink]="['/adminReservations']">
+          <button class="button-cancel" (click)="changeTab('reservations')">Annuler</button>
+        </a>
+      </form>
+    </article>
+
+
+    <!-- Modal pour confirmation de retour d'un emprunt -->
+    <ng-template #modalConfirmCreateBorrow let-modal>
+
+      <div class="container row mx-auto p-5">
+        <h4 style="text-align: center; margin-bottom: 1em;">Voulez-vous créer la réservation?</h4>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Id livre</th>
+              <th>Titre</th>
+              <th>N° membre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let book of selectedBooks">
+              <td>{{book.idBook}}</td>
+              <td>{{book.title}}</td>
+              <td>{{selectedUser.memberNumber}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <div style="display: flex; justify-content: space-evenly;">
+          <button class="btn btn-warning" style="width: 100%; max-width: 10em;"
+            (click)="onSubmit() + modal.close()">Confirmer</button>
+          <button class="btn btn-primary" style="width: 100%; max-width: 10em;" (click)="modal.close()">Annuler</button>
         </div>
-      </ng-template>
-  
-    </section>
+
+      </div>
+    </ng-template>
+
+    <div class="d-flex flex-column bg"
+      style="position: fixed; z-index: 999; bottom: 0; left: 0; width: 13em; padding-bottom: 1em;">
+      <div class="d-flex justify-content-center fs-5" style="color: white;">
+        <label>
+          <i class="fas fa-sun me-2"></i>
+        </label>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="colorSwitch"
+            (ngModelChange)="changeTheme()">
+        </div>
+        <label>
+          <i class="fas fa-moon"></i>
+        </label>
+      </div>
+    </div>
+
   </section>
+</section>

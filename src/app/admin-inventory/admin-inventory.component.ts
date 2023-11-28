@@ -24,11 +24,33 @@ export class AdminInventoryComponent {
   desc: boolean = true;
 
   isChecked = false;
+  colorSwitch: boolean = false;
+
+  @Output() switchTheme = new EventEmitter<any>();
 
   constructor(private electrolibService: ElectrolibService, private dataService: DataService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    if (localStorage.getItem('theme') != 'light') {
+      this.colorSwitch = true;
+    } else {
+      this.colorSwitch = false;
+    }
+
     this.retrieveBooks();
+  }
+
+  //---------------------------------
+  // Function to change the theme for all the application
+  //---------------------------------
+  changeTheme() {
+    if (this.colorSwitch) {
+      localStorage.setItem('theme', 'dark');
+      this.switchTheme.emit('dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+      this.switchTheme.emit('light');
+    }
   }
 
   //-------------------------------------------------------

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { User } from '../model/User';
 import { ElectrolibService } from '../electrolib.service';
 import { Borrow } from '../model/Borrow';
@@ -18,11 +18,33 @@ export class AdminUsersComponent {
   selectedSearchBy: String = "memberNumber";
   selectedSortBy: String = "ascending";
   desc: boolean = true;
+  colorSwitch: boolean = false;
+
+  @Output() switchTheme = new EventEmitter<any>();
 
   constructor(private electrolibService: ElectrolibService, private dataService: DataService) { }
 
   ngOnInit() {
+    if (localStorage.getItem('theme') != 'light') {
+      this.colorSwitch = true;
+    } else {
+      this.colorSwitch = false;
+    }
+
     this.retrieveUsers();
+  }
+
+  //---------------------------------
+  // Function to change the theme for all the application
+  //---------------------------------
+  changeTheme() {
+    if (this.colorSwitch) {
+      localStorage.setItem('theme', 'dark');
+      this.switchTheme.emit('dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+      this.switchTheme.emit('light');
+    }
   }
 
   //-------------------------------------------------------
