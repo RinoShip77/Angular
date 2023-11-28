@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
@@ -27,11 +27,34 @@ export class CreateBorrowComponent {
   bookSearchField: string = "";
   userSearchField: string = "";
 
+  colorSwitch: boolean = false;
+
+  @Output() switchTheme = new EventEmitter<any>();
+
   constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    if (localStorage.getItem('theme') != 'light') {
+      this.colorSwitch = true;
+    } else {
+      this.colorSwitch = false;
+    }
+
     this.retrieveBooks();
     this.retrieveUsers();
+  }
+
+  //---------------------------------
+  // Function to change the theme for all the application
+  //---------------------------------
+  changeTheme() {
+    if (this.colorSwitch) {
+      localStorage.setItem('theme', 'dark');
+      this.switchTheme.emit('dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+      this.switchTheme.emit('light');
+    }
   }
 
   //-------------------------------------------------------

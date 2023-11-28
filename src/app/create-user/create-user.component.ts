@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { User } from '../model/User';
 import { EMAIL_REGEX, PHONE_NUMBER_REGEX, POSTAL_CODE_REGEX } from '../util';
 import { ElectrolibService } from '../electrolib.service';
@@ -30,10 +30,36 @@ export class CreateUserComponent {
     validationPassword: null
   };
 
+  colorSwitch: boolean = false;
+
+  @Output() switchTheme = new EventEmitter<any>();
+
   constructor(private electrolibService: ElectrolibService, private dataService: DataService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (localStorage.getItem('theme') != 'light') {
+      this.colorSwitch = true;
+    } else {
+      this.colorSwitch = false;
+    }
+  }
 
+  //---------------------------------
+  // Function to change the theme for all the application
+  //---------------------------------
+  changeTheme() {
+    if (this.colorSwitch) {
+      localStorage.setItem('theme', 'dark');
+      this.switchTheme.emit('dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+      this.switchTheme.emit('light');
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   onSubmit() {
     this.validateAllFields();
     if (this.validateForm()) {

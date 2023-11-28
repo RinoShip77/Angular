@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Borrow } from '../model/Borrow';
 import { ElectrolibService } from '../electrolib.service';
 import { format } from 'date-fns';
@@ -28,12 +28,33 @@ export class AdminBorrowsComponent {
   isChecked: Boolean = true;
   isCheckedLates: Boolean = false;
   desc: boolean = true;
+  colorSwitch: boolean = false;
+
+  @Output() switchTheme = new EventEmitter<any>();
 
   constructor(private electrolibService: ElectrolibService, private modalService: NgbModal, private dataService: DataService) { }
 
   ngOnInit() {
+    if (localStorage.getItem('theme') != 'light') {
+      this.colorSwitch = true;
+    } else {
+      this.colorSwitch = false;
+    }
 
     this.retrieveBorrows();
+  }
+
+  //---------------------------------
+  // Function to change the theme for all the application
+  //---------------------------------
+  changeTheme() {
+    if (this.colorSwitch) {
+      localStorage.setItem('theme', 'dark');
+      this.switchTheme.emit('dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+      this.switchTheme.emit('light');
+    }
   }
 
   //-------------------------------------------------------

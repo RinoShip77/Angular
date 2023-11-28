@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Book } from '../model/Book';
 import { ElectrolibService } from '../electrolib.service';
 import { ISBN_REGEX, MAX_FILE_SIZE } from '../util';
@@ -43,10 +43,19 @@ export class CreateBookComponent {
   authorFirstName: string | null = null;
   authorLastName: string | null = null;
   genreName: string | null = null;
+  colorSwitch: boolean = false;
+
+  @Output() switchTheme = new EventEmitter<any>();
 
   constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    if (localStorage.getItem('theme') != 'light') {
+      this.colorSwitch = true;
+    } else {
+      this.colorSwitch = false;
+    }
+
     this.retrieveAuthors();
     this.retrieveGenres();
 
@@ -57,8 +66,25 @@ export class CreateBookComponent {
     });
   }
 
+  trackByGenre(index: number, genre: Genre): number {
+    return genre.idGenre; // or use a unique identifier for each genre
+  }
+
   async createBlobFromLocalFile(imageUrl: string): Promise<Blob> {
     return fetch(imageUrl).then((response) => response.blob());
+  }
+
+  //---------------------------------
+  // Function to change the theme for all the application
+  //---------------------------------
+  changeTheme() {
+    if (this.colorSwitch) {
+      localStorage.setItem('theme', 'dark');
+      this.switchTheme.emit('dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+      this.switchTheme.emit('light');
+    }
   }
 
   //-------------------------------------------------------

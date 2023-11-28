@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '../model/User';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { RouteChangeService } from '../route-change.service';
 import { DataService } from '../data.service';
 import { Subscription } from 'rxjs';
+import { ElectrolibService } from '../electrolib.service';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -16,12 +17,16 @@ export class AdminNavbarComponent {
   visible = false;
   private tabChangeSubscription: Subscription;
   tab = "inventory";
+  colorSwitch: boolean = false;
+
+  @Output() switchTheme = new EventEmitter<any>();
 
   constructor(
     private offcanvasService: NgbOffcanvas,
     private router: Router,
     private routeChangeService: RouteChangeService,
-    private dataService: DataService) {
+    private dataService: DataService,
+    private electrolibService: ElectrolibService) {
       
     this.visible = this.router.url !== "/";
     this.tabChangeSubscription = this.dataService.tabChange$.subscribe((tab) => {
@@ -30,11 +35,30 @@ export class AdminNavbarComponent {
   }
 
   ngOnInit() {
+    if (localStorage.getItem('theme') != 'light') {
+      this.colorSwitch = true;
+    } else {
+      this.colorSwitch = false;
+    }
+
     this.routeChangeService.routeChange$.subscribe(() => {
       this.updateVisibility();
     });
 
     this.updateVisibility();
+  }
+
+  //---------------------------------
+  // Function to change the theme for all the application
+  //---------------------------------
+  changeTheme() {
+    if (this.colorSwitch) {
+      localStorage.setItem('theme', 'dark');
+      this.switchTheme.emit('dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+      this.switchTheme.emit('light');
+    }
   }
 
   //-------------------------------------------------------
