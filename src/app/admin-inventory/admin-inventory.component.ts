@@ -80,6 +80,9 @@ export class AdminInventoryComponent {
         case "status":
           this.displayedBooks.sort((a, b) => (a.status.status.toUpperCase() > b.status.status.toUpperCase() ? 1 : -1));
           break;
+        case "addedDate":
+          this.displayedBooks.sort((a, b) => (a.addedDate > b.addedDate ? 1 : -1));
+           break;
       }
     } 
     else {
@@ -95,6 +98,9 @@ export class AdminInventoryComponent {
           break;
         case "status":
           this.displayedBooks.sort((a, b) => (a.status.status.toUpperCase() < b.status.status.toUpperCase() ? 1 : -1));
+           break;
+        case "addedDate":
+          this.displayedBooks.sort((a, b) => (a.addedDate < b.addedDate ? 1 : -1));
            break;
       }
     }
@@ -151,6 +157,13 @@ export class AdminInventoryComponent {
   //-------------------------------------------------------
   changeTab(tab: string) {
     this.dataService.changeTab(tab);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  isValidDate(date: any): boolean {
+    return date !== '0000-00-00 00:00:00';
   }
 
   //-------------------------------------------------------
