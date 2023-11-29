@@ -6,3 +6,178 @@ img {
 main {
     border: 2px black;
 }
+
+/********************************************************/
+/********* CSS pour la partie des évaluations **********/
+/******************************************************/
+.main-div-ratings
+{
+    margin: 10vh; 
+    margin-top: 20px;
+    padding: 20px; 
+    border: solid 2px gray; 
+    border-radius: 10px;
+    background-color: rgb(236, 236, 236);
+}
+
+.main-div-ratings-dark
+{
+    margin: 10vh; 
+    margin-top: 20px;
+    padding: 20px; 
+    border: solid 2px gray; 
+    border-radius: 10px;
+    background-color: rgb(43,48,53);
+    color:white;
+}
+
+.div-rating
+{
+    padding: 20px;
+    margin: 10px;
+}
+
+.div-rating-dark
+{
+    padding: 20px;
+    margin: 10px;
+}
+
+.img-reviews
+{
+    height: 50px;
+    width: 50px;
+    margin: auto;
+}
+
+.div-rating-img
+{
+    text-align: center; 
+    align-items: center; 
+    margin: auto; 
+    margin-left: 5px; 
+    margin-right: 5px; 
+    padding-top: 10px; 
+    width: 13%; 
+    border-right: 3px solid grey; 
+    border-radius: 10px;
+    padding-bottom: 3px;
+}
+
+.div-rating-message
+{
+    font-size: 14px; 
+    width: 70%; 
+    margin: auto; 
+    margin-left: 10px; 
+    margin-right: 10px;
+    background-color: rgb(216, 216, 216);
+    border: 2px solid rgb(156, 156, 156);
+    border-radius: 5px;
+    min-height: 70px;
+    vertical-align: middle;
+    padding: 20px;
+}
+
+.div-rating-message-dark
+{
+    font-size: 14px; 
+    width: 70%; 
+    margin: auto; 
+    margin-left: 10px; 
+    margin-right: 10px;
+    background-color: rgb(33,37,41);
+    border: 2px solid rgb(156, 156, 156);
+    border-radius: 5px;
+    min-height: 70px;
+    vertical-align: middle;
+    padding: 20px;
+}
+
+.div-rating-message-dark > textarea
+{
+    background-color: rgb(59,63,67);
+}
+
+.fa-star
+{
+    
+    font-size: 26px;
+    text-shadow: #000 0px 0px 2px,   #000 0px 0px 2px,   #000 0px 0px 2px,
+             #000 0px 0px 2px,   #000 0px 0px 2px,   #000 0px 0px 2px;
+
+    -webkit-font-smoothing: antialiased;
+    margin-right: 4px;
+}
+
+.star-my-review
+{
+    color: rgb(243, 243, 243);
+}
+
+.star-my-review-hovered
+{
+    color: #e4c321;
+}
+
+.border-btn
+{
+    border: 2px solid rgba(0, 0, 0, 0.247);
+}
+
+.div-content-modal
+{
+    font-size: 18px;
+    margin-bottom: 20px;
+    background-color: rgb(233, 233, 233);
+    border: 2px solid lightgray;
+    padding: 10px;
+}
+
+.div-feedback-red
+{
+    color: darkred;
+}
+
+.div-feedback-red-dark
+{
+    background-color: rgb(43,48,53);
+    color: rgb(218, 69, 69);
+}
+
+.div-feedback-green
+{
+    color: forestgreen;
+}
+
+.div-feedback-green-dark
+{
+    background-color: rgb(43,48,53);
+    color: rgb(83, 197, 83);
+}
+
+.div-feedback-dark
+{
+    background-color: rgb(43,48,53);
+    color: white;
+}
+
+.i-x
+{
+    color: darkred;
+}
+
+.i-x-dark
+{
+    color: rgb(218, 69, 69);
+}
+
+.i-crochet
+{
+    color: forestgreen;
+}
+
+.i-crochet-dark
+{
+    color: rgb(83, 197, 83);
+}

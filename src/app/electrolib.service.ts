@@ -12,6 +12,7 @@ import { Evaluation } from './model/Evaluation';
 import { Favorite } from './model/Favorite';
 import { Comment } from './model/Comment';
 import { Recommendations } from './model/Recommendations'
+import { Review } from './model/Review';
 
 @Injectable({
   providedIn: 'root'
@@ -562,5 +563,29 @@ export class ElectrolibService {
     let url = `${urlServer}comment-fixed/` + comment.idComment;
 
     return this.http.get<Comment>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getReviews() {
+
+    let url = `${urlServer}reviews`;
+
+    return this.http.get<Review[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  createReview(review:Review, user:User){
+    const url = `${urlServer}create-review`;
+    const formData = new FormData();
+
+    formData.append('message', review.message);
+    formData.append('rating', review.rating.toString());
+    formData.append('idUser', user.idUser.toString());
+
+    return this.http.post<Review>(url, formData);
   }
 }

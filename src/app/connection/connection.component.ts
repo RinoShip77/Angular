@@ -6,6 +6,8 @@ import { AppComponent } from '../app.component';
 import { DataService } from '../data.service';
 import { EncryptionService } from '../encryption.service';
 import { ENCRYPTION_KEY } from '../util';
+import { ToastService } from '../toast.service';
+import { Borrow } from '../model/Borrow';
 
 @Component({
   selector: 'app-connection',
@@ -20,7 +22,7 @@ export class ConnectionComponent {
 
   @Output() connected = new EventEmitter<User>();
 
-  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService, private Encryption: EncryptionService) { }
+  constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService, private Encryption: EncryptionService, private toastService: ToastService) { }
 
   //--------------------------------
   // Function to connect a user
@@ -40,16 +42,16 @@ export class ConnectionComponent {
         break;
 
       case 'cheatUser':
-        this.temporaryUser.memberNumber = "80379801";
-        this.temporaryUser.password = "password";
+        this.temporaryUser.memberNumber = "11";
+        this.temporaryUser.password = "11";
         //this.temporaryUser.memberNumber = "11";
         //this.temporaryUser.password = "11";
         this.retrieveAccount();
         break;
 
       case 'cheatAdmin':
-        this.temporaryUser.memberNumber = "98631907";
-        this.temporaryUser.password = "password";
+        this.temporaryUser.memberNumber = "admin";
+        this.temporaryUser.password = "admin";
         //this.temporaryUser.memberNumber = "admin";
         //this.temporaryUser.password = "admin";
         this.retrieveAccount();
@@ -68,6 +70,9 @@ export class ConnectionComponent {
 
     this.electrolibService.connection(this.temporaryUser).subscribe(
       connectedUser => {
+
+        try
+        {
         // #region 2023-10-29 12:50 - Olivier Bourgault
         // Check if the account is active before login
         if (connectedUser.roles.includes('ROLE_DEACTIVATE')) {
@@ -82,6 +87,7 @@ export class ConnectionComponent {
               this.dataService.updateUser(this.user);
 
               this.connected.emit(this.user);
+
               this.changeTab('inventory');
               this.router.navigate(["adminInventory"]);
 
@@ -90,6 +96,8 @@ export class ConnectionComponent {
 
               this.dataService.updateUser(this.user);
 
+              this.alertLateness(this.user);
+
               this.router.navigate(["/inventory"]);
               //this.connected.emit(this.user);
 
@@ -97,6 +105,12 @@ export class ConnectionComponent {
           } else {
             alert('Erreur: Informations de connexion incorrectes.');
           }
+        }
+        
+        }
+        catch (err)
+        {
+          alert("Utilisateur ou mot de passe incorrecte");
         }
       }
     )
@@ -130,5 +144,43 @@ export class ConnectionComponent {
   //-------------------------------------------------------
   changeTab(tab: string) {
     this.dataService.changeTab(tab);
+  }
+
+  borrows: Borrow[] = new Array();
+
+  //Cherche tous les emprunts en bd
+  //et vérifie s'il y a des retards
+  //Ensuite, affiche les retards avec un toast
+  async alertLateness(user: User)
+  {
+    if(this.user)
+    {
+      await this.electrolibService.getBorrowsFromUser(user).subscribe(
+        borrows => {
+          this.borrows = borrows.map(x => (Object.assign(new Borrow(), x)));
+
+          this.borrows.forEach(borrow => 
+            {
+              if(borrow.calculateFee()! > 0 || borrow.calculateFee() != null)
+              {
+                console.log(borrow.calculateFee());
+                
+                this.toastService.show('Votre emprunt (' + borrow.book.title + ') a ' + borrow.transformTimeAndLate() + ' jours de retard', {
+                  classname: 'bg-danger',
+                });
+              }
+              
+              if(borrow.transformTimeAndLate() <= 7 )
+              {
+                console.log(borrow.calculateFee());
+                
+                this.toastService.show('Il reste ' + borrow.transformTimeAndLate() + ' jours à votre emprunt ('+ borrow.book.title + ')', {
+                  classname: 'bg-warning',
+                });
+              }
+            });
+        }
+      );
+    }
   }
 }

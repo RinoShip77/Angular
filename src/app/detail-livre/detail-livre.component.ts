@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '../model/Book';
@@ -7,6 +7,8 @@ import { Genre } from '../model/Genre';
 import { Author } from '../model/Author';
 import { User } from '../model/User';
 import { DataService } from '../data.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Review } from '../model/Review';
 
 @Component({
   selector: 'app-detail-livre',
@@ -14,7 +16,7 @@ import { DataService } from '../data.service';
   styleUrls: ['./detail-livre.component.css']
 })
 export class DetailLivreComponent {
-  constructor(private dataSrv: DataService,private router:Router,private electrolibSrv: ElectrolibService,private route: ActivatedRoute){
+  constructor(private dataSrv: DataService,private router:Router,private electrolibSrv: ElectrolibService,private route: ActivatedRoute, private modalService: NgbModal){
 
   }
   isAvailable=false;
@@ -28,9 +30,20 @@ export class DetailLivreComponent {
   failure=false;
   isLiked=false;
 
+  theme = "";
+
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
-  ngOnInit() {
+  async ngOnInit() {
     this.user = this.dataSrv.getUser();
+
+    if(localStorage.getItem('theme') != "light")
+    {
+      this.theme = "dark";
+    }
+    else
+    {
+      this.theme = "";
+    }
 
     console.log("Onint detailsBook");
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -66,7 +79,7 @@ export class DetailLivreComponent {
     }
     
     
-
+    await this.retrieveReviews();
   }
 
 
@@ -125,4 +138,98 @@ export class DetailLivreComponent {
     
   }
 
+  reviews: Review[] = new Array();
+
+  @ViewChild('saveModal') saveModal! : TemplateRef<any>; 
+  @ViewChild('errorModal') errorModal! : TemplateRef<any>; 
+  @ViewChild('successModal') successModal! : TemplateRef<any>; 
+
+  retrieveReviews()
+  {
+    if(this.user)
+    {
+      this.electrolibSrv.getReviews().subscribe(
+        reviews => {
+          this.reviews = reviews.map(r => (Object.assign(new Review(), r)));
+        }
+      );
+    }
+  }
+
+  starsHovered:number = 0;
+  starHover(starsHovered:number)
+  {
+    this.starsHovered = starsHovered;
+  }
+
+  starsClicked:number = 0;
+  starClick(starsClicked:number)
+  {
+    this.starsClicked = starsClicked;
+  }
+  
+  newReviewMessage = "";
+  verifyReview()
+  {
+    //Le user doit écrire au moins 5 caractères dans le message
+    if(this.newReviewMessage.length >= 5 && this.newReviewMessage.length <= 500)
+    {
+      //Le user doit choisir une étoile
+      if(this.starsClicked > 0)
+      {
+        //Ajoute un point s'il n'y a pas de point à la fin
+        if(this.newReviewMessage[this.newReviewMessage.length] != '.' ||this.newReviewMessage[this.newReviewMessage.length] != '!' || this.newReviewMessage[this.newReviewMessage.length] != '?')
+        {
+          this.newReviewMessage += '.';
+
+
+
+
+        }
+
+        this.modalService.open(this.saveModal);
+      }
+      else
+      {
+        this.modalService.open(this.errorModal);
+      }
+    }
+    else
+    {
+      this.modalService.open(this.errorModal);
+    }
+  }
+
+  review:Review = new Review();
+  async saveReview()
+  {
+
+    if(this.user)
+    {
+      this.review.message = this.newReviewMessage;
+      this.review.rating = this.starsClicked;
+      //Envois du message en BD si oui
+      await this.electrolibSrv.createReview(this.review, this.user).subscribe(
+        createdComment => 
+        {
+          console.log('Review créé!', createdComment);
+        },
+        (error) => 
+        {
+          console.error('Création erreur', error);
+        }
+      );
+    }
+    
+    
+    this.modalService.dismissAll();
+    this.starsHovered = 0;
+    this.starsClicked = 0;
+    this.newReviewMessage = "";
+
+    this.modalService.open(this.successModal);
+    
+    //Actualiser la liste des reviews
+    await this.retrieveReviews();
+  }
 }
