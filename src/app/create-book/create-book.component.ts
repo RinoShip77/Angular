@@ -66,10 +66,6 @@ export class CreateBookComponent {
     });
   }
 
-  trackByGenre(index: number, genre: Genre): number {
-    return genre.idGenre; // or use a unique identifier for each genre
-  }
-
   async createBlobFromLocalFile(imageUrl: string): Promise<Blob> {
     return fetch(imageUrl).then((response) => response.blob());
   }

@@ -18,6 +18,9 @@ export class CreateReservationComponent {
   foundBooks: Book[] = [];
   foundUsers: User[] = [];
 
+  bookError: Boolean = false;
+  userError: Boolean = false;
+
   selectedBooks: Book[] = [];
   selectedUser: User = new User();
 
@@ -39,6 +42,30 @@ export class CreateReservationComponent {
 
     this.retrieveBooks();
     this.retrieveUsers();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  verifySelectedBook() {
+    if (this.selectedBooks.length == 0) {
+      this.bookError = true;
+    }
+    else {
+      this.bookError = false;
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  verifySelectedUser() {
+    if (this.selectedUser.idUser == 0) {
+      this.userError = true;
+    }
+    else {
+      this.userError = false;
+    }
   }
 
   //---------------------------------
@@ -85,6 +112,7 @@ export class CreateReservationComponent {
       this.selectedBooks.splice(index, 1);
     }
     this.searchBooks();
+    this.verifySelectedBook();
   }
 
   //-------------------------------------------------------
@@ -92,7 +120,9 @@ export class CreateReservationComponent {
   //-------------------------------------------------------
   selectBook(book: Book) {
     this.selectedBooks.push(book);
+    this.bookSearchField = "";
     this.searchBooks();
+    this.verifySelectedBook();
   }
 
   //-------------------------------------------------------
@@ -102,6 +132,7 @@ export class CreateReservationComponent {
     this.userSearchField = "";
     this.foundUsers = [];
     this.selectedUser = user;
+    this.verifySelectedUser();
   }
 
   //-------------------------------------------------------
@@ -163,6 +194,8 @@ export class CreateReservationComponent {
   //
   //-------------------------------------------------------
   openConfirmCreateBorrow(content: any) {
+    this.verifySelectedBook();
+    this.verifySelectedUser();
     if (this.selectedUser.idUser != 0 && this.selectedBooks.length > 0) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
     }
