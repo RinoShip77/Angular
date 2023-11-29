@@ -80,7 +80,7 @@
           <option value="list">Sous forme de simple liste</option>
         </select>
       </div>
-      <input name="searchInp" [(ngModel)]="searchInp" (ngModelChange)="applySearch(searchInp, false)"
+      <input name="searchInp" [(ngModel)]="searchInp" (ngModelChange)="applySearch(searchInp)"
         (keyup)="onKeyup($event)" class="form-control w-25 ms-2 my-auto me-2" type="search"
         placeholder="Rechercher ...">
     </div>
