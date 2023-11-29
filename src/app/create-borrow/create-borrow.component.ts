@@ -18,6 +18,9 @@ export class CreateBorrowComponent {
   books: Book[] = [];
   users: User[] = [];
 
+  bookError: Boolean = false;
+  userError: Boolean = false;
+
   foundBooks: Book[] = [];
   foundUsers: User[] = [];
 
@@ -42,6 +45,30 @@ export class CreateBorrowComponent {
 
     this.retrieveBooks();
     this.retrieveUsers();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  verifySelectedBook() {
+    if (this.selectedBooks.length == 0) {
+      this.bookError = true;
+    }
+    else {
+      this.bookError = false;
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  verifySelectedUser() {
+    if (this.selectedUser.idUser == 0) {
+      this.userError = true;
+    }
+    else {
+      this.userError = false;
+    }
   }
 
   //---------------------------------
@@ -87,6 +114,7 @@ export class CreateBorrowComponent {
     if (index > -1) {
       this.selectedBooks.splice(index, 1);
     }
+    this.verifySelectedBook();
     this.searchBooks();
   }
 
@@ -95,7 +123,9 @@ export class CreateBorrowComponent {
   //-------------------------------------------------------
   selectBook(book: Book) {
     this.selectedBooks.push(book);
+    this.bookSearchField = "";
     this.searchBooks();
+    this.verifySelectedBook();
   }
 
   //-------------------------------------------------------
@@ -105,6 +135,7 @@ export class CreateBorrowComponent {
     this.userSearchField = "";
     this.foundUsers = [];
     this.selectedUser = user;
+    this.verifySelectedUser();
   }
 
   //-------------------------------------------------------
@@ -166,6 +197,8 @@ export class CreateBorrowComponent {
   //
   //-------------------------------------------------------
   openConfirmCreateBorrow(content: any) {
+    this.verifySelectedBook();
+    this.verifySelectedUser();
     if (this.selectedUser.idUser != 0 && this.selectedBooks.length > 0) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
     }

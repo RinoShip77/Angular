@@ -6,8 +6,10 @@
 
         <h5 style="text-align: center;">Créer un emprunt</h5>
 
-        <section class="row" style="padding: 1em;">
-          <article class="col-lg-6">
+        <section style="padding: 1em;">
+
+          <!-- Sélection du livre -->
+          <article style="margin-bottom: 1em;">
             <input name="bookSearchField" [(ngModel)]="bookSearchField" class="form-control" type="search"
               placeholder="Titre du livre" autocomplete="off" aria-label="Search" (ngModelChange)="searchBooks()">
             <div class="resultsBox">
@@ -15,29 +17,10 @@
                 <button type="button" class="result-button" (click)="selectBook(book)">{{book.title}}</button>
               </div>
             </div>
-
-            <div style="margin-top: 1em;">
-              <span>Livre sélectionné:</span>
-              <div *ngFor="let book of selectedBooks" style="display: flex;">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <button class="btn btn-danger" style="height: min-content;"
-                          (click)="removeSelectedBook(book)">x</button>
-                      </td>
-                      <td>
-                        <label>{{book.title}}</label>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-            </div>
           </article>
 
-          <article class="col-lg-6">
+          <!-- Sélection du membre -->
+          <article style="margin-bottom: 1em;">
             <input name="userSearchField" [(ngModel)]="userSearchField" class="form-control" type="search"
               placeholder="Numéro de membre" autocomplete="off" aria-label="Search" (ngModelChange)="searchUsers()">
             <div class="resultsBox">
@@ -47,12 +30,46 @@
                 </button>
               </div>
             </div>
+          </article>
 
-            <div style="margin-top: 1em;">
+          <section style="padding: 1em; border: 1px solid lightgrey; border-radius: 6px;">
+            <!-- Livre(s) sélectionné(s) -->
+            <article style="margin-bottom: 1em;">
+              <span>Livre(s) sélectionné(s):</span>
+              <div *ngFor="let book of selectedBooks" style="display: flex;">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <button class="btn btn-danger" style="height: min-content; aspect-ratio : 1 / 1; padding: 4px;"
+                          (click)="removeSelectedBook(book)" title="Retirer « {{book.title}} »">
+                          <i class="fa-regular fa-circle-xmark fa-xl"></i>
+                        </button>
+                      </td>
+                      <td>
+                        <label style="margin-left: 8px;">{{book.title}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <span *ngIf="bookError" class="error-message">
+                <br>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Aucun livre sélectionné
+              </span>
+            </article>
+
+            <!-- Membre sélectionné -->
+            <article>
               <span>membre sélectionné:</span>
               <label>{{selectedUser.memberNumber}} {{selectedUser.firstName}} {{selectedUser.lastName}}</label>
-            </div>
-          </article>
+              <span *ngIf="userError" class="error-message">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Aucun membre sélectionné
+              </span>
+            </article>
+          </section>
         </section>
 
 
