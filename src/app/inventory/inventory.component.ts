@@ -196,11 +196,7 @@ export class InventoryComponent {
   //---------------------------------
   // Function to filter the books by a research
   //---------------------------------
-  applySearch(search: string, reset: boolean) {
-    if (reset) {
-      this.displayedBooks = this.books;
-    }
-
+  applySearch(search: string) {
     this.displayedBooks = this.displayedBooks.filter((book) => book.title.toLowerCase().includes(search));
   }
 
@@ -209,7 +205,7 @@ export class InventoryComponent {
   //---------------------------------
   onKeyup(event: KeyboardEvent) {
     if (event.keyCode == 8) {
-      this.applySearch(this.searchInp, true);
+      this.applySearch(this.searchInp);
     }
   }
 
@@ -227,6 +223,22 @@ export class InventoryComponent {
           }
         } else {
           this.displayedBooks = this.displayedBooks.filter((book) => !(book.genre.idGenre === id));
+
+          if (this.authors.filter((author) => author.isFilter === true).length >= 1) {
+            this.authors.filter((author) => author.isFilter === true).forEach(author => {
+              if (author.isFilter) {
+                this.filterBooks('author', author.idAuthor);
+              }
+            });
+          }
+
+          if (this.statuses.filter((status) => status.isFilter === true).length >= 1) {
+            this.statuses.filter((status) => status.isFilter === true).forEach(status => {
+              if (status.isFilter) {
+                this.filterBooks('status', status.idStatus);
+              }
+            });
+          }
         }
         break;
 
@@ -239,6 +251,22 @@ export class InventoryComponent {
           }
         } else {
           this.displayedBooks = this.displayedBooks.filter((book) => !(book.author.idAuthor === id));
+
+          if (this.genres.filter((genre) => genre.isFilter === true).length >= 1) {
+            this.genres.filter((genre) => genre.isFilter === true).forEach(genre => {
+              if (genre.isFilter) {
+                this.filterBooks('genre', genre.idGenre);
+              }
+            });
+          }
+
+          if (this.statuses.filter((status) => status.isFilter === true).length >= 1) {
+            this.statuses.filter((status) => status.isFilter === true).forEach(status => {
+              if (status.isFilter) {
+                this.filterBooks('status', status.idStatus);
+              }
+            });
+          }
         }
         break;
 
@@ -251,6 +279,22 @@ export class InventoryComponent {
           }
         } else {
           this.displayedBooks = this.displayedBooks.filter((book) => !(book.status.idStatus === id));
+
+          if (this.genres.filter((genre) => genre.isFilter === true).length >= 1) {
+            this.genres.filter((genre) => genre.isFilter === true).forEach(genre => {
+              if (genre.isFilter) {
+                this.filterBooks('genre', genre.idGenre);
+              }
+            });
+          }
+
+          if (this.authors.filter((author) => author.isFilter === true).length >= 1) {
+            this.authors.filter((author) => author.isFilter === true).forEach(author => {
+              if (author.isFilter) {
+                this.filterBooks('author', author.idAuthor);
+              }
+            });
+          }
         }
         break;
 
@@ -271,31 +315,10 @@ export class InventoryComponent {
         break;
     }
 
-    // if (this.genres.filter((genre) => genre.isFilter === true).length >= 1) {
-    //   this.genres.filter((genre) => genre.isFilter === true).forEach(genre => {
-    //     if (genre.isFilter) {
-    //       this.filterBooks('genre', genre.idGenre);
-    //     }
-    //   });
-    // }
-
-    // if (this.authors.filter((author) => author.isFilter === true).length >= 1) {
-    //   this.authors.filter((author) => author.isFilter === true).forEach(author => {
-    //     if (author.isFilter) {
-    //       this.filterBooks('author', author.idAuthor);
-    //     }
-    //   });
-    // }
-
-    // if (this.statuses.filter((status) => status.isFilter === true).length >= 1) {
-    //   this.statuses.filter((status) => status.isFilter === true).forEach(status => {
-    //     if (status.isFilter) {
-    //       this.filterBooks('status', status.idStatus);
-    //     }
-    //   });
-    // }
-
-    if (this.displayedBooks.length == 0) {
+    if ((
+      (this.genres.filter((genre) => genre.isFilter === true).length === 1 && this.authors.filter((author) => author.isFilter === true).length === 0 && this.statuses.filter((status) => status.isFilter === true).length === 0) ||
+      (this.genres.filter((genre) => genre.isFilter === true).length === 0 && this.authors.filter((author) => author.isFilter === true).length === 1 && this.statuses.filter((status) => status.isFilter === true).length === 0) ||
+      (this.genres.filter((genre) => genre.isFilter === true).length === 0 && this.authors.filter((author) => author.isFilter === true).length === 0 && this.statuses.filter((status) => status.isFilter === true).length === 1)) && this.displayedBooks.length === 0) {
       this.displayedBooks = this.books;
     }
 
