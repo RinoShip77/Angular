@@ -145,7 +145,7 @@
         [ngSwitch]="inventoryDisplay">
         <div *ngSwitchCase="'table'">
           <div class="row row-cols-2 g-1">
-            <a *ngFor="let book of displayedBooks" [routerLink]="['detailLivre', book.idBook]">
+            <a *ngFor="let book of displayedBooks" [routerLink]="['/detailLivre', book.idBook]">
               <div class="card h-100">
                 <div class="row g-0">
                   <div class="col-4">
