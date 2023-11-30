@@ -1,5 +1,5 @@
-<div class="d-flex flex-rows bg-body p-3">
-  <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary rounded-5 me-2 p-3">
+<div class="d-flex bg-body p-2 py-4">
+  <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary rounded-5 me-3">
     <span class="fs-4 text-center">Affiner votre recherche</span>
     <hr>
     <button class="btn btn-outline-success mx-3 p-1 fs-5 fw-bold" (click)="openModal(ordersContent, 'lg')">
@@ -71,7 +71,7 @@
       Informations
     </button>
   </div>
-  <div class="col-8 mx-auto">
+  <div class="d-flex flex-column">
     <div class="d-flex justify-content-around my-4">
       <div class="form-check form-switch">
         <h4>Personnaliser l'affichage de l'inventaire :</h4>
@@ -80,12 +80,11 @@
           <option value="list">Sous forme de simple liste</option>
         </select>
       </div>
-      <input name="searchInp" [(ngModel)]="searchInp" (ngModelChange)="applySearch(searchInp)"
-        (keyup)="onKeyup($event)" class="form-control w-25 ms-2 my-auto me-2" type="search"
-        placeholder="Rechercher ...">
+      <input name="searchInp" [(ngModel)]="searchInp" (ngModelChange)="applySearch(searchInp)" (keyup)="onKeyup($event)"
+        class="form-control w-25 ms-2 my-auto me-2" type="search" placeholder="Rechercher ...">
     </div>
-    <app-recommended></app-recommended>
-    <h2>Inventaire</h2>
+    <app-recommended cl></app-recommended>
+    <h2 class="mt-5">Inventaire</h2>
     <div *ngIf="loading; else loadedBlock">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
         style="margin: auto; background: rgba(241, 242, 243, 0); display: block;" width="200px" height="200px"
@@ -142,19 +141,21 @@
       </svg>
     </div>
     <ng-template #loadedBlock>
-      <div class="shadow-lg rounded-2 p-2" *ngIf="displayedBooks.length > 0; else emptyBlock"
+      <div class="shadow-lg rounded-2" *ngIf="displayedBooks.length > 0; else emptyBlock"
         [ngSwitch]="inventoryDisplay">
         <div *ngSwitchCase="'table'">
-          <div class="row row-cols-2 g-3">
-            <a type="button" class="col" *ngFor="let book of displayedBooks; index as i"
-              [routerLink]="['/detailLivre', book.idBook]">
-              <div class="card h-100 mb-3">
+          <div class="row row-cols-2 g-1">
+            <a *ngFor="let book of displayedBooks" [routerLink]="['detailLivre', book.idBook]">
+              <div class="card h-100">
                 <div class="row g-0">
                   <div class="col-4">
                     <img src={{getBookCover(book.idBook)}} class="img-fluid img-thumbnail m-1" alt="{{book.title}}"
                       title="{{book.title}}" onerror="this.src='assets/images/default-book.png'">
                     <div class="d-flex justify-content-center align-items-center mt-3">
-                      <h5>{{book.publishedDate | date:'yyyy-MM-dd'}}</h5>
+                      <h5>
+                        Publication :<br>
+                        {{book.publishedDate | date:'yyyy-MM-dd'}}
+                      </h5>
                     </div>
                   </div>
                   <div class="col-8">
@@ -167,30 +168,33 @@
                         {{(book.author.firstName | titlecase) + ' ' + (book.author.lastName | titlecase)}}
                       </p>
                       <span class="card-text"><small>{{book.description}}</small></span>
-                      <div class="d-flex justify-content-between mt-3">
-                        <div class="text-danger fs-2">
-                          <i class="fas fa-heart" *ngIf="isFavorite(book.idBook); else notFavoriteBlock"></i>
-                          <ng-template #notFavoriteBlock>
-                            <i class="far fa-heart"></i>
-                          </ng-template>
-                          - {{getNumberOfFavorites(book.idBook)}}
-                        </div>
-                        <div [ngSwitch]="book.status.status">
-                          <div *ngSwitchCase="'Disponible'" class="border border-2 bg-info rounded-3 p-2 text-center">
-                            {{book.status.status}}</div>
-                          <div *ngSwitchCase="'Emprunté'"
-                            class="border border-2 bg-transparent rounded-3 p-2 text-center">
-                            {{book.status.status}}</div>
-                          <div *ngSwitchCase="'Réservé'" class="border border-2 bg-warning rounded-3 p-2 text-center">
-                            {{book.status.status}}</div>
-                          <div *ngSwitchCase="'Perdu'" class="border border-2 bg-secondary rounded-3 p-2 text-center">
-                            {{book.status.status}}</div>
-                          <div *ngSwitchCase="'Supprimé'" class="border border-2 bg-danger rounded-3 p-2 text-center">
-                            {{book.status.status}}</div>
-                        </div>
-                      </div>
                     </div>
                   </div>
+                  <div class="d-flex justify-content-around mt-3">
+                    <div class="text-danger fs-2">
+                      <i class="fas fa-heart" *ngIf="isFavorite(book.idBook); else notFavoriteBlock"></i>
+                      <ng-template #notFavoriteBlock>
+                        <i class="far fa-heart"></i>
+                      </ng-template>
+                      - {{getNumberOfFavorites(book.idBook)}}
+                    </div>
+                    <div [ngSwitch]="book.status.status">
+                      <div *ngSwitchCase="'Disponible'" class="border border-2 bg-info rounded-3 p-2 text-center">
+                        {{book.status.status}}</div>
+                      <div *ngSwitchCase="'Emprunté'" class="border border-2 bg-transparent rounded-3 p-2 text-center">
+                        {{book.status.status}}</div>
+                      <div *ngSwitchCase="'Réservé'" class="border border-2 bg-warning rounded-3 p-2 text-center">
+                        {{book.status.status}}</div>
+                      <div *ngSwitchCase="'Perdu'" class="border border-2 bg-secondary rounded-3 p-2 text-center">
+                        {{book.status.status}}</div>
+                      <div *ngSwitchCase="'Supprimé'" class="border border-2 bg-danger rounded-3 p-2 text-center">
+                        {{book.status.status}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center py-3">
+                  Date d'ajout :<br>
+                  {{book.addedDate}}
                 </div>
               </div>
             </a>
