@@ -18,6 +18,7 @@ export class AdminUsersComponent {
   selectedSearchBy: String = "memberNumber";
   selectedSortBy: String = "ascending";
   desc: boolean = true;
+  loaded = false;
   colorSwitch: boolean = false;
 
   @Output() switchTheme = new EventEmitter<any>();
@@ -32,6 +33,16 @@ export class AdminUsersComponent {
     }
 
     this.retrieveUsers();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  verifyIfResultFound() {
+    if (this.displayedUsers.length == 0 && this.loaded) {
+      return true;
+    }
+    return false;
   }
 
   //---------------------------------
@@ -154,6 +165,7 @@ export class AdminUsersComponent {
         this.displayedUsers = users;
 
         this.calculatePenalties();
+        this.loaded = true;
       }
     );
   }
