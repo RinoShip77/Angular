@@ -8,6 +8,7 @@ import { Book } from '../model/Book';
 import { User } from '../model/User';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
+import { Reservation } from '../model/Reservation';
 
 @Component({
   selector: 'app-create-borrow',
@@ -19,6 +20,10 @@ export class CreateBorrowComponent {
   books: Book[] = [];
   users: User[] = [];
   loading = false;
+  availabilityDone = false;
+  unavailableBooks: Book[] = [];
+  reservationsToCancel: Reservation[] = [];
+
 
   bookError: Boolean = false;
   userError: Boolean = false;
@@ -174,15 +179,33 @@ export class CreateBorrowComponent {
   onSubmit() {
     if (this.selectedBooks.length > 0 && this.selectedUser.idUser !== 0) {
       this.loading = true;
+
+      // Crée un emprunt pour chaque livre
       const borrowObservables = this.selectedBooks.map(book =>
         this.electrolibService.createBorrow(this.selectedUser.idUser, book.idBook)
       );
-  
+
+      // Une fois tous les emprunts créés
       forkJoin(borrowObservables).subscribe(
         (responses) => {
-          console.log('Borrow created successfully', responses);
-          this.changeTab('borrows');
-          this.router.navigate(['/adminBorrows']);
+          console.log('Borrow created successfully!', responses);
+
+          // Supprime les réservations faites sur chaque livre
+          const cancelObservables = this.reservationsToCancel.map(reservation =>
+            this.electrolibService.cancelReservation(reservation)
+          );
+
+          // Une fois les réservations supprimées
+          forkJoin(cancelObservables).subscribe(
+            (cancelResponses) => {
+              console.log('Reservation(s) cancelled successfully!', cancelResponses);
+              this.changeTab('borrows');
+              this.router.navigate(['/adminBorrows']);
+            },
+            (cancelError) => {
+              console.error('Cancellation failed:', cancelError);
+            }
+          );
         },
         (error) => {
           console.error('Creation failed:', error);
@@ -204,9 +227,46 @@ export class CreateBorrowComponent {
   openConfirmCreateBorrow(content: any) {
     this.verifySelectedBook();
     this.verifySelectedUser();
+
     if (this.selectedUser.idUser != 0 && this.selectedBooks.length > 0) {
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
+
+      this.unavailableBooks = [];
+      this.reservationsToCancel = [];
+
+      // Récupère les réservations en cours sur chaque livre
+      const verificationObservables = this.selectedBooks.map(book =>
+        this.electrolibService.getBookReservations(book.idBook)
+      );
+
+      // Une fois les réservations récupérées du serveur
+      forkJoin(verificationObservables).subscribe(
+        (responses) => {
+          responses.forEach(reservations => {
+
+            // Si le livre est réservé
+            if (reservations.length > 0) {
+              reservations.forEach(reservation => {
+
+                // Si le livre est réservé par un autre membre
+                if (reservation.user.memberNumber != this.selectedUser.memberNumber) {
+                  this.unavailableBooks.push(reservation.book);
+                } 
+                // Si le livre est réservé par le membre qui veut faire l'emprunt
+                else if (reservation.user.memberNumber == this.selectedUser.memberNumber) {
+                  this.reservationsToCancel.push(reservation);
+                }
+              });
+            }
+          });
+
+          // Ouvre le model de confirmation
+          this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
+
+        },
+        (error) => {
+          console.error('Creation failed:', error);
+        }
+      );
     }
   }
-
 }

@@ -154,6 +154,8 @@ background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; al
               </span>
             </article>
 
+            <hr>
+
             <!-- Membre sélectionné -->
             <article>
               <span>Membre sélectionné:</span>
@@ -164,6 +166,19 @@ background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; al
               </span>
             </article>
           </section>
+
+          <section style="color: red;">
+            <article *ngIf="unavailableBooks.length == 1">
+              <label>Ce livre est actuellement réservé par un autre membre:</label>
+              <label>{{unavailableBooks[0].title}}</label>
+            </article>
+  
+            <article *ngIf="unavailableBooks.length > 1">
+              <label>Ces livres sont actuellement réservés par un autre membre:</label>
+              <label *ngFor="let book of unavailableBooks">{{book.title}}</label>
+            </article>
+          </section>
+          
         </section>
 
 
