@@ -237,9 +237,6 @@ export class CreateBorrowComponent {
 
     if (this.selectedUser.idUser != 0 && this.selectedBooks.length > 0) {
 
-      this.unavailableBooks = [];
-      this.reservationsToCancel = [];
-
       // Récupère les réservations en cours sur chaque livre
       const verificationObservables = this.selectedBooks.map(book =>
         this.electrolibService.getBookReservations(book.idBook)
@@ -262,6 +259,8 @@ export class CreateBorrowComponent {
                 else if (reservation.user.memberNumber == this.selectedUser.memberNumber) {
                   this.reservationsToCancel.push(reservation);
                 }
+
+                
               });
             }
           });
