@@ -501,6 +501,14 @@ export class ElectrolibService {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
+  getBookReservations(idBook: Number) {
+    let url = `${urlServer}book-reservations/${idBook}`;
+    return this.http.get<Reservation[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
   findOneBorrowFromUser(idUser: Number | undefined, idBook: Number) {
     let url = `${urlServer}borrow/${idUser}/${idBook}`;
     return this.http.get<Boolean>(url);
@@ -550,7 +558,7 @@ export class ElectrolibService {
     let url = `${urlServer}cancel-reservation/${reservation.idReservation}`;
     const formData = new FormData();
 
-    return this.http.post<Borrow>(url, formData);
+    return this.http.post<String>(url, formData);
   }
 
   getIfFavorited(book: Book, user: User) {
