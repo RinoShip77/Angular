@@ -9,6 +9,7 @@ import { User } from '../model/User';
 import { DataService } from '../data.service';
 import { Reservation } from '../model/Reservation';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-detail-livre',
@@ -32,6 +33,8 @@ export class DetailLivreComponent {
   isLiked = false;
   isBookReservedByCurrentUser: Boolean = true;
   isBookBorrowedByCurrentUser: Boolean = true;
+  reservationToCancel: any = null;
+  bookIsReserved = false;
 
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
   ngOnInit() {
@@ -78,18 +81,56 @@ export class DetailLivreComponent {
 
   createBorrow() {
     if (this.user) {
-      this.electrolibSrv.createBorrow(this.user.idUser, this.book.idBook).subscribe(
-        receivedBorrow => {
-          console.log(receivedBorrow);
-          if (receivedBorrow == null) {
-            this.failureBorrow();
+      
+      // Récupère les réservations en cours sur le livre
+      this.electrolibSrv.getBookReservations(this.book.idBook).subscribe(
+        (reservations) => {
+          if (reservations.length > 0) {
+            reservations.forEach(reservation => {
+              
+              // Si le livre est réservé par un autre membre
+              if (reservation.user.memberNumber != this.user?.memberNumber) {
+                this.bookIsReserved = true;
+              }
+              // Si le livre est réservé par le membre qui veut faire l'emprunt
+              else if (reservation.user.memberNumber == this.user?.memberNumber) {
+                this.reservationToCancel = reservation;
+              }
+            });
           }
-          else {
-            this.router.navigate(["borrowDetails", receivedBorrow])
-          }
+          if (this.user && !this.bookIsReserved) {
+            
+            // Crée l'emprunt
+            this.electrolibSrv.createBorrow(this.user.idUser, this.book.idBook).subscribe(
+              receivedBorrow => {
+                if (receivedBorrow == null) {
+                  this.failureBorrow();
+                }
+                else {
+                  console.log('Borrow created successfully!', receivedBorrow);
+                  this.isAvailable = false;
+                  this.isBookBorrowedByCurrentUser = true;
+                  
+                  // Supprime la réservation
+                  this.electrolibSrv.cancelReservation(this.reservationToCancel).subscribe(
+                    (cancelResponses) => {
+                      console.log('Reservation cancelled successfully!', cancelResponses);
+                      this.router.navigate(["borrowDetails", receivedBorrow])
+                    },
+                    (cancelError) => {
+                      console.error('Cancellation failed:', cancelError);
+                    }
+                  );
+                }
+              }
+            )
+          };
+        },
+        (error) => {
+          console.error('Creation failed:', error);
         }
-      )
-    };
+      );
+    }
   }
 
   succesBorrow() {
