@@ -258,10 +258,13 @@ export class CreateBorrowComponent {
               });
             }
           });
+          
+          if (this.unavailableBooks.length > 0) {
+            return true;
+          }
 
-          // Ouvre le model de confirmation
           this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
-
+          return true;
         },
         (error) => {
           console.error('Creation failed:', error);
