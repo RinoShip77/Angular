@@ -9,6 +9,7 @@ import { MAX_FILE_SIZE, ISBN_REGEX } from '../util';
 import { format, parse } from 'date-fns';
 import { Status } from '../model/Status';
 import { DataService } from '../data.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit-book',
@@ -21,6 +22,18 @@ export class EditBookComponent {
   authors: Author[] = [];
   genres: Genre[] = [];
   status: Status[] = [];
+  foundAuthors: Author[] = [];
+  foundGenres: Genre[] = [];
+  authorSearchField: string = "";
+  genreSearchField: string = "";
+  newAuthor: Author = new Author();
+  newGenre: Genre = new Genre();
+  selectedAuthor: string = "Fournir auteur";
+  selectedGenre: string = "Fournir genre";
+
+  authorFirstName: string | null = null;
+  authorLastName: string | null = null;
+  genreName: string | null = null;
 
   selectedImage: any;
   formData = new FormData();
@@ -44,7 +57,8 @@ export class EditBookComponent {
     private electrolibService: ElectrolibService, 
     private route: ActivatedRoute, 
     private router: Router,
-    private dataService: DataService) {}
+    private dataService: DataService, 
+    private modalService: NgbModal) {}
 
   ngOnInit() {
     if (localStorage.getItem('theme') != 'light') {
@@ -53,19 +67,38 @@ export class EditBookComponent {
       this.colorSwitch = false;
     }
 
+    this.retrieveAuthors();
+    this.retrieveGenres();
+    this.retrieveAllStatus();
+
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     if(id) {
      this.electrolibService.getBook(id).subscribe(book =>{
       this.book = book;
+      this.setGenreAndAuthor();
+      this.selectedAuthor = `${book.author.firstName} ${book.author.lastName}`;
+      this.selectedGenre = book.genre.name;
       const parsedDate = parse(book.publishedDate, 'yyyy-MM-dd HH:mm:ss', new Date());
       this.book.publishedDate = format(parsedDate, 'yyyy-MM-dd');
      });
     }
-    
-    this.retrieveAuthors();
-    this.retrieveGenres();
-    this.retrieveAllStatus();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  setGenreAndAuthor() {
+    this.authors.forEach(author => {
+      if (this.book.idAuthor == author.idAuthor) {
+        this.book.author = author;
+      }
+    });
+    this.genres.forEach(genre => {
+      if (this.book.idGenre == genre.idGenre) {
+        this.book.genre = genre;
+      }
+    });
   }
 
   //---------------------------------
@@ -241,6 +274,57 @@ export class EditBookComponent {
   }
 
   //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  validateCreateAuthorFirstName() {
+    if (this.newAuthor.firstName.length <= 0 || this.newAuthor.firstName.length > 50) {
+      this.authorFirstName = "Le prénom doit contenir entre 1 et 50 caractères.";
+    } else {
+      this.authorFirstName = null;
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  validateCreateAuthorLastName() {
+    if (this.newAuthor.lastName.length <= 0 || this.newAuthor.lastName.length > 50) {
+      this.authorLastName = "Le nom doit contenir entre 1 et 50 caractères.";
+    } else {
+      this.authorLastName = null;
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  validateCreateGenre() {
+    if (this.newGenre.name.length <= 0 || this.newGenre.name.length > 30) {
+      this.genreName = "Le nom du genre doit contenir entre 1 et 30 caractères.";
+    } else {
+      this.genreName = null;
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  isNewAuthorValid() {
+    this.validateCreateAuthorFirstName();
+    this.validateCreateAuthorLastName();
+
+    return this.authorFirstName === null && this.authorLastName === null;
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  isNewGenreValid() {
+    this.validateCreateGenre();
+    return this.genreName === null;
+  }
+
+  //-------------------------------------------------------
   // Valide tous les champs du livre
   //-------------------------------------------------------
   validateAllFields() {
@@ -267,5 +351,105 @@ export class EditBookComponent {
   //-------------------------------------------------------
   changeTab(tab: string) {
     this.dataService.changeTab(tab);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  openModal(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  onCreateAuthorSubmit() {
+    if (this.isNewAuthorValid()) {
+      this.electrolibService.createAuthor(this.newAuthor).subscribe(
+        (response) => {
+          this.authors.push(response);
+          this.book.idAuthor = response.idAuthor;
+          this.selectedAuthor = `${response.firstName} ${response.lastName}`;
+          this.newAuthor = new Author();
+          this.foundAuthors = [];
+          this.authorSearchField = "";
+        },
+        (error) => {
+          console.error('Creation failed:', error);
+        }
+      );
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  onCreateGenreSubmit() {
+    if (this.isNewGenreValid()) {
+      this.electrolibService.createGenre(this.newGenre).subscribe(
+        (response) => {
+          this.genres.push(response);
+          this.book.idGenre = response.idGenre;
+          this.selectedGenre = this.newGenre.name;
+          this.foundGenres = [];
+          this.genreSearchField = "";
+          this.newGenre = new Genre();
+        },
+        (error) => {
+          console.error('Creation failed:', error);
+        }
+      );
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  selectAuthor(author: Author) {
+    this.authorSearchField = "";
+    this.foundAuthors = [];
+    this.book.idAuthor = author.idAuthor;
+    this.selectedAuthor = `${author.firstName} ${author.lastName}`;
+    this.newAuthor = new Author();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  searchAuthors() {
+    this.foundAuthors = [];
+    if (this.authorSearchField.length > 0) {
+      this.authors.forEach(author => {
+        if (author.firstName.toUpperCase().includes(this.authorSearchField.toUpperCase()) ||
+          author.lastName.toUpperCase().includes(this.authorSearchField.toUpperCase())) {
+          this.foundAuthors.push(author);
+        }
+      });
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  selectGenre(genre: Genre) {
+    this.genreSearchField = "";
+    this.foundGenres = [];
+    this.book.idGenre = genre.idGenre;
+    this.selectedGenre = genre.name;
+    this.newGenre = new Genre();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  searchGenres() {
+    this.foundGenres = [];
+    if (this.genreSearchField.length > 0) {
+      this.genres.forEach(genre => {
+        if (genre.name.toUpperCase().includes(this.genreSearchField.toUpperCase())) {
+          this.foundGenres.push(genre);
+        }
+      });
+    }
   }
 }

@@ -48,8 +48,7 @@
         <div class="form-group">
           <label for="idAuthor">Auteur:</label>
           <div style="display: flex;">
-            <button class="form-control btn" type="button" (click)="openModal(authorTemplate)" data-toggle="modal"
-              [ngStyle]="{'text-align': book.idAuthor != 0 ? 'left' : ''}">
+            <button class="form-control btn" type="button" (click)="openModal(authorTemplate)" data-toggle="modal">
               {{selectedAuthor}}
             </button>
           </div>
@@ -59,13 +58,9 @@
         <div class="form-group">
           <label>Genre:</label>
           <div style="display: flex;">
-            <select [(ngModel)]="book.idGenre" name="idGenre" (ngModelChange)="validateIdGenre()" required>
-              <option *ngFor="let genre of genres" [value]="genre.idGenre" style="color: black;">
-                {{ genre.name }}
-              </option>
-            </select>
-            <button class="btn" type="button" (click)="openModal(genreTemplate)" data-toggle="modal"
-              style="margin-left: 1em;">Ajouter</button>
+            <button class="form-control btn" type="button" (click)="openModal(genreTemplate)" data-toggle="modal">
+              {{selectedGenre}}
+            </button>
           </div>
           <p class="error" *ngIf="errors['idGenre'] != null">{{errors['idGenre']}}</p>
         </div>
@@ -137,21 +132,44 @@
         <i class="fa-solid fa-xmark"></i>
       </div>
 
-      <div class="container row mx-auto p-5">
-        <h5 style="text-align: center;">Créer un genre</h5>
-        <form (ngSubmit)="onCreateGenreSubmit()">
+      <section class="container row mx-auto p-5">
+        <article class="modal-form-container">
+          <h5 style="text-align: center;">Trouver un genre</h5>
+          <form>
+            <div class="form-group">
+              <label>Recherche:</label>
+              <input name="genreSearchField" [(ngModel)]="genreSearchField" class="form-control" type="search"
+                placeholder="Titre du genre" autocomplete="off" aria-label="Search"
+                (ngModelChange)="searchGenres()">
+              <div class="resultsBox">
+                <div *ngFor="let genre of foundGenres" class="result">
+                  <button type="button" class="result-button"
+                    (click)="selectGenre(genre) + modal.close()">{{genre.name}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </article>
 
-          <div class="form-group">
-            <label for="genreName">Nom du genre:</label>
-            <input class="form-control" type="text" name="genreName" [(ngModel)]="newGenre.name"
-              (ngModelChange)="validateCreateGenre()">
-            <p class="error" *ngIf="genreName != null">{{genreName}}</p>
-          </div>
-
-          <button type="submit" (click)="this.isNewGenreValid() && modal.close()"
-            style="width: 50%; min-width: 10em; margin: auto;">Créer</button>
-        </form>
-      </div>
+        <p></p>
+        
+        <article class="modal-form-container">
+          <h5 style="text-align: center;">Créer un genre</h5>
+          <form (ngSubmit)="onCreateGenreSubmit()">
+  
+            <div class="form-group">
+              <label for="genreName">Nom du genre:</label>
+              <input class="form-control" type="text" name="genreName" [(ngModel)]="newGenre.name"
+                (ngModelChange)="validateCreateGenre()">
+              <p class="error" *ngIf="genreName != null">{{genreName}}</p>
+            </div>
+  
+            <button type="submit" (click)="this.isNewGenreValid() && modal.close()"
+              style="width: 50%; min-width: 10em; margin: auto;">Créer</button>
+          </form>
+        </article>
+      </section>
     </ng-template>
 
     <div class="d-flex flex-column bg"

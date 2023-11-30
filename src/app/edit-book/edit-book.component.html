@@ -41,17 +41,22 @@
 
         <div class="form-group">
           <label for="idAuthor">Auteur:</label>
-          <select [(ngModel)]="book.idAuthor" name="idAuthor" required>
-            <option *ngFor="let author of authors" [value]="author.idAuthor">{{ author.firstName }} {{ author.lastName
-              }}</option>
-          </select>
+          <div style="display: flex;">
+            <button class="form-control btn" type="button" (click)="openModal(authorTemplate)" data-toggle="modal">
+              {{selectedAuthor}}
+            </button>
+          </div>
+          <p class="error" *ngIf="errors['idAuthor'] != null">{{errors['idAuthor']}}</p>
         </div>
 
         <div class="form-group">
-          <label for="idGenre">Genre:</label>
-          <select [(ngModel)]="book.idGenre" name="idGenre" required>
-            <option *ngFor="let genre of genres" [value]="genre.idGenre">{{ genre.name }}</option>
-          </select>
+          <label>Genre:</label>
+          <div style="display: flex;">
+            <button class="form-control btn" type="button" (click)="openModal(genreTemplate)" data-toggle="modal">
+              {{selectedGenre}}
+            </button>
+          </div>
+          <p class="error" *ngIf="errors['idGenre'] != null">{{errors['idGenre']}}</p>
         </div>
 
         <div class="form-group">
@@ -72,6 +77,109 @@
         <button type="submit">Enregistrer</button>
       </form>
     </article>
+
+    <!-- Modal pour afficher le formulaire d'ajout d'un auteur -->
+    <ng-template #authorTemplate let-modal>
+      <div type="button" class="btn btn-outline-danger" style="position: absolute; right: 0; aspect-ratio: 1 / 1; border-top-left-radius: 0;
+        border-bottom-right-radius: 0;" (click)="modal.close()">
+        <i class="fa-solid fa-xmark"></i>
+      </div>
+
+      <section class="container row mx-auto p-5">
+
+        <article class="modal-form-container">
+          <h5 style="text-align: center;">Trouver un(e) auteur(e)</h5>
+          <form>
+            <div class="form-group">
+              <label>Recherche:</label>
+              <input name="authorSearchField" [(ngModel)]="authorSearchField" class="form-control" type="search"
+                placeholder="Nom de l'auteur(e)" autocomplete="off" aria-label="Search"
+                (ngModelChange)="searchAuthors()">
+              <div class="resultsBox">
+                <div *ngFor="let author of foundAuthors" class="result">
+                  <button type="button" class="result-button"
+                    (click)="selectAuthor(author) + modal.close()">{{author.firstName}} {{author.lastName}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </article>
+
+        <p></p>
+
+        <article class="modal-form-container">
+          <h5 style="text-align: center;">Créer un(e) auteur(e)</h5>
+          <form (ngSubmit)="onCreateAuthorSubmit()">
+            <div class="form-group">
+              <label>Prénom:</label>
+              <input class="form-control" type="text" name="firstName" [(ngModel)]="newAuthor.firstName"
+                (ngModelChange)="validateCreateAuthorFirstName()">
+              <p class="error" *ngIf="authorFirstName != null">{{authorFirstName}}</p>
+            </div>
+
+            <div class="form-group">
+              <label>Nom:</label>
+              <input class="form-control" type="text" name="lastName" [(ngModel)]="newAuthor.lastName"
+                (ngModelChange)="validateCreateAuthorLastName()">
+              <p class="error" *ngIf="authorLastName != null">{{authorLastName}}</p>
+            </div>
+
+            <button type="submit" style="width: 50%; min-width: 10em; margin: auto;"
+              (click)="this.isNewAuthorValid() && modal.close()">Créer</button>
+          </form>
+        </article>
+
+      </section>
+    </ng-template>
+
+    <!-- Modal pour afficher le formulaire d'ajout d'un genre -->
+    <ng-template #genreTemplate let-modal>
+
+      <div type="button" class="btn btn-outline-danger" style="position: absolute; right: 0; aspect-ratio: 1 / 1; border-top-left-radius: 0;
+        border-bottom-right-radius: 0;" (click)="modal.close()">
+        <i class="fa-solid fa-xmark"></i>
+      </div>
+
+      <section class="container row mx-auto p-5">
+        <article class="modal-form-container">
+          <h5 style="text-align: center;">Trouver un genre</h5>
+          <form>
+            <div class="form-group">
+              <label>Recherche:</label>
+              <input name="genreSearchField" [(ngModel)]="genreSearchField" class="form-control" type="search"
+                placeholder="Titre du genre" autocomplete="off" aria-label="Search"
+                (ngModelChange)="searchGenres()">
+              <div class="resultsBox">
+                <div *ngFor="let genre of foundGenres" class="result">
+                  <button type="button" class="result-button"
+                    (click)="selectGenre(genre) + modal.close()">{{genre.name}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </article>
+
+        <p></p>
+        
+        <article class="modal-form-container">
+          <h5 style="text-align: center;">Créer un genre</h5>
+          <form (ngSubmit)="onCreateGenreSubmit()">
+  
+            <div class="form-group">
+              <label for="genreName">Nom du genre:</label>
+              <input class="form-control" type="text" name="genreName" [(ngModel)]="newGenre.name"
+                (ngModelChange)="validateCreateGenre()">
+              <p class="error" *ngIf="genreName != null">{{genreName}}</p>
+            </div>
+  
+            <button type="submit" (click)="this.isNewGenreValid() && modal.close()"
+              style="width: 50%; min-width: 10em; margin: auto;">Créer</button>
+          </form>
+        </article>
+      </section>
+    </ng-template>
 
     <div class="d-flex flex-column bg"
       style="position: fixed; z-index: 999; bottom: 0; left: 0; width: 13em; padding-bottom: 1em;">

@@ -19,8 +19,11 @@ export class CreateBookComponent {
   authors: Author[] = [];
   genres: Genre[] = [];
   foundAuthors: Author[] = [];
+  foundGenres: Genre[] = [];
   authorSearchField: string = "";
+  genreSearchField: string = "";
   selectedAuthor: string = "Fournir auteur";
+  selectedGenre: string = "Fournir genre";
 
   selectedImage: any;
   formData = new FormData();
@@ -351,6 +354,8 @@ export class CreateBookComponent {
           this.book.idAuthor = response.idAuthor;
           this.selectedAuthor = `${response.firstName} ${response.lastName}`;
           this.newAuthor = new Author();
+          this.foundAuthors = [];
+          this.authorSearchField = "";
         },
         (error) => {
           console.error('Creation failed:', error);
@@ -368,6 +373,10 @@ export class CreateBookComponent {
         (response) => {
           this.genres.push(response);
           this.book.idGenre = response.idGenre;
+          this.selectedGenre = this.newGenre.name;
+          this.foundGenres = [];
+          this.genreSearchField = "";
+          this.newGenre = new Genre();
         },
         (error) => {
           console.error('Creation failed:', error);
@@ -384,6 +393,7 @@ export class CreateBookComponent {
     this.foundAuthors = [];
     this.book.idAuthor = author.idAuthor;
     this.selectedAuthor = `${author.firstName} ${author.lastName}`;
+    this.newAuthor = new Author();
     this.validateIdAuthor();
   }
 
@@ -397,6 +407,32 @@ export class CreateBookComponent {
         if (author.firstName.toUpperCase().includes(this.authorSearchField.toUpperCase()) ||
           author.lastName.toUpperCase().includes(this.authorSearchField.toUpperCase())) {
           this.foundAuthors.push(author);
+        }
+      });
+    }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  selectGenre(genre: Genre) {
+    this.genreSearchField = "";
+    this.foundGenres = [];
+    this.book.idGenre = genre.idGenre;
+    this.selectedGenre = genre.name;
+    this.newGenre = new Genre();
+    this.validateIdGenre();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  searchGenres() {
+    this.foundGenres = [];
+    if (this.genreSearchField.length > 0) {
+      this.genres.forEach(genre => {
+        if (genre.name.toUpperCase().includes(this.genreSearchField.toUpperCase())) {
+          this.foundGenres.push(genre);
         }
       });
     }
