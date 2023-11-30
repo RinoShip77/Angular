@@ -25,6 +25,7 @@ export class AdminInventoryComponent {
 
   isChecked = false;
   colorSwitch: boolean = false;
+  loaded = false;
 
   @Output() switchTheme = new EventEmitter<any>();
 
@@ -38,6 +39,16 @@ export class AdminInventoryComponent {
     }
 
     this.retrieveBooks();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  verifyIfResultFound() {
+    if (this.displayedBooks.length == 0 && this.loaded) {
+      return true;
+    }
+    return false;
   }
 
   //---------------------------------
@@ -169,7 +180,8 @@ export class AdminInventoryComponent {
      this.electrolibService.getBooks().subscribe(
        books => {
          this.books = books;
-         this.displayedBooks =  books;
+         this.displayedBooks = books;
+         this.loaded = true;
        }
      );
   }

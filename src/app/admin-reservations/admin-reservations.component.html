@@ -127,6 +127,11 @@
                     </tr>
                 </tbody>
             </table>
+
+            <h5 *ngIf="verifyIfResultFound()" style="padding: 1em; text-align: center;">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                Aucun résultat ne correspond à vos critères de recherche
+            </h5>
         </section>
 
         <!-- Modal pour afficher les détails d'un livre -->

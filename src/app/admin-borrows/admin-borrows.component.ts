@@ -28,6 +28,7 @@ export class AdminBorrowsComponent {
   isChecked: Boolean = true;
   isCheckedLates: Boolean = false;
   desc: boolean = true;
+  loaded = false;
   colorSwitch: boolean = false;
 
   @Output() switchTheme = new EventEmitter<any>();
@@ -42,6 +43,16 @@ export class AdminBorrowsComponent {
     }
 
     this.retrieveBorrows();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  verifyIfResultFound() {
+    if (this.displayedBorrows.length == 0 && this.loaded) {
+      return true;
+    }
+    return false;
   }
 
   //---------------------------------
@@ -160,6 +171,7 @@ export class AdminBorrowsComponent {
       borrows => {
         this.borrows = borrows;
         this.showBorrowsCriteria();
+        this.loaded = true;
       }
     );
   }

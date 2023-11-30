@@ -60,7 +60,7 @@
           <!-- Sélection du livre -->
           <article style="margin-bottom: 1em;">
             <input name="bookSearchField" [(ngModel)]="bookSearchField" class="form-control" type="search"
-              placeholder="Titre du livre" autocomplete="off" aria-label="Search" (ngModelChange)="searchBooks()">
+              placeholder="Recherche par titre de livre" autocomplete="off" aria-label="Search" (ngModelChange)="searchBooks()">
             <div class="resultsBox">
               <div *ngFor="let book of foundBooks" class="result">
                 <button type="button" class="result-button" (click)="selectBook(book)">{{book.title}}</button>
@@ -71,7 +71,7 @@
           <!-- Sélection du membre -->
           <article style="margin-bottom: 1em;">
             <input name="userSearchField" [(ngModel)]="userSearchField" class="form-control" type="search"
-              placeholder="Numéro de membre" autocomplete="off" aria-label="Search" (ngModelChange)="searchUsers()">
+              placeholder="Recherche par numéro de membre" autocomplete="off" aria-label="Search" (ngModelChange)="searchUsers()">
             <div class="resultsBox">
               <div *ngFor="let user of foundUsers" class="result">
                 <button type="button" class="result-button" (click)="selectUser(user)">
@@ -109,9 +109,11 @@
               </span>
             </article>
 
+            <hr>
+
             <!-- Membre sélectionné -->
             <article>
-              <span>membre sélectionné:</span>
+              <span>Membre sélectionné:</span>
               <label>{{selectedUser.memberNumber}} {{selectedUser.firstName}} {{selectedUser.lastName}}</label>
               <span *ngIf="userError" class="error-message">
                 <i class="fa-solid fa-triangle-exclamation"></i>

@@ -25,6 +25,7 @@ export class AdminReservationsComponent {
   selectedSearchBy: String = "title";
   selectedSortBy: String = "ascending";
   desc: boolean = true;
+  loaded = false;
 
   isChecked = true;
   colorSwitch: boolean = false;
@@ -41,6 +42,16 @@ export class AdminReservationsComponent {
     }
 
     this.retrieveReservations();
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  verifyIfResultFound() {
+    if (this.displayedReservations.length == 0 && this.loaded) {
+      return true;
+    }
+    return false;
   }
 
   //---------------------------------
@@ -101,6 +112,7 @@ export class AdminReservationsComponent {
       reservations => {
         this.reservations = reservations;
         this.showReservationsCriteria();
+        this.loaded = true;
       }
     );
   }
