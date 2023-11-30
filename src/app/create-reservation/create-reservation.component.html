@@ -1,3 +1,94 @@
+<!-- Loading animation -->
+<article *ngIf="loading" style="position: fixed; right: 0; top: 0; width: calc(100% - 13em); height: 100%; z-index: 999; 
+background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
+  <div style="text-align: center;">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+      style="margin: auto; background: none; display: block; shape-rendering: auto;" width="200px" height="200px"
+      viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+      <g transform="translate(80,50)">
+        <g transform="rotate(0)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="1">
+            <animateTransform attributeName="transform" type="scale" begin="-0.875s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.875s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(71.21320343559643,71.21320343559643)">
+        <g transform="rotate(45)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.875">
+            <animateTransform attributeName="transform" type="scale" begin="-0.75s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.75s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(50,80)">
+        <g transform="rotate(90)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.75">
+            <animateTransform attributeName="transform" type="scale" begin="-0.625s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.625s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(28.786796564403577,71.21320343559643)">
+        <g transform="rotate(135)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.625">
+            <animateTransform attributeName="transform" type="scale" begin="-0.5s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.5s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(20,50.00000000000001)">
+        <g transform="rotate(180)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.5">
+            <animateTransform attributeName="transform" type="scale" begin="-0.375s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.375s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(28.78679656440357,28.786796564403577)">
+        <g transform="rotate(225)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.375">
+            <animateTransform attributeName="transform" type="scale" begin="-0.25s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.25s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(49.99999999999999,20)">
+        <g transform="rotate(270)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.25">
+            <animateTransform attributeName="transform" type="scale" begin="-0.125s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="-0.125s"></animate>
+          </circle>
+        </g>
+      </g>
+      <g transform="translate(71.21320343559643,28.78679656440357)">
+        <g transform="rotate(315)">
+          <circle cx="0" cy="0" r="6" fill="#3f48cc" fill-opacity="0.125">
+            <animateTransform attributeName="transform" type="scale" begin="0s" values="1.5 1.5;1 1" keyTimes="0;1"
+              dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0"
+              begin="0s"></animate>
+          </circle>
+        </g>
+      </g>
+    </svg>
+  </div>
+</article>
+
 <section class="admin-container bg-body">
 
   <section class="section">
@@ -5,55 +96,6 @@
       <form>
 
         <h5 style="text-align: center;">Créer une réservation</h5>
-
-        <!-- <section class="row" style="padding: 1em;">
-          <article class="col-lg-6">
-            <input name="bookSearchField" [(ngModel)]="bookSearchField" class="form-control" type="search"
-              placeholder="Titre du livre" autocomplete="off" aria-label="Search" (ngModelChange)="searchBooks()">
-            <div class="resultsBox">
-              <div *ngFor="let book of foundBooks" class="result">
-                <button type="button" class="result-button" (click)="selectBook(book)">{{book.title}}</button>
-              </div>
-            </div>
-
-            <div style="margin-top: 1em;">
-              <span>Livre sélectionné:</span>
-              <div *ngFor="let book of selectedBooks" style="display: flex;">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <button class="btn btn-danger" style="height: min-content;"
-                          (click)="removeSelectedBook(book)">x</button>
-                      </td>
-                      <td>
-                        <label>{{book.title}}</label>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-            </div>
-          </article>
-
-          <article class="col-lg-6">
-            <input name="userSearchField" [(ngModel)]="userSearchField" class="form-control" type="search"
-              placeholder="Numéro de membre" autocomplete="off" aria-label="Search" (ngModelChange)="searchUsers()">
-            <div class="resultsBox">
-              <div *ngFor="let user of foundUsers" class="result">
-                <button type="button" class="result-button" (click)="selectUser(user)">
-                  {{user.memberNumber}} {{user.firstName}} {{user.lastName}}
-                </button>
-              </div>
-            </div>
-
-            <div style="margin-top: 1em;">
-              <span>membre sélectionné:</span>
-              <label>{{selectedUser.memberNumber}} {{selectedUser.firstName}} {{selectedUser.lastName}}</label>
-            </div>
-          </article>
-        </section> -->
 
         <section style="padding: 1em;">
 

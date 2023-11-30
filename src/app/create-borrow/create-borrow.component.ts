@@ -7,6 +7,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Book } from '../model/Book';
 import { User } from '../model/User';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-create-borrow',
@@ -17,6 +18,7 @@ export class CreateBorrowComponent {
 
   books: Book[] = [];
   users: User[] = [];
+  loading = false;
 
   bookError: Boolean = false;
   userError: Boolean = false;
@@ -170,19 +172,22 @@ export class CreateBorrowComponent {
   // Envoie les données du formulaire au serveur Symfony
   //-------------------------------------------------------
   onSubmit() {
-    if (this.selectedBooks.length > 0 && this.selectedUser.idUser != 0) {
-      this.selectedBooks.forEach(book => {
-        this.electrolibService.createBorrow(this.selectedUser.idUser, book.idBook).subscribe(
-          (response) => {
-              console.log('Borrow created successfully!', response);
-              this.changeTab('borrows');
-              this.router.navigate(["/adminBorrows"]);
-          },
-          (error) => {
-            console.error('Creation failed:', error);
-          }
-        );
-      });
+    if (this.selectedBooks.length > 0 && this.selectedUser.idUser !== 0) {
+      this.loading = true;
+      const borrowObservables = this.selectedBooks.map(book =>
+        this.electrolibService.createBorrow(this.selectedUser.idUser, book.idBook)
+      );
+  
+      forkJoin(borrowObservables).subscribe(
+        (responses) => {
+          console.log('Borrow created successfully', responses);
+          this.changeTab('borrows');
+          this.router.navigate(['/adminBorrows']);
+        },
+        (error) => {
+          console.error('Creation failed:', error);
+        }
+      );
     }
   }
 

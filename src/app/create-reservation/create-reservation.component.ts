@@ -5,6 +5,7 @@ import { ElectrolibService } from '../electrolib.service';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-create-reservation',
@@ -14,6 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class CreateReservationComponent {
   books: Book[] = [];
   users: User[] = [];
+  loading = false;
 
   foundBooks: Book[] = [];
   foundUsers: User[] = [];
@@ -167,19 +169,22 @@ export class CreateReservationComponent {
   // Envoie les données du formulaire au serveur Symfony
   //-------------------------------------------------------
   onSubmit() {
-    if (this.selectedBooks.length > 0 && this.selectedUser.idUser != 0) {
-      this.selectedBooks.forEach(book => {
-        this.electrolibService.createReservation(this.selectedUser.idUser, book.idBook).subscribe(
-          (response) => {
-              console.log('Reservation created successfully!', response);
-              this.changeTab('reservations');
-              this.router.navigate(["/adminReservations"]);
-          },
-          (error) => {
-            console.error('Creation failed:', error);
-          }
-        );
-      });
+    if (this.selectedBooks.length > 0 && this.selectedUser.idUser !== 0) {
+      this.loading = true;
+      const reservationObservables = this.selectedBooks.map(book =>
+        this.electrolibService.createReservation(this.selectedUser.idUser, book.idBook)
+      );
+  
+      forkJoin(reservationObservables).subscribe(
+        (responses) => {
+          console.log('Reservation created successfully', responses);
+          this.changeTab('reservations');
+          this.router.navigate(["/adminReservations"]);
+        },
+        (error) => {
+          console.error('Creation failed:', error);
+        }
+      );
     }
   }
 
