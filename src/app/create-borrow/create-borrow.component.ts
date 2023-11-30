@@ -190,22 +190,29 @@ export class CreateBorrowComponent {
         (responses) => {
           console.log('Borrow created successfully!', responses);
 
-          // Supprime les réservations faites sur chaque livre
-          const cancelObservables = this.reservationsToCancel.map(reservation =>
-            this.electrolibService.cancelReservation(reservation)
-          );
+          if (this.reservationsToCancel.length > 0) {
+            // Supprime les réservations faites sur chaque livre
+            const cancelObservables = this.reservationsToCancel.map(reservation =>
+              this.electrolibService.cancelReservation(reservation)
+            );
 
-          // Une fois les réservations supprimées
-          forkJoin(cancelObservables).subscribe(
-            (cancelResponses) => {
-              console.log('Reservation(s) cancelled successfully!', cancelResponses);
-              this.changeTab('borrows');
-              this.router.navigate(['/adminBorrows']);
-            },
-            (cancelError) => {
-              console.error('Cancellation failed:', cancelError);
-            }
-          );
+            // Une fois les réservations supprimées
+            forkJoin(cancelObservables).subscribe(
+              (cancelResponses) => {
+                console.log('Reservation(s) cancelled successfully!', cancelResponses);
+                this.changeTab('borrows');
+                this.router.navigate(['/adminBorrows']);
+              },
+              (cancelError) => {
+                console.error('Cancellation failed:', cancelError);
+              }
+            );
+          }
+          else {
+            this.changeTab('borrows');
+            this.router.navigate(['/adminBorrows']);
+          }
+
         },
         (error) => {
           console.error('Creation failed:', error);
@@ -250,7 +257,7 @@ export class CreateBorrowComponent {
                 // Si le livre est réservé par un autre membre
                 if (reservation.user.memberNumber != this.selectedUser.memberNumber) {
                   this.unavailableBooks.push(reservation.book);
-                } 
+                }
                 // Si le livre est réservé par le membre qui veut faire l'emprunt
                 else if (reservation.user.memberNumber == this.selectedUser.memberNumber) {
                   this.reservationsToCancel.push(reservation);
@@ -258,7 +265,7 @@ export class CreateBorrowComponent {
               });
             }
           });
-          
+
           if (this.unavailableBooks.length > 0) {
             return true;
           }
