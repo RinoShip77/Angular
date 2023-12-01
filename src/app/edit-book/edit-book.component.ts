@@ -243,7 +243,7 @@ export class EditBookComponent {
   validateISBN() {
     if (!ISBN_REGEX.test(this.book.isbn)) {
       
-      this.errors["isbn"] = `L'ISBN doit un nombre de 13 chiffres. Contient actuellement ${this.book.isbn.toString().length} chiffres.`;
+      this.errors["isbn"] = `L'ISBN doit contenir un nombre de 13 chiffres. Contient actuellement ${this.book.isbn.toString().length} chiffres.`;
     } else {
       this.errors["isbn"] = null;
     }
