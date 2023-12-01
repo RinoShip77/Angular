@@ -141,8 +141,7 @@
       </svg>
     </div>
     <ng-template #loadedBlock>
-      <div class="shadow-lg rounded-2" *ngIf="displayedBooks.length > 0; else emptyBlock"
-        [ngSwitch]="inventoryDisplay">
+      <div class="shadow-lg rounded-2" *ngIf="displayedBooks.length > 0; else emptyBlock" [ngSwitch]="inventoryDisplay">
         <div *ngSwitchCase="'table'">
           <div class="row row-cols-2 g-1">
             <a *ngFor="let book of displayedBooks" [routerLink]="['/detailLivre', book.idBook]">
@@ -191,10 +190,6 @@
                         {{book.status.status}}</div>
                     </div>
                   </div>
-                </div>
-                <div class="text-center py-3">
-                  Date d'ajout :<br>
-                  {{book.addedDate}}
                 </div>
               </div>
             </a>
