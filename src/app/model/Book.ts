@@ -29,6 +29,9 @@ export class Book {
   isRecommended: Boolean = false;
   addedDate: string = '';
 
+  // Nécessaire pour les messages d'erreur
+  warning: boolean = false;
+
   formatedPublishedDate()
   {
     return this.publishedDate.split(" ")[0];

@@ -235,6 +235,9 @@ export class CreateBorrowComponent {
     this.verifySelectedBook();
     this.verifySelectedUser();
 
+    this.unavailableBooks = [];
+    this.reservationsToCancel = [];
+
     if (this.selectedUser.idUser != 0 && this.selectedBooks.length > 0) {
 
       // Récupère les réservations en cours sur chaque livre
@@ -245,32 +248,32 @@ export class CreateBorrowComponent {
       // Une fois les réservations récupérées du serveur
       forkJoin(verificationObservables).subscribe(
         (responses) => {
+
+          // Les réservations de chaque livre
           responses.forEach(reservations => {
 
             // Si le livre est réservé
             if (reservations.length > 0) {
-              reservations.forEach(reservation => {
+              reservations.sort((a, b) => (a.reservationDate > b.reservationDate ? 1 : -1));
 
-                // Si le livre est réservé par un autre membre
-                if (reservation.user.memberNumber != this.selectedUser.memberNumber) {
-                  this.unavailableBooks.push(reservation.book);
+              // Si le premier livre de la liste est réservé par le membre sélectionné
+              if (reservations[0].user.idUser === this.selectedUser.idUser) {
+                this.reservationsToCancel.push(reservations[0]);
+              }
+              else {
+                this.unavailableBooks.push(reservations[0].book);
+                const book = this.selectedBooks.find(book => book.idBook === reservations[0].book.idBook);
+                if (book) {
+                  book.warning = true;
                 }
-                // Si le livre est réservé par le membre qui veut faire l'emprunt
-                else if (reservation.user.memberNumber == this.selectedUser.memberNumber) {
-                  this.reservationsToCancel.push(reservation);
-                }
-
-                
-              });
+              }
             }
           });
 
-          if (this.unavailableBooks.length > 0) {
-            return true;
+          // Ouvre la fenêtre modale de confirmation de l'emprunt si aucun conflit
+          if (this.unavailableBooks.length == 0) {
+            this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
           }
-
-          this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
-          return true;
         },
         (error) => {
           console.error('Creation failed:', error);
