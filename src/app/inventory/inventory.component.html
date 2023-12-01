@@ -83,7 +83,7 @@
       <input name="searchInp" [(ngModel)]="searchInp" (ngModelChange)="applySearch(searchInp)" (keyup)="onKeyup($event)"
         class="form-control w-25 ms-2 my-auto me-2" type="search" placeholder="Rechercher ...">
     </div>
-    <app-recommended cl></app-recommended>
+    <app-recommended></app-recommended>
     <h2 class="mt-5">Inventaire</h2>
     <div *ngIf="loading; else loadedBlock">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
