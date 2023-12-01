@@ -105,7 +105,8 @@
                         <td>{{reservation.user.memberNumber}} {{reservation.idUser}}</td>
                         <td>{{reservation.reservationDate}}</td>
                         <td>{{getBorrowDueDate(reservation)}}</td>
-                        <td style="font-weight: bold; color: crimson;">{{checkIfLate(reservation)}}</td>
+                        <td style="font-weight: bold; color: crimson; white-space: nowrap;
+                        overflow: hidden;">{{checkIfLate(reservation)}}</td>
                         <td>
                             <article style="display: flex;">
                                 <button class="btn btn-action" (click)="openAbout(about, reservation.book.idBook)"
