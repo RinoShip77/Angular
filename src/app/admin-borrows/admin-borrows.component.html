@@ -118,7 +118,8 @@
                         <td>{{borrow.borrowedDate}}</td>
                         <td>{{borrow.dueDate}}</td>
                         <td *ngIf="!isChecked">{{borrow.returnedDate}}</td>
-                        <td style="font-weight: bold; color: crimson;">{{checkIfLate(borrow)}}</td>
+                        <td style="font-weight: bold; color: crimson; white-space: nowrap;
+                        overflow: hidden;">{{checkIfLate(borrow)}}</td>
                         <td>
                             <article style="display: flex;">
                                 <button class="btn btn-action" (click)="openAbout(about, borrow.book.idBook)"
