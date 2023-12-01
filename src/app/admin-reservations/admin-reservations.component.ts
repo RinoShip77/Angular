@@ -6,6 +6,7 @@ import { Book } from '../model/Book';
 import { getURLBookCover } from '../util';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
+import { Genre } from '../model/Genre';
 
 @Component({
   selector: 'app-admin-reservations',
@@ -20,6 +21,7 @@ export class AdminReservationsComponent {
   book: Book = new Book();
   BorrowReturnedMessage: string = "Retourné";
   reservation: Reservation = new Reservation();
+  genres: Genre[] = [];
 
   searchField: string = "";
   selectedSearchBy: String = "title";
@@ -42,6 +44,7 @@ export class AdminReservationsComponent {
     }
 
     this.retrieveReservations();
+    this.retrieveGenres();
   }
 
   //-------------------------------------------------------
@@ -349,5 +352,24 @@ export class AdminReservationsComponent {
   //-------------------------------------------------------
   changeTab(tab: string) {
     this.dataService.changeTab(tab);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  retrieveGenres() {
+    this.electrolibService.getGenres().subscribe(
+      genres => {
+        this.genres = genres;
+      }
+    );
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getGenre(idGenre: number) {
+    const genre = this.genres.find(genre => genre.idGenre === idGenre);
+    return genre?.name;
   }
 }

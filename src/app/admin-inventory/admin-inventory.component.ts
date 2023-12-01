@@ -5,6 +5,7 @@ import { Book } from '../model/Book';
 import { DataService } from '../data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getURLBookCover } from '../util';
+import { Genre } from '../model/Genre';
 
 @Component({
   selector: 'app-admin-inventory',
@@ -22,6 +23,7 @@ export class AdminInventoryComponent {
   selectedSortBy: String = "ascending";
   book: Book = new Book();
   desc: boolean = true;
+  genres: Genre[] = [];
 
   isChecked = false;
   colorSwitch: boolean = false;
@@ -39,6 +41,7 @@ export class AdminInventoryComponent {
     }
 
     this.retrieveBooks();
+    this.retrieveGenres();
   }
 
   //-------------------------------------------------------
@@ -248,5 +251,24 @@ export class AdminInventoryComponent {
       });
       this.displayedBooks = tempBooks;
     }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  retrieveGenres() {
+    this.electrolibService.getGenres().subscribe(
+      genres => {
+        this.genres = genres;
+      }
+    );
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getGenre(idGenre: number) {
+    const genre = this.genres.find(genre => genre.idGenre === idGenre);
+    return genre?.name;
   }
 }

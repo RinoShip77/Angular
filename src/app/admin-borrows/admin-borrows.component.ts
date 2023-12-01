@@ -20,6 +20,7 @@ export class AdminBorrowsComponent {
   displayedBorrows: Borrow[] = [];
   book: Book = new Book();
   borrow: Borrow = new Borrow();
+  genres: Genre[] = [];
 
   searchField: string = "";
   selectedSearchBy: String = "title";
@@ -43,6 +44,7 @@ export class AdminBorrowsComponent {
     }
 
     this.retrieveBorrows();
+    this.retrieveGenres();
   }
 
   //-------------------------------------------------------
@@ -342,6 +344,25 @@ export class AdminBorrowsComponent {
   //-------------------------------------------------------
   changeTab(tab: string) {
     this.dataService.changeTab(tab);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  retrieveGenres() {
+    this.electrolibService.getGenres().subscribe(
+      genres => {
+        this.genres = genres;
+      }
+    );
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getGenre(idGenre: number) {
+    const genre = this.genres.find(genre => genre.idGenre === idGenre);
+    return genre?.name;
   }
 
 }
