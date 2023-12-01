@@ -132,10 +132,9 @@ background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; al
                   <tbody>
                     <tr>
                       <td>
-                        <button class="btn btn-danger" style="height: min-content; aspect-ratio : 1 / 1; padding: 4px;"
-                          (click)="removeSelectedBook(book)" title="Retirer « {{book.title}} »">
-                          <i class="fa-regular fa-circle-xmark fa-xl"></i>
-                        </button>
+                        <i class="fa-solid fa-circle-xmark"
+                          style="color: orange; cursor: pointer;" (click)="removeSelectedBook(book)" 
+                          title="Retirer « {{book.title}} »"></i>
                       </td>
                       <td>
                         <label style="margin-left: 8px;">{{book.title}}</label>

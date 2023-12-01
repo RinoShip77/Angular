@@ -81,25 +81,28 @@ export class DetailLivreComponent {
 
   createBorrow() {
     if (this.user) {
-      
+
       // Récupère les réservations en cours sur le livre
       this.electrolibSrv.getBookReservations(this.book.idBook).subscribe(
         (reservations) => {
           if (reservations.length > 0) {
-            reservations.forEach(reservation => {
-              
-              // Si le livre est réservé par un autre membre
-              if (reservation.user.memberNumber != this.user?.memberNumber) {
+
+            // Si le livre est réservé
+            if (reservations.length > 0) {
+              reservations.sort((a, b) => (a.reservationDate > b.reservationDate ? 1 : -1));
+
+              // Si le premier livre de la liste est réservé par le membre sélectionné
+              if (reservations[0].user.idUser === this.user?.idUser) {
+                this.reservationToCancel = reservations[0];
+              }
+              else {
                 this.bookIsReserved = true;
               }
-              // Si le livre est réservé par le membre qui veut faire l'emprunt
-              else if (reservation.user.memberNumber == this.user?.memberNumber) {
-                this.reservationToCancel = reservation;
-              }
-            });
+            }
           }
+          
           if (this.user && !this.bookIsReserved) {
-            
+
             // Crée l'emprunt
             this.electrolibSrv.createBorrow(this.user.idUser, this.book.idBook).subscribe(
               receivedBorrow => {
@@ -110,7 +113,7 @@ export class DetailLivreComponent {
                   console.log('Borrow created successfully!', receivedBorrow);
                   this.isAvailable = false;
                   this.isBookBorrowedByCurrentUser = true;
-                  
+
                   // Supprime la réservation
                   this.electrolibSrv.cancelReservation(this.reservationToCancel).subscribe(
                     (cancelResponses) => {

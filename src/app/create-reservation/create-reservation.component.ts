@@ -201,6 +201,7 @@ export class CreateReservationComponent {
   openConfirmCreateBorrow(content: any) {
     this.verifySelectedBook();
     this.verifySelectedUser();
+
     if (this.selectedUser.idUser != 0 && this.selectedBooks.length > 0) {
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
     }
