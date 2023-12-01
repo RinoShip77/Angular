@@ -95,38 +95,40 @@ background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; al
     <article class="article">
       <form>
 
-        <h5 style="text-align: center;">Créer une réservation</h5>
-
         <section style="padding: 1em;">
 
+          <h4 style="text-align: center;">Sélection des informations</h4>
           <!-- Sélection du livre -->
+          <label>Livre</label>
           <article style="margin-bottom: 1em;">
             <input name="bookSearchField" [(ngModel)]="bookSearchField" class="form-control" type="search"
               placeholder="Recherche par titre de livre" autocomplete="off" aria-label="Search" (ngModelChange)="searchBooks()">
             <div class="resultsBox">
               <div *ngFor="let book of foundBooks" class="result">
-                <button type="button" class="result-button" (click)="selectBook(book)">{{book.title}}</button>
+                <button type="button" class="result-button" title="Ajouter ce livre" (click)="selectBook(book)">{{book.title}}</button>
               </div>
             </div>
           </article>
 
           <!-- Sélection du membre -->
+          <label>Membre</label>
           <article style="margin-bottom: 1em;">
             <input name="userSearchField" [(ngModel)]="userSearchField" class="form-control" type="search"
               placeholder="Recherche par numéro de membre" autocomplete="off" aria-label="Search" (ngModelChange)="searchUsers()">
             <div class="resultsBox">
               <div *ngFor="let user of foundUsers" class="result">
-                <button type="button" class="result-button" (click)="selectUser(user)">
+                <button type="button" title="Sélectionner ce membre" class="result-button" (click)="selectUser(user)">
                   {{user.memberNumber}} {{user.firstName}} {{user.lastName}}
                 </button>
               </div>
             </div>
           </article>
 
+          <h4 style="text-align: center; margin-top: 2em;">Contenu de la réservation</h4>
           <section style="padding: 1em; border: 1px solid lightgrey; border-radius: 6px;">
             <!-- Livre(s) sélectionné(s) -->
             <article style="margin-bottom: 1em;">
-              <span>Livre(s) sélectionné(s):</span>
+              <span>Livre(s) sélectionné(s) :</span>
               <div *ngFor="let book of selectedBooks" style="display: flex;">
                 <table>
                   <tbody>
@@ -154,7 +156,7 @@ background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; al
 
             <!-- Membre sélectionné -->
             <article>
-              <span>Membre sélectionné:</span>
+              <span>Membre sélectionné :</span>
               <label>{{selectedUser.memberNumber}} {{selectedUser.firstName}} {{selectedUser.lastName}}</label>
               <span *ngIf="userError" class="error-message">
                 <i class="fa-solid fa-triangle-exclamation"></i>

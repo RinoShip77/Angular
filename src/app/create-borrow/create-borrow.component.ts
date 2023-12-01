@@ -239,6 +239,7 @@ export class CreateBorrowComponent {
     this.reservationsToCancel = [];
 
     if (this.selectedUser.idUser != 0 && this.selectedBooks.length > 0) {
+      this.resetWarnings()
 
       // Récupère les réservations en cours sur chaque livre
       const verificationObservables = this.selectedBooks.map(book =>
@@ -280,5 +281,14 @@ export class CreateBorrowComponent {
         }
       );
     }
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  resetWarnings() {
+    this.selectedBooks.forEach( book => {
+      book.warning = false;
+    })
   }
 }
