@@ -458,13 +458,12 @@ export class ElectrolibService {
     const params = new HttpParams({
       fromObject: {
         action: action,
-        pictureNumber: object?.pictureNumber,
         newPassword: object?.newPassword,
         email: object?.email,
         firstName: object?.firstName,
         lastName: object?.lastName,
         address: object?.address,
-        postalCode: object?.postalCode,
+        postalCode: object.postalCode,
         phoneNumber: object?.phoneNumber
       }
     });
