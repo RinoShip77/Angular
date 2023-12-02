@@ -14,22 +14,96 @@
       <section class="login-frame bg-body-secondary">
         <label class="login-title">Connexion</label>
         <article style="width: 80%; margin: auto; margin-bottom: 30px;">
-          <label class="form-label fw-bold">Numéro de membre</label>
+          
+          <label class="form-label fw-bold" [ngStyle]="{'color': error ? 'red' : ''}">Numéro de membre</label>
           <input [(ngModel)]="temporaryUser.memberNumber" name="memberNumber" placeholder="Votre numéro de membre"
-            type="text" class="form-control">
-          <label class="form-label fw-bold">Mot de passe</label>
+            type="text" class="form-control" (ngModelChange)="resetError()">
+          
+            <label class="form-label fw-bold" [ngStyle]="{'color': error ? 'red' : ''}">Mot de passe</label>
           <input [(ngModel)]="temporaryUser.password" name="pwd" placeholder="Votre mot de passe" type="password"
-            class="form-control">
+            class="form-control" (ngModelChange)="resetError()">
+            <label *ngIf="error || otherError" style="color: red; width: 100%; text-align: center; font-weight: bold;">
+              {{errorMessage}}
+            </label>
         </article>
-        <!-- <a href="#">Mot de passe oublié</a> -->
+        
         <div style="display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;">
           <form (ngSubmit)="connect('credentials')" style="margin-top: 10px;">
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-unlock-keyhole me-2"></i>
-              Se connecter
+            <button type="submit" class="btn btn-primary" style="width: 10em;">
+              <span *ngIf="!loading">
+                <i class="fas fa-unlock-keyhole me-2"></i>
+                Se connecter
+              </span>
+
+              <svg *ngIf="loading" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="24px" height="24px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                <g transform="translate(84,50)">
+                <g transform="rotate(0)">
+                <circle cx="0" cy="0" r="7" fill="#ffffff" fill-opacity="1">
+                  <animateTransform attributeName="transform" type="scale" begin="-0.8888888888888888s" values="1.31 1.31;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.8888888888888888s"></animate>
+                </circle>
+                </g>
+                </g><g transform="translate(76.04551106604525,71.85477872934234)">
+                <g transform="rotate(40)">
+                <circle cx="0" cy="0" r="7" fill="#ffffff" fill-opacity="0.8888888888888888">
+                  <animateTransform attributeName="transform" type="scale" begin="-0.7777777777777778s" values="1.31 1.31;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.7777777777777778s"></animate>
+                </circle>
+                </g>
+                </g><g transform="translate(55.90403804067564,83.48346360241507)">
+                <g transform="rotate(80)">
+                <circle cx="0" cy="0" r="7" fill="#ffffff" fill-opacity="0.7777777777777778">
+                  <animateTransform attributeName="transform" type="scale" begin="-0.6666666666666666s" values="1.31 1.31;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.6666666666666666s"></animate>
+                </circle>
+                </g>
+                </g><g transform="translate(33.00000000000001,79.44486372867092)">
+                <g transform="rotate(119.99999999999999)">
+                <circle cx="0" cy="0" r="7" fill="#ffffff" fill-opacity="0.6666666666666666">
+                  <animateTransform attributeName="transform" type="scale" begin="-0.5555555555555556s" values="1.31 1.31;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.5555555555555556s"></animate>
+                </circle>
+                </g>
+                </g><g transform="translate(18.050450893279116,61.62868487307274)">
+                <g transform="rotate(160)">
+                <circle cx="0" cy="0" r="7" fill="#ffffff" fill-opacity="0.5555555555555556">
+                  <animateTransform attributeName="transform" type="scale" begin="-0.4444444444444444s" values="1.31 1.31;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.4444444444444444s"></animate>
+                </circle>
+                </g>
+                </g><g transform="translate(18.050450893279113,38.371315126927264)">
+                <g transform="rotate(200)">
+                <circle cx="0" cy="0" r="7" fill="#ffffff" fill-opacity="0.4444444444444444">
+                  <animateTransform attributeName="transform" type="scale" begin="-0.3333333333333333s" values="1.31 1.31;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.3333333333333333s"></animate>
+                </circle>
+                </g>
+                </g><g transform="translate(32.999999999999986,20.555136271329097)">
+                <g transform="rotate(239.99999999999997)">
+                <circle cx="0" cy="0" r="7" fill="#ffffff" fill-opacity="0.3333333333333333">
+                  <animateTransform attributeName="transform" type="scale" begin="-0.2222222222222222s" values="1.31 1.31;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.2222222222222222s"></animate>
+                </circle>
+                </g>
+                </g><g transform="translate(55.904038040675616,16.51653639758492)">
+                <g transform="rotate(280)">
+                <circle cx="0" cy="0" r="7" fill="#ffffff" fill-opacity="0.2222222222222222">
+                  <animateTransform attributeName="transform" type="scale" begin="-0.1111111111111111s" values="1.31 1.31;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.1111111111111111s"></animate>
+                </circle>
+                </g>
+                </g><g transform="translate(76.04551106604524,28.145221270657654)">
+                <g transform="rotate(320)">
+                <circle cx="0" cy="0" r="7" fill="#ffffff" fill-opacity="0.1111111111111111">
+                  <animateTransform attributeName="transform" type="scale" begin="0s" values="1.31 1.31;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                  <animate attributeName="fill-opacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="0s"></animate>
+                </circle>
+                </g>
+                </g>
+              </svg>
             </button>
           </form>
         </div>
@@ -46,100 +120,14 @@
             </button>
           </form>
         </article>
-        <!--
-          <button class="btn btn-warning" (click)="createAccount()">
-            <i class="fas fa-user-plus me-2"></i>
-            Se créer un compte
-          </button>
-          -->
+          
         <div class="subtitle" style="margin-top: 2em;">
           <div class="logo-title-line element"></div>
-          <label class="element" style="width: 8em;">Suivez-nous sur</label>
+          <label class="element" style="width: 10em; font-size: 10px;">Copyright© {{date.getFullYear()}} Electrolib</label>
           <div class="logo-title-line element"></div>
-        </div>
-        <div style="margin-top: 1em;" class="social-logos">
-          <div class="social-logo">
-            <img src="assets/images/logos/facebook-logo.png" class="logo" alt="">
-          </div>
-          <div class="social-logo">
-            <img src="assets/images/logos/twitter-logo.png" class="logo" alt="">
-          </div>
-          <div class="social-logo">
-            <img src="assets/images/logos/instagram-logo.png" class="logo" alt="">
-          </div>
         </div>
       </section>
     </div>
-    <!--
-    <div *ngIf="createAccountVisible">
-      <h4 class="my-5 fs-3 fw-bold">Créer votre compte</h4>
-      <form (ngSubmit)="validateCreateAccount()" class="w-75 mx-auto">
-        <div class="row">
-          <div class="col-6">
-            <div class="input-group mb-3">
-              <span class="input-group-text">
-                <i class="fas fa-circle-exclamation fs-4 text-danger" ngbTooltip="Ce champ est obligatoire"></i>
-              </span>
-              <div class="form-floating">
-                <input name="email" type="email" class="form-control" id="emailInp" placeholder=""
-                  [(ngModel)]="temporaryUser.email">
-                <label for="emailInp">Adresse courriel</label>
-              </div>
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text">
-                <i class="fas fa-circle-exclamation fs-4 text-danger" ngbTooltip="Ce champ est obligatoire"></i>
-              </span>
-              <div class="form-floating">
-                <input name="password" type="password" class="form-control" id="passwordInp" placeholder=""
-                  [(ngModel)]="temporaryUser.password">
-                <label for="passwordInp">Mot de passe</label>
-              </div>
-            </div>
-            <hr class="my-5">
-            <div class="form-floating mb-3">
-              <input name="firstName" class="form-control" id="firstNameInp" placeholder=""
-                [(ngModel)]="temporaryUser.firstName">
-              <label for="firstNameInp">Prénom</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input name="lastName" class="form-control" id="lastNameInp" placeholder=""
-                [(ngModel)]="temporaryUser.lastName">
-              <label for="lastNameInp">Nom</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input name="address" class="form-control" id="addressInp" placeholder=""
-                [(ngModel)]="temporaryUser.address">
-              <label for="addressInp">Adresse civique</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input name="phoneNumber" class="form-control" id="phoneNumberInp" placeholder=""
-                [(ngModel)]="temporaryUser.phoneNumber">
-              <label for="phoneNumberInp">Numéro de téléphone</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input name="postalCode" class="form-control" id="postalCodeInp" placeholder=""
-                [(ngModel)]="temporaryUser.postalCode">
-              <label for="postalCodeInp">Code postal</label>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="mb-3">
-              <label class="form-label" for="profilePictureInp">Photo de profil</label>
-              <input name="profilePicture" type="file" class="form-control w-50 mx-auto" id="profilePictoreInp"
-                placeholder="" [(ngModel)]="temporaryUser.profilePicture">
-            </div>
-            <img src="assets/images/contact-book.png" alt="" class="img-fluid img-thumbnail border-4">
-            {{temporaryUser.profilePicture}}
-          </div>
-          <div class="text-center mt-4">
-            <button type="submit" class="btn btn-success mt-2 mx-3">Valider</button>
-            <button class="btn btn-danger mt-2 ms-3" (click)="cancelCreationAccount()">Annuler</button>
-          </div>
-        </div>
-      </form>
-    </div>
-    -->
   </section>
 
 </main>
