@@ -67,8 +67,7 @@ export class EditBookComponent {
       this.colorSwitch = false;
     }
 
-    this.retrieveAuthors();
-    this.retrieveGenres();
+    
     this.retrieveAllStatus();
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -76,29 +75,12 @@ export class EditBookComponent {
     if(id) {
      this.electrolibService.getBook(id).subscribe(book =>{
       this.book = book;
-      this.setGenreAndAuthor();
-      this.selectedAuthor = `${book.author.firstName} ${book.author.lastName}`;
-      this.selectedGenre = book.genre.name;
+      this.retrieveAuthors();
+      this.retrieveGenres();
       const parsedDate = parse(book.publishedDate, 'yyyy-MM-dd HH:mm:ss', new Date());
       this.book.publishedDate = format(parsedDate, 'yyyy-MM-dd');
      });
     }
-  }
-
-  //-------------------------------------------------------
-  //
-  //-------------------------------------------------------
-  setGenreAndAuthor() {
-    this.authors.forEach(author => {
-      if (this.book.idAuthor == author.idAuthor) {
-        this.book.author = author;
-      }
-    });
-    this.genres.forEach(genre => {
-      if (this.book.idGenre == genre.idGenre) {
-        this.book.genre = genre;
-      }
-    });
   }
 
   //---------------------------------
@@ -121,6 +103,12 @@ export class EditBookComponent {
     this.electrolibService.getAuthors().subscribe(
       authors => {
         this.authors = authors;
+        this.authors.forEach(author => {
+          if (this.book.idAuthor == author.idAuthor) {
+            this.book.author = author;
+            this.selectedAuthor = `${this.book.author.firstName} ${this.book.author.lastName}`;
+          }
+        });
       }
     );
   }
@@ -132,6 +120,12 @@ export class EditBookComponent {
     this.electrolibService.getGenres().subscribe(
       genres => {
         this.genres = genres;
+        this.genres.forEach(genre => {
+          if (this.book.idGenre == genre.idGenre) {
+            this.book.genre = genre;
+            this.selectedGenre = this.book.genre.name;
+          }
+        });
       }
     );
   }
