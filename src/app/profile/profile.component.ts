@@ -333,9 +333,6 @@ export class ProfileComponent implements OnInit {
     this.tempUser = user;
 
     if (this.validateForm()) {
-      user.postalCode = user.postalCode.split(' ')[0] + user.postalCode.split(' ')[1];
-      user.phoneNumber = user.phoneNumber.split('-')[0] + user.phoneNumber.split('-')[1] + user.phoneNumber.split('-')[2];
-
       this.electrolibService.updateUser('updateInformations', idUser, user).subscribe(
         user => {
           this.toastService.show('Votre profil a été mis à jour.', {
