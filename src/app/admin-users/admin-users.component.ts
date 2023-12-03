@@ -107,6 +107,9 @@ export class AdminUsersComponent {
         case "totalPenalities":
           this.displayedUsers.sort((a, b) => (a.totalPenalities > b.totalPenalities ? 1 : -1));
           break;
+        case "registrationDate":
+          this.displayedUsers.sort((a, b) => (a.registrationDate > b.registrationDate ? 1 : -1));
+          break;
       }
     }
     else {
@@ -122,6 +125,9 @@ export class AdminUsersComponent {
           break;
         case "totalPenalities":
           this.displayedUsers.sort((a, b) => (a.totalPenalities < b.totalPenalities ? 1 : -1));
+          break;
+        case "registrationDate":
+          this.displayedUsers.sort((a, b) => (a.registrationDate < b.registrationDate ? 1 : -1));
           break;
       }
     }
