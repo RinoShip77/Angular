@@ -79,6 +79,13 @@
                             Rôle
                         </th>
                         <th>
+                            <button (click)="sortColumnBy('registrationDate')">
+                                <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
+                                <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
+                            </button>
+                            Date de création
+                        </th>
+                        <th>
                             <button (click)="sortColumnBy('totalPenalities')">
                                 <i *ngIf="desc==false" class="fa-solid fa-sort-up"></i>
                                 <i *ngIf="desc==true" class="fa-solid fa-sort-down"></i>
@@ -93,6 +100,7 @@
                         <td>{{user.memberNumber}}</td>
                         <td>{{user.lastName}}, {{user.firstName}}</td>
                         <td>{{parseRole(user)}}</td>
+                        <td>{{user.registrationDate}}</td>
                         <td>
                             <span class="penalty" *ngIf="user.totalPenalities > 0">{{user.totalPenalities}}$</span>
                         </td>
