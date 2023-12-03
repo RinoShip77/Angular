@@ -5,6 +5,7 @@ import { Borrow } from '../model/Borrow';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
+import { getURLBookCover, getURLProfilePicture } from '../util';
 
 @Component({
   selector: 'app-borrows',
@@ -100,10 +101,13 @@ export class BorrowsComponent implements OnInit {
       selectedBorrow.renew();
 
       //update la date dans la bd
-      await this.electrolibService.renewDueDate(selectedBorrow).subscribe();
-
-      //Retourne chercher les emprunts updatés
-      await this.retrieveBorrows();
+      //et retourne les emprunts updatés
+      await this.electrolibService.renewDueDate(selectedBorrow).subscribe(
+        borrow => {
+          this.retrieveBorrows();
+        }
+      );
+      
     }
   }
 
@@ -279,5 +283,10 @@ export class BorrowsComponent implements OnInit {
         }
       )
     }
+  }
+
+  getBookCover(idBook: number) 
+  {
+    return getURLBookCover(idBook);
   }
 }

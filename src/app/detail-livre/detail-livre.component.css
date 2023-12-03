@@ -181,3 +181,25 @@ main {
 {
     color: rgb(83, 197, 83);
 }
+
+.no-review
+{
+    background-color: lightgray; 
+    margin: 20px; 
+    padding: 20px; 
+    text-align: center; 
+    border: 2px solid gray; 
+    border-radius: 10px; 
+    color:black;
+}
+
+.no-review-dark
+{
+    background-color: rgb(33,37,41);
+    border: 2px solid rgb(156, 156, 156);
+    margin: 20px; 
+    padding: 20px; 
+    text-align: center; 
+    border-radius: 10px; 
+    color:white;
+}

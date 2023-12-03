@@ -22,17 +22,17 @@
                     <div style="display: flex;justify-content: space-evenly; ">
                         <div class="dropdown">
                             <label for="sort-by" class="fit-label">Ordre</label>
-                            <select class="form-control combobox" #sortBy name="sort-by">
-                                <option value="ascending">Croissant</option>
-                                <option value="descending">Décroissant</option>
+                            <select class="form-control combobox" #sortBy name="sort-by" (change)="orderWayBySelect($event)">
+                                <option value="DESC">Plus récent</option>
+                                <option value="ASC">Plus vieux</option>
                             </select>
                         </div>
                         <div class="dropdown">
                             <label for="search-by" class="fit-label">Trier par</label>
-                            <select class="form-control combobox" #searchBy name="search-by">
-                                <option value="title">Courriel</option>
-                                <option value="title">Numero membre</option>
-                                <option value="borrowedDate">Raison</option>
+                            <select class="form-control combobox" #searchBy name="search-by" (change)="orderBySelect($event)">
+                                <option value="all">Tous</option>
+                                <option value="not-resolved">Non-Résolus</option>
+                                <option value="resolved">Résolus</option>
                             </select>
                         </div>
                     </div>
@@ -45,11 +45,13 @@
             <table class="table table-striped" style="text-align: center;">
                 <thead>
                     <tr>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'title' ? '#31359C' : ''}">Courriel</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'memberNumber' ? '#31359C' : ''}">N°
+                        <th>Courriel</th>
+                        <th>N°
                             membre</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'borrowedDate' ? '#31359C' : ''}">Raison</th>
-                        <th [ngStyle]="{'background-color': searchBy.value == 'dueDate' ? '#31359C' : ''}">Message</th>
+                        <th>Raison</th>
+                        <th>Message</th>
+                        <th>Soumission</th>
+                        <th>Résolution</th>
                         <th style="width: 10em;">Actions</th>
                     </tr>
                 </thead>
@@ -59,6 +61,9 @@
                         <td>{{comment.user.memberNumber}}</td>
                         <td>{{comment.reason}}</td>
                         <td>{{comment.content}}</td>
+                        <td>{{comment.createdDate}}</td>
+                        <td *ngIf="comment.resolvedDate != null">{{comment.formatedResolvedDate()}}</td>
+                        <td *ngIf="comment.resolvedDate == null">Non résolu</td>
                         <td>
                             <article style="display: flex;">
                                 <button style="margin: auto;" (click)="declareFixed(comment)" *ngIf="comment.isFixed == 0" 

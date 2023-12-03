@@ -109,6 +109,17 @@ export class BorrowDetailsComponent implements OnInit {
     this.electrolibService.returnBorrow(this.borrow).subscribe(receivedMessage => {
       console.log(receivedMessage);
       if(receivedMessage){
+        this.modalService.dismissAll();
+       this.router.navigate(['borrows'])
+      }
+    });
+  }
+
+  returnLateBorrow(){
+    this.electrolibService.returnLateBorrow(this.borrow, this.borrow.calculateFee()!).subscribe(success => {
+      console.log(success);
+      if(success){
+        this.modalService.dismissAll();
        this.router.navigate(['borrows'])
       }
     });

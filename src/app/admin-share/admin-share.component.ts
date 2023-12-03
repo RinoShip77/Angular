@@ -17,6 +17,8 @@ export class AdminShareComponent  implements OnInit
   theme = "";
 
   comments: Comment[] = new Array();
+  order:string = "DESC";
+  selection:string = "all";
 
   ngOnInit(): void 
   {
@@ -39,7 +41,31 @@ export class AdminShareComponent  implements OnInit
   {
     if(this.user)
     {
-      this.electrolibService.getComments().subscribe(
+      this.electrolibService.getComments(this.order).subscribe(
+        comments => {
+          console.log(comments);
+          this.comments = comments.map(c => (Object.assign(new Comment(), c)));
+        }
+      );
+    }
+  }
+  async retrieveCommentsResolved()
+  {
+    if(this.user)
+    {
+      await this.electrolibService.getCommentsResolved(this.order).subscribe(
+        comments => {
+          console.log(comments);
+          this.comments = comments.map(c => (Object.assign(new Comment(), c)));
+        }
+      );
+    }
+  }
+  async retrieveCommentsNotResolved()
+  {
+    if(this.user)
+    {
+      await this.electrolibService.getCommentsNotResolved(this.order).subscribe(
         comments => {
           console.log(comments);
           this.comments = comments.map(c => (Object.assign(new Comment(), c)));
@@ -56,5 +82,44 @@ export class AdminShareComponent  implements OnInit
     }
 
     await this.retrieveComments();
+  }
+
+  async orderWayBySelect(order: any)
+  {
+    this.order = order.target.value;
+    
+    if(this.selection == "all")
+    {
+      await this.retrieveComments();
+    }
+    if(this.selection == "resolved")
+    {
+      await this.retrieveCommentsResolved();
+    }
+    if(this.selection == "not-resolved")
+    {
+      await this.retrieveCommentsNotResolved();
+    }
+  }
+
+  async orderBySelect(event: any)
+  {
+    let selection = event.target.value;
+    this.selection = selection;
+    this.comments  = new Array();
+
+    if(selection == "all")
+    {
+      await this.retrieveComments();
+    }
+    if(selection == "resolved")
+    {
+      await this.retrieveCommentsResolved();
+    }
+    if(selection == "not-resolved")
+    {
+      await this.retrieveCommentsNotResolved();
+    }
+    
   }
 }

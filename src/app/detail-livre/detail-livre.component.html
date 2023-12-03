@@ -70,6 +70,9 @@
    'main-div-ratings' : theme == '',
    'main-div-ratings-dark' : theme == 'dark',
 }">
+    <!---------------------------------------------------------------->
+    <!----------------------   Mon évaluation   ---------------------->
+    <!---------------------------------------------------------------->
     <div class="row" [ngClass]="
     {
        'div-rating' : theme == '',
@@ -141,12 +144,23 @@
         </div>
     </div>
 
+    <!---------------------------------------------------------------->
+    <!---------------   Toutes les autres évaluation   --------------->
+    <!---------------------------------------------------------------->
+    <div *ngIf="reviews.length == 0" [ngClass]="
+    {
+       'no-review' : theme == '',
+       'no-review-dark' : theme == 'dark',
+    }">
+        <span style="font-weight: 600; font-size:22px" class="titres-emprunts">Aucune évaluation pour ce livre actuellement. Vous seriez la première !</span>
+    </div>
     <div class="div-rating row" *ngFor="let review of reviews">
         <div class="col-3 div-rating-img">
             <img src="../assets/images/users/profilePictures/Picture1.png" class="img-reviews">
             <br>
             <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{review.user.firstName}} </span>
-            <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{review.user.lastName}}</span>
+            <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{review.user.lastName}}</span><br>
+            <span class="label-emprunts-bold" style="margin: auto; font-size: 14px;">{{review.formatedReviewDate()}}</span>
             <br>
         </div>
         <div class="col-9" [ngClass]="

@@ -7,7 +7,6 @@ import { Borrow } from '../model/Borrow';
 import { Book } from '../model/Book';
 import { DataService } from '../data.service';
 import { getURLBookCover } from '../util';
-
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
@@ -65,6 +64,29 @@ export class ReservationComponent implements OnInit {
         {
           
           this.reservations = reservations.map(x => (Object.assign(new Reservation(), x)));
+
+          //Vérifie dans la liste de réservations à afficher
+          //Si une réservation est annulée une semaine après qu'elle aie été faite, elle n'est plusa affichée
+          //l'admin pourra ensuite de son, clear toutes les réservations annulée
+          this.reservations.forEach(r => {
+            if((r.getReservationTimeElapsed() >= 7) && (r.isActive == 0))
+            {
+              const index: number = this.reservations.indexOf(r);
+              if (index !== -1) 
+              {
+                this.reservations.splice(index, 1);
+              }   
+
+              
+            }
+
+            
+          })
+
+          if(this.reservations.length == 1 && (this.reservations[0].getReservationTimeElapsed() >= 7) && (this.reservations[0].isActive == 0))
+          {
+            this.reservations = new Array();
+          }
         }
       );
     } 
@@ -267,22 +289,22 @@ export class ReservationComponent implements OnInit {
       {
         if(!this.desc)
         {
-          if(this.reservations[i].determineStatus() != "cancelled" && this.reservations[j].determineStatus() == "cancelled")
+          if(this.reservations[i].determineStatus() != "Annulée" && this.reservations[j].determineStatus() == "Annulée")
           {
             [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
           }
-          else if (this.reservations[i].determineStatus() == "borrowed" && this.reservations[j].determineStatus() != "borrowed")
+          else if (this.reservations[i].determineStatus() == "Emprunté" && this.reservations[j].determineStatus() != "Emprunté")
           {
             [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
           }
         }
         else
         {
-          if(this.reservations[i].determineStatus() == "cancelled" && this.reservations[j].determineStatus() != "cancelled")
+          if(this.reservations[i].determineStatus() == "Annulée" && this.reservations[j].determineStatus() != "Annulée")
           {
             [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
           }
-          else if (this.reservations[i].determineStatus() != "borrowed" && this.reservations[j].determineStatus() == "borrowed")
+          else if (this.reservations[i].determineStatus() != "Emprunté" && this.reservations[j].determineStatus() == "Emprunté")
           {
             [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
           }
@@ -290,4 +312,5 @@ export class ReservationComponent implements OnInit {
       }
     }
   }
+
 }

@@ -71,7 +71,7 @@
                     </th>
                     <th>Date prévue retour du livre
                     </th>
-                    <th (click)="sortBy('status')">État (Emprunté, commandé)
+                    <th (click)="sortBy('status')">État (Emprunté, annulée)
                         <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                         <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                     </th>
@@ -140,7 +140,7 @@
         <div class="div-info-cancel">
             <span class="td-thick label-emprunts-bold" style="margin-bottom: 10px;">{{selectedReservation.book.title}}</span>
             <br>
-            <img class="image-livre-cancel" src="../assets/images/books/1.png" style="margin-top: 10px;">
+            <img class="image-livre-cancel" src="{{getBookCover(selectedReservation.book.idBook)}}" style="margin-top: 10px;">
         </div>
 
         <label *ngIf="selectedReservation.isActive" style="margin-top: 15px; font-weight: 600; text-decoration: underline; color: #ac0202;" class="label-emprunts-bold">

@@ -98,8 +98,8 @@
             <tbody class="text-center">
                 <tr *ngFor="let borrow of borrows" [ngClass]="
             {
-               'status-returned' : borrow.determineStatus() == 'En cours',
-               'status-lost' : borrow.determineStatus() == 'En retard'
+               'status-returned' : (borrow.returnedDate) <= (borrow.dueDate),
+               'status-lost' : (borrow.returnedDate) >= (borrow.dueDate)
             }">
 
                     <!-- Reste des informations -->
@@ -107,10 +107,10 @@
                     <td style="color: black;">{{borrow.book.title}}</td>
                     <td style="color: black;">{{borrow.borrowedDate}}</td>
                     <td style="color: black;">{{borrow.returnedDate}}</td>
-                    <td *ngIf="borrow.determineStatus() != 'En retard'" class="td-thick" style="font-weight: 700;">Remis
+                    <td *ngIf="(borrow.returnedDate) <= (borrow.dueDate)" class="td-thick" style="font-weight: 700;">Remis
                     </td>
-                    <td *ngIf="borrow.determineStatus() == 'En retard'" class="td-thick"
-                        style="font-weight: 700; color: rgb(68,80,152);">Perdu</td>
+                    <td *ngIf="(borrow.returnedDate) >= (borrow.dueDate)" class="td-thick"
+                        style="font-weight: 700; color: rgb(68,80,152);">Remis en retard</td>
 
 
                     <!-- Bouton Détails -->

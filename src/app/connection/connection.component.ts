@@ -35,7 +35,6 @@ export class ConnectionComponent {
         if (this.temporaryUser.memberNumber.toString().length > 0 && this.temporaryUser.password.length > 0) {
 
           this.retrieveAccount();
-
         } else {
           alert('Erreur: Veuillez fournir les informations nécessaires.');
         }
@@ -46,7 +45,8 @@ export class ConnectionComponent {
         this.temporaryUser.password = "11";
         //this.temporaryUser.memberNumber = "11";
         //this.temporaryUser.password = "11";
-        this.retrieveAccount();
+        this.retrieveAccount()
+      
         break;
 
       case 'cheatAdmin':
@@ -63,20 +63,21 @@ export class ConnectionComponent {
   //-------------------------------------------------------
   // Récupère un compte en base de données par les informations fournies
   //-------------------------------------------------------
-  retrieveAccount() {
+  async retrieveAccount() {
     // * Encrypte the password
     // * De-comment this line to encrypte
     // this.temporaryUser.password = this.Encryption.set(ENCRYPTION_KEY, this.temporaryUser.password);
-
-    this.electrolibService.connection(this.temporaryUser).subscribe(
+    
+    await this.electrolibService.connection(this.temporaryUser).subscribe(
       connectedUser => {
-
+        
         try
         {
         // #region 2023-10-29 12:50 - Olivier Bourgault
         // Check if the account is active before login
         if (connectedUser.roles.includes('ROLE_DEACTIVATE')) {
           alert('La connexion a échoué.');
+          
         } else {
           if (connectedUser.memberNumber === this.temporaryUser.memberNumber &&
             connectedUser.password === this.temporaryUser.password) {
@@ -90,6 +91,7 @@ export class ConnectionComponent {
 
               this.changeTab('inventory');
               this.router.navigate(["adminInventory"]);
+              
 
             } else {
               this.user = connectedUser;
@@ -99,21 +101,28 @@ export class ConnectionComponent {
               this.alertLateness(this.user);
 
               this.router.navigate(["/inventory"]);
+              
               //this.connected.emit(this.user);
 
             }
           } else {
             alert('Erreur: Informations de connexion incorrectes.');
+            
           }
+          
         }
         
         }
         catch (err)
         {
           alert("Utilisateur ou mot de passe incorrecte");
+          
         }
-      }
+       
+      },
+      error => {alert("Erreur de serveur. Veuillez réésayer dans quelques instants");}
     )
+    
   }
 
   //--------------------------------
@@ -165,18 +174,42 @@ export class ConnectionComponent {
               {
                 console.log(borrow.calculateFee());
                 
-                this.toastService.show('Votre emprunt (' + borrow.book.title + ') a ' + borrow.transformTimeAndLate() + ' jours de retard', {
-                  classname: 'bg-danger',
-                });
+                if(borrow.transformTimeAndLate() == 1)
+                {
+                  this.toastService.show('Votre emprunt (' + borrow.book.title + ') a ' + borrow.transformTimeAndLate() + ' journée de retard', {
+                    classname: 'bg-danger',
+                  });
+                }
+                else if (borrow.transformTimeAndLate() > 1)
+                {
+                  this.toastService.show('Votre emprunt (' + borrow.book.title + ') a ' + borrow.transformTimeAndLate() + ' jours de retard', {
+                    classname: 'bg-danger',
+                  });
+                }
+                else if (borrow.transformTimeAndLate() == 0)
+                {
+                  this.toastService.show('Votre emprunt (' + borrow.book.title + ') a 1 journée de retard', {
+                    classname: 'bg-danger',
+                  });
+                }
               }
               
-              if(borrow.transformTimeAndLate() <= 7 )
+              if(borrow.transformTimeAndLate() <= 7 && borrow.determineStatus() != 'En retard')
               {
                 console.log(borrow.calculateFee());
                 
-                this.toastService.show('Il reste ' + borrow.transformTimeAndLate() + ' jours à votre emprunt ('+ borrow.book.title + ')', {
-                  classname: 'bg-warning',
-                });
+                if(borrow.transformTimeAndLate() == 1)
+                {
+                  this.toastService.show('Il reste ' + borrow.transformTimeAndLate() + ' journée à votre emprunt ('+ borrow.book.title + ')', {
+                    classname: 'bg-warning',
+                  });
+                }
+                else
+                {
+                  this.toastService.show('Il reste ' + borrow.transformTimeAndLate() + ' jours à votre emprunt ('+ borrow.book.title + ')', {
+                    classname: 'bg-warning',
+                  });
+                }
               }
             });
         }

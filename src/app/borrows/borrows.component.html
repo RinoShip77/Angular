@@ -94,7 +94,7 @@
                         <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                         <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                     </th>
-                    <th (click)="sortBy('dueDate')">Status
+                    <th (click)="sortBy('dueDate')">Statut
                         <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                         <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                     </th>
@@ -195,13 +195,13 @@
         <div class="div-info-renew">
             <span class="td-thick label-emprunts" style="margin-bottom: 10px;">{{selectedBorrowModal.book.title}}</span>
             <br> 
-            <img class="image-livre" src="../assets/images/books/1.png" style="margin-top: 10px;">
+            <img class="image-livre" src="{{getBookCover(selectedBorrowModal.book.idBook)}}" style="margin-top: 10px;">
         </div>
 
         <label style="margin-top: 15px; font-weight: 600; text-decoration: underline;" class="label-emprunts-bold">Une durée d'un mois sera ajouté à votre emprunt</label>
         <br>
         <label *ngIf="selectedBorrowModal.getRenewsLeft() > 1" style="margin-top: 5px; font-weight: 600; color: rgb(5, 131, 5);" class="label-emprunts">{{selectedBorrowModal.getRenewsLeft()}} renouvellements restants</label>
-        <label *ngIf="selectedBorrowModal.getRenewsLeft() == 1" style="margin-top: 5px; font-weight: 600; color: rgb(5, 131, 5);" class="label-emprunts">{{selectedBorrowModal.getRenewsLeft()}} renouvellements restant</label>
+        <label *ngIf="selectedBorrowModal.getRenewsLeft() == 1" style="margin-top: 5px; font-weight: 600; color: rgb(5, 131, 5);" class="label-emprunts">{{selectedBorrowModal.getRenewsLeft()}} renouvellement restant</label>
     </div>
     <!-- Boutons pour fermer la modal ou confirmer le renouvellement -->
     <div class="modal-footer">
@@ -318,8 +318,8 @@
     </div>
   
     <!-- infos sur le paiement -->
-    <div class="modal-body" style="text-align: center;">
-        <span class="label-emprunts-bold" style="margin-bottom: 15px;">Vous avez <span style="color:darkgreen">(0)$</span> de frais dû au retard de remise de vos emprunts.</span>
+    <div class="modal-body" style="text-align: center;" *ngIf="user">
+        <span class="label-emprunts-bold" style="margin-bottom: 15px;">Vous avez <span style="color:darkgreen">{{user.fees}}$</span> de frais dû au retard de remise de vos emprunts.</span>
         <br><br>
         <span class="label-emprunts-bold" style="margin-bottom: 15px; color:darkred; text-decoration: underline;">Vous ne pourrez plus faire d'emprunts tant et aussi longtemps que 
           <br> les frais ne seront pas payés.</span>

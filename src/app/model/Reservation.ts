@@ -22,14 +22,20 @@ export class Reservation
   {
     if(this.isActive)
     {
-      return "borrowed";
+      return "Emprunté";
     }
 
     if(!this.isActive)
     {
-      return "cancelled";
+      return "Annulée";
     }
 
     return false;
+  }
+
+  getReservationTimeElapsed()
+  {
+    var reservationDate = new Date(this.reservationDate);
+    return Math.floor(Math.round(((Date.now() - reservationDate.getTime()) / (1000 * 3600 * 24)) * 100) / 100);
   }
 }
