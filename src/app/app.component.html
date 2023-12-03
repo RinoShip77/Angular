@@ -8,7 +8,7 @@
   </header>
 
   <main [ngStyle]="checkUser() ? getStyles() : {}">
-    <app-toast></app-toast>
+    <app-toast [ngClass]="!isConnected() ? 'd-none' : ''"></app-toast>
 
     <!-- Le router -->
     <router-outlet (activate)="switchTheme($event)"></router-outlet>
