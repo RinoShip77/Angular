@@ -422,15 +422,15 @@
   
     <!-- infos sur le paiement -->
     <div class="modal-body" style="text-align: center;" *ngIf="user">
-        <div class="div-content-modal" [ngClass]="
+        <div class="div-content-modal" *ngFor="let error of errorBorrowReason" [ngClass]="
         {
            'main-errorBorrowModal' : theme == '',
            'main-errorBorrowModal-dark' : theme == 'dark',
         }">
-            <span class="label-emprunts-bold" >{{errorBorrowReason}}</span>
+            <span class="label-emprunts-bold" >{{error}}</span>
             <br>
-            <span class="label-emprunts-bold" *ngIf="errorFrais">Vous devez payez les frais avant de pouvoir emprunter</span>
-            <span class="label-emprunts-bold" *ngIf="!errorFrais">Vous devez remettre un de vos emprunts avant de pouvoir emprunter</span>
+            <span class="label-emprunts-bold" *ngIf="errorFrais && (error != 'Vous avez atteint la limite d emprunts (5)')">Vous devez payez les frais avant de pouvoir emprunter</span>
+            <span class="label-emprunts-bold" *ngIf="!errorFrais || (errorFrais && error == 'Vous avez atteint la limite d emprunts (5)')">Vous devez remettre un de vos emprunts avant de pouvoir emprunter</span>
         </div>
     </div>
     <!-- Bouton pour confirmer et fermer la modal -->

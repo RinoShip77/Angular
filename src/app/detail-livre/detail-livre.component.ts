@@ -40,7 +40,7 @@ export class DetailLivreComponent {
   theme = "";
 
   @ViewChild('errorBorrowModal', {static:true}) templateRef: TemplateRef<any> | undefined;
-  errorBorrowReason = "";
+  errorBorrowReason = new Array();
   errorFrais = false;
 
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
@@ -96,6 +96,8 @@ export class DetailLivreComponent {
 
 
   createBorrow() {
+    this.errorBorrowReason = new Array();
+
     if (this.user) {
 
       // Récupère les réservations en cours sur le livre
@@ -116,34 +118,75 @@ export class DetailLivreComponent {
               }
             }
           }
-          
-          if (this.user && !this.bookIsReserved) {
 
-            // Crée l'emprunt
-            this.electrolibSrv.createBorrow(this.user.idUser, this.book.idBook).subscribe(
-              receivedBorrow => {
-                if (receivedBorrow == null) {
-                  this.failureBorrow();
-                }
-                else {
-                  console.log('Borrow created successfully!', receivedBorrow);
-                  this.isAvailable = false;
-                  this.isBookBorrowedByCurrentUser = true;
+          let accountFee = false;
+          if (this.user!.fees != 0) 
+          {
+            accountFee = true;
+            this.errorBorrowReason.push("Vous avez des frais de compte.");
+            this.errorFrais = true;
+          }
 
-                  // Supprime la réservation
-                  this.electrolibSrv.cancelReservation(this.reservationToCancel).subscribe(
-                    (cancelResponses) => {
-                      console.log('Reservation cancelled successfully!', cancelResponses);
-                      this.router.navigate(["borrowDetails", receivedBorrow])
-                    },
-                    (cancelError) => {
-                      console.error('Cancellation failed:', cancelError);
-                    }
-                  );
-                }
+          this.electrolibSrv.getBorrowsFromUser(this.user!).subscribe(
+            borrowsData => {
+              let borrows: Borrow[] = borrowsData;
+              borrows = borrowsData.map(x => (Object.assign(new Borrow(), x)));
+  
+              //Vérifie si le client a atteint la limite d'emprunts, qui est de 5
+              //Si c'st le cas, il ne peut plus emprunter
+              let tooMuchBorrows = false;
+              if(borrows.length >= 5)
+              {
+                this.errorBorrowReason.push("Vous avez atteint la limite d emprunts (5)");
+                tooMuchBorrows = true;
               }
-            )
-          };
+  
+              //Vérifie dans chaque emprunt, pour voir s'il y a des frais
+              let feesBorrows = false;
+              borrows.forEach(borrow => 
+              {
+                if (borrow.calculateFee() != null && borrow.returnedDate == null) 
+                {
+                  feesBorrows = true;
+                  this.errorBorrowReason.push("Vous avez des frais sur un de vos emprunts. Vous devez le remettre.");
+                  this.errorFrais = true;
+                }
+              });
+  
+              if (this.user && !this.bookIsReserved && !feesBorrows && !tooMuchBorrows && !accountFee) {
+                // Crée l'emprunt
+                this.electrolibSrv.createBorrow(this.user.idUser, this.book.idBook).subscribe(
+                  receivedBorrow => {
+                    if (receivedBorrow == null) {
+                      this.failureBorrow();
+                    }
+                    else {
+                      console.log('Borrow created successfully!', receivedBorrow);
+                      this.isAvailable = false;
+                      this.isBookBorrowedByCurrentUser = true;
+    
+                      // Supprime la réservation
+                      this.electrolibSrv.cancelReservation(this.reservationToCancel).subscribe(
+                        (cancelResponses) => {
+                          console.log('Reservation cancelled successfully!', cancelResponses);
+                          this.router.navigate(["borrowDetails", receivedBorrow])
+                        },
+                        (cancelError) => {
+                          console.error('Cancellation failed:', cancelError);
+                        }
+                      );
+                    }
+                  }
+                )
+              }
+              else
+              {
+                this.modalService.open(this.templateRef, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+              }
+            }
+          );
+          
+          
         },
         (error) => {
           console.error('Creation failed:', error);
@@ -237,4 +280,84 @@ export class DetailLivreComponent {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
   }
 
+  reviews: Review[] = new Array();
+
+  @ViewChild('saveModal') saveModal!: TemplateRef<any>;
+  @ViewChild('errorModal') errorModal!: TemplateRef<any>;
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
+
+  retrieveReviews(book: Book) {
+    if (this.user) {
+      this.electrolibSrv.getReviews(book.idBook).subscribe(
+        reviews => {
+          this.reviews = reviews.map(r => (Object.assign(new Review(), r)));
+        }
+      );
+    }
+  }
+
+  starsHovered: number = 0;
+  starHover(starsHovered: number) {
+    this.starsHovered = starsHovered;
+  }
+
+  starsClicked: number = 0;
+  starClick(starsClicked: number) {
+    this.starsClicked = starsClicked;
+  }
+
+  newReviewMessage = "";
+  verifyReview() {
+    //Le user doit écrire au moins 5 caractères dans le message
+    if (this.newReviewMessage.length >= 5 && this.newReviewMessage.length <= 500) {
+      //Le user doit choisir une étoile
+      if (this.starsClicked > 0) {
+        //Ajoute un point s'il n'y a pas de point à la fin
+        if (this.newReviewMessage[this.newReviewMessage.length] != '.' || this.newReviewMessage[this.newReviewMessage.length] != '!' || this.newReviewMessage[this.newReviewMessage.length] != '?') {
+          this.newReviewMessage += '.';
+
+
+
+
+        }
+
+        this.modalService.open(this.saveModal);
+      }
+      else {
+        this.modalService.open(this.errorModal);
+      }
+    }
+    else {
+      this.modalService.open(this.errorModal);
+    }
+  }
+
+  review: Review = new Review();
+  async saveReview() {
+
+    if (this.user) {
+      this.review.message = this.newReviewMessage;
+      this.review.rating = this.starsClicked;
+      //Envois du message en BD si oui
+      await this.electrolibSrv.createReview(this.review, this.user, this.book).subscribe(
+        createdComment => {
+          console.log('Review créé!', createdComment);
+        },
+        (error) => {
+          console.error('Création erreur', error);
+        }
+      );
+    }
+
+
+    this.modalService.dismissAll();
+    this.starsHovered = 0;
+    this.starsClicked = 0;
+    this.newReviewMessage = "";
+
+    this.modalService.open(this.successModal);
+
+    //Actualiser la liste des reviews
+    await this.retrieveReviews(this.book);
+  }
 }

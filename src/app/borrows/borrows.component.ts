@@ -98,6 +98,7 @@ export class BorrowsComponent implements OnInit {
   bookReserved = false;
   verifyReservation(selectedBorrow: Borrow) 
   {
+    this.bookReserved = false;
     //Fouille dans chaque réservation active
     this.reservations.forEach(reservation => 
     {

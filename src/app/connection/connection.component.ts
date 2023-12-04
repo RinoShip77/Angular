@@ -57,12 +57,16 @@ export class ConnectionComponent implements OnDestroy {
       case 'cheatUser':
         this.temporaryUser.memberNumber = "80379801";
         this.temporaryUser.password = "password";
+        //this.temporaryUser.memberNumber = "11";
+        //this.temporaryUser.password = "11";
         this.retrieveAccount();
         break;
 
       case 'cheatAdmin':
         this.temporaryUser.memberNumber = "98631907";
         this.temporaryUser.password = "password";
+        //this.temporaryUser.memberNumber = "admin";
+        //this.temporaryUser.password = "admin";
         this.retrieveAccount();
         break;
     }
@@ -82,8 +86,7 @@ export class ConnectionComponent implements OnDestroy {
     this.electrolibService.connection(this.temporaryUser).subscribe(
       connectedUser => {
         
-        try
-        {
+        
         // #region 2023-10-29 12:50 - Olivier Bourgault
         // Check if the account is active before login
         if (connectedUser.roles.includes('["ROLE_DEACTIVATE"]')) {
@@ -110,7 +113,7 @@ export class ConnectionComponent implements OnDestroy {
             this.dataService.updateUser(this.user);
             this.router.navigate(["/inventory"]);
 
-              this.alertLateness(this.user);
+            this.alertLateness(this.user);
           }
         } else {
           this.loading = false;
@@ -133,12 +136,6 @@ export class ConnectionComponent implements OnDestroy {
         }
       }
     )
-
-    if(this.counter! > 500)
-    {
-      alert("Le serveur prend du temps à répondre");
-      this.clearTimer();
-    }
 
     this.startTimer();
   }
@@ -224,7 +221,7 @@ export class ConnectionComponent implements OnDestroy {
               {
                 console.log(borrow.calculateFee());
                 
-                if(borrow.transformTimeAndLate() == 1)
+                if(borrow.transformTimeAndLate() == 1 || borrow.transformTimeAndLate() == -1)
                 {
                   this.toastService.show('Il reste ' + borrow.transformTimeAndLate() + ' journée à votre emprunt ('+ borrow.book.title + ')', {
                     classname: 'bg-warning',
