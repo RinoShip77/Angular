@@ -203,3 +203,18 @@ main {
     border-radius: 10px; 
     color:white;
 }
+
+.main-errorBorrowModal
+{
+    border-color:rgb(172, 59, 59);
+    color: rgb(212, 39, 39);
+    font-size: 22px;
+}
+
+.main-errorBorrowModal-dark
+{
+    background-color: rgb(43, 49, 54);
+    border-color:lightcoral;
+    color: lightcoral;
+    font-size: 22px;
+}

@@ -33,6 +33,10 @@ export class DetailLivreComponent {
 
   theme = "";
 
+  @ViewChild('errorBorrowModal', {static:true}) templateRef: TemplateRef<any> | undefined;
+  errorBorrowReason = "";
+  errorFrais = false;
+
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
   async ngOnInit() {
     this.user = this.dataSrv.getUser();
@@ -98,7 +102,8 @@ export class DetailLivreComponent {
             //Si c'st le cas, il ne peut plus emprunter
             if(borrows.length > 5)
             {
-              alert("vous avez atteint la limite d'emprunts (5)");
+              this.modalService.open(this.templateRef, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+              this.errorBorrowReason = "Vous avez atteint la limite d'emprunts (5)";
               return;
             }
 
@@ -131,14 +136,18 @@ export class DetailLivreComponent {
             }
             else
             {
-              alert("vous avez des frais sur un de vos emprunts");
+              this.modalService.open(this.templateRef, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+              this.errorBorrowReason = "Vous avez des frais sur un de vos emprunts. Vous devez le remettre.";
+              this.errorFrais = true;
             }
           }
         );
       }
       else
       {
-        alert("vous avez des frais de compte");
+        this.modalService.open(this.templateRef, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+        this.errorBorrowReason = "Vous avez des frais de compte";
+        this.errorFrais = true;
       }
     };
   }

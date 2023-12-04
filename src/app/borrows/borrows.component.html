@@ -202,10 +202,23 @@
         <br>
         <label *ngIf="selectedBorrowModal.getRenewsLeft() > 1" style="margin-top: 5px; font-weight: 600; color: rgb(5, 131, 5);" class="label-emprunts">{{selectedBorrowModal.getRenewsLeft()}} renouvellements restants</label>
         <label *ngIf="selectedBorrowModal.getRenewsLeft() == 1" style="margin-top: 5px; font-weight: 600; color: rgb(5, 131, 5);" class="label-emprunts">{{selectedBorrowModal.getRenewsLeft()}} renouvellement restant</label>
+
+        <div *ngIf="bookReserved == true" class="div-content-modal" [ngClass]="
+        {
+           'div-reserved' : theme == '',
+           'div-reserved-dark' : theme == 'dark',
+        }">
+            
+            <span class="label-emprunts-bold">Il y a une réservation pour ce livre !</span>
+            <br><br>
+            <span class="label-emprunts-bold">Vous ne pouvez pas renouveller ce livre puisqu'un autre membre attend son retour</span>
+        
+        </div>
     </div>
     <!-- Boutons pour fermer la modal ou confirmer le renouvellement -->
     <div class="modal-footer">
-        <button class="btn btn-primary label-emprunts" type="submit" name="submit" value="Submit" (click)="save()">Confirmer</button>
+        <button class="btn btn-secondary label-emprunts" type="submit" name="submit" value="Submit" *ngIf="bookReserved == true" disabled>Confirmer</button>
+        <button class="btn btn-primary label-emprunts" type="submit" name="submit" value="Submit" (click)="save()" *ngIf="bookReserved == false">Confirmer</button>
         <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
     </div>
 </ng-template>
@@ -335,7 +348,7 @@
         <button class="btn btn-success label-emprunts" type="submit" name="submit" value="Submit" [routerLink]="['../payment']" (click)="dismissModal()">Confirmer</button>
         <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
     </div>
-  </ng-template>
+</ng-template>
 
  
 

@@ -186,7 +186,7 @@
           <br>
           <label class="mt-2" style="color: rgba(68, 81, 152, 0.685); font-weight: 600;">Mauve:</label>
           <span> 
-                 Lorsque vous avez perdu le livre, l'emprunt apparait en
+                 Lorsque vous avez remis le livre en retard, l'emprunt apparait en
                  <span style="color: rgba(68, 81, 152, 0.685);">mauve</span>.
           </span>
       </div>
@@ -202,8 +202,8 @@
 <ng-template #infoReservationModal let-modal>
     <div class="modal-header modal-lg" >
       <h4 class="modal-title" id="modal-basic-title">Informations du livre</h4> 
-      <span *ngIf="selectedBorrow.determineStatus() != 'En retard'" class="thick handed">(Remis)</span>
-      <span *ngIf="selectedBorrow.determineStatus() == 'En retard'" class="thick stolen">(Perdu)</span>
+      <span *ngIf="(selectedBorrow.returnedDate) < (selectedBorrow.dueDate)" class="thick handed">(Remis)</span>
+      <span *ngIf="(selectedBorrow.returnedDate) >= (selectedBorrow.dueDate)" class="thick stolen">(Remis en retard)</span>
     </div>
   
     <!--  -->

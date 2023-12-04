@@ -368,3 +368,32 @@
         <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Fermer</button>
     </div>
 </ng-template>
+
+
+
+<!------------------------------------------------------------------------>
+<!-- Modal pour informer le client de pourquoi il ne peut pas emprunter -->
+<!------------------------------------------------------------------------>
+<ng-template #errorBorrowModal let-modal>
+    <div class="modal-header modal-lg" style="margin: auto">
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Erreur Emprunt</h4>
+    </div>
+  
+    <!-- infos sur le paiement -->
+    <div class="modal-body" style="text-align: center;" *ngIf="user">
+        <div class="div-content-modal" [ngClass]="
+        {
+           'main-errorBorrowModal' : theme == '',
+           'main-errorBorrowModal-dark' : theme == 'dark',
+        }">
+            <span class="label-emprunts-bold" >{{errorBorrowReason}}</span>
+            <br>
+            <span class="label-emprunts-bold" *ngIf="errorFrais">Vous devez payez les frais avant de pouvoir emprunter</span>
+            <span class="label-emprunts-bold" *ngIf="!errorFrais">Vous devez remettre un de vos emprunts avant de pouvoir emprunter</span>
+        </div>
+    </div>
+    <!-- Bouton pour confirmer et fermer la modal -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
+    </div>
+</ng-template>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { User } from '../model/User';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,19 +8,25 @@ import { EncryptionService } from '../encryption.service';
 import { ENCRYPTION_KEY } from '../util';
 import { ToastService } from '../toast.service';
 import { Borrow } from '../model/Borrow';
+import { timer } from "rxjs";
 
 @Component({
   selector: 'app-connection',
   templateUrl: './connection.component.html',
   styleUrls: ['./connection.component.css']
 })
-export class ConnectionComponent {
+export class ConnectionComponent implements OnDestroy {
   connectionVisible = true;
   createAccountVisible = false;
   temporaryUser: User = new User();
   user: User = new User();
 
   @Output() connected = new EventEmitter<User>();
+
+  counter: number | undefined;
+  timerRef:any;
+  running: boolean = false;
+  startText = 'Start';
 
   constructor(private electrolibService: ElectrolibService, private router: Router, private dataService: DataService, private Encryption: EncryptionService, private toastService: ToastService) { }
 
@@ -63,12 +69,12 @@ export class ConnectionComponent {
   //-------------------------------------------------------
   // Récupère un compte en base de données par les informations fournies
   //-------------------------------------------------------
-  async retrieveAccount() {
+  retrieveAccount() {
     // * Encrypte the password
     // * De-comment this line to encrypte
     // this.temporaryUser.password = this.Encryption.set(ENCRYPTION_KEY, this.temporaryUser.password);
     
-    await this.electrolibService.connection(this.temporaryUser).subscribe(
+    this.electrolibService.connection(this.temporaryUser).subscribe(
       connectedUser => {
         
         try
@@ -91,6 +97,7 @@ export class ConnectionComponent {
 
               this.changeTab('inventory');
               this.router.navigate(["adminInventory"]);
+              return;
               
 
             } else {
@@ -101,13 +108,14 @@ export class ConnectionComponent {
               this.alertLateness(this.user);
 
               this.router.navigate(["/inventory"]);
+              return;
               
               //this.connected.emit(this.user);
 
             }
           } else {
             alert('Erreur: Informations de connexion incorrectes.');
-            
+            return;
           }
           
         }
@@ -116,13 +124,23 @@ export class ConnectionComponent {
         catch (err)
         {
           alert("Utilisateur ou mot de passe incorrecte");
-          
+          return;
         }
        
       },
-      error => {alert("Erreur de serveur. Veuillez réésayer dans quelques instants");}
+      error => {alert("Erreur de serveur. Veuillez réésayer dans quelques instants");},
+      () => {
+        
+      }
     )
-    
+
+    if(this.counter! > 500)
+    {
+      alert("Le serveur prend du temps à répondre");
+      this.clearTimer();
+    }
+
+    this.startTimer();
   }
 
   //--------------------------------
@@ -215,5 +233,30 @@ export class ConnectionComponent {
         }
       );
     }
+  }
+
+  startTimer() {
+    this.running = !this.running;
+    if (this.running) {
+      this.startText = 'Stop';
+      const startTime = Date.now() - (this.counter || 0);
+      this.timerRef = setInterval(() => {
+        this.counter = Date.now() - startTime;
+      });
+    } else {
+      this.startText = 'Resume';
+      clearInterval(this.timerRef);
+    }
+  }
+
+  clearTimer() {
+    this.running = false;
+    this.startText = 'Start';
+    this.counter = undefined;
+    clearInterval(this.timerRef);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.timerRef);
   }
 }

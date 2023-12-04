@@ -57,6 +57,7 @@ export class ReservationComponent implements OnInit {
   //Cherche tous les reservations en bd
   retrieveReservations()
   {
+    this.reservations = new Array();
     if(this.user)
     {
       this.electrolibService.getReservationsFromUser(this.user).subscribe(
@@ -65,43 +66,57 @@ export class ReservationComponent implements OnInit {
           
           this.reservations = reservations.map(x => (Object.assign(new Reservation(), x)));
 
-          //Vérifie dans la liste de réservations à afficher
-          //Si une réservation est annulée une semaine après qu'elle aie été faite, elle n'est plusa affichée
-          //l'admin pourra ensuite de son, clear toutes les réservations annulée
-          this.reservations.forEach(r => {
-            if((r.getReservationTimeElapsed() >= 7) && (r.isActive == 0))
-            {
-              const index: number = this.reservations.indexOf(r);
-              if (index !== -1) 
-              {
-                this.reservations.splice(index, 1);
-              }   
-
-              
-            }
-
-            
-          })
-
-          if(this.reservations.length == 1 && (this.reservations[0].getReservationTimeElapsed() >= 7) && (this.reservations[0].isActive == 0))
-          {
-            this.reservations = new Array();
-          }
+          this.filterReservations();
+          
         }
       );
     } 
   }
 
+  filterReservations()
+  {
+    //Vérifie dans la liste de réservations à afficher
+    //Si une réservation est annulée une semaine après qu'elle aie été faite, elle n'est plusa affichée
+    //l'admin pourra ensuite de son, clear toutes les réservations annulée
+          
+    this.reservations.forEach(r => 
+    {
+      if((r.getReservationTimeElapsed() >= 7) && (r.isActive == 0))
+      {
+        const index: number = this.reservations.indexOf(r);
+        if (index !== -1) 
+        {
+          this.reservations.splice(index, 1);
+        }   
+      }
+    })
+
+    if(this.reservations.length == 1 && (this.reservations[0].getReservationTimeElapsed() >= 7) && (this.reservations[0].isActive == 0))
+    {
+      this.reservations = new Array();
+    }
+  }
+
   async cancelReservation(reservation: Reservation)
   {
-    await this.electrolibService.cancelReservationUser(reservation).subscribe();
-    await this.retrieveReservations();
+    await this.electrolibService.cancelReservationUser(reservation).subscribe(
+      result => 
+      {
+        this.retrieveReservations();
+        this.filterReservations();
+      }
+    );
   }
 
   async reactivateReservation(reservation: Reservation)
   {
-    await this.electrolibService.reactivateReservationUser(reservation).subscribe();
-    await this.retrieveReservations();
+    await this.electrolibService.reactivateReservationUser(reservation).subscribe(
+      result =>
+      {
+        this.retrieveReservations();
+        this.filterReservations();
+      }
+    );
   }
 
   openAbout(content:any) 
@@ -181,6 +196,7 @@ export class ReservationComponent implements OnInit {
       {
         this.desc = false;
         this.reservations = this.reservations.map(x => Object.assign(new Reservation(), x)).reverse();
+        this.filterReservations();
       }
     }
     else
@@ -189,6 +205,7 @@ export class ReservationComponent implements OnInit {
       {
         this.desc = true;
         this.reservations = this.reservations.map(x => Object.assign(new Reservation(), x)).reverse();
+        this.filterReservations();
       }
     }
 
@@ -229,6 +246,7 @@ export class ReservationComponent implements OnInit {
     //Sélection et tri pour les données de l'emprunt
     if(this.user)
     {
+
     this.electrolibService.getReservationsOrderedBy(this.user, $event).subscribe(
       reservations => {
         if(this.desc)
@@ -239,6 +257,11 @@ export class ReservationComponent implements OnInit {
         {
           this.reservations = reservations.map(x => Object.assign(new Reservation(), x));
         }
+
+      },
+      error => {},
+      () => {
+        this.filterReservations();
       }
     );
     }
@@ -279,6 +302,8 @@ export class ReservationComponent implements OnInit {
         }
       }
     }
+
+    this.filterReservations();
   }
 
   sortByStatus(status:string)
@@ -311,6 +336,8 @@ export class ReservationComponent implements OnInit {
         }
       }
     }
+
+    this.filterReservations();
   }
 
 }
