@@ -169,12 +169,15 @@ export class DetailLivreComponent {
                       this.electrolibSrv.cancelReservation(this.reservationToCancel).subscribe(
                         (cancelResponses) => {
                           console.log('Reservation cancelled successfully!', cancelResponses);
+                          this.dataSrv.setIsFromBorrowTrue();
                           this.router.navigate(["borrowDetails", receivedBorrow])
                         },
                         (cancelError) => {
                           console.error('Cancellation failed:', cancelError);
                         }
                       );
+                      this.dataSrv.setIsFromBorrowTrue();
+                      this.router.navigate(["borrowDetails", receivedBorrow]);
                     }
                   }
                 )
@@ -271,6 +274,10 @@ export class DetailLivreComponent {
         }
       );
     }
+  }
+
+  openConfirmBorrow(content:any){
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
   }
 
   //-------------------------------------------------------

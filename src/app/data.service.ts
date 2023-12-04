@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 export class DataService {
 
   private user: User | undefined;
+  private isFromBorrow: boolean = false;
   private tabChangeSubject = new Subject<string>();
 
   tabChange$ = this.tabChangeSubject.asObservable();
@@ -32,6 +33,17 @@ export class DataService {
     this.user = undefined;
   }
 
+  getIsFromBorrow(){
+    return this.isFromBorrow;
+  }
+
+  setIsFromBorrowTrue(){
+    this.isFromBorrow=true;
+  }
+
+  setIsFromBorrowFalse(){
+    this.isFromBorrow=false;
+  }
 
   changeTab(tab: string) {
     this.tabChangeSubject.next(tab);

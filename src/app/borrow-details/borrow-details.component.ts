@@ -18,7 +18,7 @@ export class BorrowDetailsComponent implements OnInit {
   borrow: Borrow = new Borrow();
   user: User | undefined = new User();
   book:Book = new Book();
-
+  isFromBorrow:boolean=false;
   idBook = 0;
 
   window:string = "";
@@ -28,6 +28,8 @@ export class BorrowDetailsComponent implements OnInit {
 
   ngOnInit(): void 
   {
+    this.isFromBorrow=this.datasrv.getIsFromBorrow();
+    this.datasrv.setIsFromBorrowFalse();
     this.user = this.datasrv.getUser();
     let idBorrow = Number(this.route.snapshot.paramMap.get('id'));
 
