@@ -17,8 +17,6 @@ import { timer } from "rxjs";
   styleUrls: ['./connection.component.css']
 })
 export class ConnectionComponent implements OnDestroy {
-  connectionVisible = true;
-  createAccountVisible = false;
   temporaryUser: User = new User();
   user: User = new User();
   error = false;
@@ -141,26 +139,10 @@ export class ConnectionComponent implements OnDestroy {
   }
 
   //--------------------------------
-  // Fonction to display the form to create an account
-  //--------------------------------
-  createAccount() {
-    this.connectionVisible = false;
-    this.createAccountVisible = true;
-  }
-
-  //--------------------------------
   // Function to validate an account
   //--------------------------------
   validateCreateAccount() {
     console.log('account ' + this.user.firstName + ' created');
-  }
-
-  //--------------------------------
-  // Function to validate an account
-  //--------------------------------
-  cancelCreationAccount() {
-    this.connectionVisible = true;
-    this.createAccountVisible = false;
   }
 
   //-------------------------------------------------------

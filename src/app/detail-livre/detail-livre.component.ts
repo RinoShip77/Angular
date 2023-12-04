@@ -39,7 +39,7 @@ export class DetailLivreComponent {
 
   theme = "";
 
-  @ViewChild('errorBorrowModal', {static:true}) templateRef: TemplateRef<any> | undefined;
+  @ViewChild('errorBorrowModal', { static: true }) templateRef: TemplateRef<any> | undefined;
   errorBorrowReason = new Array();
   errorFrais = false;
 
@@ -120,8 +120,7 @@ export class DetailLivreComponent {
           }
 
           let accountFee = false;
-          if (this.user!.fees != 0) 
-          {
+          if (this.user!.fees != 0) {
             accountFee = true;
             this.errorBorrowReason.push("Vous avez des frais de compte.");
             this.errorFrais = true;
@@ -131,28 +130,25 @@ export class DetailLivreComponent {
             borrowsData => {
               let borrows: Borrow[] = borrowsData;
               borrows = borrowsData.map(x => (Object.assign(new Borrow(), x)));
-  
+
               //Vérifie si le client a atteint la limite d'emprunts, qui est de 5
               //Si c'st le cas, il ne peut plus emprunter
               let tooMuchBorrows = false;
-              if(borrows.length >= 5)
-              {
+              if (borrows.length >= 5) {
                 this.errorBorrowReason.push("Vous avez atteint la limite d emprunts (5)");
                 tooMuchBorrows = true;
               }
-  
+
               //Vérifie dans chaque emprunt, pour voir s'il y a des frais
               let feesBorrows = false;
-              borrows.forEach(borrow => 
-              {
-                if (borrow.calculateFee() != null && borrow.returnedDate == null) 
-                {
+              borrows.forEach(borrow => {
+                if (borrow.calculateFee() != null && borrow.returnedDate == null) {
                   feesBorrows = true;
                   this.errorBorrowReason.push("Vous avez des frais sur un de vos emprunts. Vous devez le remettre.");
                   this.errorFrais = true;
                 }
               });
-  
+
               if (this.user && !this.bookIsReserved && !feesBorrows && !tooMuchBorrows && !accountFee) {
                 // Crée l'emprunt
                 this.electrolibSrv.createBorrow(this.user.idUser, this.book.idBook).subscribe(
@@ -164,32 +160,33 @@ export class DetailLivreComponent {
                       console.log('Borrow created successfully!', receivedBorrow);
                       this.isAvailable = false;
                       this.isBookBorrowedByCurrentUser = true;
-    
-                      // Supprime la réservation
-                      this.electrolibSrv.cancelReservation(this.reservationToCancel).subscribe(
-                        (cancelResponses) => {
-                          console.log('Reservation cancelled successfully!', cancelResponses);
-                          this.dataSrv.setIsFromBorrowTrue();
-                          this.router.navigate(["borrowDetails", receivedBorrow])
-                        },
-                        (cancelError) => {
-                          console.error('Cancellation failed:', cancelError);
-                        }
-                      );
+
+                      if (this.reservationToCancel != null) {
+                        // Supprime la réservation
+                        this.electrolibSrv.cancelReservation(this.reservationToCancel).subscribe(
+                          (cancelResponses) => {
+                            console.log('Reservation cancelled successfully!', cancelResponses);
+                            this.dataSrv.setIsFromBorrowTrue();
+                            this.router.navigate(["borrowDetails", receivedBorrow])
+                          },
+                          (cancelError) => {
+                            console.error('Cancellation failed:', cancelError);
+                          }
+                        );
+                      }
                       this.dataSrv.setIsFromBorrowTrue();
                       this.router.navigate(["borrowDetails", receivedBorrow]);
                     }
                   }
                 )
               }
-              else
-              {
-                this.modalService.open(this.templateRef, {ariaLabelledBy: 'modal-basic-title', size: 'lg', animation:true, });
+              else {
+                this.modalService.open(this.templateRef, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true, });
               }
             }
           );
-          
-          
+
+
         },
         (error) => {
           console.error('Creation failed:', error);
@@ -276,7 +273,7 @@ export class DetailLivreComponent {
     }
   }
 
-  openConfirmBorrow(content:any){
+  openConfirmBorrow(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', animation: true });
   }
 
