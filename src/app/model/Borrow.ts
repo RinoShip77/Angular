@@ -40,7 +40,7 @@ export class Borrow
     //mais les transforment en jours de retard
     transformTimeAndLate()
     {
-        if(this.calculateTime() <= 1)
+        if(this.calculateTime() <= 0)
         {
             return Math.round(this.calculateTime() * - 1);
         }

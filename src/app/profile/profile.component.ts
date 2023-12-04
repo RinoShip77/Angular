@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
     let id = Number(this.route.snapshot.paramMap.get('id'));
 
     if (!id) {
-        this.user = this.dataService.getUser();
+      this.user = this.dataService.getUser();
     } else {
       this.electrolibService.getUser(id).subscribe(
         user => {
@@ -238,15 +238,13 @@ export class ProfileComponent implements OnInit {
         classname: 'bg-danger',
       });
     } else {
-      if (passwords.activePassword === passwords.newPassword) {
-        this.toastService.show('Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement.', {
+      if (passwords.newPassword.length === 0) {
+        this.toastService.show('Votre nouveaux mot de passe ne doit pas être vide.', {
           classname: 'bg-danger',
         });
       } else {
-        let pattern = /([a-zA-Z]|\d){8,}/;
-
-        if (!pattern.test(passwords.newPassword)) {
-          this.toastService.show('Le nouveau mot de passe ne respecte pas les critères.', {
+        if (passwords.activePassword === passwords.newPassword) {
+          this.toastService.show('Le nouveau mot de passe doit être différent de celui que vous utiliser actuellement.', {
             classname: 'bg-danger',
           });
         } else {

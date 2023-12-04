@@ -12,6 +12,7 @@ import { Evaluation } from './model/Evaluation';
 import { Favorite } from './model/Favorite';
 import { Comment } from './model/Comment';
 import { Recommendations } from './model/Recommendations'
+import { Review } from './model/Review';
 
 @Injectable({
   providedIn: 'root'
@@ -157,7 +158,21 @@ export class ElectrolibService {
     return this.http.post<Borrow>(url, new FormData());
   }
 
-  getBorrow(idBorrow: Number) {
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  returnLateBorrow(borrow: Borrow, fees:number) {
+    let url = `${urlServer}return-late-borrow`;
+
+    const formData = new FormData();
+    formData.append('idBorrow', borrow.idBorrow.toString());
+    formData.append('fees', fees.toString());
+
+    return this.http.post<Borrow>(url, formData);
+  }
+
+  getBorrow(idBorrow:Number)
+  {
     let url = urlServer + "borrows/borrow/" + idBorrow;
     return this.http.get<Borrow>(url);
   }
@@ -598,9 +613,29 @@ export class ElectrolibService {
   //-------------------------------------------------------
   //
   //-------------------------------------------------------
-  getComments() {
+  getComments($order:string) {
 
-    let url = `${urlServer}comments`;
+    let url = `${urlServer}comments/` + $order;
+
+    return this.http.get<Comment[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getCommentsNotResolved($order:string) {
+
+    let url = `${urlServer}comments-not-resolved/` + $order;
+
+    return this.http.get<Comment[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getCommentsResolved($order:string) {
+
+    let url = `${urlServer}comments-resolved/` + $order;
 
     return this.http.get<Comment[]>(url);
   }
@@ -613,5 +648,30 @@ export class ElectrolibService {
     let url = `${urlServer}comment-fixed/` + comment.idComment;
 
     return this.http.get<Comment>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  getReviews(idBook: number) {
+
+    let url = `${urlServer}reviews/` + idBook;
+
+    return this.http.get<Review[]>(url);
+  }
+
+  //-------------------------------------------------------
+  //
+  //-------------------------------------------------------
+  createReview(review:Review, user:User, book:Book){
+    const url = `${urlServer}create-review`;
+    const formData = new FormData();
+
+    formData.append('message', review.message);
+    formData.append('rating', review.rating.toString());
+    formData.append('idUser', user.idUser.toString());
+    formData.append('idBook', book.idBook.toString());
+
+    return this.http.post<Review>(url, formData);
   }
 }

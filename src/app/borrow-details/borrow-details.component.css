@@ -137,8 +137,8 @@
 
 .image-livre
 {
-    height: 200px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
 }
 
 .div-image-livre
@@ -248,8 +248,8 @@ a > span
     left: 0;
     right: 0;
     margin: auto;
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 150px;
+    max-height: 150px;
 }
 
 .div-image
@@ -285,4 +285,36 @@ a > span
 .hr-dark
 {
     color:rgba(255, 255, 255, 0.089);
+}
+
+.div-content-modal
+{
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    background-color: rgb(233, 233, 233);
+    border: 2px solid lightgray;
+    padding: 10px;
+}
+
+.div-feedback-red
+{
+    color: darkred;
+}
+
+.div-feedback-red-dark
+{
+    background-color: rgb(43,48,53);
+    color: rgb(218, 69, 69);
+}
+
+.div-feedback-green
+{
+    color: #029658;
+}
+
+.div-feedback-green-dark
+{
+    background-color: rgb(43,48,53);
+    color: rgb(2, 184, 63);
 }

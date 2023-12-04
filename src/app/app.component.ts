@@ -39,6 +39,14 @@ export class AppComponent {
     });
   }
 
+  isConnected() {
+    let user = this.dataService.getUser();
+    if (this.dataService.getUser() != undefined) {
+      return true;
+    }
+    return false;
+  }
+
   checkUser() {
     let user = this.dataService.getUser();
     if (user != undefined && user.roles == '["ROLE_USER"]') {

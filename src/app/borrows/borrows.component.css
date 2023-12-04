@@ -243,3 +243,26 @@ option
 {
     color: rgb(40,44,47);
 }
+
+.div-content-modal
+{
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    padding: 10px;
+}
+
+.div-reserved
+{
+
+    background-color: rgb(233, 233, 233);
+    border: 2px solid rgb(189, 52, 52);
+    color:rgb(189, 0, 0);
+}
+
+.div-reserved-dark
+{
+    background-color: rgba(0, 0, 0, 0.274);
+    border: 2px solid lightcoral;
+    color:lightcoral;
+}

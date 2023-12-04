@@ -102,3 +102,339 @@
         </div>
     </ng-template>
 </main>
+
+<!---------------------------------------------------------------->
+<!--------------------   Partie évaluations   -------------------->
+<!---------------------------------------------------------------->
+<div [ngClass]="
+{
+   'main-div-ratings' : theme == '',
+   'main-div-ratings-dark' : theme == 'dark',
+}">
+    <!---------------------------------------------------------------->
+    <!----------------------   Mon évaluation   ---------------------->
+    <!---------------------------------------------------------------->
+    <div class="row" [ngClass]="
+    {
+       'div-rating' : theme == '',
+       'div-rating-dark' : theme == 'dark',
+    }">
+        <div class="col-3 div-rating-img" *ngIf="user">
+            <img src="../assets/images/users/profilePictures/Picture1.png" class="img-reviews">
+            <br>
+            <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{user.firstName}} </span>
+            <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{user.lastName}}</span>
+            <br>
+        </div>
+        <div class="col-9" [ngClass]="
+        {
+           'div-rating-message' : theme == '',
+           'div-rating-message-dark' : theme == 'dark',
+        }">
+            <textarea [(ngModel)]="newReviewMessage" class="form-control label-emprunts" rows="5"></textarea>
+        </div>
+        <div class="col-1 " style="margin: auto; margin-left: 0px;">
+            <div style="margin: auto;" class="div-my-review">
+                <i class="fa-solid fa-star" 
+                    [ngClass]="
+                    {
+                        'star-my-review-hovered' : (starsHovered >= 1 && starsClicked == 0) || starsClicked >= 1,
+                        'star-my-review' : (starsHovered != 1 && starsClicked == 0) || starsClicked != 1,
+                    }" 
+                    (mouseenter) ="starHover(1)"
+                    (click)="starClick(1)">
+                </i>
+                <i class="fa-solid fa-star" 
+                    [ngClass]="
+                    {
+                        'star-my-review-hovered' : (starsHovered >= 2 && starsClicked == 0) || starsClicked >= 2,
+                        'star-my-review' : (starsHovered != 2 && starsClicked == 0) || starsClicked != 2,
+                    }" 
+                    (mouseenter) ="starHover(2)"
+                    (click)="starClick(2)">
+                </i>
+                <i class="fa-solid fa-star" 
+                    [ngClass]="
+                    {
+                        'star-my-review-hovered' : (starsHovered >= 3 && starsClicked == 0) || starsClicked >= 3,
+                        'star-my-review' : (starsHovered != 3 && starsClicked == 0) || starsClicked != 3,
+                    }" 
+                    (mouseenter) ="starHover(3)"
+                    (click)="starClick(3)">
+                </i>
+                <i class="fa-solid fa-star star-my-review" 
+                    [ngClass]="
+                    {
+                        'star-my-review-hovered' : (starsHovered >= 4 && starsClicked == 0) || starsClicked >= 4,
+                        'star-my-review' : (starsHovered != 4 && starsClicked == 0) || starsClicked != 4,
+                    }" 
+                    (mouseenter)="starHover(4)"
+                    (click)="starClick(4)">
+                </i>
+                <i class="fa-solid fa-star star-my-review" 
+                    [ngClass]="
+                    {
+                        'star-my-review-hovered' : (starsHovered == 5 && starsClicked == 0) || starsClicked == 5,
+                        'star-my-review' : (starsHovered != 5 && starsClicked == 0) || starsClicked != 5,
+                    }" 
+                    (mouseenter) ="starHover(5)"
+                    (click)="starClick(5)">
+                </i>
+                <button class="btn btn-primary label-emprunts-bold border-btn" style="margin-top:20px" (click)="verifyReview()">Envoyer</button>
+            </div>
+        </div>
+    </div>
+
+    <!---------------------------------------------------------------->
+    <!---------------   Toutes les autres évaluation   --------------->
+    <!---------------------------------------------------------------->
+    <div *ngIf="reviews.length == 0" [ngClass]="
+    {
+       'no-review' : theme == '',
+       'no-review-dark' : theme == 'dark',
+    }">
+        <span style="font-weight: 600; font-size:22px" class="titres-emprunts">Aucune évaluation pour ce livre actuellement. Vous seriez la première !</span>
+    </div>
+    <div class="div-rating row" *ngFor="let review of reviews">
+        <div class="col-3 div-rating-img">
+            <img src="../assets/images/users/profilePictures/Picture1.png" class="img-reviews">
+            <br>
+            <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{review.user.firstName}} </span>
+            <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{review.user.lastName}}</span><br>
+            <span class="label-emprunts-bold" style="margin: auto; font-size: 14px;">{{review.formatedReviewDate()}}</span>
+            <br>
+        </div>
+        <div class="col-9" [ngClass]="
+        {
+           'div-rating-message' : theme == '',
+           'div-rating-message-dark' : theme == 'dark',
+        }">
+            <span class="label-emprunts" style="margin: auto;">
+                {{review.message}}
+            </span>
+        </div>
+        <div class="col-1 " style="margin: auto; margin-left: 0px;">
+            <div style="margin: auto;">
+                <i class="fa-solid fa-star"
+                [ngClass]="
+                {
+                    'star-my-review-hovered' : (review.rating >= 1),
+                    'star-my-review' : (review.rating < 1),
+                }"></i>
+                <i class="fa-solid fa-star"
+                [ngClass]="
+                {
+                    'star-my-review-hovered' : (review.rating >= 2),
+                    'star-my-review' : (review.rating < 2),
+                }"></i>
+                <i class="fa-solid fa-star"  
+                [ngClass]="
+                {
+                    'star-my-review-hovered' : (review.rating >= 3),
+                    'star-my-review' : (review.rating < 3),
+                }"></i>
+                <i class="fa-solid fa-star"
+                [ngClass]="
+                {
+                    'star-my-review-hovered' : (review.rating >= 4),
+                    'star-my-review' : (review.rating < 4),
+                }"></i>
+                <i class="fa-solid fa-star"
+                [ngClass]="
+                {
+                    'star-my-review-hovered' : (review.rating >= 5),
+                    'star-my-review' : (review.rating < 5),
+                }"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal pour la confirmation de l'évaluation -->
+<ng-template #saveModal let-modal>
+    <div class="modal-header modal-lg" style="display: flex; justify-content: center;">
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">
+            Évaluer le livre <span style="text-decoration: underline; color: rgb(60, 121, 190);">{{book.title}}</span>
+        </h4>
+    </div>
+
+    <!-- Message de confirmation -->
+    <div class="modal-body" style="text-align: center;">
+        <label style="margin-bottom: 15px;" class="label-emprunts-bold">Êtes vous sûr de vouloir envoyer votre évaluation ?</label>
+        <br>
+        
+        <div class="div-content-modal" [ngClass]="
+        {
+           'div-feedback-red' : theme == '',
+           'div-feedback-red-dark' : theme == 'dark',
+        }">
+            <span class="label-emprunts-bold">Vous ne pourrez plus la modifier ni l'effacer.</span><br>
+            <span class="label-emprunts-bold">Votre évaluation sera visible pour tout le monde.</span>
+        </div>
+        
+        <div class="div-content-modal" [ngClass]="
+        {
+           'div-feedback-dark' : theme == 'dark',
+        }">
+            <div style="word-break: break-all;">
+                <label class="label-emprunts-bold" style="margin-bottom: 5px;">Votre message:</label><br>
+                <span style="word-break: break-all;" class="label-emprunts">{{newReviewMessage}}</span>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <label class="label-emprunts-bold" style="margin-bottom: 5px;">Votre évaluation sur 5:</label><br>
+                <i class="fa-solid fa-star" 
+                    [ngClass]="
+                    {
+                        'star-my-review-hovered' : starsClicked >= 1,
+                        'star-my-review' : starsClicked != 1,
+                    }" 
+                    (mouseenter) ="starHover(1)"
+                    (click)="starClick(1)">
+                </i>
+                <i class="fa-solid fa-star" 
+                    [ngClass]="
+                    {
+                        'star-my-review-hovered' : starsClicked >= 2,
+                        'star-my-review' : starsClicked != 2,
+                    }" 
+                    (mouseenter) ="starHover(2)"
+                    (click)="starClick(2)">
+                </i>
+                <i class="fa-solid fa-star" 
+                    [ngClass]="
+                    {
+                        'star-my-review-hovered' : starsClicked >= 3,
+                        'star-my-review' : starsClicked != 3,
+                    }" 
+                    (mouseenter) ="starHover(3)"
+                    (click)="starClick(3)">
+                </i>
+                <i class="fa-solid fa-star star-my-review" 
+                    [ngClass]="
+                    {
+                        'star-my-review-hovered' : starsClicked >= 4,
+                        'star-my-review' : starsClicked != 4,
+                    }" 
+                    (mouseenter)="starHover(4)"
+                    (click)="starClick(4)">
+                </i>
+                <i class="fa-solid fa-star star-my-review" 
+                    [ngClass]="
+                    {
+                        'star-my-review-hovered' : starsClicked == 5,
+                        'star-my-review' : starsClicked != 5,
+                    }" 
+                    (mouseenter) ="starHover(5)"
+                    (click)="starClick(5)">
+                </i>
+            </div>
+        </div>
+       
+    </div>
+    <!-- Boutons pour fermer la modal ou confirmer l'envois -->
+    <div class="modal-footer">
+        <button class="btn btn-primary label-emprunts" type="submit" name="submit" value="Submit" (click)="saveReview()">Confirmer</button>
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
+    </div>
+</ng-template>
+
+
+<!-- Modal pour afficher une réatroaction d'erreur -->
+<ng-template #errorModal let-modal>
+    <div class="modal-header modal-lg" style="display: flex; justify-content: center;">
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Erreur dans votre évaluation</h4>
+    </div>
+
+    <!-- Les messages d'erreurs -->
+    <div class="modal-body" style="text-align: center;">
+    
+        <div *ngIf="newReviewMessage.length < 5" class="div-content-modal" [ngClass]="
+        {
+           'div-feedback-red' : theme == '',
+           'div-feedback-red-dark' : theme == 'dark',
+        }">
+            <span class="label-emprunts-bold">Vous devez avoir un minimum de 5 caractères et un maximum de 500 caractères dans votre message</span>
+        </div>
+
+        <div *ngIf="starsClicked == 0" class="div-content-modal" [ngClass]="
+        {
+           'div-feedback-red' : theme == '',
+           'div-feedback-red-dark' : theme == 'dark',
+        }">
+            <span class="label-emprunts-bold">Vous devez sélectionner une note sur 5 pour votre évaluation</span>
+        </div>
+
+        <i class="fa-solid fa-x" style="font-size: 30px;" [ngClass]="
+        {
+           'i-x' : theme == '',
+           'i-x-dark' : theme == 'dark',
+        }"></i>
+
+    </div>
+    <!-- Boutons pour fermer la modale -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Fermer</button>
+    </div>
+</ng-template>
+
+<!-- Modal pour afficher une réatroaction d'envois du message -->
+<ng-template #successModal let-modal>
+    <div class="modal-header modal-lg" style="display: flex; justify-content: center;">
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Message envoyé</h4>
+    </div>
+    
+
+    <!-- Message indiquant que le message du user a été envoyé -->
+    <div class="modal-body " style="text-align: center;">
+        <div class="div-content-modal" [ngClass]="
+        {
+           'div-feedback-green' : theme == '',
+           'div-feedback-green-dark' : theme == 'dark',
+        }">
+            <span class="label-emprunts-bold">Votre évaluation a été envoyée avec succès!</span>
+            <br><br>
+            <span class="label-emprunts-bold">Nous vous remercions pour votre commentaire et votre temps</span>
+        </div>
+        <i class="fa-solid fa-check" style="font-size: 30px;" [ngClass]="
+        {
+           'i-crochet' : theme == '',
+           'i-crochet-dark' : theme == 'dark',
+        }"></i>
+    </div>
+
+    <!-- Boutons pour fermer la modale -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Fermer</button>
+    </div>
+</ng-template>
+
+
+
+<!------------------------------------------------------------------------>
+<!-- Modal pour informer le client de pourquoi il ne peut pas emprunter -->
+<!------------------------------------------------------------------------>
+<ng-template #errorBorrowModal let-modal>
+    <div class="modal-header modal-lg" style="margin: auto">
+        <h4 class="modal-title titres-emprunts" style="font-weight: 600;" id="modal-basic-title">Erreur Emprunt</h4>
+    </div>
+  
+    <!-- infos sur le paiement -->
+    <div class="modal-body" style="text-align: center;" *ngIf="user">
+        <div class="div-content-modal" *ngFor="let error of errorBorrowReason" [ngClass]="
+        {
+           'main-errorBorrowModal' : theme == '',
+           'main-errorBorrowModal-dark' : theme == 'dark',
+        }">
+            <span class="label-emprunts-bold" >{{error}}</span>
+            <br>
+            <span class="label-emprunts-bold" *ngIf="errorFrais && (error != 'Vous avez atteint la limite d emprunts (5)')">Vous devez payez les frais avant de pouvoir emprunter</span>
+            <span class="label-emprunts-bold" *ngIf="!errorFrais || (errorFrais && error == 'Vous avez atteint la limite d emprunts (5)')">Vous devez remettre un de vos emprunts avant de pouvoir emprunter</span>
+        </div>
+    </div>
+    <!-- Bouton pour confirmer et fermer la modal -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Annuler</button>
+    </div>
+</ng-template>

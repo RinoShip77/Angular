@@ -196,8 +196,16 @@ export class InventoryComponent {
   //---------------------------------
   // Function to filter the books by a research
   //---------------------------------
-  applySearch(search: string) {
-    this.displayedBooks = this.displayedBooks.filter((book) => book.title.toLowerCase().includes(search));
+  applySearch(search: string, reset?: boolean) {
+    if (search.length !== 0) {
+      if (reset) {
+        this.displayedBooks = this.books;
+      }
+
+      this.displayedBooks = this.displayedBooks.filter((book) => book.title.toLowerCase().includes(search));
+    } else {
+      this.displayedBooks = this.books;
+    }
   }
 
   //---------------------------------
@@ -205,7 +213,7 @@ export class InventoryComponent {
   //---------------------------------
   onKeyup(event: KeyboardEvent) {
     if (event.keyCode == 8) {
-      this.applySearch(this.searchInp);
+      this.applySearch(this.searchInp, true);
     }
   }
 

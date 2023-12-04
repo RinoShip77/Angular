@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { RouteChangeService } from '../route-change.service';
 import { DataService } from '../data.service';
 import { NgbTooltipModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from '../toast.service';
+import { ElectrolibService } from '../electrolib.service';
+import { Borrow } from '../model/Borrow';
 
 @Component({
   selector: 'app-navbar',
@@ -17,8 +20,9 @@ export class NavbarComponent implements OnInit {
   //---------------------------------
   // Function to build the component
   //---------------------------------
-  constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService, private dataService: DataService) {
+  constructor(private offcanvasService: NgbOffcanvas, private router: Router, private routeChangeService: RouteChangeService, private dataService: DataService, private toastService: ToastService, private electrolibService:ElectrolibService) {
     this.visible = this.router.url !== "/";
+    this.user = this.dataService.getUser();
   }
 
   //---------------------------------
@@ -64,4 +68,6 @@ export class NavbarComponent implements OnInit {
   // openOffcanvas(content: any) {
   //   this.offcanvasService.open(content, { position: 'end' });
   // }
+
+  
 }
