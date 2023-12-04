@@ -141,7 +141,7 @@
             <!-- Boutons situés en bas de la page -->
             <div class="div-btns">
                 <button class="btn-details btn btn-success border-btn label-emprunts" *ngIf="borrow.calculateFee() == null"
-                (click)="returnBorrow()">
+                (click)="openReturnModal(returnModal) ">
                     Remettre l'emprunt
                 </button>
                 <button class="btn-details btn btn-warning border-btn label-emprunts" *ngIf="borrow.calculateFee() != null" 
@@ -168,18 +168,36 @@
 
     <!--  lorsqu'il n'y a aucun frais à payer -->
     <div class="modal-body" style="text-align: center;" *ngIf="borrow.calculateFee() == null">
-        <i class="fa-solid fa-qrcode icon-modal-return" style="color: #2e8a15;"></i>
+        <i class="fa-solid fa-book-open icon-modal-return" style="color: #029658;"></i>
         <br>
-        <label class="titres-emprunts titre-modal-return" style="color: #2e8a15;">(Lien pour scanner le QR code)</label>
+        <div class="div-content-modal" [ngClass]="
+        {
+           'div-feedback-green' : theme == '',
+           'div-feedback-green-dark' : theme == 'dark',
+        }">
+            <span class="label-emprunts-bold">
+                Vous pourrez retrouver cet emprunt dans le tableau contenant l'historique de vos emprunts
+            </span>
+        </div>
+        <button (click)="returnBorrow()" class="btn-modal btn btn-success border-btn label-emprunts" style="margin-bottom: 10px;">Remettre l'emprunt</button>
         <br>
-        <i class="fa-solid fa-qrcode icon-modal-return" style="color: #2e8a15;"></i>
+        <i class="fa-solid fa-book-open icon-modal-return" style="color: #029658;"></i>
     </div>
 
     <!-- lorsqu'il y a des frais à payer -->
     <div class="modal-body" style="text-align: center;" *ngIf="borrow.calculateFee() != null">
         <i class="fa-solid fa-book-open icon-modal-return" style="color: #9e0000;"></i>
         <br>
-        <label class="titres-emprunts titre-modal-return" style="color: #9e0000;">Vous devez vous rendre à sur les lieux pour payer les frais</label>
+        <div class="div-content-modal" [ngClass]="
+        {
+           'div-feedback-red' : theme == '',
+           'div-feedback-red-dark' : theme == 'dark',
+        }">
+            <span class="label-emprunts-bold">Des frais de  
+                <span class="label-emprunts-bold" style="text-decoration: underline; font-size: 18px; font-weight: 700; border:2px solid #b80101; border-radius: 20px; padding:4px">{{borrow.calculateFee()}}$</span>
+                de retard seront ajoutés à votre compte. Vous ne pourrez plus emprunter tant que vos frais ne seront pas payés</span>
+        </div>
+        <button (click)="returnLateBorrow()" class="btn-modal btn btn-warning border-btn label-emprunts" style="margin-bottom: 10px;">Remettre l'emprunt</button>
         <br>
         <i class="fa-solid fa-book-open icon-modal-return" style="color: #9e0000;"></i>
     </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '../model/Book';
@@ -10,6 +10,8 @@ import { DataService } from '../data.service';
 import { Reservation } from '../model/Reservation';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
+import { Review } from '../model/Review';
+import { Borrow } from '../model/Borrow';
 
 @Component({
   selector: 'app-detail-livre',
@@ -17,8 +19,7 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./detail-livre.component.css']
 })
 export class DetailLivreComponent {
-  constructor(private dataSrv: DataService, private router: Router, private electrolibSrv: ElectrolibService, private route: ActivatedRoute,
-    private modalService: NgbModal) {
+  constructor(private dataSrv: DataService, private router: Router, private electrolibSrv: ElectrolibService, private route: ActivatedRoute, private modalService: NgbModal) {
 
   }
   isAvailable = false;
@@ -36,9 +37,22 @@ export class DetailLivreComponent {
   reservationToCancel: any = null;
   bookIsReserved = false;
 
+  theme = "";
+
+  @ViewChild('errorBorrowModal', {static:true}) templateRef: TemplateRef<any> | undefined;
+  errorBorrowReason = "";
+  errorFrais = false;
+
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
-  ngOnInit() {
+  async ngOnInit() {
     this.user = this.dataSrv.getUser();
+
+    if (localStorage.getItem('theme') != "light") {
+      this.theme = "dark";
+    }
+    else {
+      this.theme = "";
+    }
 
     console.log("Onint detailsBook");
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -70,6 +84,8 @@ export class DetailLivreComponent {
             }
           });
         }
+
+        this.retrieveReviews(this.book);
       });
     }
 

@@ -102,8 +102,8 @@
             <tbody class="text-center">
                 <tr *ngFor="let borrow of borrows" [ngClass]="
             {
-               'status-returned' : borrow.determineStatus() == 'En cours',
-               'status-lost' : borrow.determineStatus() == 'En retard'
+               'status-returned' : (borrow.returnedDate) <= (borrow.dueDate),
+               'status-lost' : (borrow.returnedDate) >= (borrow.dueDate)
             }">
 
                     <!-- Reste des informations -->
@@ -112,10 +112,10 @@
                     <td style="color: black;">{{borrow.book.title}}</td>
                     <td style="color: black;">{{borrow.borrowedDate}}</td>
                     <td style="color: black;">{{borrow.returnedDate}}</td>
-                    <td *ngIf="borrow.determineStatus() != 'En retard'" class="td-thick" style="font-weight: 700;">Remis
+                    <td *ngIf="(borrow.returnedDate) <= (borrow.dueDate)" class="td-thick" style="font-weight: 700;">Remis
                     </td>
-                    <td *ngIf="borrow.determineStatus() == 'En retard'" class="td-thick"
-                        style="font-weight: 700; color: rgb(68,80,152);">Perdu</td>
+                    <td *ngIf="(borrow.returnedDate) >= (borrow.dueDate)" class="td-thick"
+                        style="font-weight: 700; color: rgb(68,80,152);">Remis en retard</td>
 
 
                     <!-- Bouton Détails -->
@@ -185,18 +185,18 @@
              'sous-titre' : theme == '',
              'sous-titre-dark' : theme == 'dark',
           }">Code de couleur:</label>
-            <br>
-            <label class="mt-2" style="font-weight: 600;">Blanc:</label>
-            <span> lorsque votre emprunt a été remis, celui-ci apparait en
-                <span style="color: #3052c2;"> blanc</span>.
-            </span>
-            <br>
-            <label class="mt-2" style="color: rgba(68, 81, 152, 0.685); font-weight: 600;">Mauve:</label>
-            <span>
-                Lorsque vous avez perdu le livre, l'emprunt apparait en
-                <span style="color: rgba(68, 81, 152, 0.685);">mauve</span>.
-            </span>
-        </div>
+          <br>
+          <label class="mt-2" style="font-weight: 600;">Blanc:</label>
+          <span> lorsque votre emprunt a été remis, celui-ci apparait en
+                 <span style="color: #3052c2;"> blanc</span>.
+          </span>
+          <br>
+          <label class="mt-2" style="color: rgba(68, 81, 152, 0.685); font-weight: 600;">Mauve:</label>
+          <span> 
+                 Lorsque vous avez remis le livre en retard, l'emprunt apparait en
+                 <span style="color: rgba(68, 81, 152, 0.685);">mauve</span>.
+          </span>
+      </div>
     </div>
 
     <!-- Bouton pour fermer la modal -->
@@ -207,10 +207,10 @@
 
 <!-- Modal pour les infos du livre d'un emprunt -->
 <ng-template #infoReservationModal let-modal>
-    <div class="modal-header modal-lg">
-        <h4 class="modal-title" id="modal-basic-title">Informations du livre</h4>
-        <span *ngIf="selectedBorrow.determineStatus() != 'En retard'" class="thick handed">(Remis)</span>
-        <span *ngIf="selectedBorrow.determineStatus() == 'En retard'" class="thick stolen">(Perdu)</span>
+    <div class="modal-header modal-lg" >
+      <h4 class="modal-title" id="modal-basic-title">Informations du livre</h4> 
+      <span *ngIf="(selectedBorrow.returnedDate) < (selectedBorrow.dueDate)" class="thick handed">(Remis)</span>
+      <span *ngIf="(selectedBorrow.returnedDate) >= (selectedBorrow.dueDate)" class="thick stolen">(Remis en retard)</span>
     </div>
 
     <!--  -->

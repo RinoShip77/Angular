@@ -75,7 +75,7 @@
                     </th>
                     <th>Date prévue retour du livre
                     </th>
-                    <th (click)="sortBy('status')">État (Emprunté, commandé)
+                    <th (click)="sortBy('status')">État (Emprunté, annulée)
                         <i *ngIf="desc==false" class="fa-solid fa-sort-up" ngbTooltip="Trié par ordre croissant"></i>
                         <i *ngIf="desc==true" class="fa-solid fa-sort-down" ngbTooltip="Trié par ordre décroissant"></i>
                     </th>
@@ -158,7 +158,7 @@
             <span class="td-thick label-emprunts-bold"
                 style="margin-bottom: 10px;">{{selectedReservation.book.title}}</span>
             <br>
-            <img class="image-livre-cancel" src="../assets/images/books/1.png" style="margin-top: 10px;">
+            <img class="image-livre-cancel" src="{{getBookCover(selectedReservation.book.idBook)}}" style="margin-top: 10px;">
         </div>
 
         <label *ngIf="selectedReservation.isActive"
@@ -250,57 +250,54 @@
              'sous-titre' : theme == '',
              'sous-titre-dark' : theme == 'dark',
           }">Modalités:</label>
-            <br>
-            <label style="font-weight: 600;">Durée d'une réservation:</label>
-            <span>
-                Lorsque vous réservez un livre, vous êtes placé dans une liste de priorité selon les autres réservations
-                du livre.
-                Lorsque le livre sera disponible, nous vous contacterons pour que vous puissez venir chercher et
-                emprunter le livre.
-            </span>
-            <br>
-            <label class="mt-2" style="font-weight: 600;">Commandé:</label>
-            <span>
-                Lorsque vous réservez un livre qui n'est pas encore en inventaire, nous le commandons et vous serez
-                contacté lorsque
-                nous recevrons le livre.
-            </span>
-            <hr>
-            <label class="mt-2" style="font-weight: 600;">Annulation:</label>
-            <span>
-                Si vous annuler une réservation, celle-ci apparaitra <span style="color: #bd0000;">rouge</span> et vous
-                aurez 1 semaine pour la réactiver.
-                Après 1 semaine, la réservation disparaitra de votre liste.
-            </span>
-        </div>
-        <br>
-
-        <!-- Informations pour le code couleur -->
-        <div class="divAbout">
-            <label class="sous-titre" [ngClass]="
+          <br>
+          <label style="font-weight: 600;">Durée d'une réservation:</label>
+          <span> 
+              Lorsque vous réservez un livre, vous êtes placé dans une liste de priorité selon les autres réservations du livre.
+              Lorsque le livre sera disponible, nous vous contacterons pour que vous puissiez venir chercher et emprunter le livre.
+          </span>
+          <br>
+          <label class="mt-2" style="font-weight: 600;">Commandé:</label>
+          <span style="text-decoration:line-through;"> 
+              Lorsque vous réservez un livre qui n'est pas encore en inventaire, nous le commandons et vous serez contacté lorsque
+              nous recevrons le livre.
+          </span>
+          <hr>
+          <label class="mt-2" style="font-weight: 600;">Annulation:</label>
+          <span> 
+              Si vous annuler une réservation, celle-ci apparaitra <span style="color: #bd0000;">rouge</span> et vous aurez 1 semaine pour la réactiver.
+              Après 1 semaine, la réservation disparaitra de votre liste.
+          </span>
+      </div>
+      <br>
+  
+      <!-- Informations pour le code couleur -->
+      <div class="divAbout" >
+          <label class="sous-titre" 
+          [ngClass]="
           {
              'sous-titre' : theme == '',
              'sous-titre-dark' : theme == 'dark',
           }">Code de couleur:</label>
-            <br>
-            <label class="mt-2" style="color: #3052c2; font-weight: 600;">Bleu:</label>
-            <span> Lorsque la réservation est active, celle-ci apparait
-                <span style="color: #3052c2;"> bleue</span>.
-            </span>
-            <br>
-            <label class="mt-2" style="color: #b98904; font-weight: 600;">Orange:</label>
-            <span>
-                Lorsque le livre n'est présentement pas en inventaire, et qu'il est commandé,
-                la réservation apparait
-                <span style="color: #b98904;">orange</span>
-            </span>
-            <br>
-            <label class="mt-2" style="color: #bd0000; font-weight: 600;">Rouge:</label>
-            <span>
-                Lorsque la réservation est annulée, celle-ci apparait en
-                <span style="color: #bd0000;">rouge</span>.
-            </span>
-        </div>
+          <br>
+          <label class="mt-2" style="color: #3052c2; font-weight: 600;" >Bleu:</label>
+          <span> Lorsque la réservation est active, celle-ci apparait
+                 <span style="color: #3052c2;"> bleue</span>.
+          </span>
+          <br>
+          <label class="mt-2" style="color: #b98904; font-weight: 600;">Orange:</label>
+          <span style="text-decoration:line-through;"> 
+                 Lorsque le livre n'est présentement pas en inventaire, et qu'il est commandé,
+                 la réservation apparait
+                 <span style="color: #b98904;">orange</span>
+          </span>
+          <br>
+          <label class="mt-2" style="color: #bd0000; font-weight: 600;">Rouge:</label>
+          <span> 
+                 Lorsque la réservation est annulée, celle-ci apparait en 
+                 <span style="color: #bd0000;">rouge</span>.
+          </span>
+      </div>
     </div>
 
     <!-- Bouton pour fermer la modal -->

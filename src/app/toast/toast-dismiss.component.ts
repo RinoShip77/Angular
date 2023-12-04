@@ -8,8 +8,8 @@ import { ToastService } from '../toast.service';
 			*ngFor="let toast of toastService.toasts"
 			class="w-75 mx-auto my-3 px-3 text-white text-nowrap text-center fs-3"
 			[class]="toast.classname"
-			[autohide]="true"
-			[delay]="toast.delay || 7000"
+			[autohide]="false"
+			[delay]="toast.delay || 5000"
 			[animation]="true"
 			(hidden)="toastService.remove(toast)"
 		>
@@ -19,7 +19,7 @@ import { ToastService } from '../toast.service';
 
 			<ng-template #text>{{ toast.textOrTpl }}</ng-template>
 			
-			<button (click)="toastService.remove(toast)" style="float:right; border-radius:50px;" class="btn btn-light"><i class="fa-solid fa-x"></i></button>
+			<button (click)="toastService.remove(toast)" style="float:right; background-color:pink;">test</button>
 		</ngb-toast>
 	`
 })
