@@ -129,7 +129,7 @@ export class ConnectionComponent implements OnDestroy {
         }
         else {
           this.loading = false;
-          this.errorMessage = "Impossible d'effetuer la connexion";
+          this.errorMessage = "Impossible d'effectuer la connexion";
           this.otherError = true;
         }
       }
