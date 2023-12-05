@@ -167,7 +167,7 @@ export class DetailLivreComponent {
                           (cancelResponses) => {
                             console.log('Reservation cancelled successfully!', cancelResponses);
                             this.dataSrv.setIsFromBorrowTrue();
-                            this.router.navigate(["borrowDetails", receivedBorrow])
+                            this.router.navigate(["borrowDetails", receivedBorrow.idBorrow])
                           },
                           (cancelError) => {
                             console.error('Cancellation failed:', cancelError);
@@ -175,7 +175,7 @@ export class DetailLivreComponent {
                         );
                       }
                       this.dataSrv.setIsFromBorrowTrue();
-                      this.router.navigate(["borrowDetails", receivedBorrow]);
+                      this.router.navigate(["borrowDetails", receivedBorrow.idBorrow]);
                     }
                   }
                 )
