@@ -1,4 +1,4 @@
-export const urlServer = 'http://localhost:8000/';
+export const urlServer = 'https://electrolib.techinfo-cstj.ca/public/';
 export const MAX_FILE_SIZE:number = 500*1048;
 export const ENCRYPTION_KEY: string = '123456$#@$^@1ERF';
 export const ISBN_REGEX = /^[0-9]{13}$/;
@@ -8,15 +8,15 @@ export const PHONE_NUMBER_REGEX = /^\d{3}[-\s]?\d{3}[-\s]?\d{4}$/;
 
 export function getURLBookCover(idBook: number)
 {
-  let urltmp = urlServer + '../images/books/' + idBook + ".png"; 
+  let urltmp = urlServer + '../public/images/books/' + idBook + ".png"; 
   return urltmp;
 }
 
 export function getURLProfilePicture(idUser: number | undefined, fileName?: string | undefined, timestamp?: number)
 {
   if(fileName?.length != 0) {
-    return urlServer + '../images/users/' + fileName;
+    return urlServer + '../public/images/users/' + fileName;
   }
   
-  return urlServer + '../images/users/' + idUser + "_" + timestamp + ".png";
+  return urlServer + '../public/images/users/' + idUser + "_" + timestamp + ".png";
 }
