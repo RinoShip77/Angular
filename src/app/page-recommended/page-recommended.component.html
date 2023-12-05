@@ -1,0 +1,150 @@
+<div class="row" style="padding: 2%;">
+<div class="leftside col-4">
+    <h3>pourquoi nous vous recommandons ces livres</h3>
+    <p>Selon votre historique d'emprunt nous avons établis que vous appréciez ces genres :</p>
+    <p *ngFor="let stat of UserStats.genreFromHistory"> <i>{{stat.name}}</i> </p>
+    <p>et ces auteurs</p>
+    <p *ngFor="let stat of UserStats.authorFromHistory"> <i>{{stat.firstName}} {{stat.lastName}}</i> </p>
+    <p>Selon vos favoris nous avons établis que vous appréciez ces genres :</p>
+    <p *ngFor="let stat of UserStats.genreFromFav"> <i>{{stat.name}}</i></p>
+    <p>et ces auteurs</p>
+    <p *ngFor="let stat of UserStats.authorFromFav"><i>{{stat.firstName}} {{stat.lastName}}</i> </p>
+    <p (click)="openInfoBorrow(recModal)">Pour plus d'info cliquer ici</p>
+    <i (click)="openInfoBorrow(recModal)" class="fa-solid fa-question border rounded-circle"></i>
+</div>    
+<div class="rightSide col-8">
+  <p>Afficher seulement :</p>
+  <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-bottom:3% ;">
+    <label class="btn btn-outline-secondary">
+      <input (click)="setAll()" type="radio" name="options" id="option1" autocomplete="off" checked> Tout
+    </label>
+    <label class="btn btn-outline-secondary">
+      <input (click)="setFav()" type="radio" name="options" id="option2" autocomplete="off"> Vos favoris <i class="far fa-heart"></i>
+    </label>
+    <label class="btn btn-outline-secondary">
+      <input (click)="setBorrow()" type="radio" name="options" id="option3" autocomplete="off"> Vos statistques <i class="fa-regular fa-chart-bar"></i>
+    </label>
+    <label class="btn btn-outline-secondary">
+      <input (click)="setAdmin()" type="radio" name="options" id="option4" autocomplete="off"> Nos coup de coeur <i class="fa-regular fa-star"></i>
+    </label>
+  </div> 
+
+  <div *ngIf="isHistory==true">
+<h2>Recommandé selon votre historique</h2>
+<div type="button" class="col mySlides" id="mySlides" *ngFor="let book of recommendations.fromBorrows"
+      (click)="displayBook(book.idBook)">
+      <div class="card h-100 mb-3">
+        <div class="row g-0">
+          <div class="col-4">
+            <img src={{getBookCover(book.idBook)}} style="height: 20vh;" class="img-fluid img-thumbnail m-1"
+              alt="{{book.title}}" title="{{book.title}}">
+          </div>
+          <div class="col-8">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <h2 class="card-title">{{book.title | titlecase}}</h2>
+              </div>
+              <p class="mb-3">{{book.description}}</p>
+              <div class="d-flex justify-content-between mt-3">
+                <div class="d-flex align-items-center">
+                  <i title="une étoile veut dire que le livre vous est recommendé par les administrateurs.les barres veulent dire que le livre est recommendé selon votre historique"
+                    class="text-danger fs-2"
+                    [ngClass]="(book.isRecommended) ? 'fa-regular fa-star' : 'fa-regular fa-chart-bar'"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isFavorite==true">
+    <h2>Recommandé selon vos favoris</h2>
+    <div type="button" class="col mySlides" id="mySlides" *ngFor="let book of recommendations.fromFavorites"
+          (click)="displayBook(book.idBook)">
+          <div class="card h-100 mb-3">
+            <div class="row g-0">
+              <div class="col-4">
+                <img src={{getBookCover(book.idBook)}} style="height: 20vh;" class="img-fluid img-thumbnail m-1"
+                  alt="{{book.title}}" title="{{book.title}}">
+              </div>
+              <div class="col-8">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                    <h2 class="card-title">{{book.title | titlecase}}</h2>
+                  </div>
+                  <p class="mb-3">{{book.description}}</p>
+                  <div class="d-flex justify-content-between mt-3">
+                    <div class="d-flex align-items-center">
+                      <i title="une étoile veut dire que le livre vous est recommendé par les administrateurs.les barres veulent dire que le livre est recommendé selon votre historique"
+                        class="text-danger fs-2"
+                        [ngClass]="(book.isRecommended) ? 'fa-regular fa-star' : 'fa-regular fa-chart-bar'"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isRec==true">
+        <h2>Nos coup de coeurs</h2>
+        <div type="button" class="col mySlides" id="mySlides" *ngFor="let book of recommendations.fromAdmin"
+              (click)="displayBook(book.idBook)">
+              <div class="card h-100 mb-3">
+                <div class="row g-0">
+                  <div class="col-4">
+                    <img src={{getBookCover(book.idBook)}} style="height: 20vh;" class="img-fluid img-thumbnail m-1"
+                      alt="{{book.title}}" title="{{book.title}}">
+                  </div>
+                  <div class="col-8">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <h2 class="card-title">{{book.title | titlecase}}</h2>
+                      </div>
+                      <p class="mb-3">{{book.description}}</p>
+                      <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex align-items-center">
+                          <i title="une étoile veut dire que le livre vous est recommendé par les administrateurs.les barres veulent dire que le livre est recommendé selon votre historique"
+                            class="text-danger fs-2"
+                            [ngClass]="(book.isRecommended) ? 'fa-regular fa-star' : 'fa-regular fa-chart-bar'"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+  <ng-template #recModal let-modal style="margin: 5%;">
+    <div style="margin: 5%;">
+    <h2>Notre système de recommandations</h2>
+    <h3>Introduction</h3>
+    <p>Notre système de recommendations fonctionne avec un algorithme qui examine vos emprunt et vos favoris pour déterminer les auteurs et les genres que vous appréciez.
+       Notre algorithme fonctionne ainsi, nous commencons par observer combien de genre et d'auteurs vous avez liker ou emprunter. Ensuite en utiliant votre nombre total d'emprunt/like nous déterminons 
+       la moyenne de livres par genre ou auteur. Par exemple, si vous avez emprunter 9 livres, 3 romans,3 drames,3 thrillers. Ceci vous donne une moyenne de 3 livre par genre. En utilisant cette moyenne
+       nous déterminons si un genre est aimer (au dessus de la moyenne). Nous vous recommandons ensuite des livres de ce genre que vous n'avez pas encore emprunter.
+    </p>
+    <h3>historique et likes</h3>
+    <p>C'est deux catégories de recommendations sont déterminer par l'algorithme, sachez que notre algorithme fonctionne avec des données qui vous sont accessible (vos likes et emprunts). Les livres,
+       genres et auteurs qui vous sont recommendé ne sont pas sauvegarder dans notre base de donné,nous ne gardons pas ces données en mémoire pour nous meme et nous les utilisons seulement que pour vous
+       recommender des livres. Votre vie privé est imoprtante pour nous et nous vous prometons que vos information sont en sécuriter avec nous.
+    </p>
+    <h3>Coup de coeurs</h3>
+    <p>les coups de coeurs sont des livres recommendé par notre équipe, se sont seulement nos livre préféré du moment. Les recommendations coups de coeurs n'utilise pas d'algorithme pour viser en particulier
+       se sont seulement nos suggestions pour notre communautée entière.
+    </p>
+   
+
+    <!-- Bouton pour fermer la modal -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary label-emprunts" (click)="modal.close()">Fermer</button>
+    </div>
+  </div>
+</ng-template>

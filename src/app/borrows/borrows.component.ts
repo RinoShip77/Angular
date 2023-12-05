@@ -37,6 +37,7 @@ export class BorrowsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.datasrv.setIsFromBorrowTrue();
     this.user = this.datasrv.getUser();
     this.reloadUser();
     this.retrieveBorrows();

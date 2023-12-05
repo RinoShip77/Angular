@@ -72,6 +72,7 @@
     </button>
   </div>
   <div class="d-flex flex-column">
+    <app-recommended cl></app-recommended>
     <div class="d-flex justify-content-around my-4">
       <div class="form-check form-switch">
         <h4>Personnaliser l'affichage de l'inventaire :</h4>
@@ -83,7 +84,7 @@
       <input name="searchInp" [(ngModel)]="searchInp" (ngModelChange)="applySearch(searchInp)" (keyup)="onKeyup($event)"
         class="form-control w-25 ms-2 my-auto me-2" type="search" placeholder="Rechercher ...">
     </div>
-    <app-recommended></app-recommended>
+
     <h2 class="mt-5">Inventaire</h2>
     <div *ngIf="loading; else loadedBlock">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -141,7 +142,8 @@
       </svg>
     </div>
     <ng-template #loadedBlock>
-      <div class="shadow-lg rounded-2" *ngIf="displayedBooks.length > 0; else emptyBlock" [ngSwitch]="inventoryDisplay">
+      <div class="shadow-lg rounded-2" *ngIf="displayedBooks.length > 0; else emptyBlock"
+        [ngSwitch]="inventoryDisplay">
         <div *ngSwitchCase="'table'">
           <div class="row row-cols-2 g-1">
             <a *ngFor="let book of displayedBooks" [routerLink]="['/detailLivre', book.idBook]">
@@ -190,6 +192,10 @@
                         {{book.status.status}}</div>
                     </div>
                   </div>
+                </div>
+                <div class="text-center py-3">
+                  Date d'ajout :<br>
+                  {{book.addedDate}}
                 </div>
               </div>
             </a>

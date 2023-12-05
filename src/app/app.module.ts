@@ -36,6 +36,7 @@ import { ShareComponent } from './share/share.component';
 import { PaymentComponent } from './payment/payment.component';
 import { AdminShareComponent } from './admin-share/admin-share.component';
 import { CreateReservationComponent } from './create-reservation/create-reservation.component';
+import { PageRecommendedComponent } from './page-recommended/page-recommended.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { CreateReservationComponent } from './create-reservation/create-reservat
     ShareComponent,
     PaymentComponent,
     AdminShareComponent,
-    CreateReservationComponent
+    CreateReservationComponent,
+    PageRecommendedComponent
   ],
   imports: [
     AppRoutingModule,

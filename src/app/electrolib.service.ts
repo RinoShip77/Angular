@@ -13,6 +13,7 @@ import { Favorite } from './model/Favorite';
 import { Comment } from './model/Comment';
 import { Recommendations } from './model/Recommendations'
 import { Review } from './model/Review';
+import { Stats } from './model/stats';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,11 @@ export class ElectrolibService {
     return this.http.get<Recommendations>(url);
   }
 
+  getStats(idUser: number) {
+    let url = urlServer + 'userStats/' + idUser;
+
+    return this.http.get<Stats>(url);
+  }
   //--------------------------------
   //
   //--------------------------------

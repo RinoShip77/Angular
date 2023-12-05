@@ -166,7 +166,7 @@ export class DetailLivreComponent {
                         this.electrolibSrv.cancelReservation(this.reservationToCancel).subscribe(
                           (cancelResponses) => {
                             console.log('Reservation cancelled successfully!', cancelResponses);
-                            this.dataSrv.setIsFromBorrowTrue();
+                            this.dataSrv.setIsFromBorrowFalse();
                             this.router.navigate(["borrowDetails", receivedBorrow.idBorrow])
                           },
                           (cancelError) => {
@@ -174,7 +174,7 @@ export class DetailLivreComponent {
                           }
                         );
                       }
-                      this.dataSrv.setIsFromBorrowTrue();
+                      this.dataSrv.setIsFromBorrowFalse();
                       this.router.navigate(["borrowDetails", receivedBorrow.idBorrow]);
                     }
                   }

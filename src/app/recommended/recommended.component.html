@@ -1,21 +1,25 @@
-<div class="bg-body" *ngIf="recommendedBooks.length>0">
+<div class="bg-body" *ngIf="recommendedBooks.length>0" style="padding-top: 5% ;">
   <div class="d-flex">
     <h2>Recommendations</h2>
-    <div style="margin-left: 50%;" class="dropdown show">
-      <a (click)="displayMenuFn()" class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink">
+    <div style="margin-left: 15%;" class="dropdown show">
+      <h3 style="width: auto; padding: 0; margin-top: 1.5%;">
         Changer l'affichage par:
-      </a>
+      </h3>
 
-      <ul *ngIf="displayMenu">
-        <li class="dropdown-item" href="#"><button (click)="setAll()" style="width: 200px;"
-            class="btn btn-secondary">Tout</button></li>
-        <li class="dropdown-item" href="#"><button (click)="setFav()" style="width: 200px;"
-            class="btn btn-secondary">Favoris</button></li>
-        <li class="dropdown-item" href="#"> <button (click)="setBorrow()" style="width: 200px;"
-            class="btn btn-secondary">statisque</button> </li>
-        <li class="dropdown-item" href="#"> <button (click)="setAdmin()" style="width: 200px;"
-            class="btn btn-secondary">coup de coeur</button> </li>
-      </ul>
+      <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-bottom:3% ;">
+        <label class="btn btn-outline-secondary">
+          <input (click)="setAll()" type="radio" name="options" id="option1" autocomplete="off" checked> Tout
+        </label>
+        <label class="btn btn-outline-secondary">
+          <input (click)="setFav()" type="radio" name="options" id="option2" autocomplete="off"> Vos favoris <i class="far fa-heart"></i>
+        </label>
+        <label class="btn btn-outline-secondary">
+          <input (click)="setBorrow()" type="radio" name="options" id="option3" autocomplete="off"> Vos statistques <i class="fa-regular fa-chart-bar"></i>
+        </label>
+        <label class="btn btn-outline-secondary">
+          <input (click)="setAdmin()" type="radio" name="options" id="option4" autocomplete="off"> Nos coup de coeur <i class="fa-regular fa-star"></i>
+        </label>
+      </div>  
     </div>
   </div>
 
@@ -62,7 +66,7 @@
 
 
     <!-- Next and previous buttons -->
-    <a *ngIf="recommendedBooks.length!=1" class="prev" (click)="plusSlides(-1)">&#10094;prev</a>
-    <a *ngIf="recommendedBooks.length!=1" class="next" (click)="plusSlides(1)">&#10095;next</a>
+    <a *ngIf="recommendedBooks.length!=1" class="prev" (click)="plusSlides(-1)">&#10094;précédent</a>
+    <a *ngIf="recommendedBooks.length!=1" class="next" (click)="plusSlides(1)">&#10095;prochain</a>
   </div>
 </div>

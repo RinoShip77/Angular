@@ -85,7 +85,7 @@
                     Vous pourrez retrouver cet emprunt dans le tableau contenant l'historique de vos emprunts
                 </span>
             </div>
-            <button (click)="createBorrow()" class="btn-modal btn btn-success border-btn label-emprunts" style="margin-bottom: 10px;">Emprunter</button>
+            <button (click)="createBorrow()" (click)="modal.close()" class="btn-modal btn btn-success border-btn label-emprunts" style="margin-bottom: 10px;">Emprunter</button>
             <br>
             <i class="fa-solid fa-book-open icon-modal-return" style="color: #029658;"></i>
         </div>
