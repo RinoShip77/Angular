@@ -1,14 +1,32 @@
 <div class="row" style="padding: 2%;">
 <div class="leftside col-4">
     <h3>pourquoi nous vous recommandons ces livres</h3>
-    <p>Selon votre historique d'emprunt nous avons établis que vous appréciez ces genres :</p>
-    <p *ngFor="let stat of UserStats.genreFromHistory"> <i>{{stat.name}}</i> </p>
-    <p>et ces auteurs</p>
-    <p *ngFor="let stat of UserStats.authorFromHistory"> <i>{{stat.firstName}} {{stat.lastName}}</i> </p>
-    <p>Selon vos favoris nous avons établis que vous appréciez ces genres :</p>
-    <p *ngFor="let stat of UserStats.genreFromFav"> <i>{{stat.name}}</i></p>
-    <p>et ces auteurs</p>
-    <p *ngFor="let stat of UserStats.authorFromFav"><i>{{stat.firstName}} {{stat.lastName}}</i> </p>
+
+    <div *ngIf="UserStats.genreFromHistory.length!=0">
+      <p>Selon votre historique d'emprunt nous avons établis que vous appréciez ces genres :</p>
+      <p *ngFor="let stat of UserStats.genreFromHistory"> <i>{{stat.name}}</i> </p>
+    </div>
+    
+
+    <div *ngIf="UserStats.authorFromHistory.length!=0">
+      <p>Selon votre historique d'emprunt nous avons établis que vous appréciez ces auteurs</p>
+      <p *ngFor="let stat of UserStats.authorFromHistory"> <i>{{stat.firstName}} {{stat.lastName}}</i> </p>
+    </div>
+   
+
+
+    <div *ngIf="UserStats.genreFromFav.length!=0">
+      <p>Selon vos favoris nous avons établis que vous appréciez ces genres :</p>
+      <p *ngFor="let stat of UserStats.genreFromFav"> <i>{{stat.name}}</i></p>
+    </div>
+    
+
+    <div *ngIf="UserStats.authorFromFav.length!=0">
+      <p>Selon vos favoris nous avons établis que vous appréciez ces auteurs</p>
+      <p *ngFor="let stat of UserStats.authorFromFav"><i>{{stat.firstName}} {{stat.lastName}}</i> </p>
+    </div>
+    
+
     <p (click)="openInfoBorrow(recModal)">Pour plus d'info cliquer ici</p>
     <i (click)="openInfoBorrow(recModal)" class="fa-solid fa-question border rounded-circle"></i>
 </div>    
