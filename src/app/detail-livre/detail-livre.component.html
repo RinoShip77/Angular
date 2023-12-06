@@ -461,7 +461,7 @@
             <span class="label-emprunts-bold" >{{error}}</span>
             <br>
             <span class="label-emprunts-bold" *ngIf="errorFrais && (error != 'Vous avez atteint la limite d emprunts (5)') && (error != 'Le livre est réservé par un autre membre')">Vous devez payez les frais avant de pouvoir emprunter</span>
-            <span class="label-emprunts-bold" *ngIf="!errorFrais || (errorFrais && error == 'Vous avez atteint la limite d emprunts (5)') || (error != 'Le livre est réservé par un autre membre')">Vous devez remettre un de vos emprunts avant de pouvoir emprunter</span>
+            <span class="label-emprunts-bold" *ngIf="!errorFrais || (errorFrais && error == 'Vous avez atteint la limite d emprunts (5)') || (errorFrais && error == 'Le livre est réservé par un autre membre')">Vous devez remettre un de vos emprunts avant de pouvoir emprunter</span>
         </div>
     </div>
     <!-- Bouton pour confirmer et fermer la modal -->
