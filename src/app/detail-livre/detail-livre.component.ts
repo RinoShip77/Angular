@@ -115,6 +115,7 @@ export class DetailLivreComponent {
               }
               else {
                 this.bookIsReserved = true;
+                this.errorBorrowReason.push("Le livre est réservé par un autre membre");
               }
             }
           }
