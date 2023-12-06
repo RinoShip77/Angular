@@ -20,9 +20,14 @@ export class Reservation
 
   determineStatus()
   {
+    //if(this.borrow.idBorrow != null)
+    //{
+    //  return "emprunté";
+    //}
+
     if(this.isActive)
     {
-      return "Emprunté";
+      return "Active";
     }
 
     if(!this.isActive)

@@ -318,7 +318,7 @@ export class ReservationComponent implements OnInit {
           {
             [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
           }
-          else if (this.reservations[i].determineStatus() == "Emprunté" && this.reservations[j].determineStatus() != "Emprunté")
+          else if (this.reservations[i].determineStatus() == "Active" && this.reservations[j].determineStatus() != "Active")
           {
             [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
           }
@@ -329,7 +329,7 @@ export class ReservationComponent implements OnInit {
           {
             [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
           }
-          else if (this.reservations[i].determineStatus() != "Emprunté" && this.reservations[j].determineStatus() == "Emprunté")
+          else if (this.reservations[i].determineStatus() != "Active" && this.reservations[j].determineStatus() == "Active")
           {
             [this.reservations[i], this.reservations[j]] = [this.reservations[j], this.reservations[i]];
           }
