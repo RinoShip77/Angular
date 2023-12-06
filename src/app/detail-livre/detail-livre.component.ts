@@ -2,7 +2,7 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ElectrolibService } from '../electrolib.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '../model/Book';
-import { getURLBookCover } from '../util';
+import { getURLBookCover, getURLProfilePicture } from '../util';
 import { Genre } from '../model/Genre';
 import { Author } from '../model/Author';
 import { User } from '../model/User';
@@ -43,9 +43,12 @@ export class DetailLivreComponent {
   errorBorrowReason = new Array();
   errorFrais = false;
 
+  url = "";
+
   //au lancement de la page on vachercher les parametres (ici id), dans la lamda qui contient les params on lance la recherche dans la bd avec le service
   async ngOnInit() {
     this.user = this.dataSrv.getUser();
+    this.url = getURLProfilePicture(this.user?.idUser, this.user?.profilePicture);
 
     if (localStorage.getItem('theme') != "light") {
       this.theme = "dark";
@@ -364,5 +367,10 @@ export class DetailLivreComponent {
 
     this.modalService.open(this.successModal);
 
+  }
+
+  urlUser(user:User)
+  {
+    return getURLProfilePicture(user.idUser, user.profilePicture);
   }
 }

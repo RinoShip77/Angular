@@ -151,7 +151,7 @@
        'div-rating-dark' : theme == 'dark',
     }">
         <div class="col-3 div-rating-img" *ngIf="user">
-            <img src="../assets/images/users/profilePictures/Picture1.png" class="img-reviews">
+            <img src="https://ui-avatars.com/api/?name={{user!.firstName}}+{{user!.lastName}}&rounded=true&background=0D8ABC&color=fff" class="img-reviews">
             <br>
             <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{user.firstName}} </span>
             <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{user.lastName}}</span>
@@ -228,7 +228,7 @@
     </div>
     <div class="div-rating row" *ngFor="let review of reviews">
         <div class="col-3 div-rating-img">
-            <img src="../assets/images/users/profilePictures/Picture1.png" class="img-reviews">
+            <img src="https://ui-avatars.com/api/?name={{review.user.firstName}}+{{review.user.lastName}}&rounded=true" class="img-reviews">
             <br>
             <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{review.user.firstName}} </span>
             <span class="label-emprunts-bold" style="margin: auto; font-size: 14px; text-decoration: underline;">{{review.user.lastName}}</span><br>
