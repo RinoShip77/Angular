@@ -28,7 +28,7 @@ export class ConnectionComponent implements OnDestroy {
   @Output() connected = new EventEmitter<User>();
 
   counter: number | undefined;
-  timerRef:any;
+  timerRef: any;
   running: boolean = false;
   startText = 'Start';
 
@@ -37,38 +37,14 @@ export class ConnectionComponent implements OnDestroy {
   //--------------------------------
   // Function to connect a user
   //--------------------------------
-  connect(type: string) {
-    // #region 2023-10-20 11:16 - Olivier Bourgault
-    // Convert the "if" to a "switch" statement
-    switch (type) {
-      case 'credentials':
-        if (this.temporaryUser.memberNumber.length > 0 && this.temporaryUser.password.length > 0) {
+  connect() {
+    if (this.temporaryUser.memberNumber.length > 0 && this.temporaryUser.password.length > 0) {
 
-          this.retrieveAccount();
-        } else {
-          this.errorMessage = "Les informations de connexion sont incorrectes";
-          this.error = true;
-          //alert('Erreur: Veuillez fournir les informations nécessaires.');
-        }
-        break;
-
-      case 'cheatUser':
-        this.temporaryUser.memberNumber = "80379801";
-        this.temporaryUser.password = "password";
-        //this.temporaryUser.memberNumber = "11";
-        //this.temporaryUser.password = "11";
-        this.retrieveAccount();
-        break;
-
-      case 'cheatAdmin':
-        this.temporaryUser.memberNumber = "98631907";
-        this.temporaryUser.password = "password";
-        //this.temporaryUser.memberNumber = "admin";
-        //this.temporaryUser.password = "admin";
-        this.retrieveAccount();
-        break;
+      this.retrieveAccount();
+    } else {
+      this.errorMessage = "Les informations de connexion sont incorrectes";
+      this.error = true;
     }
-    // #endregion
   }
 
   //-------------------------------------------------------
@@ -83,8 +59,8 @@ export class ConnectionComponent implements OnDestroy {
 
     this.electrolibService.connection(this.temporaryUser).subscribe(
       connectedUser => {
-        
-        
+
+
         // #region 2023-10-29 12:50 - Olivier Bourgault
         // Check if the account is active before login
         if (connectedUser.roles.includes('["ROLE_DEACTIVATE"]')) {
@@ -96,7 +72,7 @@ export class ConnectionComponent implements OnDestroy {
 
         if (connectedUser.memberNumber === this.temporaryUser.memberNumber &&
           connectedUser.password === this.temporaryUser.password) {
-            console.log("user correct");
+          console.log("user correct");
           if (connectedUser.roles === '["ROLE_ADMIN"]') {
             this.user = connectedUser;
 
@@ -165,58 +141,48 @@ export class ConnectionComponent implements OnDestroy {
   //Cherche tous les emprunts en bd
   //et vérifie s'il y a des retards
   //Ensuite, affiche les retards avec un toast
-  async alertLateness(user: User)
-  {
-    if(this.user)
-    {
+  async alertLateness(user: User) {
+    if (this.user) {
       await this.electrolibService.getBorrowsFromUser(user).subscribe(
         borrows => {
           this.borrows = borrows.map(x => (Object.assign(new Borrow(), x)));
 
-          this.borrows.forEach(borrow => 
-            {
-              if(borrow.calculateFee()! > 0 || borrow.calculateFee() != null)
-              {
-                console.log(borrow.calculateFee());
-                
-                if(borrow.transformTimeAndLate() == 1)
-                {
-                  this.toastService.show('Votre emprunt (' + borrow.book.title + ') a ' + borrow.transformTimeAndLate() + ' journée de retard', {
-                    classname: 'bg-danger',
-                  });
-                }
-                else if (borrow.transformTimeAndLate() > 1)
-                {
-                  this.toastService.show('Votre emprunt (' + borrow.book.title + ') a ' + borrow.transformTimeAndLate() + ' jours de retard', {
-                    classname: 'bg-danger',
-                  });
-                }
-                else if (borrow.transformTimeAndLate() == 0)
-                {
-                  this.toastService.show('Votre emprunt (' + borrow.book.title + ') a 1 journée de retard', {
-                    classname: 'bg-danger',
-                  });
-                }
+          this.borrows.forEach(borrow => {
+            if (borrow.calculateFee()! > 0 || borrow.calculateFee() != null) {
+              console.log(borrow.calculateFee());
+
+              if (borrow.transformTimeAndLate() == 1) {
+                this.toastService.show('Votre emprunt (' + borrow.book.title + ') a ' + borrow.transformTimeAndLate() + ' journée de retard', {
+                  classname: 'bg-danger',
+                });
               }
-              
-              if(borrow.transformTimeAndLate() <= 7 && borrow.determineStatus() != 'En retard')
-              {
-                console.log(borrow.calculateFee());
-                
-                if(borrow.transformTimeAndLate() == 1 || borrow.transformTimeAndLate() == -1)
-                {
-                  this.toastService.show('Il reste ' + borrow.transformTimeAndLate() + ' journée à votre emprunt ('+ borrow.book.title + ')', {
-                    classname: 'bg-warning',
-                  });
-                }
-                else
-                {
-                  this.toastService.show('Il reste ' + borrow.transformTimeAndLate() + ' jours à votre emprunt ('+ borrow.book.title + ')', {
-                    classname: 'bg-warning',
-                  });
-                }
+              else if (borrow.transformTimeAndLate() > 1) {
+                this.toastService.show('Votre emprunt (' + borrow.book.title + ') a ' + borrow.transformTimeAndLate() + ' jours de retard', {
+                  classname: 'bg-danger',
+                });
               }
-            });
+              else if (borrow.transformTimeAndLate() == 0) {
+                this.toastService.show('Votre emprunt (' + borrow.book.title + ') a 1 journée de retard', {
+                  classname: 'bg-danger',
+                });
+              }
+            }
+
+            if (borrow.transformTimeAndLate() <= 7 && borrow.determineStatus() != 'En retard') {
+              console.log(borrow.calculateFee());
+
+              if (borrow.transformTimeAndLate() == 1 || borrow.transformTimeAndLate() == -1) {
+                this.toastService.show('Il reste ' + borrow.transformTimeAndLate() + ' journée à votre emprunt (' + borrow.book.title + ')', {
+                  classname: 'bg-warning',
+                });
+              }
+              else {
+                this.toastService.show('Il reste ' + borrow.transformTimeAndLate() + ' jours à votre emprunt (' + borrow.book.title + ')', {
+                  classname: 'bg-warning',
+                });
+              }
+            }
+          });
         }
       );
     }

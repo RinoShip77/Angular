@@ -31,7 +31,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;">
-          <form (ngSubmit)="connect('credentials')" style="margin-top: 10px;">
+          <form (ngSubmit)="connect()" style="margin-top: 10px;">
             <button type="submit" class="btn btn-primary" style="width: 10em;">
               <span *ngIf="!loading">
                 <i class="fas fa-unlock-keyhole me-2"></i>
@@ -107,20 +107,7 @@
             </button>
           </form>
         </div>
-        <!-- Les boutons pour tricher la connexion -->
-        <article style="display: flex; justify-content: space-evenly; margin-top: 10px;">
-          <form (ngSubmit)="connect('cheatUser')">
-            <button class="btn btn-warning" type="submit">
-              Tricher (membre)
-            </button>
-          </form>
-          <form (ngSubmit)="connect('cheatAdmin')">
-            <button class="btn btn-warning" type="submit">
-              Tricher (admin)
-            </button>
-          </form>
-        </article>
-          
+        
         <div class="subtitle" style="margin-top: 2em;">
           <div class="logo-title-line element"></div>
           <label class="element" style="width: 10em; font-size: 10px;">Copyright© {{date.getFullYear()}} Electrolib</label>
