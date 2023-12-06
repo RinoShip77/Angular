@@ -346,6 +346,8 @@ export class DetailLivreComponent {
       await this.electrolibSrv.createReview(this.review, this.user, this.book).subscribe(
         createdComment => {
           console.log('Review créé!', createdComment);
+          //Actualiser la liste des reviews
+          this.retrieveReviews(this.book);
         },
         (error) => {
           console.error('Création erreur', error);
@@ -361,7 +363,5 @@ export class DetailLivreComponent {
 
     this.modalService.open(this.successModal);
 
-    //Actualiser la liste des reviews
-    await this.retrieveReviews(this.book);
   }
 }
