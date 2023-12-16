@@ -1,4 +1,5 @@
-export const urlServer = 'https://electrolib.techinfo-cstj.ca/public/';
+// export const urlServer = 'https://electrolib.techinfo-cstj.ca/public/';
+export const urlServer = 'https://electrolib.techinfo-cstj.ca/public/presentation_finale/';
 export const MAX_FILE_SIZE:number = 500*1048;
 export const ENCRYPTION_KEY: string = '123456$#@$^@1ERF';
 export const ISBN_REGEX = /^[0-9]{13}$/;

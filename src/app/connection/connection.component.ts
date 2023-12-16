@@ -41,7 +41,6 @@ export class ConnectionComponent implements OnDestroy {
     switch (type) {
       case 'credentials':
         if (this.temporaryUser.memberNumber.length > 0 && this.temporaryUser.password.length > 0) {
-
           this.retrieveAccount();
         } else {
           this.errorMessage = "Les informations de connexion sont incorrectes";
@@ -52,16 +51,18 @@ export class ConnectionComponent implements OnDestroy {
       case 'cheatUser':
         this.temporaryUser.memberNumber = "80379801";
         this.temporaryUser.password = "password";
-        //this.temporaryUser.memberNumber = "11";
-        //this.temporaryUser.password = "11";
+        this.retrieveAccount();
+        break;
+
+      case 'cheatEmptyUser':
+        this.temporaryUser.memberNumber = "96172547";
+        this.temporaryUser.password = "11";
         this.retrieveAccount();
         break;
 
       case 'cheatAdmin':
         this.temporaryUser.memberNumber = "98631907";
         this.temporaryUser.password = "password";
-        //this.temporaryUser.memberNumber = "admin";
-        //this.temporaryUser.password = "admin";
         this.retrieveAccount();
         break;
     }
